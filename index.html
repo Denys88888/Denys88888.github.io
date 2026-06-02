@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Taxi Pro - Ride-hailing powered by Pi Network" />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="apple-touch-icon" href="./icon-192x192.png" />
+    <title>Taxi Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    <script type="module" crossorigin src="./assets/index-BTfgI4Vf.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BKFgcf1o.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // Register Service Worker for PWA
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((reg) => console.log('[PWA] SW registered:', reg.scope))
+            .catch((err) => console.log('[PWA] SW failed:', err));
+        });
+      }
+      // Request notification permission
+      if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission();
+      }
+
+      // GPS Geolocation — save real location to localStorage for app to use
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude, name: 'My Location', address: 'Current Location' };
+            localStorage.setItem('taxipro_gps_pickup', JSON.stringify(loc));
+            console.log('[GPS] Location saved:', loc);
+          },
+          () => { console.log('[GPS] Permission denied, using default'); },
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+        );
+      }
+    </script>
+
+    <!-- SOS Safety Button -->
+    <style>
+      #sos-btn { position: fixed; bottom: 100px; right: 16px; width: 48px; height: 48px; border-radius: 50%; background: #FF5252; border: none; z-index: 1000; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(255,82,82,0.4); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+      #sos-btn:active { transform: scale(0.92); }
+      #sos-modal { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.8); display: none; align-items: flex-end; }
+      #sos-modal.active { display: flex; }
+      #sos-modal > div { width: 100%; background: #121212; border-radius: 24px 24px 0 0; padding: 24px; }
+      #sos-modal h3 { color: #fff; margin: 0 0 16px; font-size: 18px; }
+      #sos-modal button { width: 100%; height: 52px; border-radius: 12px; border: none; font-size: 16px; font-weight: 600; cursor: pointer; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+      #sos-modal .emergency { background: #FF5252; color: #fff; }
+      #sos-modal .share { background: #1E1E1E; color: #fff; border: 1px solid rgba(255,255,255,0.1); }
+      #sos-modal .cancel { background: transparent; color: #666; }
+      #sos-modal p { color: #666; font-size: 12px; text-align: center; margin-top: 8px; }
+    </style>
+    <button id="sos-btn" onclick="document.getElementById('sos-modal').classList.add('active')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </button>
+    <div id="sos-modal" onclick="if(event.target===this)this.classList.remove('active')">
+      <div>
+        <h3>Безопасность</h3>
+        <button class="emergency" onclick="window.location.href='tel:112'">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Экстренный вызов (112)
+        </button>
+        <button class="share" onclick="navigator.share?.({title:'Taxi Pro',text:'Track my ride',url:location.href})||navigator.clipboard.writeText(location.href);document.getElementById('sos-modal').classList.remove('active')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Поделиться поездкой
+        </button>
+        <button class="cancel" onclick="document.getElementById('sos-modal').classList.remove('active')">Отмена</button>
+        <p>В экстренной ситуации нажмите кнопку выше</p>
+      </div>
+    </div>
+    <!-- Show SOS only during active ride -->
+    <script>
+      (function(){
+        const sos = document.getElementById('sos-btn');
+        sos.style.display = 'none';
+        // Show SOS when URL contains /ride, /driver-found, /status
+        function check() { sos.style.display = location.hash.match(/ride|driver-found|status/) ? 'flex' : 'none'; }
+        window.addEventListener('hashchange', check);
+        setInterval(check, 1000);
+        check();
+      })();
+    </script>
+  </body>
+</html>
