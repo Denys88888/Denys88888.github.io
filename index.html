@@ -4,107 +4,76 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)" />
+    <meta name="description" content="Taxi Pro - Ride-hailing powered by Pi Network" />
+
+    <!-- Prevent FOUC: apply theme before React loads -->
     <script>
-      // Prevent FOUC - set theme before React loads
       (function() {
         var theme = localStorage.getItem('taxipro_theme') || 'system';
-        var resolved = theme;
-        if (theme === 'system') {
-          resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
+        var resolved = theme === 'system'
+          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : theme;
         document.documentElement.classList.add(resolved);
         document.documentElement.setAttribute('data-theme', resolved);
       })();
     </script>
-    <meta name="description" content="Taxi Pro - Ride-hailing powered by Pi Network" />
-    <link rel="manifest" href="./assets/manifest-BT2ZFy5o.json" />
-    <link rel="apple-touch-icon" href="./assets/icon-192x192-CKSIArNp.png" />
+
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="apple-touch-icon" href="./icon-192x192.png" />
     <title>Taxi Pro</title>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Pi Network SDK (must load before app code) -->
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-    <script type="module" crossorigin src="./assets/index-q4127-AR.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/vendor-react-CKjCVW_e.js">
-    <link rel="modulepreload" crossorigin href="./assets/vendor-framer-DbdDR1Q2.js">
-    <link rel="modulepreload" crossorigin href="./assets/vendor-ui-Bpfh32vx.js">
-    <link rel="modulepreload" crossorigin href="./assets/chunk-map-D9JDX3-_.js">
-    <link rel="modulepreload" crossorigin href="./assets/vendor-pi-C4ubRgoM.js">
-    <link rel="modulepreload" crossorigin href="./assets/chunk-payment-BKWWnxRb.js">
-    <link rel="modulepreload" crossorigin href="./assets/chunk-driver-DE5a40Jr.js">
-    <link rel="stylesheet" crossorigin href="./assets/chunk-map-Dgihpmma.css">
-    <link rel="stylesheet" crossorigin href="./assets/index-Ci97Pa9n.css">
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- GPS pre-fetch so pickup loads instantly -->
     <script>
-      // GPS Geolocation — save real location for app to use
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude, name: 'Мое местоположение', address: 'Текущее местоположение' };
-            localStorage.setItem('taxipro_gps_pickup', JSON.stringify(loc));
-            console.log('[GPS] Location saved:', loc);
+          pos => {
+            localStorage.setItem('taxipro_gps_pickup', JSON.stringify({
+              lat: pos.coords.latitude,
+              lng: pos.coords.longitude,
+              name: 'Current Location',
+              address: 'My Location'
+            }));
           },
-          () => { console.log('[GPS] Permission denied, using default'); },
+          () => {},
           { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
         );
       }
     </script>
 
-    <!-- Force refresh Service Worker on every load -->
-    <script>
-      (function() {
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.getRegistrations().then(function(regs) {
-            regs.forEach(function(reg) {
-              reg.update();
-              console.log('[SW] Checked for update');
-            });
-          });
-        }
-      })();
-    </script>
-    <!-- Service Worker Registration -->
+    <!-- Service Worker registration -->
     <script>
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          // Register main PWA Service Worker (caching, offline support)
-          navigator.serviceWorker.register('/sw.js')
-            .then(function(reg) {
-              console.log('[SW] PWA Service Worker registered:', reg.scope);
-              // Listen for updates
-              reg.addEventListener('updatefound', function() {
-                const newWorker = reg.installing;
-                newWorker.addEventListener('statechange', function() {
-                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                    console.log('[SW] New update available, reload to activate');
-                  }
-                });
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('./sw.js').then(reg => {
+            reg.addEventListener('updatefound', () => {
+              reg.installing?.addEventListener('statechange', function () {
+                if (this.state === 'installed' && navigator.serviceWorker.controller) {
+                  console.log('[SW] New version ready');
+                }
               });
-            })
-            .catch(function(err) {
-              console.log('[SW] PWA SW registration failed:', err);
             });
-
-          // Register Firebase Messaging Service Worker (push notifications)
-          // This SW is separate because FCM needs its own message handling
-          navigator.serviceWorker.register('/firebase-messaging-sw.js')
-            .then(function(reg) {
-              console.log('[FCM SW] Firebase Messaging SW registered:', reg.scope);
-            })
-            .catch(function(err) {
-              console.log('[FCM SW] Registration failed:', err);
-            });
+          });
+          navigator.serviceWorker.register('./firebase-messaging-sw.js').catch(() => {});
         });
       }
     </script>
+
+    <!-- Vite entry point -->
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
