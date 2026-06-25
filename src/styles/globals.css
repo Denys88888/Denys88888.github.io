@@ -1,34 +1,88 @@
-/* ── CSS Variables ──────────────────────────────────────────────── */
-:root {
-  --primary: #7B5EA7;
-  --primary-light: #9b7ec8;
-  --primary-dark: #5d3f8a;
-  --success: #22C55E;
-  --warning: #F59E0B;
-  --danger: #EF4444;
+/* ── Theme tokens ───────────────────────────────────────────────────
+   Three themes share one token vocabulary. Components reference the
+   legacy aliases (--primary, --bg2, --text …) which are mapped once,
+   at the bottom of :root, onto whichever token the active theme sets —
+   custom-property substitution resolves against the element's computed
+   value, so the aliases re-resolve automatically per [data-theme]. */
 
-  /* Light theme */
-  --bg: #F5F5F7;
-  --bg2: #FFFFFF;
-  --bg3: #EFEFEF;
-  --text: #111111;
-  --text2: #555555;
-  --text3: #888888;
-  --border: #E0E0E0;
-  --shadow: rgba(0, 0, 0, 0.08);
-  --map-filter: none;
+/* THEME 1 — Light */
+:root {
+  --bg-primary:    #F8FAF9;
+  --bg-secondary:  #FFFFFF;
+  --bg-elevated:   #FFFFFF;
+  --bg-glow:       #EDF7F2;
+  --text-primary:  #0F1715;
+  --text-secondary:#5A6B65;
+  --text-tertiary: #8A9A93;
+  --accent:        #0E9F6E;
+  --accent-hover:  #0B8A5F;
+  --accent-glow:   rgba(14,159,110,0.18);
+  --success:       #0E9F6E;
+  --warning:       #F59E0B;
+  --danger:        #EF4444;
+  --border:        rgba(15,23,21,0.08);
+  --border-strong: rgba(15,23,21,0.16);
+  --on-accent:     #FFFFFF;
+  --shadow:        rgba(15,23,21,0.10);
+  --sheet-bg:      rgba(255,255,255,0.92);
+  --map-filter:    none;
+
+  /* ── Legacy aliases → active token (do not duplicate per theme) ── */
+  --primary:       var(--accent);
+  --primary-light: var(--accent-hover);
+  --primary-dark:  var(--accent-hover);
+  --bg:            var(--bg-primary);
+  --bg2:           var(--bg-secondary);
+  --bg3:           var(--bg-elevated);
+  --text:          var(--text-primary);
+  --text2:         var(--text-secondary);
+  --text3:         var(--text-tertiary);
 }
 
+/* THEME 2 — Dark */
 .dark, [data-theme="dark"] {
-  --bg: #0F0F0F;
-  --bg2: #1A1A1A;
-  --bg3: #252525;
-  --text: #F0F0F0;
-  --text2: #AAAAAA;
-  --text3: #666666;
-  --border: #333333;
-  --shadow: rgba(0, 0, 0, 0.4);
-  --map-filter: brightness(0.7) invert(1) hue-rotate(180deg);
+  --bg-primary:    #0A0E0D;
+  --bg-secondary:  #141A18;
+  --bg-elevated:   #1C2421;
+  --bg-glow:       #16271F;
+  --text-primary:  #ECF2EF;
+  --text-secondary:#8FA39C;
+  --text-tertiary: #5E726B;
+  --accent:        #10B981;
+  --accent-hover:  #34D399;
+  --accent-glow:   rgba(16,185,129,0.22);
+  --success:       #10B981;
+  --warning:       #F59E0B;
+  --danger:        #EF4444;
+  --border:        rgba(255,255,255,0.08);
+  --border-strong: rgba(255,255,255,0.16);
+  --on-accent:     #04130D;
+  --shadow:        rgba(0,0,0,0.40);
+  --sheet-bg:      rgba(20,26,24,0.92);
+  --map-filter:    none;
+}
+
+/* THEME 3 — Emerald Dark (signature, default) */
+.emerald, [data-theme="emerald"] {
+  --bg-primary:    #05140F;
+  --bg-secondary:  #0A2018;
+  --bg-elevated:   #0F2D22;
+  --bg-glow:       #103A2B;
+  --text-primary:  #E8F5EF;
+  --text-secondary:#7FB6A0;
+  --text-tertiary: #4A7D6A;
+  --accent:        #1FD884;
+  --accent-hover:  #2EE896;
+  --accent-glow:   rgba(31,216,132,0.25);
+  --success:       #1FD884;
+  --warning:       #F5B940;
+  --danger:        #FF5C5C;
+  --border:        rgba(31,216,132,0.12);
+  --border-strong: rgba(31,216,132,0.25);
+  --on-accent:     #05140F;
+  --shadow:        rgba(0,0,0,0.45);
+  --sheet-bg:      rgba(10,32,24,0.92);
+  --map-filter:    hue-rotate(95deg) saturate(0.75) brightness(0.9);
 }
 
 /* ── Reset ──────────────────────────────────────────────────────── */
@@ -68,18 +122,21 @@ body {
   overflow: hidden;
 }
 
-/* ── Bottom sheet ────────────────────────────────────────────────── */
+/* ── Bottom sheet (glassmorphism) ────────────────────────────────── */
 .sheet {
-  background: var(--bg2);
-  border-radius: 20px 20px 0 0;
+  background: var(--sheet-bg);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  border-radius: 24px 24px 0 0;
   padding: 0 16px 24px;
-  box-shadow: 0 -4px 24px var(--shadow);
+  box-shadow: 0 -8px 40px var(--shadow);
 }
 
 .sheet-handle {
-  width: 36px; height: 4px;
-  background: var(--border);
-  border-radius: 2px;
+  width: 40px; height: 4px;
+  background: var(--border-strong);
+  border-radius: 99px;
   margin: 12px auto 16px;
 }
 
@@ -94,8 +151,21 @@ body {
   height: 100%;
 }
 
-.dark .leaflet-tile {
+.dark .leaflet-tile,
+[data-theme="dark"] .leaflet-tile,
+[data-theme="emerald"] .leaflet-tile {
   filter: var(--map-filter);
+}
+
+/* Subtle accent vignette over the map for the emerald theme */
+[data-theme="emerald"] .map-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 80% at 50% 100%, var(--accent-glow) 0%, transparent 55%);
+  mix-blend-mode: screen;
+  z-index: 400;
 }
 
 /* ── Buttons ─────────────────────────────────────────────────────── */
@@ -105,49 +175,59 @@ body {
   justify-content: center;
   gap: 8px;
   width: 100%;
-  padding: 16px;
+  min-height: 52px;
+  padding: 14px 18px;
   border: none;
-  border-radius: 14px;
+  border-radius: 24px;
   font-size: 16px;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
-  transition: transform 0.1s, opacity 0.1s;
+  transition: transform 0.12s ease, opacity 0.12s, box-shadow 0.2s, background 0.2s;
 }
 
 .btn:active { transform: scale(0.97); }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
 
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-success { background: var(--success); color: #fff; }
+.btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-success { background: var(--success); color: var(--on-accent); box-shadow: 0 4px 20px var(--accent-glow); }
 .btn-danger  { background: var(--danger);  color: #fff; }
-.btn-ghost   { background: var(--bg3); color: var(--text); }
-.btn-sm      { padding: 10px 16px; font-size: 14px; border-radius: 10px; }
+.btn-ghost   { background: transparent; color: var(--text-primary); border: 1px solid var(--border-strong); }
+.btn-sm      { min-height: 40px; padding: 9px 16px; font-size: 14px; border-radius: 16px; box-shadow: none; }
 
 /* ── Inputs ──────────────────────────────────────────────────────── */
 .input {
   width: 100%;
   padding: 14px 16px;
   border: 1.5px solid var(--border);
-  border-radius: 12px;
-  background: var(--bg);
-  color: var(--text);
+  border-radius: 14px;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
   font-size: 15px;
   font-family: inherit;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.input:focus { border-color: var(--primary); }
-.input::placeholder { color: var(--text3); }
+.input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.input::placeholder { color: var(--text-tertiary); }
 
 /* ── Cards ───────────────────────────────────────────────────────── */
 .card {
-  background: var(--bg2);
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 2px 12px var(--shadow);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 4px 24px var(--shadow);
 }
+
+/* Tabular figures for prices / counters */
+.tnum { font-variant-numeric: tabular-nums; }
 
 /* ── Typography ──────────────────────────────────────────────────── */
 h1 { font-size: 22px; font-weight: 700; }
@@ -166,17 +246,18 @@ h3 { font-size: 16px; font-weight: 600; }
   font-weight: 600;
 }
 .badge-warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
-.badge-success { background: rgba(34, 197, 94, 0.15); color: var(--success); }
-.badge-primary { background: rgba(123, 94, 167, 0.15); color: var(--primary); }
+.badge-success { background: var(--accent-glow); color: var(--success); }
+.badge-primary { background: var(--accent-glow); color: var(--accent); }
 
 /* ── Avatar ──────────────────────────────────────────────────────── */
 .avatar {
   border-radius: 50%;
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
   display: flex; align-items: center; justify-content: center;
-  color: #fff;
+  color: var(--on-accent);
   font-weight: 700;
   flex-shrink: 0;
+  box-shadow: 0 0 0 2px var(--accent-glow);
 }
 
 /* ── Toggle ──────────────────────────────────────────────────────── */
@@ -188,7 +269,7 @@ h3 { font-size: 16px; font-weight: 600; }
   cursor: pointer;
   transition: background 0.2s;
 }
-.toggle.on { background: var(--success); }
+.toggle.on { background: var(--accent); box-shadow: 0 0 16px var(--accent-glow); }
 .toggle::after {
   content: '';
   position: absolute;
@@ -221,7 +302,7 @@ h3 { font-size: 16px; font-weight: 600; }
 .pulse-ring {
   position: absolute;
   border-radius: 50%;
-  background: var(--primary);
+  background: var(--accent);
   animation: pulse-ring 1.8s ease-out infinite;
 }
 
@@ -268,7 +349,9 @@ h3 { font-size: 16px; font-weight: 600; }
 .nav-bar {
   display: flex;
   border-top: 1px solid var(--border);
-  background: var(--bg2);
+  background: var(--sheet-bg);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 .nav-item {

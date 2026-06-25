@@ -9,7 +9,7 @@ const useStore = create((set, get) => ({
   // ── UI ────────────────────────────────────────────────────────────
   mode: 'passenger',   // 'passenger' | 'driver'
   screen: 'home',      // see SCREENS constant below
-  theme: localStorage.getItem('taxipro_theme') || 'system',
+  theme: localStorage.getItem('taxipro_theme') || 'emerald',
 
   // ── Ride (passenger view) ─────────────────────────────────────────
   pickup: null,        // { lat, lng, name, address }
@@ -39,7 +39,7 @@ const useStore = create((set, get) => ({
     const resolved = theme === 'system'
       ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
       : theme;
-    document.documentElement.classList.remove('dark', 'light');
+    document.documentElement.classList.remove('dark', 'light', 'emerald');
     document.documentElement.classList.add(resolved);
     document.documentElement.setAttribute('data-theme', resolved);
     set({ theme });

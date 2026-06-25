@@ -3,6 +3,13 @@ import { motion } from 'framer-motion';
 import useStore from '../store.js';
 import api from '../lib/api.js';
 
+// Mini preview palettes mirror the three globals.css themes.
+const THEME_SWATCHES = [
+  { id: 'light',   label: 'Light',   bg: '#F8FAF9', card: '#E6ECE9', accent: '#0E9F6E' },
+  { id: 'dark',    label: 'Dark',    bg: '#0A0E0D', card: '#1C2421', accent: '#10B981' },
+  { id: 'emerald', label: 'Emerald', bg: '#05140F', card: '#0F2D22', accent: '#1FD884' },
+];
+
 export default function Profile() {
   const { user, setUser, theme, setTheme, mode, setMode } = useStore();
   const [name, setName] = useState(user?.name || '');
@@ -91,11 +98,46 @@ export default function Profile() {
         {/* Theme */}
         <div className="card" style={{ marginBottom: 16 }}>
           <div className="caption" style={{ marginBottom: 12 }}>Appearance</div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            {[['system', '🌓 Auto'], ['light', '☀️ Light'], ['dark', '🌙 Dark']].map(([t, label]) => (
-              <button key={t} className={`btn ${theme === t ? 'btn-primary' : 'btn-ghost'} btn-sm`} style={{ flex: 1, fontSize: 12 }}
-                onClick={() => setTheme(t)}>{label}</button>
-            ))}
+          <div style={{ display: 'flex', gap: 10 }}>
+            {THEME_SWATCHES.map(sw => {
+              const selected = theme === sw.id;
+              return (
+                <motion.button
+                  key={sw.id}
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => setTheme(sw.id)}
+                  style={{
+                    flex: 1, cursor: 'pointer', padding: 0, background: 'none',
+                    border: 'none', fontFamily: 'inherit',
+                  }}
+                >
+                  {/* Mini preview */}
+                  <div style={{
+                    position: 'relative', height: 56, borderRadius: 14,
+                    background: sw.bg, overflow: 'hidden',
+                    border: `2px solid ${selected ? sw.accent : 'var(--border)'}`,
+                    boxShadow: selected ? `0 0 14px ${sw.accent}55` : 'none',
+                    transition: 'border-color 0.2s, box-shadow 0.2s',
+                  }}>
+                    {/* faux card */}
+                    <div style={{ position: 'absolute', left: 8, right: 8, top: 8, height: 10, borderRadius: 4, background: sw.card }} />
+                    {/* accent dot */}
+                    <div style={{ position: 'absolute', left: 8, bottom: 8, width: 16, height: 16, borderRadius: '50%', background: sw.accent }} />
+                    {selected && (
+                      <div style={{
+                        position: 'absolute', right: 6, bottom: 6, width: 18, height: 18, borderRadius: '50%',
+                        background: sw.accent, color: sw.bg, display: 'flex', alignItems: 'center',
+                        justifyContent: 'center', fontSize: 11, fontWeight: 800,
+                      }}>✓</div>
+                    )}
+                  </div>
+                  <div style={{
+                    marginTop: 6, fontSize: 12, fontWeight: 600,
+                    color: selected ? 'var(--accent)' : 'var(--text-secondary)',
+                  }}>{sw.label}</div>
+                </motion.button>
+              );
+            })}
           </div>
         </div>
 
@@ -103,7 +145,9 @@ export default function Profile() {
           className="btn btn-primary"
           onClick={saveProfile}
           disabled={saving}
-          animate={saved ? { backgroundColor: '#22C55E' } : {}}
+          whileTap={{ scale: 0.97 }}
+          animate={saved ? { scale: [1, 1.04, 1] } : {}}
+          transition={{ duration: 0.35 }}
           style={{ marginBottom: 32 }}
         >
           {saved ? '✅ Saved!' : saving ? 'Saving...' : 'Save Profile'}

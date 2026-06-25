@@ -6,14 +6,13 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#05140F" />
     <meta name="description" content="Taxi Pro - Ride-hailing powered by Pi Network" />
 
-    <!-- Prevent FOUC: apply theme before React loads -->
+    <!-- Prevent FOUC: apply theme before React loads. Default = emerald (signature). -->
     <script>
       (function() {
-        var theme = localStorage.getItem('taxipro_theme') || 'system';
+        var theme = localStorage.getItem('taxipro_theme') || 'emerald';
         var resolved = theme === 'system'
           ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
           : theme;
