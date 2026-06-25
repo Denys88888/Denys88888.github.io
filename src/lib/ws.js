@@ -1,7 +1,9 @@
 // WebSocket client — auto-reconnect, event emitter, keep-alive ping
-const WS_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3001')
-  .replace(/^https:/, 'wss:')
-  .replace(/^http:/, 'ws:');
+// Prefer an explicit VITE_WS_URL; otherwise derive ws(s):// from the API URL.
+const WS_URL = import.meta.env.VITE_WS_URL ||
+  (import.meta.env.VITE_API_URL || 'http://localhost:10000')
+    .replace(/^https:/, 'wss:')
+    .replace(/^http:/, 'ws:');
 
 class TaxiWS {
   constructor() {

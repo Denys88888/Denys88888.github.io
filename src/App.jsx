@@ -13,7 +13,7 @@ import api, { setToken } from './lib/api.js';
 import ws from './lib/ws.js';
 
 // Keep-alive: ping Render every 14 min so free tier doesn't sleep
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';
 setInterval(() => fetch(`${API_URL}/health`).catch(() => {}), 14 * 60 * 1000);
 
 const NAV_PASSENGER = [

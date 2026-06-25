@@ -4,6 +4,7 @@ import Map from '../components/Map.jsx';
 import SearchingAnimation from '../components/SearchingAnimation.jsx';
 import DriverCard from '../components/DriverCard.jsx';
 import Chat from '../components/Chat.jsx';
+import SOSButton from '../components/SOSButton.jsx';
 import useStore from '../store.js';
 import { getRoute } from '../lib/osrm.js';
 import { reverseGeocode, debouncedSearch } from '../lib/nominatim.js';
@@ -349,6 +350,11 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* SOS — available while the ride is active or in progress */}
+      {phase === 'active' && ride && (
+        <SOSButton rideId={ride.id || ride.rideId} location={driverLocation || pickup} />
+      )}
 
       {/* Chat overlay */}
       <AnimatePresence>

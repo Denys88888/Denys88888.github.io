@@ -1,5 +1,5 @@
 // REST API client for the Taxi Pro backend
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';
 
 let _token = null;
 
