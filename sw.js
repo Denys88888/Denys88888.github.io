@@ -1,20 +1,8 @@
 /**
  * Taxi Pro — Progressive Web App Service Worker
- * ----------------------------------------------
- * Handles static asset caching and offline support.
- *
- * This SW is responsible for:
- * - Caching core static assets (shell) at install time
- * - Cleaning up old caches on activation
- * - Serving cached assets with network fallback
- * - Offline page fallback for navigation requests
- *
- * NOTE: Firebase Messaging uses a SEPARATE service worker
- * (firebase-messaging-sw.js) to handle push notifications.
  */
 
-// Increment this version to force cache refresh for all users
-const CACHE_VERSION = 2;
+const CACHE_VERSION = 3;
 const CACHE_NAME = `taxipro-v${CACHE_VERSION}`;
 const STATIC_ASSETS = [
   '/',
@@ -28,11 +16,18 @@ const STATIC_ASSETS = [
   '/icon-192x192.png',
   '/icon-384x384.png',
   '/icon-512x512.png',
+  '/assets/index-q4127-AR.js',
+  '/assets/index-Ci97Pa9n.css',
+  '/assets/chunk-map-D9JDX3-_.js',
+  '/assets/chunk-map-Dgihpmma.css',
+  '/assets/chunk-payment-BKWWnxRb.js',
+  '/assets/chunk-driver-DE5a40Jr.js',
+  '/assets/vendor-react-CKjCVW_e.js',
+  '/assets/vendor-framer-DbdDR1Q2.js',
+  '/assets/vendor-ui-Bpfh32vx.js',
+  '/assets/vendor-pi-C4ubRgoM.js',
 ];
 
-/**
- * INSTALL — Cache static assets (app shell)
- */
 self.addEventListener('install', (event) => {
   console.log('[PWA SW] Installing...');
   event.waitUntil(
@@ -49,9 +44,6 @@ self.addEventListener('install', (event) => {
   );
 });
 
-/**
- * ACTIVATE — Clean up old caches, claim clients
- */
 self.addEventListener('activate', (event) => {
   console.log('[PWA SW] Activating...');
   event.waitUntil(
@@ -74,30 +66,13 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-/**
- * FETCH — Serve from cache, fallback to network
- *
- * Strategy:
- * - GET requests only (skip POST/PUT/DELETE)
- * - Skip API calls (network only)
- * - Skip WebSocket connections
- * - Skip external/CDN resources (no CORS caching issues)
- * - Cache-first for static assets
- * - Runtime cache for successfully fetched assets
- */
 self.addEventListener('fetch', (event) => {
-  // Only handle GET requests
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
 
-  // Skip API calls — always go to network
   if (url.pathname.startsWith('/api/')) return;
-
-  // Skip WebSocket connections
   if (url.protocol === 'ws:' || url.protocol === 'wss:') return;
-
-  // Skip Firebase / Google APIs (FCM has its own SW)
   if (
     url.hostname.includes('googleapis.com') ||
     url.hostname.includes('gstatic.com') ||
@@ -105,8 +80,6 @@ self.addEventListener('fetch', (event) => {
     url.hostname.includes('google-analytics')
   )
     return;
-
-  // Skip external CDN resources (fonts, maps SDK, Pi SDK)
   if (
     url.hostname !== self.location.hostname &&
     !url.hostname.includes('unpkg.com') &&
@@ -114,7 +87,6 @@ self.addEventListener('fetch', (event) => {
   )
     return;
 
-  // For index.html — always use network-first to get latest version
   if (url.pathname === '/' || url.pathname === '/index.html') {
     event.respondWith(
       fetch(event.request)
@@ -132,16 +104,13 @@ self.addEventListener('fetch', (event) => {
 
   event.respondWith(
     caches.match(event.request).then((cached) => {
-      // Return cached response if found
       if (cached) return cached;
 
-      // Otherwise fetch from network
       return fetch(event.request)
         .then((response) => {
-          // Cache successful same-origin GET responses for runtime caching
           if (
             response.ok &&
-            response.type === 'basic' &&
+            (response.type === 'basic' || response.type === 'cors') &&
             url.hostname === self.location.hostname
           ) {
             const clone = response.clone();
@@ -152,21 +121,16 @@ self.addEventListener('fetch', (event) => {
           return response;
         })
         .catch(() => {
-          // Offline fallback — serve index.html for navigation
           if (event.request.mode === 'navigate') {
             console.log('[PWA SW] Offline: serving index.html fallback');
             return caches.match('/index.html');
           }
-          // For non-navigation requests, we can't do much
           console.log('[PWA SW] Offline: resource unavailable', event.request.url);
         });
     })
   );
 });
 
-/**
- * MESSAGE — Handle messages from the main app
- */
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
