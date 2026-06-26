@@ -2,7 +2,7 @@
  * Taxi Pro — Progressive Web App Service Worker
  */
 
-const CACHE_VERSION = 3;
+const CACHE_VERSION = 4;
 const CACHE_NAME = `taxipro-v${CACHE_VERSION}`;
 const STATIC_ASSETS = [
   '/',
@@ -26,6 +26,9 @@ const STATIC_ASSETS = [
   '/assets/vendor-framer-DbdDR1Q2.js',
   '/assets/vendor-ui-Bpfh32vx.js',
   '/assets/vendor-pi-C4ubRgoM.js',
+  '/assets/index.esm-q7Ix4rY8.js',
+  '/assets/index.esm-DxRxORx3.js',
+  '/assets/index.esm-Bsr7HeQO.js',
 ];
 
 self.addEventListener('install', (event) => {
