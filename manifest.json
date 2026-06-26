@@ -1,6 +1,7 @@
 {
   "name": "Taxi Pro",
   "short_name": "TaxiPro",
+  "id": "taxi-pro-pi",
   "description": "Ride-hailing powered by Pi Network. Book rides, pay with Pi, drive and earn.",
   "start_url": "/",
   "display": "standalone",
