@@ -7,7 +7,7 @@ import ws from '../lib/ws.js';
 import { formatPi } from '../lib/pricing.js';
 
 export default function DriverHome() {
-  const { user, isDriverOnline, setIsDriverOnline, setCurrentOffer, currentOffer } = useStore();
+  const { user, isDriverOnline, setIsDriverOnline, setCurrentOffer, currentOffer, unreadChat, bumpUnread, clearUnread } = useStore();
 
   const [driverLocation, setDriverLocation] = useState(null);
   const [currentRide, setCurrentRide] = useState(null);
@@ -16,6 +16,19 @@ export default function DriverHome() {
   const [showChat, setShowChat] = useState(false);
   const countdownRef = useRef(null);
   const locationWatchRef = useRef(null);
+  const chatOpenRef = useRef(false);
+
+  useEffect(() => { chatOpenRef.current = showChat; }, [showChat]);
+
+  // Count incoming chat messages while the drawer is closed
+  useEffect(() => {
+    const off = ws.on('chat:message', d => {
+      if (d.message?.rideId === currentRide?.id && d.message?.sender !== user?.piUserId && !chatOpenRef.current) bumpUnread();
+    });
+    return off;
+  }, [currentRide?.id, user?.piUserId]); // eslint-disable-line
+
+  function openChat() { setShowChat(true); clearUnread(); }
 
   // GPS tracking when online
   useEffect(() => {
@@ -263,9 +276,17 @@ export default function DriverHome() {
             <div style={{ display: 'flex', gap: 10 }}>
               <button
                 className="btn btn-ghost btn-sm"
-                style={{ flex: 1 }}
-                onClick={() => setShowChat(true)}
-              >💬 Chat</button>
+                style={{ flex: 1, position: 'relative' }}
+                onClick={openChat}
+              >💬 Chat
+                {unreadChat > 0 && (
+                  <span style={{
+                    position: 'absolute', top: -6, right: -6, minWidth: 18, height: 18, padding: '0 5px',
+                    borderRadius: 99, background: 'var(--danger)', color: '#fff',
+                    fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>{unreadChat}</span>
+                )}
+              </button>
 
               {ridePhase === 'navigating' && (
                 <button className="btn btn-primary" style={{ flex: 2 }} onClick={markArrived}>I Arrived</button>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Map from '../components/Map.jsx';
 import SearchingAnimation from '../components/SearchingAnimation.jsx';
@@ -16,9 +16,9 @@ import ws from '../lib/ws.js';
 export default function Home() {
   const {
     user, token, pickup, dropoff, route, fare, surgeMultiplier, promoDiscount,
-    ride, driverInfo, driverLocation,
+    ride, driverInfo, driverLocation, unreadChat,
     setPickup, setDropoff, setRoute, setFare, setSurgeMultiplier, setPromoDiscount,
-    setRide, setDriverInfo, setDriverLocation, setScreen, clearRide
+    setRide, setDriverInfo, setDriverLocation, setScreen, clearRide, bumpUnread, clearUnread
   } = useStore();
 
   const [rideStatus, setRideStatus] = useState(null); // null|searching|accepted|arrived|in_progress|completed
@@ -30,6 +30,20 @@ export default function Home() {
   const [showChat, setShowChat] = useState(false);
   const [onlineDrivers, setOnlineDrivers] = useState([]);
   const [phase, setPhase] = useState('booking'); // booking|confirming|searching|active|completed
+  const chatOpenRef = useRef(false);
+
+  useEffect(() => { chatOpenRef.current = showChat; }, [showChat]);
+
+  // Count incoming chat messages while the drawer is closed
+  useEffect(() => {
+    const off = ws.on('chat:message', d => {
+      const rid = ride?.id || ride?.rideId;
+      if (d.message?.rideId === rid && d.message?.sender !== user?.piUserId && !chatOpenRef.current) bumpUnread();
+    });
+    return off;
+  }, [ride?.id, user?.piUserId]); // eslint-disable-line
+
+  function openChat() { setShowChat(true); clearUnread(); }
 
   // GPS pickup on mount
   useEffect(() => {
@@ -318,8 +332,9 @@ export default function Home() {
             <DriverCard
               driver={driverInfo}
               eta={route ? Math.round(route.durationMin) : null}
-              onChat={() => setShowChat(true)}
+              onChat={openChat}
               onCancel={cancelRide}
+              unread={unreadChat}
             />
             <div className="divider" />
             <div className="row-between" style={{ padding: '4px 0' }}>

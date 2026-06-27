@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-export default function DriverCard({ driver, eta, onChat, onCancel }) {
+export default function DriverCard({ driver, eta, onChat, onCancel, unread = 0 }) {
   const initials = (driver?.name || 'D').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
 
   return (
@@ -37,8 +37,15 @@ export default function DriverCard({ driver, eta, onChat, onCancel }) {
 
       <div style={{ display: 'flex', gap: 8 }}>
         {onChat && (
-          <button className="btn btn-ghost btn-sm" style={{ flex: 1 }} onClick={onChat}>
+          <button className="btn btn-ghost btn-sm" style={{ flex: 1, position: 'relative' }} onClick={onChat}>
             💬 Chat
+            {unread > 0 && (
+              <span style={{
+                position: 'absolute', top: -6, right: -6, minWidth: 18, height: 18, padding: '0 5px',
+                borderRadius: 99, background: 'var(--danger)', color: '#fff',
+                fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>{unread}</span>
+            )}
           </button>
         )}
         {onCancel && (

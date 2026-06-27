@@ -27,6 +27,9 @@ const useStore = create((set, get) => ({
   currentOffer: null,  // incoming ride offer { rideId, ride, expiresIn }
   offerTimer: null,    // seconds remaining on offer countdown
 
+  // ── Chat ──────────────────────────────────────────────────────────
+  unreadChat: 0,       // unread messages while the chat drawer is closed
+
   // ── Actions ───────────────────────────────────────────────────────
   setUser: user => set({ user }),
   setToken: token => set({ token }),
@@ -59,10 +62,13 @@ const useStore = create((set, get) => ({
   setCurrentOffer: offer => set({ currentOffer: offer }),
   setOfferTimer: v => set({ offerTimer: v }),
 
+  bumpUnread: () => set(s => ({ unreadChat: s.unreadChat + 1 })),
+  clearUnread: () => set({ unreadChat: 0 }),
+
   clearRide: () => set({
     ride: null, driverInfo: null, driverLocation: null,
     route: null, fare: null, surgeMultiplier: 1.0, promoDiscount: null,
-    pickup: null, dropoff: null, currentOffer: null, offerTimer: null,
+    pickup: null, dropoff: null, currentOffer: null, offerTimer: null, unreadChat: 0,
     screen: get().mode === 'driver' ? 'driver-home' : 'home',
   }),
 }));
