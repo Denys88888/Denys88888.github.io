@@ -375,3 +375,51 @@ h3 { font-size: 16px; font-weight: 600; }
 /* ── Leaflet overrides ────────────────────────────────────────────── */
 .leaflet-control-zoom,
 .leaflet-control-attribution { display: none !important; }
+
+/* ── Map markers ─────────────────────────────────────────────────── */
+.map-div-icon { background: none; border: none; }
+
+@keyframes map-pulse {
+  0%   { transform: scale(0.5); opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* Driver: car in an accent circle with a soft glow halo */
+.map-pin-driver {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; line-height: 1;
+  box-shadow: 0 0 0 6px var(--accent-glow), 0 4px 12px rgba(0,0,0,0.45);
+}
+
+/* Pickup: pulsing accent dot */
+.map-pin-pickup {
+  position: relative;
+  width: 16px; height: 16px; margin: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 4px var(--accent-glow);
+}
+.map-pin-pickup::after {
+  content: '';
+  position: absolute; inset: -6px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  animation: map-pulse 1.8s ease-out infinite;
+}
+
+/* Destination: accent teardrop pin (tip at bottom centre) */
+.map-pin-drop-wrap { width: 30px; height: 40px; position: relative; }
+.map-pin-drop {
+  position: absolute; top: 0; left: 3px;
+  width: 24px; height: 24px;
+  background: var(--accent);
+  border: 2px solid #fff;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(45deg);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+}

@@ -20,12 +20,13 @@ export default function RatingStars({ value = 0, onChange, size = 40 }) {
             cursor: onChange ? 'pointer' : 'default',
             padding: 0,
             lineHeight: 1,
-            filter: star <= (hovered || value) ? 'none' : 'grayscale(1) opacity(0.4)',
-            transition: 'filter 0.15s',
+            color: star <= (hovered || value) ? 'var(--accent)' : 'var(--text-tertiary)',
+            textShadow: star <= (hovered || value) ? '0 0 12px var(--accent-glow)' : 'none',
+            transition: 'color 0.15s, text-shadow 0.15s',
           }}
           aria-label={`${star} star`}
         >
-          ⭐
+          ★
         </motion.button>
       ))}
     </div>

@@ -1,36 +1,27 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import useStore from '../store.js';
 
-// Decide tile layer based on time (night = dark tiles, day = light tiles)
-function getTileUrl() {
+// Dark tiles for emerald/dark themes or at night; light tiles by day otherwise.
+function getTileUrl(theme) {
   const hour = new Date().getHours();
-  return hour >= 19 || hour < 6
+  const dark = theme === 'emerald' || theme === 'dark' || hour >= 19 || hour < 6;
+  return dark
     ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
     : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 }
 
-// Simple car SVG marker for driver icons
-const CAR_SVG = `
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <circle cx="16" cy="16" r="15" fill="#7B5EA7" stroke="white" stroke-width="2"/>
-  <text x="16" y="21" text-anchor="middle" font-size="16">🚗</text>
-</svg>`;
-const carIcon = L.divIcon({ className: '', html: CAR_SVG, iconSize: [32, 32], iconAnchor: [16, 16] });
+// Read the active theme's accent for canvas-drawn elements (Leaflet polylines
+// can't take a CSS var directly).
+function accentColor() {
+  return getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#1FD884';
+}
 
-const PICKUP_SVG = `
-<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
-  <circle cx="14" cy="14" r="13" fill="#22C55E" stroke="white" stroke-width="2"/>
-  <text x="14" y="19" text-anchor="middle" font-size="14">📍</text>
-</svg>`;
-const pickupIcon = L.divIcon({ className: '', html: PICKUP_SVG, iconSize: [28, 28], iconAnchor: [14, 28] });
-
-const DROP_SVG = `
-<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
-  <circle cx="14" cy="14" r="13" fill="#EF4444" stroke="white" stroke-width="2"/>
-  <text x="14" y="19" text-anchor="middle" font-size="14">🏁</text>
-</svg>`;
-const dropIcon = L.divIcon({ className: '', html: DROP_SVG, iconSize: [28, 28], iconAnchor: [14, 28] });
+// Markers are HTML divIcons styled via globals.css so they re-theme automatically.
+const carIcon = L.divIcon({ className: 'map-div-icon', html: '<div class="map-pin-driver">🚗</div>', iconSize: [40, 40], iconAnchor: [20, 20] });
+const pickupIcon = L.divIcon({ className: 'map-div-icon', html: '<div class="map-pin-pickup"></div>', iconSize: [36, 36], iconAnchor: [18, 18] });
+const dropIcon = L.divIcon({ className: 'map-div-icon', html: '<div class="map-pin-drop-wrap"><div class="map-pin-drop"></div></div>', iconSize: [30, 40], iconAnchor: [15, 36] });
 
 export default function Map({
   center = [48.8566, 2.3522],
@@ -43,10 +34,12 @@ export default function Map({
   onMapClick,
   style,
 }) {
+  const theme = useStore(s => s.theme);
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const markersRef = useRef({});
   const polylineRef = useRef(null);
+  const glowRef = useRef(null);
   const tileRef = useRef(null);
 
   // Init map once
@@ -60,7 +53,7 @@ export default function Map({
       attributionControl: false,
     });
 
-    tileRef.current = L.tileLayer(getTileUrl(), { maxZoom: 19 }).addTo(map);
+    tileRef.current = L.tileLayer(getTileUrl(theme), { maxZoom: 19 }).addTo(map);
 
     if (onMapClick) map.on('click', e => onMapClick(e.latlng));
     mapRef.current = map;
@@ -70,6 +63,11 @@ export default function Map({
       mapRef.current = null;
     };
   }, []); // eslint-disable-line
+
+  // Swap tiles when the theme changes (emerald/dark → dark tiles)
+  useEffect(() => {
+    if (tileRef.current) tileRef.current.setUrl(getTileUrl(theme));
+  }, [theme]);
 
   // Update center when it changes
   useEffect(() => {
@@ -108,14 +106,18 @@ export default function Map({
     }
   }, [driverLocation?.lat, driverLocation?.lng]); // eslint-disable-line
 
-  // Draw route polyline
+  // Draw route polyline (glow underlay + crisp accent line on top)
   useEffect(() => {
     if (!mapRef.current) return;
     polylineRef.current?.remove();
+    glowRef.current?.remove();
     if (routeCoords?.length) {
-      polylineRef.current = L.polyline(routeCoords, { color: '#7B5EA7', weight: 4, opacity: 0.8, dashArray: '8, 4' })
+      const accent = accentColor();
+      glowRef.current = L.polyline(routeCoords, { color: accent, weight: 12, opacity: 0.22, lineCap: 'round', lineJoin: 'round' })
         .addTo(mapRef.current);
-      mapRef.current.fitBounds(polylineRef.current.getBounds(), { padding: [40, 40] });
+      polylineRef.current = L.polyline(routeCoords, { color: accent, weight: 5, opacity: 0.95, lineCap: 'round', lineJoin: 'round' })
+        .addTo(mapRef.current);
+      mapRef.current.fitBounds(polylineRef.current.getBounds(), { padding: [50, 50] });
     }
   }, [routeCoords]); // eslint-disable-line
 

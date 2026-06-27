@@ -15,9 +15,10 @@ export default function SearchingAnimation({ message = 'Finding your driver...' 
         ))}
         <div style={{
           position: 'absolute', top: 20, left: 20, width: 60, height: 60,
-          borderRadius: '50%', background: 'var(--primary)',
+          borderRadius: '50%', background: 'var(--accent)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 24, zIndex: 1
+          fontSize: 24, zIndex: 1,
+          boxShadow: '0 0 32px var(--accent-glow), 0 0 0 2px var(--accent-glow)',
         }}>
           🚗
         </div>
