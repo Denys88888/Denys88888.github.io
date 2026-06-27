@@ -181,6 +181,17 @@ export default function Home() {
     setRideStatus(null);
   }
 
+  async function shareTrip() {
+    try {
+      const { token } = await api.shareRide(ride.id || ride.rideId);
+      const url = `${location.origin}/track/${token}`;
+      if (navigator.share) await navigator.share({ title: 'Track my Taxi Pro ride', url });
+      else { await navigator.clipboard.writeText(url); alert('Tracking link copied:\n' + url); }
+    } catch {
+      alert('Could not create a share link.');
+    }
+  }
+
   const mapCenter = pickup ? [pickup.lat, pickup.lng] : [48.8566, 2.3522];
 
   return (
@@ -349,6 +360,9 @@ export default function Home() {
                 <div style={{ fontWeight: 700, color: 'var(--primary)' }}>{formatPi(fare)}</div>
               </div>
             </div>
+            <button className="btn btn-ghost btn-sm" style={{ marginTop: 12 }} onClick={shareTrip}>
+              🔗 Share trip
+            </button>
           </motion.div>
         )}
 

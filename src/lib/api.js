@@ -29,6 +29,7 @@ export const api = {
   getRides: userId => request('GET', `/api/rides${userId ? `?userId=${userId}` : ''}`),
   updateRide: (id, updates) => request('PATCH', `/api/rides/${id}`, updates),
   shareRide: id => request('POST', `/api/rides/${id}/share`),
+  getShare: token => request('GET', `/api/share/${token}`),
 
   // Payments
   approvePayment: id => request('POST', `/api/payments/${id}/approve`),
