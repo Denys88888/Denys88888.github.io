@@ -212,31 +212,38 @@ export default function Home() {
           >
             <div className="sheet-handle" />
 
-            {/* Pickup */}
-            <div className="row" style={{ marginBottom: 10, padding: '10px 12px', background: 'var(--bg3)', borderRadius: 12 }}>
-              <span style={{ fontSize: 18 }}>🟢</span>
-              <div>
-                <div className="caption">Pickup</div>
-                <div style={{ fontWeight: 500, fontSize: 14, marginTop: 2 }}>{pickup?.name || pickup?.address || 'Detecting location...'}</div>
-              </div>
-            </div>
-
-            {/* Destination input */}
-            <div style={{ position: 'relative', marginBottom: 10 }}>
-              <div className="row" style={{ padding: '10px 12px', background: 'var(--bg3)', borderRadius: 12 }}>
-                <span style={{ fontSize: 18 }}>🔴</span>
-                <input
-                  value={destinationQuery}
-                  onChange={onDestinationChange}
-                  placeholder="Where to?"
-                  style={{ flex: 1, background: 'none', border: 'none', outline: 'none', fontFamily: 'inherit', fontSize: 15, color: 'var(--text)' }}
-                />
+            {/* Pickup → destination with connector rail */}
+            <div style={{ position: 'relative', marginBottom: 10, background: 'var(--bg-elevated)', border: '1px solid var(--border)', borderRadius: 16, padding: '4px 16px' }}>
+              <div style={{ display: 'flex' }}>
+                {/* connector rail: green dot → line → green pin */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 22, marginRight: 14 }}>
+                  <div style={{ width: 11, height: 11, borderRadius: '50%', background: 'var(--accent)', boxShadow: '0 0 0 3px var(--accent-glow)', flexShrink: 0 }} />
+                  <div style={{ width: 2, flex: 1, minHeight: 22, background: 'var(--border-strong)', margin: '5px 0' }} />
+                  <div style={{ width: 11, height: 13, borderRadius: '50% 50% 50% 0', transform: 'rotate(45deg)', background: 'var(--accent)', flexShrink: 0, marginBottom: 4 }} />
+                </div>
+                {/* stacked rows */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ padding: '12px 0' }}>
+                    <div className="caption">Pickup</div>
+                    <div style={{ fontWeight: 500, fontSize: 14, marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{pickup?.name || pickup?.address || 'Detecting location...'}</div>
+                  </div>
+                  <div style={{ height: 1, background: 'var(--border)' }} />
+                  <div style={{ padding: '12px 0' }}>
+                    <div className="caption" style={{ marginBottom: 2 }}>Destination</div>
+                    <input
+                      value={destinationQuery}
+                      onChange={onDestinationChange}
+                      placeholder="Where to?"
+                      style={{ width: '100%', background: 'none', border: 'none', outline: 'none', fontFamily: 'inherit', fontSize: 15, fontWeight: 500, color: 'var(--text)' }}
+                    />
+                  </div>
+                </div>
               </div>
               <AnimatePresence>
                 {showSuggestions && suggestions.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-                    style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12, zIndex: 100, overflow: 'hidden', marginTop: 4 }}
+                    style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: 'var(--bg-elevated)', border: '1px solid var(--border)', borderRadius: 16, zIndex: 100, overflow: 'hidden', marginTop: 6, boxShadow: '0 8px 24px var(--shadow)' }}
                   >
                     {suggestions.map((s, i) => (
                       <div key={i} onClick={() => onSelectSuggestion(s)} style={{ padding: '12px 14px', borderBottom: i < suggestions.length - 1 ? '1px solid var(--border)' : 'none', cursor: 'pointer', fontSize: 14 }}>
