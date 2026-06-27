@@ -127,6 +127,23 @@ export default function DriverHome() {
 
   return (
     <div className="screen" style={{ position: 'relative', overflow: 'visible' }}>
+      {/* Ambient online glow at screen edges */}
+      <AnimatePresence>
+        {isDriverOnline && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0.5, 0.85, 0.5] }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            style={{
+              position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1500,
+              boxShadow: 'inset 0 0 70px var(--accent-glow), inset 0 0 24px var(--accent-glow)',
+              borderRadius: 0,
+            }}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Map */}
       <div className="map-container">
         <Map
@@ -139,13 +156,18 @@ export default function DriverHome() {
         <div style={{ position: 'absolute', top: 16, left: '50%', transform: 'translateX(-50%)', zIndex: 1000 }}>
           <motion.div
             onClick={!currentRide ? toggleOnline : undefined}
-            whileTap={{ scale: 0.96 }}
+            whileTap={{ scale: 0.94 }}
+            animate={isDriverOnline
+              ? { boxShadow: ['0 4px 20px var(--accent-glow)', '0 6px 30px var(--accent-glow)', '0 4px 20px var(--accent-glow)'] }
+              : { boxShadow: '0 4px 16px rgba(0,0,0,0.18)' }}
+            transition={isDriverOnline ? { duration: 2, repeat: Infinity, ease: 'easeInOut' } : {}}
             style={{
               display: 'flex', alignItems: 'center', gap: 10,
-              background: isDriverOnline ? 'var(--success)' : 'var(--bg2)',
-              color: isDriverOnline ? '#fff' : 'var(--text)',
-              padding: '10px 20px', borderRadius: 99,
-              boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
+              background: isDriverOnline ? 'var(--accent)' : 'var(--sheet-bg)',
+              WebkitBackdropFilter: 'blur(20px)', backdropFilter: 'blur(20px)',
+              color: isDriverOnline ? 'var(--on-accent)' : 'var(--text-primary)',
+              border: isDriverOnline ? 'none' : '1px solid var(--border-strong)',
+              padding: '12px 22px', borderRadius: 99,
               cursor: currentRide ? 'default' : 'pointer',
               fontWeight: 700, fontSize: 15,
             }}

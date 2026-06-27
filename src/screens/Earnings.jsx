@@ -6,8 +6,8 @@ import { formatPi } from '../lib/pricing.js';
 
 function StatCard({ label, value, color }) {
   return (
-    <div className="card" style={{ textAlign: 'center', flex: 1 }}>
-      <div style={{ fontWeight: 700, fontSize: 22, color: color || 'var(--primary)' }}>{value}</div>
+    <div className="card" style={{ textAlign: 'center', flex: 1, padding: 14 }}>
+      <div className="tnum" style={{ fontWeight: 700, fontSize: 22, color: color || 'var(--accent)' }}>{value}</div>
       <div className="caption" style={{ marginTop: 4 }}>{label}</div>
     </div>
   );
