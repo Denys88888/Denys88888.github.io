@@ -19,9 +19,21 @@ function accentColor() {
 }
 
 // Markers are HTML divIcons styled via globals.css so they re-theme automatically.
-const carIcon = L.divIcon({ className: 'map-div-icon', html: '<div class="map-pin-driver">🚗</div>', iconSize: [40, 40], iconAnchor: [20, 20] });
+// Driver uses a directional arrow (rotates to heading); the <svg> is rotated in JS.
+const DRIVER_HTML = '<div class="map-pin-driver"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 2 L20 21 L12 16.5 L4 21 Z" fill="currentColor"/></svg></div>';
+const carIcon = L.divIcon({ className: 'map-div-icon', html: DRIVER_HTML, iconSize: [40, 40], iconAnchor: [20, 20] });
 const pickupIcon = L.divIcon({ className: 'map-div-icon', html: '<div class="map-pin-pickup"></div>', iconSize: [36, 36], iconAnchor: [18, 18] });
 const dropIcon = L.divIcon({ className: 'map-div-icon', html: '<div class="map-pin-drop-wrap"><div class="map-pin-drop"></div></div>', iconSize: [30, 40], iconAnchor: [15, 36] });
+
+// Initial compass bearing from point a to point b, in degrees (0 = north).
+function bearing(a, b) {
+  const toRad = d => (d * Math.PI) / 180;
+  const dLng = toRad(b.lng - a.lng);
+  const y = Math.sin(dLng) * Math.cos(toRad(b.lat));
+  const x = Math.cos(toRad(a.lat)) * Math.sin(toRad(b.lat)) -
+            Math.sin(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.cos(dLng);
+  return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+}
 
 export default function Map({
   center = [48.8566, 2.3522],
@@ -41,6 +53,7 @@ export default function Map({
   const polylineRef = useRef(null);
   const glowRef = useRef(null);
   const tileRef = useRef(null);
+  const driverAnimRef = useRef(0);
 
   // Init map once
   useEffect(() => {
@@ -95,15 +108,39 @@ export default function Map({
     }
   }, [dropoff?.lat, dropoff?.lng]); // eslint-disable-line
 
-  // Animate driver marker smoothly
+  // Animate driver marker smoothly: interpolate position over ~1s with rAF and
+  // rotate the arrow to the heading instead of jumping between GPS fixes.
   useEffect(() => {
     if (!mapRef.current || !driverLocation) return;
-    if (markersRef.current.driver) {
-      markersRef.current.driver.setLatLng([driverLocation.lat, driverLocation.lng]);
-    } else {
-      markersRef.current.driver = L.marker([driverLocation.lat, driverLocation.lng], { icon: carIcon })
-        .addTo(mapRef.current);
+    const to = { lat: driverLocation.lat, lng: driverLocation.lng };
+
+    if (!markersRef.current.driver) {
+      markersRef.current.driver = L.marker([to.lat, to.lng], { icon: carIcon }).addTo(mapRef.current);
+      return;
     }
+
+    const marker = markersRef.current.driver;
+    const fromLL = marker.getLatLng();
+    const from = { lat: fromLL.lat, lng: fromLL.lng };
+    const moved = Math.abs(to.lat - from.lat) + Math.abs(to.lng - from.lng);
+    if (moved < 1e-7) return;
+
+    // Rotate the arrow toward the direction of travel.
+    const svg = marker.getElement()?.querySelector('svg');
+    if (svg) svg.style.transform = `rotate(${bearing(from, to)}deg)`;
+
+    // Interpolate position.
+    cancelAnimationFrame(driverAnimRef.current);
+    const duration = 1000;
+    const start = performance.now();
+    const step = now => {
+      const t = Math.min(1, (now - start) / duration);
+      marker.setLatLng([from.lat + (to.lat - from.lat) * t, from.lng + (to.lng - from.lng) * t]);
+      if (t < 1) driverAnimRef.current = requestAnimationFrame(step);
+    };
+    driverAnimRef.current = requestAnimationFrame(step);
+
+    return () => cancelAnimationFrame(driverAnimRef.current);
   }, [driverLocation?.lat, driverLocation?.lng]); // eslint-disable-line
 
   // Draw route polyline (glow underlay + crisp accent line on top)
