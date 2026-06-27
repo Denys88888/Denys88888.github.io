@@ -7,6 +7,7 @@ import RatingScreen from './screens/RatingScreen.jsx';
 import History from './screens/History.jsx';
 import Profile from './screens/Profile.jsx';
 import Earnings from './screens/Earnings.jsx';
+import OfflineBanner from './components/OfflineBanner.jsx';
 import { initSdk, authenticate } from './lib/pi.js';
 import { initFCM } from './lib/firebase.js';
 import api, { setToken } from './lib/api.js';
@@ -150,6 +151,7 @@ export default function App() {
 
   return (
     <div className="app">
+      <OfflineBanner />
       {/* Main content */}
       <div className="screen">
         <AnimatePresence mode="wait">
