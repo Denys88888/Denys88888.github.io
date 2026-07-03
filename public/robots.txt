@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://denys88888.github.io/taxi-pro/sitemap.xml
+Sitemap: https://denys88888.github.io/sitemap.xml
