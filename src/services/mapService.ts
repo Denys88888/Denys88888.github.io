@@ -58,7 +58,10 @@ export async function searchAddress(
       (r) => haversineKm(near.lat, near.lng, r.lat, r.lng) <= LOCAL_RADIUS_KM
     );
   }
-  return results;
+  // Nominatim often returns the same place twice (e.g. a city node and its
+  // administrative boundary share one display name) — keep the first of each.
+  const seen = new Set<string>();
+  return results.filter((r) => !seen.has(r.displayName) && seen.add(r.displayName));
 }
 
 // Reverse geocode to a 2-letter country code, for constraining searches by country.

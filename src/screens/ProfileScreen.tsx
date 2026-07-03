@@ -134,7 +134,12 @@ export function ProfileScreen() {
 
         {health && (
           <p className="text-center text-xs opacity-40">
-            {health.sandbox ? 'Testnet · Sandbox' : 'Mainnet'} · {health.firebase ? 'Firestore' : 'In-memory'}
+            {health.sandbox ? 'Testnet · Sandbox' : 'Mainnet'} ·{' '}
+            {health.store === 'firestore' || health.firebase
+              ? 'Firestore'
+              : health.store === 'sqlite'
+                ? 'SQLite'
+                : 'In-memory'}
           </p>
         )}
       </div>

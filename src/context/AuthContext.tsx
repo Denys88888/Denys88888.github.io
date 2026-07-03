@@ -35,6 +35,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     else wsService.disconnect();
   }, [token]);
 
+  // The server closes the socket with 1008 when the JWT is rejected (expired /
+  // revoked). Treat that as a hard logout so the UI returns to the login screen.
+  useEffect(
+    () =>
+      wsService.on('__close', ({ code }) => {
+        if (code === 1008 && useAppStore.getState().token) {
+          wsService.disconnect();
+          storeLogout();
+        }
+      }),
+    [storeLogout]
+  );
+
   const login = async (): Promise<void> => {
     setLoading(true);
     try {

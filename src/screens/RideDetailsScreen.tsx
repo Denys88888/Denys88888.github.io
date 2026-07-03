@@ -171,7 +171,7 @@ export function RideDetailsScreen() {
       // Refetch so the enriched driver contact card (phone/call) appears.
       const fresh = await api.getRide(ride.id);
       setRide(fresh);
-      addToast('success', t('ride.acceptOffer'));
+      addToast('success', t('common.success'));
     } catch {
       addToast('error', t('common.error'));
     }

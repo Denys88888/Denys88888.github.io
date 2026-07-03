@@ -11,7 +11,7 @@ describe('formatters', () => {
   });
   it('formats durations', () => {
     expect(formatDuration(12)).toBe('12 min');
-    expect(formatDuration(90)).toBe('1 h 30 min');
+    expect(formatDuration(90)).toBe('1 hr 30 min');
   });
   it('masks phone numbers', () => {
     expect(maskPhone('+1 555 123 4567')).toContain('4567');

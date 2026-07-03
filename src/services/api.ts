@@ -1,6 +1,8 @@
 import axios, { type AxiosInstance } from 'axios';
 import { API_URL } from '../utils/constants';
 import { storage } from './storageService';
+import { useAppStore } from '../store/useAppStore';
+import { wsService } from './wsService';
 import type {
   User,
   Ride,
@@ -24,11 +26,19 @@ client.interceptors.request.use((config) => {
   return config;
 });
 
-// On 401, clear stale auth so the app routes back to login.
+// On 401 with an active session the token is stale/expired: fully log out
+// (store + storage + socket) so the app routes back to login instead of
+// silently failing every request until a manual reload.
 client.interceptors.response.use(
   (res) => res,
   (error) => {
-    if (error.response?.status === 401) storage.clearAuth();
+    if (error.response?.status === 401) {
+      storage.clearAuth();
+      if (useAppStore.getState().token) {
+        wsService.disconnect();
+        useAppStore.getState().logout();
+      }
+    }
     return Promise.reject(error);
   }
 );

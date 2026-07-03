@@ -20,13 +20,21 @@ export function AddressSearch({ label, placeholder, value, icon, near, countryCo
   const [results, setResults] = useState<AddressResult[]>([]);
   const [open, setOpen] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>();
+  // Only user keystrokes may trigger a search: programmatic value changes
+  // (selecting a suggestion, confirming a map tap) must not reopen the list.
+  const fromUser = useRef(false);
 
-  useEffect(() => setQuery(value), [value]);
+  useEffect(() => {
+    fromUser.current = false;
+    setQuery(value);
+  }, [value]);
 
   useEffect(() => {
     if (timer.current) clearTimeout(timer.current);
+    if (!fromUser.current) return;
     if (query.trim().length < 3) {
       setResults([]);
+      setOpen(false);
       return;
     }
     timer.current = setTimeout(async () => {
@@ -45,8 +53,12 @@ export function AddressSearch({ label, placeholder, value, icon, near, countryCo
         placeholder={placeholder}
         value={query}
         icon={icon}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => {
+          fromUser.current = true;
+          setQuery(e.target.value);
+        }}
         onFocus={() => results.length && setOpen(true)}
+        onBlur={() => setTimeout(() => setOpen(false), 200)}
       />
       {open && results.length > 0 && (
         <ul className="absolute z-30 mt-1 max-h-60 w-full overflow-auto rounded-lg surface shadow-card">
@@ -54,8 +66,12 @@ export function AddressSearch({ label, placeholder, value, icon, near, countryCo
             <li key={i}>
               <button
                 className="block w-full truncate px-3 py-2 text-left text-sm hover:bg-primary/10"
-                onClick={() => {
+                // pointerdown fires before the input's blur, so selection wins
+                // the race against the blur-driven close on slow devices.
+                onPointerDown={(e) => {
+                  e.preventDefault();
                   onSelect({ lat: r.lat, lng: r.lng, address: r.displayName });
+                  fromUser.current = false;
                   setQuery(r.displayName);
                   setOpen(false);
                 }}

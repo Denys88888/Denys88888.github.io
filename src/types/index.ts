@@ -136,4 +136,5 @@ export interface HealthInfo {
   status: string;
   sandbox: boolean;
   firebase: boolean;
+  store?: 'firestore' | 'sqlite' | 'memory';
 }
