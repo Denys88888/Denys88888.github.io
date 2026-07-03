@@ -31,7 +31,9 @@ jobs:
         env:
           VITE_API_URL: https://taxi-pro-server.onrender.com
           VITE_WS_URL: wss://taxi-pro-server.onrender.com
-          VITE_PI_SANDBOX: 'true'
+          # sandbox:true is only for debugging OUTSIDE the Pi Browser — inside
+          # the real Pi Browser it makes Pi.authenticate hang. Must be false.
+          VITE_PI_SANDBOX: 'false'
         run: |
           npm ci
           npm run build

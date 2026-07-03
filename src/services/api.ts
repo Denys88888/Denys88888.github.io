@@ -14,9 +14,11 @@ import type {
   HealthInfo,
 } from '../types';
 
+// Render's free tier spins the server down when idle; the first request after
+// a cold start can take ~50 s, so the timeout must comfortably cover that.
 const client: AxiosInstance = axios.create({
   baseURL: API_URL,
-  timeout: 15000,
+  timeout: 60000,
 });
 
 // Attach the JWT to every request.
