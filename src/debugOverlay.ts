@@ -1,7 +1,18 @@
-// TEMPORARY diagnostics: the Pi Browser exposes no console (no devtools, no
+// On-device diagnostics: the Pi Browser exposes no console (no devtools, no
 // logcat mirroring), so [TaxiProDebug] lines are rendered onto a screen
-// overlay to make the login flow observable on-device. Remove after the
-// login issue is diagnosed.
+// overlay. Off by default; open the app with ?debug=1 to enable for the
+// session (persisted in sessionStorage across SPA reloads).
+
+const enabled = (() => {
+  try {
+    if (new URLSearchParams(location.search).has('debug')) {
+      sessionStorage.setItem('taxipro_debug', '1');
+    }
+    return sessionStorage.getItem('taxipro_debug') === '1';
+  } catch {
+    return false;
+  }
+})();
 
 const MAX_LINES = 40;
 let box: HTMLElement | null = null;
@@ -32,6 +43,7 @@ function ensureBox(): HTMLElement | null {
 }
 
 function append(kind: string, args: unknown[]): void {
+  if (!enabled) return;
   const el = ensureBox();
   if (!el) return;
   const text = args
@@ -70,6 +82,8 @@ window.addEventListener('unhandledrejection', (e) =>
   ])
 );
 
-console.log(
-  `[TaxiProDebug] overlay active | url: ${location.host} | ua: ${navigator.userAgent.slice(0, 80)}`
-);
+if (enabled) {
+  console.log(
+    `[TaxiProDebug] overlay active | url: ${location.host} | ua: ${navigator.userAgent.slice(0, 80)}`
+  );
+}
