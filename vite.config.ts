@@ -35,6 +35,9 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,png,svg,json,woff2}'],
         navigateFallback: `${base}index.html`,
+        // reset.html must bypass the SPA fallback — it's the recovery page
+        // that wipes a broken cached session.
+        navigateFallbackDenylist: [/\/reset\.html/],
         cleanupOutdatedCaches: true,
       },
     }),
