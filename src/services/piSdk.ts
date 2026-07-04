@@ -13,9 +13,11 @@ export function isPiAvailable(): boolean {
 }
 
 export function initPi(): void {
+  console.log('[TaxiProDebug] Pi SDK available:', isPiAvailable(), '| Pi sandbox:', PI_SANDBOX);
   if (initialized || !isPiAvailable()) return;
   window.Pi!.init({ version: '2.0', sandbox: PI_SANDBOX });
   initialized = true;
+  console.log('[TaxiProDebug] Pi init called');
 }
 
 // Authenticate the current Pi user. Returns the accessToken + basic profile.
@@ -28,6 +30,7 @@ export async function authenticateWithPi(): Promise<PiAuthResult> {
     // A previous payment was left open; surface for diagnostics.
     logger.warn('[Pi] incomplete payment found', payment);
   };
+  console.log('[TaxiProDebug] calling Pi.authenticate…');
   return window.Pi!.authenticate(['username', 'payments'], onIncompletePaymentFound);
 }
 
