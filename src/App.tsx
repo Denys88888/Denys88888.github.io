@@ -18,6 +18,7 @@ import { ProfileScreen } from './screens/ProfileScreen';
 import { DriverRegistrationScreen } from './screens/DriverRegistrationScreen';
 import { EarningsScreen } from './screens/EarningsScreen';
 import { AdminDashboardScreen } from './screens/AdminDashboardScreen';
+import { OnboardingScreen, hasSeenOnboarding } from './screens/OnboardingScreen';
 import type { ScreenName } from './store/useRouter';
 
 const SCREENS: Record<ScreenName, () => JSX.Element | null> = {
@@ -63,6 +64,7 @@ function Shell() {
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(!hasSeenOnboarding());
 
   useEffect(() => {
     const timer = setTimeout(() => setShowSplash(false), 2000);
@@ -75,7 +77,13 @@ export default function App() {
         <RideProvider>
           <ErrorBoundary>
             <div className="mx-auto h-full max-w-md">
-              {showSplash ? <SplashScreen /> : <Shell />}
+              {showSplash ? (
+                <SplashScreen />
+              ) : showOnboarding ? (
+                <OnboardingScreen onDone={() => setShowOnboarding(false)} />
+              ) : (
+                <Shell />
+              )}
               <ToastContainer />
             </div>
           </ErrorBoundary>

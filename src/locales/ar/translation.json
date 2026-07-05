@@ -280,5 +280,16 @@
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
     "driverRejected": "Your driver application was rejected."
+  },
+  "onboarding": {
+    "slide1Title": "احجز رحلات بـ Pi",
+    "slide1Body": "اطلب رحلة في ثوانٍ. سيصل سائقك مباشرةً إلى موقعك.",
+    "slide2Title": "ادفع بشبكة Pi",
+    "slide2Body": "جميع المدفوعات آمنة بعملة Pi المشفرة. لا حاجة للنقد.",
+    "slide3Title": "آمن وشفاف",
+    "slide3Body": "يتم تتبع كل رحلة في الوقت الفعلي. قيّم سائقك وشارك مسارك.",
+    "next": "التالي",
+    "skip": "تخطي",
+    "start": "ابدأ"
   }
 }

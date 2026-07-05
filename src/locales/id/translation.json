@@ -280,5 +280,16 @@
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
     "driverRejected": "Your driver application was rejected."
+  },
+  "onboarding": {
+    "slide1Title": "Pesan perjalanan dengan Pi",
+    "slide1Body": "Minta perjalanan dalam hitungan detik. Pengemudi langsung ke lokasi Anda.",
+    "slide2Title": "Bayar dengan Pi Network",
+    "slide2Body": "Semua pembayaran dilakukan dengan aman menggunakan Pi. Tidak perlu uang tunai.",
+    "slide3Title": "Aman dan transparan",
+    "slide3Body": "Setiap perjalanan dilacak secara real-time. Beri nilai pengemudi dan bagikan rute.",
+    "next": "Berikutnya",
+    "skip": "Lewati",
+    "start": "Mulai"
   }
 }

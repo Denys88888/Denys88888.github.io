@@ -280,5 +280,16 @@
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
     "driverRejected": "Your driver application was rejected."
+  },
+  "onboarding": {
+    "slide1Title": "Fahrten mit Pi buchen",
+    "slide1Body": "Bestelle eine Fahrt in Sekunden. Dein Fahrer kommt direkt zu dir.",
+    "slide2Title": "Mit Pi Network bezahlen",
+    "slide2Body": "Alle Zahlungen erfolgen sicher mit Pi-Kryptowährung. Kein Bargeld nötig.",
+    "slide3Title": "Sicher und transparent",
+    "slide3Body": "Jede Fahrt wird in Echtzeit verfolgt. Bewerte deinen Fahrer und teile deine Route.",
+    "next": "Weiter",
+    "skip": "Überspringen",
+    "start": "Loslegen"
   }
 }

@@ -280,5 +280,16 @@
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
     "driverRejected": "Your driver application was rejected."
+  },
+  "onboarding": {
+    "slide1Title": "Đặt chuyến với Pi",
+    "slide1Body": "Yêu cầu chuyến đi trong vài giây. Tài xế đến thẳng vị trí của bạn.",
+    "slide2Title": "Thanh toán bằng Pi Network",
+    "slide2Body": "Tất cả thanh toán được thực hiện an toàn bằng Pi. Không cần tiền mặt.",
+    "slide3Title": "An toàn và minh bạch",
+    "slide3Body": "Mỗi chuyến đi được theo dõi theo thời gian thực. Đánh giá tài xế và chia sẻ tuyến đường.",
+    "next": "Tiếp theo",
+    "skip": "Bỏ qua",
+    "start": "Bắt đầu"
   }
 }

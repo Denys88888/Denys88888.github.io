@@ -280,5 +280,16 @@
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
     "driverRejected": "Your driver application was rejected."
+  },
+  "onboarding": {
+    "slide1Title": "Pi ile yolculuk rezervasyonu",
+    "slide1Body": "Saniyeler içinde yolculuk isteyin. Sürücünüz doğrudan konumunuza gelir.",
+    "slide2Title": "Pi Network ile ödeme yapın",
+    "slide2Body": "Tüm ödemeler Pi kripto para birimi ile güvenli şekilde yapılır. Nakit gerekmez.",
+    "slide3Title": "Güvenli ve şeffaf",
+    "slide3Body": "Her yolculuk gerçek zamanlı takip edilir. Sürücünüzü değerlendirin ve rotanızı paylaşın.",
+    "next": "İleri",
+    "skip": "Atla",
+    "start": "Başlayın"
   }
 }

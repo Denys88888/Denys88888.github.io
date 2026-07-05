@@ -280,5 +280,16 @@
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
     "driverRejected": "Your driver application was rejected."
+  },
+  "onboarding": {
+    "slide1Title": "Boka resor med Pi",
+    "slide1Body": "Beställ en resa på sekunder. Din förare kommer direkt till dig.",
+    "slide2Title": "Betala med Pi Network",
+    "slide2Body": "Alla betalningar görs säkert med Pi. Inget kontanter behövs.",
+    "slide3Title": "Säkert och transparent",
+    "slide3Body": "Varje resa spåras i realtid. Betygsätt din förare och dela din rutt.",
+    "next": "Nästa",
+    "skip": "Hoppa över",
+    "start": "Kom igång"
   }
 }

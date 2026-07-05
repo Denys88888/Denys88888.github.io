@@ -280,5 +280,16 @@
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
     "driverRejected": "Your driver application was rejected."
+  },
+  "onboarding": {
+    "slide1Title": "Pi से राइड बुक करें",
+    "slide1Body": "सेकंडों में राइड का अनुरोध करें। आपका ड्राइवर सीधे आपके पास आएगा।",
+    "slide2Title": "Pi Network से भुगतान करें",
+    "slide2Body": "सभी भुगतान Pi क्रिप्टोकरेंसी से सुरक्षित रूप से होते हैं। नकद की जरूरत नहीं।",
+    "slide3Title": "सुरक्षित और पारदर्शी",
+    "slide3Body": "हर राइड रीयल-टाइम में ट्रैक की जाती है। ड्राइवर को रेट करें और रूट शेयर करें।",
+    "next": "अगला",
+    "skip": "छोड़ें",
+    "start": "शुरू करें"
   }
 }
