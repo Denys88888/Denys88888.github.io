@@ -41,8 +41,11 @@ export function PassengerHomeScreen() {
   const [negotiate, setNegotiate] = useState(false);
   const [offeredFare, setOfferedFare] = useState('');
 
-  // Tap-to-select confirmation.
+  // Tap-to-select confirmation. The tapped point becomes the destination
+  // immediately (so the marker is visible under the dialog); prevDestination
+  // holds whatever was selected before, to restore on cancel.
   const [pendingTap, setPendingTap] = useState<GeoPoint | null>(null);
+  const [prevDestination, setPrevDestination] = useState<GeoPoint | null>(null);
 
   // Prefill pickup from GPS + reverse-geocoded address, and detect country.
   useEffect(() => {
@@ -91,13 +94,28 @@ export function PassengerHomeScreen() {
     (!schedule || !!scheduledAt) &&
     (!negotiate || Number(offeredFare) > 0);
 
-  // Map tap → reverse geocode → "Go here?" confirmation → set destination.
+  // Map tap → red marker appears right away → reverse geocode → "Go here?"
+  // confirmation. Cancel restores the previous destination.
   const onMapTap = (p: GeoPoint) => {
+    setPrevDestination(destination);
     setPendingTap(p);
-    reverseGeocode(p).then((address) => setPendingTap((cur) => (cur ? { ...cur, address } : cur)));
+    setDestination(p);
+    reverseGeocode(p).then((address) => {
+      // Only attach the address if the tapped point is still the active one.
+      const withAddress = (cur: GeoPoint | null) =>
+        cur && cur.lat === p.lat && cur.lng === p.lng ? { ...cur, address } : cur;
+      setPendingTap(withAddress);
+      setDestination(withAddress);
+    });
   };
   const confirmTap = () => {
-    if (pendingTap) setDestination(pendingTap);
+    // Destination is already set from onMapTap; just dismiss the dialog.
+    setPendingTap(null);
+    setPrevDestination(null);
+  };
+  const cancelTap = () => {
+    setDestination(prevDestination);
+    setPrevDestination(null);
     setPendingTap(null);
   };
 
@@ -303,7 +321,7 @@ export function PassengerHomeScreen() {
       <Modal
         open={!!pendingTap}
         title={t('home.goHere')}
-        onClose={() => setPendingTap(null)}
+        onClose={cancelTap}
         onConfirm={confirmTap}
         confirmLabel={t('common.confirm')}
         cancelLabel={t('common.cancel')}
