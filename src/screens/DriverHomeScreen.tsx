@@ -43,6 +43,27 @@ export function DriverHomeScreen() {
     return () => clearInterval(id);
   }, [online]);
 
+  // Backfill open requests while online: rides created before this driver
+  // connected never got a live 'ride_available' event, so poll /rides/open
+  // (every 15 s) and merge into the queue.
+  useEffect(() => {
+    if (!online) return;
+    const load = () =>
+      api
+        .listOpenRides()
+        .then((open) =>
+          setRequests((prev) => {
+            const seen = new Set(prev.map((r) => r.id));
+            const fresh = open.filter((r) => !seen.has(r.id));
+            return fresh.length ? [...prev, ...fresh] : prev;
+          })
+        )
+        .catch(() => {});
+    load();
+    const id = setInterval(load, 15 * 1000);
+    return () => clearInterval(id);
+  }, [online]);
+
   // An in-progress ride (page reload, back navigation) → offer the Navigation
   // shortcut back into the ride screen.
   useEffect(() => {

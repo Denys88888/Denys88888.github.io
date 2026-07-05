@@ -105,6 +105,10 @@ export const api = {
     client.post<{ shareToken: string }>(`/api/rides/${id}/share`).then((r) => r.data),
   getSurge: (point?: { lat: number; lng: number }) =>
     client.get<SurgeInfo>('/api/rides/surge', { params: point }).then((r) => r.data),
+  // Open 'searching' rides for a driver coming online (backfills requests
+  // created before the WS connection existed).
+  listOpenRides: () =>
+    client.get<{ rides: Ride[] }>('/api/rides/open').then((r) => r.data.rides),
   getHeatmap: () =>
     client
       .get<{ points: HeatmapPoint[] }>('/api/rides/heatmap')
