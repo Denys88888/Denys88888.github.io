@@ -11,7 +11,7 @@ import { useToast } from '../hooks/useToast';
 import { useAppStore } from '../store/useAppStore';
 import { useRouter } from '../store/useRouter';
 import { api } from '../services/api';
-import { reverseGeocode, countryCodeAt } from '../services/mapService';
+import { reverseGeocode, countryCodeAt, fetchRoute } from '../services/mapService';
 import { formatPi, formatDistance, formatDuration } from '../utils/formatters';
 import { isValidCoord } from '../utils/validators';
 import { cn, routeDistanceKm } from '../utils/helpers';
@@ -57,11 +57,31 @@ export function PassengerHomeScreen() {
 
   const center = pickup ?? position ?? DEFAULT_CENTER;
 
-  const distanceKm = useMemo(() => {
+  const straightKm = useMemo(() => {
     if (!pickup || !destination) return 0;
     return routeDistanceKm([pickup, ...stops, destination]);
   }, [pickup, destination, stops]);
-  const durationMin = Math.max(1, Math.round((distanceKm / 30) * 60));
+
+  // Real road distance/duration from OSRM (shared cache with the map's route
+  // line); the straight-line numbers only bridge the gap while it loads.
+  const [road, setRoad] = useState<{ distanceKm: number; durationMin: number } | null>(null);
+  useEffect(() => {
+    let stale = false;
+    setRoad(null);
+    if (pickup && destination) {
+      fetchRoute([pickup, ...stops, destination]).then((r) => {
+        if (!stale && r) setRoad({ distanceKm: r.distanceKm, durationMin: r.durationMin });
+      });
+    }
+    return () => {
+      stale = true;
+    };
+  }, [pickup, destination, stops]);
+
+  const distanceKm = road?.distanceKm ?? straightKm;
+  const durationMin = road
+    ? Math.max(1, Math.round(road.durationMin))
+    : Math.max(1, Math.round((distanceKm / 30) * 60));
   const fareEstimate = distanceKm * (vehicle === 'business' ? 1.4 : 1) + 1.5;
 
   const canOrder =
