@@ -33,6 +33,8 @@ export function DriverRegistrationScreen() {
     color: '',
     number: '',
     vehicleType: 'economy' as VehicleType,
+    vehiclePhoto: '',
+    licensePhoto: '',
   });
 
   const set = (k: keyof typeof form, v: string) => setForm((f) => ({ ...f, [k]: v }));
@@ -48,6 +50,26 @@ export function DriverRegistrationScreen() {
     }
   };
 
+  const uploadVehiclePhoto = async (file: File): Promise<void> => {
+    try {
+      const dataUrl = await fileToAvatarDataUrl(file, 512);
+      setForm((f) => ({ ...f, vehiclePhoto: dataUrl }));
+      addToast('success', t('register.vehiclePhotoSaved'));
+    } catch {
+      addToast('error', t('common.error'));
+    }
+  };
+
+  const uploadLicensePhoto = async (file: File): Promise<void> => {
+    try {
+      const dataUrl = await fileToAvatarDataUrl(file, 512);
+      setForm((f) => ({ ...f, licensePhoto: dataUrl }));
+      addToast('success', t('register.licensePhotoSaved'));
+    } catch {
+      addToast('error', t('common.error'));
+    }
+  };
+
   // A profile photo is required before a driver can be verified.
   const canNext =
     step === 0
@@ -55,7 +77,7 @@ export function DriverRegistrationScreen() {
       : step === 1
         ? isNonEmpty(form.brand) && isNonEmpty(form.model) && isValidPlate(form.number)
         : step === 2
-          ? !!user?.avatar
+          ? !!user?.avatar && !!form.vehiclePhoto && !!form.licensePhoto
           : true;
 
   const submit = async (): Promise<void> => {
@@ -69,6 +91,8 @@ export function DriverRegistrationScreen() {
         model: form.model,
         color: form.color || 'N/A',
         number: form.number,
+        vehiclePhoto: form.vehiclePhoto,
+        licensePhoto: form.licensePhoto,
       });
       setSubmitted(true);
     } catch {
@@ -134,14 +158,48 @@ export function DriverRegistrationScreen() {
               </label>
               {!user?.avatar && <span className="text-xs text-danger">*</span>}
             </div>
-            <label className="flex h-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-card border-2 border-dashed border-black/15 dark:border-white/15 text-sm opacity-70">
-              <Camera size={20} /> {t('register.vehiclePhoto')}
-              <input type="file" accept="image/*" className="hidden" />
-            </label>
-            <label className="flex h-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-card border-2 border-dashed border-black/15 dark:border-white/15 text-sm opacity-70">
-              <CreditCard size={20} /> {t('register.licensePhoto')}
-              <input type="file" accept="image/*" className="hidden" />
-            </label>
+
+            {/* Vehicle photo */}
+            <div className="space-y-2">
+              <label className="flex h-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-card border-2 border-dashed border-black/15 dark:border-white/15 text-sm opacity-70 hover:border-primary hover:opacity-100">
+                {form.vehiclePhoto ? (
+                  <img src={form.vehiclePhoto} alt="Vehicle" className="h-20 w-full object-contain" />
+                ) : (
+                  <>
+                    <Camera size={20} /> {t('register.vehiclePhoto')}
+                  </>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => e.target.files?.[0] && uploadVehiclePhoto(e.target.files[0])}
+                />
+              </label>
+              {form.vehiclePhoto && <p className="text-xs text-success">{t('register.vehiclePhotoSaved')}</p>}
+              {!form.vehiclePhoto && <span className="text-xs text-danger">*</span>}
+            </div>
+
+            {/* License photo */}
+            <div className="space-y-2">
+              <label className="flex h-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-card border-2 border-dashed border-black/15 dark:border-white/15 text-sm opacity-70 hover:border-primary hover:opacity-100">
+                {form.licensePhoto ? (
+                  <img src={form.licensePhoto} alt="License" className="h-20 w-full object-contain" />
+                ) : (
+                  <>
+                    <CreditCard size={20} /> {t('register.licensePhoto')}
+                  </>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => e.target.files?.[0] && uploadLicensePhoto(e.target.files[0])}
+                />
+              </label>
+              {form.licensePhoto && <p className="text-xs text-success">{t('register.licensePhotoSaved')}</p>}
+              {!form.licensePhoto && <span className="text-xs text-danger">*</span>}
+            </div>
           </Card>
         )}
         {step === 3 && (
@@ -150,6 +208,18 @@ export function DriverRegistrationScreen() {
             <p><b>{t('register.phone')}:</b> {form.phone}</p>
             <p><b>{t('register.brand')}:</b> {form.brand} {form.model}</p>
             <p><b>{t('register.plate')}:</b> {form.number}</p>
+            {form.vehiclePhoto && (
+              <div>
+                <p className="opacity-60">{t('register.vehiclePhoto')}:</p>
+                <img src={form.vehiclePhoto} alt="Vehicle" className="mt-1 h-24 rounded-lg object-contain" />
+              </div>
+            )}
+            {form.licensePhoto && (
+              <div>
+                <p className="opacity-60">{t('register.licensePhoto')}:</p>
+                <img src={form.licensePhoto} alt="License" className="mt-1 h-24 rounded-lg object-contain" />
+              </div>
+            )}
           </Card>
         )}
       </div>
