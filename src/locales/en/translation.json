@@ -163,7 +163,9 @@
     "upload": "Upload",
     "submit": "Submit application",
     "pending": "Pending admin approval",
-    "pendingDesc": "We'll notify you once your documents are verified."
+    "pendingDesc": "We'll notify you once your documents are verified.",
+    "vehiclePhotoSaved": "Vehicle photo saved",
+    "licensePhotoSaved": "License photo saved"
   },
   "profile": {
     "title": "Profile",
