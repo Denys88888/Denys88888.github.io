@@ -163,7 +163,9 @@
     "upload": "Prześlij",
     "submit": "Wyślij wniosek",
     "pending": "Oczekuje na akceptację",
-    "pendingDesc": "Powiadomimy Cię po weryfikacji dokumentów."
+    "pendingDesc": "Powiadomimy Cię po weryfikacji dokumentów.",
+    "vehiclePhotoSaved": "Zdjęcie pojazdu zapisane",
+    "licensePhotoSaved": "Zdjęcie prawa jazdy zapisane"
   },
   "profile": {
     "title": "Profil",
