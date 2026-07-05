@@ -277,6 +277,8 @@
   "notify": {
     "newRide": "New ride request: {{fare}}",
     "newMessage": "New message: {{text}}",
-    "tip": "You received a tip: {{amount}}"
+    "tip": "You received a tip: {{amount}}",
+    "driverApproved": "Your driver application was approved! You can go online now.",
+    "driverRejected": "Your driver application was rejected."
   }
 }

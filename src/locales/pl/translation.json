@@ -277,6 +277,8 @@
   "notify": {
     "newRide": "Nowe zlecenie: {{fare}}",
     "newMessage": "Nowa wiadomość: {{text}}",
-    "tip": "Otrzymałeś napiwek: {{amount}}"
+    "tip": "Otrzymałeś napiwek: {{amount}}",
+    "driverApproved": "Twoja aplikacja kierowcy została zatwierdzona! Możesz wyjechać na trasę.",
+    "driverRejected": "Twoja aplikacja kierowcy została odrzucona."
   }
 }

@@ -1,5 +1,6 @@
 import i18n from '../i18n';
 import { wsService } from './wsService';
+import { api } from './api';
 import { useAppStore } from '../store/useAppStore';
 import { useRouter } from '../store/useRouter';
 import { formatPi } from '../utils/formatters';
@@ -78,10 +79,25 @@ export function initNotifications(): void {
   });
 
   // Tips land asynchronously after the ride — tell the driver.
+  // Driver application verdicts arrive on the same channel: refresh the profile
+  // from the server so the role flips to 'driver' (and the driver home screen
+  // appears) without a re-login.
   wsService.on('ride_status_update', (msg) => {
     if (msg.status === 'tip_received') {
       const data = msg.data as { tipAmount?: number } | undefined;
       notify(i18n.t('notify.tip', { amount: formatPi(data?.tipAmount ?? 0) }));
+      return;
+    }
+    if (msg.status === 'driver_approved' || msg.status === 'driver_rejected') {
+      notify(
+        i18n.t(msg.status === 'driver_approved' ? 'notify.driverApproved' : 'notify.driverRejected')
+      );
+      api
+        .getMe()
+        .then((me) => useAppStore.getState().updateUser(me))
+        .catch(() => {
+          /* next login will pick the new role up anyway */
+        });
     }
   });
 }
