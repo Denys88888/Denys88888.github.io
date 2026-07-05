@@ -201,7 +201,9 @@
     "upload": "अपलोड",
     "submit": "आवेदन भेजें",
     "pending": "एडमिन स्वीकृति लंबित",
-    "pendingDesc": "दस्तावेज़ सत्यापित होने पर हम आपको सूचित करेंगे।"
+    "pendingDesc": "दस्तावेज़ सत्यापित होने पर हम आपको सूचित करेंगे।",
+    "vehiclePhotoSaved": "Vehicle photo saved",
+    "licensePhotoSaved": "License photo saved"
   },
   "profile": {
     "title": "प्रोफ़ाइल",
@@ -221,7 +223,9 @@
     "uploadAvatar": "फ़ोटो बदलें",
     "adminPanel": "एडमिन पैनल",
     "call": "कॉल",
-    "saved": "सहेजा गया"
+    "saved": "सहेजा गया",
+    "notificationsOn": "Enabled",
+    "notificationsEnable": "Enable"
   },
   "history": {
     "title": "यात्रा इतिहास",
@@ -269,5 +273,10 @@
     "minFare": "Minimum fare",
     "perKmRate": "Rate per km (economy)",
     "surgeToggle": "Dynamic pricing (surge)"
+  },
+  "notify": {
+    "newRide": "New ride request: {{fare}}",
+    "newMessage": "New message: {{text}}",
+    "tip": "You received a tip: {{amount}}"
   }
 }

@@ -201,7 +201,9 @@
     "upload": "Ladda upp",
     "submit": "Skicka ansökan",
     "pending": "Väntar på godkännande",
-    "pendingDesc": "Vi meddelar dig när dina dokument har verifierats."
+    "pendingDesc": "Vi meddelar dig när dina dokument har verifierats.",
+    "vehiclePhotoSaved": "Vehicle photo saved",
+    "licensePhotoSaved": "License photo saved"
   },
   "profile": {
     "title": "Profil",
@@ -221,7 +223,9 @@
     "uploadAvatar": "Byt foto",
     "adminPanel": "Adminpanel",
     "call": "Ring",
-    "saved": "Sparad"
+    "saved": "Sparad",
+    "notificationsOn": "Enabled",
+    "notificationsEnable": "Enable"
   },
   "history": {
     "title": "Reshistorik",
@@ -269,5 +273,10 @@
     "minFare": "Minimum fare",
     "perKmRate": "Rate per km (economy)",
     "surgeToggle": "Dynamic pricing (surge)"
+  },
+  "notify": {
+    "newRide": "New ride request: {{fare}}",
+    "newMessage": "New message: {{text}}",
+    "tip": "You received a tip: {{amount}}"
   }
 }

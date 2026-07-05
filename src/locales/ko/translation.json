@@ -201,7 +201,9 @@
     "upload": "업로드",
     "submit": "신청 제출",
     "pending": "관리자 승인 대기 중",
-    "pendingDesc": "서류가 확인되면 알려드리겠습니다."
+    "pendingDesc": "서류가 확인되면 알려드리겠습니다.",
+    "vehiclePhotoSaved": "Vehicle photo saved",
+    "licensePhotoSaved": "License photo saved"
   },
   "profile": {
     "title": "프로필",
@@ -221,7 +223,9 @@
     "uploadAvatar": "사진 변경",
     "adminPanel": "관리자 패널",
     "call": "전화",
-    "saved": "저장됨"
+    "saved": "저장됨",
+    "notificationsOn": "Enabled",
+    "notificationsEnable": "Enable"
   },
   "history": {
     "title": "운행 기록",
@@ -269,5 +273,10 @@
     "minFare": "Minimum fare",
     "perKmRate": "Rate per km (economy)",
     "surgeToggle": "Dynamic pricing (surge)"
+  },
+  "notify": {
+    "newRide": "New ride request: {{fare}}",
+    "newMessage": "New message: {{text}}",
+    "tip": "You received a tip: {{amount}}"
   }
 }

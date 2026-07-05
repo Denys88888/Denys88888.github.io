@@ -201,7 +201,9 @@
     "upload": "Yükle",
     "submit": "Başvuruyu gönder",
     "pending": "Onay bekliyor",
-    "pendingDesc": "Belgeleriniz doğrulanınca sizi bilgilendireceğiz."
+    "pendingDesc": "Belgeleriniz doğrulanınca sizi bilgilendireceğiz.",
+    "vehiclePhotoSaved": "Vehicle photo saved",
+    "licensePhotoSaved": "License photo saved"
   },
   "profile": {
     "title": "Profil",
@@ -221,7 +223,9 @@
     "uploadAvatar": "Fotoğrafı değiştir",
     "adminPanel": "Yönetici paneli",
     "call": "Ara",
-    "saved": "Kaydedildi"
+    "saved": "Kaydedildi",
+    "notificationsOn": "Enabled",
+    "notificationsEnable": "Enable"
   },
   "history": {
     "title": "Yolculuk geçmişi",
@@ -269,5 +273,10 @@
     "minFare": "Minimum fare",
     "perKmRate": "Rate per km (economy)",
     "surgeToggle": "Dynamic pricing (surge)"
+  },
+  "notify": {
+    "newRide": "New ride request: {{fare}}",
+    "newMessage": "New message: {{text}}",
+    "tip": "You received a tip: {{amount}}"
   }
 }

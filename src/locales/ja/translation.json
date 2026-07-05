@@ -201,7 +201,9 @@
     "upload": "アップロード",
     "submit": "申請を送信",
     "pending": "管理者の承認待ち",
-    "pendingDesc": "書類の確認が完了しましたらお知らせします。"
+    "pendingDesc": "書類の確認が完了しましたらお知らせします。",
+    "vehiclePhotoSaved": "Vehicle photo saved",
+    "licensePhotoSaved": "License photo saved"
   },
   "profile": {
     "title": "プロフィール",
@@ -221,7 +223,9 @@
     "uploadAvatar": "写真を変更",
     "adminPanel": "管理パネル",
     "call": "電話",
-    "saved": "保存しました"
+    "saved": "保存しました",
+    "notificationsOn": "Enabled",
+    "notificationsEnable": "Enable"
   },
   "history": {
     "title": "乗車履歴",
@@ -269,5 +273,10 @@
     "minFare": "Minimum fare",
     "perKmRate": "Rate per km (economy)",
     "surgeToggle": "Dynamic pricing (surge)"
+  },
+  "notify": {
+    "newRide": "New ride request: {{fare}}",
+    "newMessage": "New message: {{text}}",
+    "tip": "You received a tip: {{amount}}"
   }
 }

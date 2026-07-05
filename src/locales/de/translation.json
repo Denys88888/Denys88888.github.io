@@ -201,7 +201,9 @@
     "upload": "Hochladen",
     "submit": "Antrag senden",
     "pending": "Warten auf Freigabe",
-    "pendingDesc": "Wir benachrichtigen dich, sobald deine Dokumente geprüft sind."
+    "pendingDesc": "Wir benachrichtigen dich, sobald deine Dokumente geprüft sind.",
+    "vehiclePhotoSaved": "Vehicle photo saved",
+    "licensePhotoSaved": "License photo saved"
   },
   "profile": {
     "title": "Profil",
@@ -221,7 +223,9 @@
     "uploadAvatar": "Foto ändern",
     "adminPanel": "Admin-Bereich",
     "call": "Anrufen",
-    "saved": "Gespeichert"
+    "saved": "Gespeichert",
+    "notificationsOn": "Enabled",
+    "notificationsEnable": "Enable"
   },
   "history": {
     "title": "Fahrtverlauf",
@@ -269,5 +273,10 @@
     "minFare": "Minimum fare",
     "perKmRate": "Rate per km (economy)",
     "surgeToggle": "Dynamic pricing (surge)"
+  },
+  "notify": {
+    "newRide": "New ride request: {{fare}}",
+    "newMessage": "New message: {{text}}",
+    "tip": "You received a tip: {{amount}}"
   }
 }

@@ -201,7 +201,9 @@
     "upload": "Subir",
     "submit": "Enviar solicitud",
     "pending": "Pendiente de aprobación",
-    "pendingDesc": "Te avisaremos cuando se verifiquen tus documentos."
+    "pendingDesc": "Te avisaremos cuando se verifiquen tus documentos.",
+    "vehiclePhotoSaved": "Vehicle photo saved",
+    "licensePhotoSaved": "License photo saved"
   },
   "profile": {
     "title": "Perfil",
@@ -221,7 +223,9 @@
     "uploadAvatar": "Cambiar foto",
     "adminPanel": "Panel de admin",
     "call": "Llamar",
-    "saved": "Guardado"
+    "saved": "Guardado",
+    "notificationsOn": "Enabled",
+    "notificationsEnable": "Enable"
   },
   "history": {
     "title": "Historial de viajes",
@@ -269,5 +273,10 @@
     "minFare": "Minimum fare",
     "perKmRate": "Rate per km (economy)",
     "surgeToggle": "Dynamic pricing (surge)"
+  },
+  "notify": {
+    "newRide": "New ride request: {{fare}}",
+    "newMessage": "New message: {{text}}",
+    "tip": "You received a tip: {{amount}}"
   }
 }

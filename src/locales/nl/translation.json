@@ -201,7 +201,9 @@
     "upload": "Uploaden",
     "submit": "Aanvraag verzenden",
     "pending": "Wacht op goedkeuring",
-    "pendingDesc": "We laten het weten zodra je documenten zijn geverifieerd."
+    "pendingDesc": "We laten het weten zodra je documenten zijn geverifieerd.",
+    "vehiclePhotoSaved": "Vehicle photo saved",
+    "licensePhotoSaved": "License photo saved"
   },
   "profile": {
     "title": "Profiel",
@@ -221,7 +223,9 @@
     "uploadAvatar": "Foto wijzigen",
     "adminPanel": "Beheerderspaneel",
     "call": "Bellen",
-    "saved": "Opgeslagen"
+    "saved": "Opgeslagen",
+    "notificationsOn": "Enabled",
+    "notificationsEnable": "Enable"
   },
   "history": {
     "title": "Ritgeschiedenis",
@@ -269,5 +273,10 @@
     "minFare": "Minimum fare",
     "perKmRate": "Rate per km (economy)",
     "surgeToggle": "Dynamic pricing (surge)"
+  },
+  "notify": {
+    "newRide": "New ride request: {{fare}}",
+    "newMessage": "New message: {{text}}",
+    "tip": "You received a tip: {{amount}}"
   }
 }

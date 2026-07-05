@@ -223,7 +223,9 @@
     "uploadAvatar": "Змінити фото",
     "adminPanel": "Панель адміна",
     "call": "Подзвонити",
-    "saved": "Збережено"
+    "saved": "Збережено",
+    "notificationsOn": "Увімкнено",
+    "notificationsEnable": "Увімкнути"
   },
   "history": {
     "title": "Історія поїздок",
@@ -271,5 +273,10 @@
     "minFare": "Мінімальна ціна",
     "perKmRate": "Тариф за км (економ)",
     "surgeToggle": "Динамічне ціноутворення (surge)"
+  },
+  "notify": {
+    "newRide": "Нове замовлення: {{fare}}",
+    "newMessage": "Нове повідомлення: {{text}}",
+    "tip": "Вам залишили чайові: {{amount}}"
   }
 }

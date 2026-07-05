@@ -223,7 +223,9 @@
     "uploadAvatar": "Изменить фото",
     "adminPanel": "Панель админа",
     "call": "Позвонить",
-    "saved": "Сохранено"
+    "saved": "Сохранено",
+    "notificationsOn": "Включены",
+    "notificationsEnable": "Включить"
   },
   "history": {
     "title": "История поездок",
@@ -271,5 +273,10 @@
     "minFare": "Минимальная цена",
     "perKmRate": "Тариф за км (эконом)",
     "surgeToggle": "Динамическое ценообразование (surge)"
+  },
+  "notify": {
+    "newRide": "Новый заказ: {{fare}}",
+    "newMessage": "Новое сообщение: {{text}}",
+    "tip": "Вам оставили чаевые: {{amount}}"
   }
 }

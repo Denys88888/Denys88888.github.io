@@ -201,7 +201,9 @@
     "upload": "Carica",
     "submit": "Invia richiesta",
     "pending": "In attesa di approvazione",
-    "pendingDesc": "Ti avviseremo dopo la verifica dei documenti."
+    "pendingDesc": "Ti avviseremo dopo la verifica dei documenti.",
+    "vehiclePhotoSaved": "Vehicle photo saved",
+    "licensePhotoSaved": "License photo saved"
   },
   "profile": {
     "title": "Profilo",
@@ -221,7 +223,9 @@
     "uploadAvatar": "Cambia foto",
     "adminPanel": "Pannello admin",
     "call": "Chiama",
-    "saved": "Salvato"
+    "saved": "Salvato",
+    "notificationsOn": "Enabled",
+    "notificationsEnable": "Enable"
   },
   "history": {
     "title": "Cronologia corse",
@@ -269,5 +273,10 @@
     "minFare": "Minimum fare",
     "perKmRate": "Rate per km (economy)",
     "surgeToggle": "Dynamic pricing (surge)"
+  },
+  "notify": {
+    "newRide": "New ride request: {{fare}}",
+    "newMessage": "New message: {{text}}",
+    "tip": "You received a tip: {{amount}}"
   }
 }

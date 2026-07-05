@@ -223,7 +223,9 @@
     "uploadAvatar": "Change photo",
     "adminPanel": "Admin panel",
     "call": "Call",
-    "saved": "Saved"
+    "saved": "Saved",
+    "notificationsOn": "Enabled",
+    "notificationsEnable": "Enable"
   },
   "history": {
     "title": "Ride history",
@@ -271,5 +273,10 @@
     "minFare": "Minimum fare",
     "perKmRate": "Rate per km (economy)",
     "surgeToggle": "Dynamic pricing (surge)"
+  },
+  "notify": {
+    "newRide": "New ride request: {{fare}}",
+    "newMessage": "New message: {{text}}",
+    "tip": "You received a tip: {{amount}}"
   }
 }

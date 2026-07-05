@@ -3,6 +3,7 @@ import { useAppStore } from '../store/useAppStore';
 import { api } from '../services/api';
 import { wsService } from '../services/wsService';
 import { authenticateWithPi, initPi } from '../services/piSdk';
+import { initNotifications } from '../services/notificationService';
 
 interface AuthCtx {
   login: () => Promise<void>;
@@ -31,8 +32,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Connect / disconnect the WebSocket as the token changes.
   useEffect(() => {
-    if (token) wsService.connect(token);
-    else wsService.disconnect();
+    if (token) {
+      wsService.connect(token);
+      initNotifications();
+    } else {
+      wsService.disconnect();
+    }
   }, [token]);
 
   // The server closes the socket with 1008 when the JWT is rejected (expired /

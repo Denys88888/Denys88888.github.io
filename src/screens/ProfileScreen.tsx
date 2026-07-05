@@ -15,6 +15,11 @@ import { useToast } from '../hooks/useToast';
 import { api } from '../services/api';
 import { fileToAvatarDataUrl } from '../utils/image';
 import { maskPhone } from '../utils/formatters';
+import {
+  systemNotificationsSupported,
+  systemNotificationsEnabled,
+  requestNotificationPermission,
+} from '../services/notificationService';
 
 // Profile + settings: identity, avatar upload, phone, language, theme,
 // admin access, driver onboarding, logout.
@@ -29,6 +34,7 @@ export function ProfileScreen() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [phone, setPhone] = useState(user?.phone ?? '');
   const [savingPhone, setSavingPhone] = useState(false);
+  const [notifGranted, setNotifGranted] = useState(systemNotificationsEnabled());
 
   if (!user) return null;
 
@@ -114,6 +120,25 @@ export function ProfileScreen() {
             <span className="font-medium">{t('profile.theme')}</span>
             <ThemeToggle />
           </div>
+          {/* System notifications: only offered where the runtime supports the
+              Notification API (installed PWA / desktop). In the Pi Browser the
+              row is hidden and WS toasts cover notifications in-app. */}
+          {systemNotificationsSupported() && (
+            <div className="flex items-center justify-between">
+              <span className="font-medium">{t('profile.notifications')}</span>
+              {notifGranted ? (
+                <Badge tone="success">{t('profile.notificationsOn')}</Badge>
+              ) : (
+                <Button
+                  variant="outline"
+                  className="px-4 py-1.5"
+                  onClick={async () => setNotifGranted(await requestNotificationPermission())}
+                >
+                  {t('profile.notificationsEnable')}
+                </Button>
+              )}
+            </div>
+          )}
         </Card>
 
         {user.role === 'admin' && (

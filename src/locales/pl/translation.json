@@ -223,7 +223,9 @@
     "uploadAvatar": "Zmień zdjęcie",
     "adminPanel": "Panel admina",
     "call": "Zadzwoń",
-    "saved": "Zapisano"
+    "saved": "Zapisano",
+    "notificationsOn": "Włączone",
+    "notificationsEnable": "Włącz"
   },
   "history": {
     "title": "Historia przejazdów",
@@ -271,5 +273,10 @@
     "minFare": "Cena minimalna",
     "perKmRate": "Stawka za km (ekonomiczna)",
     "surgeToggle": "Ceny dynamiczne (surge)"
+  },
+  "notify": {
+    "newRide": "Nowe zlecenie: {{fare}}",
+    "newMessage": "Nowa wiadomość: {{text}}",
+    "tip": "Otrzymałeś napiwek: {{amount}}"
   }
 }
