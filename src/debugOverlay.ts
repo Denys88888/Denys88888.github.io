@@ -61,6 +61,8 @@ function append(kind: string, args: unknown[]): void {
   if (kind !== 'log') line.style.color = '#FF6B6B';
   el.appendChild(line);
   while (el.childNodes.length > MAX_LINES) el.removeChild(el.firstChild!);
+  // overflow is hidden, so keep the newest line pinned into view.
+  el.scrollTop = el.scrollHeight;
 }
 
 for (const kind of ['log', 'warn', 'error'] as const) {
