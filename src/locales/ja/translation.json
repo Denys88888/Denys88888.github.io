@@ -280,5 +280,16 @@
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
     "driverRejected": "Your driver application was rejected."
+  },
+  "onboarding": {
+    "slide1Title": "Piで乗車予約",
+    "slide1Body": "数秒で乗車をリクエスト。ドライバーが現在地まで来ます。",
+    "slide2Title": "Pi Networkで支払い",
+    "slide2Body": "すべての支払いはPi暗号通貨で安全に行われます。現金不要。",
+    "slide3Title": "安全で透明",
+    "slide3Body": "すべての乗車はリアルタイムで追跡されます。ドライバーを評価してルートを共有。",
+    "next": "次へ",
+    "skip": "スキップ",
+    "start": "始める"
   }
 }

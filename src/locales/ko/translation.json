@@ -280,5 +280,16 @@
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
     "driverRejected": "Your driver application was rejected."
+  },
+  "onboarding": {
+    "slide1Title": "Pi로 라이드 예약",
+    "slide1Body": "몇 초 만에 라이드를 요청하세요. 드라이버가 바로 찾아옵니다.",
+    "slide2Title": "Pi Network으로 결제",
+    "slide2Body": "모든 결제는 Pi 암호화폐로 안전하게 이루어집니다. 현금 불필요.",
+    "slide3Title": "안전하고 투명하게",
+    "slide3Body": "모든 라이드는 실시간으로 추적됩니다. 드라이버를 평가하고 경로를 공유하세요.",
+    "next": "다음",
+    "skip": "건너뛰기",
+    "start": "시작하기"
   }
 }

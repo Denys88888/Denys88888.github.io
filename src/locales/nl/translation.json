@@ -280,5 +280,16 @@
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
     "driverRejected": "Your driver application was rejected."
+  },
+  "onboarding": {
+    "slide1Title": "Boek ritten met Pi",
+    "slide1Body": "Vraag een rit aan in seconden. Je chauffeur komt direct naar je locatie.",
+    "slide2Title": "Betaal met Pi Network",
+    "slide2Body": "Alle betalingen worden veilig gedaan met Pi. Geen contant geld nodig.",
+    "slide3Title": "Veilig en transparant",
+    "slide3Body": "Elke rit wordt realtime gevolgd. Beoordeel je chauffeur en deel je route.",
+    "next": "Volgende",
+    "skip": "Overslaan",
+    "start": "Begin"
   }
 }

@@ -280,5 +280,16 @@
     "tip": "Otrzymałeś napiwek: {{amount}}",
     "driverApproved": "Twoja aplikacja kierowcy została zatwierdzona! Możesz wyjechać na trasę.",
     "driverRejected": "Twoja aplikacja kierowcy została odrzucona."
+  },
+  "onboarding": {
+    "slide1Title": "Przejazdy za Pi",
+    "slide1Body": "Zamów przejazd w kilka sekund. Kierowca przyjedzie prosto do Ciebie.",
+    "slide2Title": "Płać kryptowalutą Pi",
+    "slide2Body": "Wszystkie płatności są realizowane bezpiecznie w Pi. Gotówka niepotrzebna.",
+    "slide3Title": "Bezpiecznie i przejrzyście",
+    "slide3Body": "Każdy przejazd jest śledzony na bieżąco. Oceń kierowcę i udostępnij trasę.",
+    "next": "Dalej",
+    "skip": "Pomiń",
+    "start": "Zaczynamy"
   }
 }

@@ -280,5 +280,16 @@
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
     "driverRejected": "Your driver application was rejected."
+  },
+  "onboarding": {
+    "slide1Title": "用Pi预约行程",
+    "slide1Body": "几秒钟内预约行程，司机直接到达您的位置。",
+    "slide2Title": "用Pi Network支付",
+    "slide2Body": "所有支付均通过Pi加密货币安全完成，无需现金。",
+    "slide3Title": "安全透明",
+    "slide3Body": "每次行程实时追踪，为司机评分并分享路线。",
+    "next": "下一步",
+    "skip": "跳过",
+    "start": "开始"
   }
 }

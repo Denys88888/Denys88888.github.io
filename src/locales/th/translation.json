@@ -280,5 +280,16 @@
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
     "driverRejected": "Your driver application was rejected."
+  },
+  "onboarding": {
+    "slide1Title": "จองรถด้วย Pi",
+    "slide1Body": "ขอรถภายในไม่กี่วินาที คนขับจะมาถึงตำแหน่งของคุณโดยตรง",
+    "slide2Title": "ชำระด้วย Pi Network",
+    "slide2Body": "ชำระเงินทุกอย่างอย่างปลอดภัยด้วย Pi ไม่ต้องใช้เงินสด",
+    "slide3Title": "ปลอดภัยและโปร่งใส",
+    "slide3Body": "ทุกการเดินทางถูกติดตามแบบเรียลไทม์ ให้คะแนนคนขับและแชร์เส้นทาง",
+    "next": "ถัดไป",
+    "skip": "ข้าม",
+    "start": "เริ่มต้น"
   }
 }
