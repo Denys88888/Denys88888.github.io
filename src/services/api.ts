@@ -12,6 +12,9 @@ import type {
   DriverSummary,
   ChatMessage,
   HealthInfo,
+  SavedAddress,
+  SurgeInfo,
+  HeatmapPoint,
 } from '../types';
 
 // Render's free tier spins the server down when idle; the first request after
@@ -100,6 +103,22 @@ export const api = {
     client.post<Ride>(`/api/rides/${id}/cancel`, { reason }).then((r) => r.data),
   shareRide: (id: string) =>
     client.post<{ shareToken: string }>(`/api/rides/${id}/share`).then((r) => r.data),
+  getSurge: (point?: { lat: number; lng: number }) =>
+    client.get<SurgeInfo>('/api/rides/surge', { params: point }).then((r) => r.data),
+  getHeatmap: () =>
+    client
+      .get<{ points: HeatmapPoint[] }>('/api/rides/heatmap')
+      .then((r) => r.data.points),
+
+  // ── Saved addresses ──
+  getSavedAddresses: () =>
+    client
+      .get<{ addresses: SavedAddress[] }>('/api/users/me/addresses')
+      .then((r) => r.data.addresses),
+  putSavedAddresses: (addresses: SavedAddress[]) =>
+    client
+      .put<{ addresses: SavedAddress[] }>('/api/users/me/addresses', { addresses })
+      .then((r) => r.data.addresses),
 
   // ── Drivers ──
   registerDriver: (payload: {
@@ -135,14 +154,14 @@ export const api = {
       .then((r) => r.data.messages),
 
   // ── Payments ──
-  createPayment: (rideId: string) =>
+  createPayment: (rideId: string, opts?: { type?: 'ride' | 'tip'; amount?: number }) =>
     client
       .post<{
         paymentId: string;
         amount: number;
         memo: string;
         metadata: Record<string, unknown>;
-      }>('/api/payments', { rideId })
+      }>('/api/payments', { rideId, ...opts })
       .then((r) => r.data),
   approvePayment: (paymentId: string, piPaymentId: string) =>
     client.post(`/api/payments/${paymentId}/approve`, { piPaymentId }).then((r) => r.data),
@@ -169,7 +188,7 @@ export const api = {
     client.patch(`/api/admin/users/${id}`, { isBlocked, blockReason }).then((r) => r.data),
   adminRides: (status?: RideStatus) =>
     client
-      .get<{ rides: Ride[] }>('/api/admin/rides', { params: { status } })
+      .get<{ rides: AdminRide[] }>('/api/admin/rides', { params: { status } })
       .then((r) => r.data.rides),
   adminSettings: () => client.get('/api/admin/settings').then((r) => r.data),
   adminUpdateSettings: (patch: Record<string, unknown>) =>
@@ -178,4 +197,20 @@ export const api = {
     client.get<{ drivers: User[] }>('/api/admin/drivers/pending').then((r) => r.data.drivers),
   adminVerifyDriver: (id: string, approve: boolean) =>
     client.post(`/api/admin/drivers/${id}/verify`, { approve }).then((r) => r.data),
+  adminDrivers: (status?: string) =>
+    client
+      .get<{ drivers: AdminDriver[] }>('/api/admin/drivers', { params: { status } })
+      .then((r) => r.data.drivers),
+  adminAnalytics: () => client.get<AdminAnalytics>('/api/admin/analytics').then((r) => r.data),
 };
+
+export type AdminDriver = User & { applicationStatus: 'pending' | 'approved' | 'rejected' };
+
+export interface AdminAnalytics {
+  ridesByHour: number[];
+  revenueByDay: { date: string; revenue: number; rides: number }[];
+  topDrivers: { uid: string; name: string; rides: number; earnings: number }[];
+  topRoutes: { route: string; count: number }[];
+}
+
+export type AdminRide = Ride & { passengerName?: string; driverName?: string };

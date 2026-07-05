@@ -4,6 +4,12 @@ export type Role = 'passenger' | 'driver' | 'admin';
 export type VehicleType = 'economy' | 'comfort' | 'business' | 'xl';
 export type Theme = 'light' | 'dark' | 'auto';
 
+// Escrow lifecycle of the ride's Pi payment:
+// pending (unpaid) → held (approved/reserved) → completed | refunded.
+export type RidePaymentStatus = 'pending' | 'held' | 'completed' | 'refunded';
+
+export type DriverApplicationStatus = 'pending' | 'approved' | 'rejected';
+
 export type RideStatus =
   | 'scheduled'
   | 'searching'
@@ -42,8 +48,28 @@ export interface GeoPoint {
   address?: string;
 }
 
+// Quick-access saved place ("Home", "Work", "Parents").
+export interface SavedAddress {
+  label: string;
+  lat: number;
+  lng: number;
+  address?: string;
+}
+
+export interface SurgeInfo {
+  multiplier: number;
+  reason: 'normal' | 'peak' | 'weather' | 'night' | 'holiday';
+}
+
+export interface HeatmapPoint {
+  lat: number;
+  lng: number;
+  weight: number;
+}
+
 export interface DriverInfo {
   vehicleType: VehicleType;
+  applicationStatus?: DriverApplicationStatus;
   brand: string;
   model: string;
   color: string;
@@ -68,6 +94,7 @@ export interface User {
   fcmToken?: string;
   preferredLanguage?: string;
   preferredTheme?: Theme;
+  savedAddresses?: SavedAddress[];
   driverInfo?: DriverInfo;
   createdAt: string;
   updatedAt: string;
@@ -84,9 +111,13 @@ export interface Ride {
   distanceKm: number;
   estimatedDurationMin: number;
   fare: number;
+  surgeMultiplier?: number;
   platformFeePercent: number;
   platformFee: number;
   driverEarnings: number;
+  tipAmount?: number;
+  tipTxid?: string;
+  paymentStatus?: RidePaymentStatus;
   status: RideStatus;
   scheduledAt?: string;
   negotiable?: boolean;

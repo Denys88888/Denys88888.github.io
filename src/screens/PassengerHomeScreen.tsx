@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LocateFixed, Circle, X, Calendar, Coins } from 'lucide-react';
+import { LocateFixed, Circle, X, Calendar, Coins, Zap, Home, Briefcase, Users } from 'lucide-react';
 import { MapView } from '../components/map/MapContainer';
 import { AddressSearch } from '../components/map/AddressSearch';
 import { VehicleTypeSelector } from '../components/ride/VehicleTypeSelector';
@@ -12,12 +12,20 @@ import { useAppStore } from '../store/useAppStore';
 import { useRouter } from '../store/useRouter';
 import { api } from '../services/api';
 import { reverseGeocode, countryCodeAt, fetchRoute } from '../services/mapService';
+import { loadSavedAddresses, saveAddress } from '../services/savedAddresses';
 import { formatPi, formatDistance, formatDuration } from '../utils/formatters';
 import { isValidCoord } from '../utils/validators';
 import { cn, routeDistanceKm } from '../utils/helpers';
-import type { GeoPoint, VehicleType } from '../types';
+import type { GeoPoint, VehicleType, SavedAddress, SurgeInfo } from '../types';
 
 const DEFAULT_CENTER: GeoPoint = { lat: 52.2297, lng: 21.0122 }; // Warsaw fallback
+
+// Fixed quick-address slots (one-tap destinations).
+const QUICK_SLOTS = [
+  { label: 'home', icon: Home },
+  { label: 'work', icon: Briefcase },
+  { label: 'parents', icon: Users },
+] as const;
 
 // Passenger home: 60% map + a booking sheet supporting tap-to-select destination,
 // local address search, multi-stop, scheduled rides, and price negotiation.
@@ -40,6 +48,50 @@ export function PassengerHomeScreen() {
   const [scheduledAt, setScheduledAt] = useState('');
   const [negotiate, setNegotiate] = useState(false);
   const [offeredFare, setOfferedFare] = useState('');
+
+  // Dynamic pricing: multiplier shown to the passenger before ordering.
+  const [surge, setSurge] = useState<SurgeInfo | null>(null);
+  useEffect(() => {
+    const point = pickup ?? position ?? undefined;
+    api
+      .getSurge(point ? { lat: point.lat, lng: point.lng } : undefined)
+      .then(setSurge)
+      .catch(() => setSurge(null));
+    // Re-check every 5 minutes — surge is time-of-day dependent.
+    const id = setInterval(() => {
+      api.getSurge(point ? { lat: point.lat, lng: point.lng } : undefined).then(setSurge).catch(() => {});
+    }, 5 * 60 * 1000);
+    return () => clearInterval(id);
+  }, [pickup?.lat, pickup?.lng, position?.lat, position?.lng]);
+
+  // Saved quick addresses (Home / Work / Parents).
+  const [savedAddrs, setSavedAddrs] = useState<SavedAddress[]>([]);
+  useEffect(() => {
+    loadSavedAddresses().then(setSavedAddrs);
+  }, []);
+
+  const quickTap = async (label: string): Promise<void> => {
+    const saved = savedAddrs.find((a) => a.label === label);
+    if (saved) {
+      setDestination({ lat: saved.lat, lng: saved.lng, address: saved.address });
+      return;
+    }
+    if (destination) {
+      const list = await saveAddress({
+        label,
+        lat: destination.lat,
+        lng: destination.lng,
+        address: destination.address,
+      });
+      setSavedAddrs(list);
+      addToast('success', t('home.addressSaved', { label: t(`home.${label}`) }));
+    } else {
+      addToast('info', t('home.addressSaveHint'));
+    }
+  };
+
+  // "My location" button: recenter the map on the GPS position.
+  const [focusNonce, setFocusNonce] = useState(0);
 
   // Tap-to-select confirmation. The tapped point becomes the destination
   // immediately (so the marker is visible under the dialog); prevDestination
@@ -85,7 +137,8 @@ export function PassengerHomeScreen() {
   const durationMin = road
     ? Math.max(1, Math.round(road.durationMin))
     : Math.max(1, Math.round((distanceKm / 30) * 60));
-  const fareEstimate = distanceKm * (vehicle === 'business' ? 1.4 : 1) + 1.5;
+  const surgeX = surge && surge.multiplier > 1 ? surge.multiplier : 1;
+  const fareEstimate = (distanceKm * (vehicle === 'business' ? 1.4 : 1) + 1.5) * surgeX;
 
   const canOrder =
     isValidCoord(pickup) &&
@@ -162,6 +215,9 @@ export function PassengerHomeScreen() {
           pickup={pickup}
           destination={destination}
           stops={stops}
+          me={position}
+          focus={focusNonce > 0 ? position : undefined}
+          focusNonce={focusNonce}
           onMapClick={onMapTap}
           onDestinationDrag={onDestinationDrag}
           className="h-full w-full"
@@ -172,7 +228,10 @@ export function PassengerHomeScreen() {
           </span>
         </div>
         <button
-          onClick={request}
+          onClick={() => {
+            request();
+            setFocusNonce((n) => n + 1);
+          }}
           className="absolute bottom-4 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-fab active:scale-95"
           aria-label={t('home.useMyLocation')}
         >
@@ -226,6 +285,29 @@ export function PassengerHomeScreen() {
             countryCodes={country}
             onSelect={setDestination}
           />
+
+          {/* Saved quick addresses: one tap to set the destination; tapping an
+              empty slot saves the currently selected destination. */}
+          <div className="flex gap-2">
+            {QUICK_SLOTS.map(({ label, icon: Icon }) => {
+              const saved = savedAddrs.find((a) => a.label === label);
+              return (
+                <button
+                  key={label}
+                  onClick={() => quickTap(label)}
+                  className={cn(
+                    'inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl px-2 py-2 text-xs font-medium',
+                    saved
+                      ? 'bg-primary/10 text-primary'
+                      : 'bg-black/5 text-black/50 dark:bg-white/10 dark:text-white/50'
+                  )}
+                  title={saved?.address}
+                >
+                  <Icon size={14} /> {t(`home.${label}`)}
+                </button>
+              );
+            })}
+          </div>
 
           {stops.length < 5 && (
             <button
@@ -298,10 +380,21 @@ export function PassengerHomeScreen() {
             </div>
           )}
 
+          {/* Surge banner: visible whenever dynamic pricing is active. */}
+          {surgeX > 1 && (
+            <div className="flex items-center gap-2 rounded-card bg-warning/15 px-4 py-2.5 text-sm font-medium text-warning">
+              <Zap size={16} className="fill-warning" />
+              {t(`home.surge_${surge!.reason}`, { x: surgeX })}
+            </div>
+          )}
+
           {distanceKm > 0 && !negotiate && (
             <div className="flex items-center justify-between rounded-card bg-black/5 dark:bg-white/5 px-4 py-3">
               <div>
-                <p className="text-xs opacity-60">{t('home.estimatedFare')}</p>
+                <p className="text-xs opacity-60">
+                  {t('home.estimatedFare')}
+                  {surgeX > 1 && <span className="ml-1 font-semibold text-warning">×{surgeX}</span>}
+                </p>
                 <p className="text-xl font-bold">{formatPi(fareEstimate)}</p>
               </div>
               <div className="text-right text-xs opacity-70">

@@ -33,7 +33,19 @@
     "chat": "Trò chuyện",
     "profile": "Hồ sơ",
     "earnings": "Thu nhập",
-    "admin": "Quản trị"
+    "admin": "Quản trị",
+    "depart": "Head out",
+    "arrive": "You have arrived",
+    "left": "Turn left",
+    "right": "Turn right",
+    "slight_left": "Keep left",
+    "slight_right": "Keep right",
+    "straight": "Continue straight",
+    "uturn": "Make a U-turn",
+    "roundabout": "Enter the roundabout",
+    "inDistance": "In {{distance}}: {{instruction}}",
+    "loading": "Building the route…",
+    "unavailable": "Navigation unavailable"
   },
   "home": {
     "from": "Điểm đón",
@@ -59,7 +71,16 @@
     "goHere": "Đến đây?",
     "findOffers": "Tìm đề nghị",
     "scheduleRide": "Đặt lịch chuyến",
-    "tapMapHint": "Chạm vào bản đồ để chọn điểm đến"
+    "tapMapHint": "Chạm vào bản đồ để chọn điểm đến",
+    "home": "Home",
+    "work": "Work",
+    "parents": "Parents",
+    "addressSaved": "{{label}} saved",
+    "addressSaveHint": "Pick a destination first, then tap the chip to save it",
+    "surge_peak": "Peak pricing {{x}}x",
+    "surge_weather": "Bad weather pricing {{x}}x",
+    "surge_night": "Night pricing {{x}}x",
+    "surge_holiday": "Holiday pricing {{x}}x"
   },
   "ride": {
     "statusScheduled": "Đã đặt lịch",
@@ -96,7 +117,16 @@
     "stops": "điểm dừng",
     "report": "Báo cáo sự cố",
     "reportReason": "Mô tả sự cố",
-    "reportSent": "Đã gửi báo cáo"
+    "reportSent": "Đã gửi báo cáo",
+    "tipTitle": "Tip your driver",
+    "tipThanks": "Thank you for the tip!",
+    "tipPaid": "Tip sent: {{amount}}",
+    "tipCustom": "Custom amount",
+    "tipSend": "Send tip",
+    "payment_pending": "Awaiting payment",
+    "payment_held": "Payment held",
+    "payment_completed": "Paid",
+    "payment_refunded": "Refunded"
   },
   "vehicle": {
     "economy": "Tiết kiệm",
@@ -108,7 +138,10 @@
     "title": "Trò chuyện",
     "typeMessage": "Nhập tin nhắn…",
     "send": "Gửi",
-    "empty": "Chưa có tin nhắn"
+    "empty": "Chưa có tin nhắn",
+    "translate": "Translate",
+    "hideTranslation": "Hide translation",
+    "translateFailed": "Translation failed"
   },
   "templates": {
     "0": "Tôi ở đây",
@@ -136,7 +169,8 @@
     "offerYourPrice": "Đưa ra giá",
     "submitOffer": "Gửi",
     "offerSent": "Đã gửi đề nghị",
-    "negotiable": "Thương lượng"
+    "negotiable": "Thương lượng",
+    "navigation": "Navigation"
   },
   "earnings": {
     "title": "Thu nhập",
@@ -144,7 +178,11 @@
     "week": "Tuần",
     "month": "Tháng",
     "totalRides": "Tổng chuyến",
-    "afterFee": "Sau phí"
+    "afterFee": "Sau phí",
+    "forecastToday": "Forecast for today: ~{{amount}}",
+    "forecastHint": "Keep this pace and you will earn about {{amount}}",
+    "tipsTotal": "Tips total",
+    "tip": "tip"
   },
   "register": {
     "title": "Đăng ký tài xế",
@@ -213,6 +251,23 @@
     "reject": "Từ chối",
     "pendingDrivers": "Tài xế chờ duyệt",
     "feeHint": "Từ 0% đến 20%",
-    "searchUsers": "Tìm người dùng"
+    "searchUsers": "Tìm người dùng",
+    "driversTab": "All drivers",
+    "analytics": "Analytics",
+    "filter_all": "All",
+    "filter_active": "Active",
+    "filter_completed": "Completed",
+    "filter_cancelled": "Cancelled",
+    "driver_pending": "Pending",
+    "driver_approved": "Approved",
+    "driver_rejected": "Rejected",
+    "driver_all": "All",
+    "ridesByHour": "Rides by hour (7 days)",
+    "revenueByDay": "Platform revenue by day",
+    "topDrivers": "Top 5 drivers",
+    "topRoutes": "Top 5 routes",
+    "minFare": "Minimum fare",
+    "perKmRate": "Rate per km (economy)",
+    "surgeToggle": "Dynamic pricing (surge)"
   }
 }

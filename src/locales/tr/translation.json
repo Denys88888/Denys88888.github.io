@@ -33,7 +33,19 @@
     "chat": "Sohbet",
     "profile": "Profil",
     "earnings": "Kazanç",
-    "admin": "Yönetici"
+    "admin": "Yönetici",
+    "depart": "Head out",
+    "arrive": "You have arrived",
+    "left": "Turn left",
+    "right": "Turn right",
+    "slight_left": "Keep left",
+    "slight_right": "Keep right",
+    "straight": "Continue straight",
+    "uturn": "Make a U-turn",
+    "roundabout": "Enter the roundabout",
+    "inDistance": "In {{distance}}: {{instruction}}",
+    "loading": "Building the route…",
+    "unavailable": "Navigation unavailable"
   },
   "home": {
     "from": "Nereden",
@@ -59,7 +71,16 @@
     "goHere": "Buraya gidilsin mi?",
     "findOffers": "Teklif bul",
     "scheduleRide": "Yolculuğu planla",
-    "tapMapHint": "Varış için haritaya dokunun"
+    "tapMapHint": "Varış için haritaya dokunun",
+    "home": "Home",
+    "work": "Work",
+    "parents": "Parents",
+    "addressSaved": "{{label}} saved",
+    "addressSaveHint": "Pick a destination first, then tap the chip to save it",
+    "surge_peak": "Peak pricing {{x}}x",
+    "surge_weather": "Bad weather pricing {{x}}x",
+    "surge_night": "Night pricing {{x}}x",
+    "surge_holiday": "Holiday pricing {{x}}x"
   },
   "ride": {
     "statusScheduled": "Planlandı",
@@ -96,7 +117,16 @@
     "stops": "durak",
     "report": "Sorun bildir",
     "reportReason": "Sorunu açıklayın",
-    "reportSent": "Bildirim gönderildi"
+    "reportSent": "Bildirim gönderildi",
+    "tipTitle": "Tip your driver",
+    "tipThanks": "Thank you for the tip!",
+    "tipPaid": "Tip sent: {{amount}}",
+    "tipCustom": "Custom amount",
+    "tipSend": "Send tip",
+    "payment_pending": "Awaiting payment",
+    "payment_held": "Payment held",
+    "payment_completed": "Paid",
+    "payment_refunded": "Refunded"
   },
   "vehicle": {
     "economy": "Ekonomi",
@@ -108,7 +138,10 @@
     "title": "Sohbet",
     "typeMessage": "Bir mesaj yazın…",
     "send": "Gönder",
-    "empty": "Henüz mesaj yok"
+    "empty": "Henüz mesaj yok",
+    "translate": "Translate",
+    "hideTranslation": "Hide translation",
+    "translateFailed": "Translation failed"
   },
   "templates": {
     "0": "Buradayım",
@@ -136,7 +169,8 @@
     "offerYourPrice": "Fiyat teklif et",
     "submitOffer": "Gönder",
     "offerSent": "Teklif gönderildi",
-    "negotiable": "Pazarlık"
+    "negotiable": "Pazarlık",
+    "navigation": "Navigation"
   },
   "earnings": {
     "title": "Kazanç",
@@ -144,7 +178,11 @@
     "week": "Hafta",
     "month": "Ay",
     "totalRides": "Toplam yolculuk",
-    "afterFee": "Ücret sonrası"
+    "afterFee": "Ücret sonrası",
+    "forecastToday": "Forecast for today: ~{{amount}}",
+    "forecastHint": "Keep this pace and you will earn about {{amount}}",
+    "tipsTotal": "Tips total",
+    "tip": "tip"
   },
   "register": {
     "title": "Sürücü kaydı",
@@ -213,6 +251,23 @@
     "reject": "Reddet",
     "pendingDrivers": "Bekleyen sürücüler",
     "feeHint": "%0 ile %20 arası",
-    "searchUsers": "Kullanıcı ara"
+    "searchUsers": "Kullanıcı ara",
+    "driversTab": "All drivers",
+    "analytics": "Analytics",
+    "filter_all": "All",
+    "filter_active": "Active",
+    "filter_completed": "Completed",
+    "filter_cancelled": "Cancelled",
+    "driver_pending": "Pending",
+    "driver_approved": "Approved",
+    "driver_rejected": "Rejected",
+    "driver_all": "All",
+    "ridesByHour": "Rides by hour (7 days)",
+    "revenueByDay": "Platform revenue by day",
+    "topDrivers": "Top 5 drivers",
+    "topRoutes": "Top 5 routes",
+    "minFare": "Minimum fare",
+    "perKmRate": "Rate per km (economy)",
+    "surgeToggle": "Dynamic pricing (surge)"
   }
 }

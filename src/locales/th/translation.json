@@ -33,7 +33,19 @@
     "chat": "แชท",
     "profile": "โปรไฟล์",
     "earnings": "รายได้",
-    "admin": "ผู้ดูแล"
+    "admin": "ผู้ดูแล",
+    "depart": "Head out",
+    "arrive": "You have arrived",
+    "left": "Turn left",
+    "right": "Turn right",
+    "slight_left": "Keep left",
+    "slight_right": "Keep right",
+    "straight": "Continue straight",
+    "uturn": "Make a U-turn",
+    "roundabout": "Enter the roundabout",
+    "inDistance": "In {{distance}}: {{instruction}}",
+    "loading": "Building the route…",
+    "unavailable": "Navigation unavailable"
   },
   "home": {
     "from": "จาก",
@@ -59,7 +71,16 @@
     "goHere": "ไปที่นี่?",
     "findOffers": "ค้นหาข้อเสนอ",
     "scheduleRide": "ตั้งเวลาการเดินทาง",
-    "tapMapHint": "แตะแผนที่เพื่อเลือกปลายทาง"
+    "tapMapHint": "แตะแผนที่เพื่อเลือกปลายทาง",
+    "home": "Home",
+    "work": "Work",
+    "parents": "Parents",
+    "addressSaved": "{{label}} saved",
+    "addressSaveHint": "Pick a destination first, then tap the chip to save it",
+    "surge_peak": "Peak pricing {{x}}x",
+    "surge_weather": "Bad weather pricing {{x}}x",
+    "surge_night": "Night pricing {{x}}x",
+    "surge_holiday": "Holiday pricing {{x}}x"
   },
   "ride": {
     "statusScheduled": "ตั้งเวลาไว้",
@@ -96,7 +117,16 @@
     "stops": "จุดแวะ",
     "report": "รายงานปัญหา",
     "reportReason": "อธิบายปัญหา",
-    "reportSent": "ส่งรายงานแล้ว"
+    "reportSent": "ส่งรายงานแล้ว",
+    "tipTitle": "Tip your driver",
+    "tipThanks": "Thank you for the tip!",
+    "tipPaid": "Tip sent: {{amount}}",
+    "tipCustom": "Custom amount",
+    "tipSend": "Send tip",
+    "payment_pending": "Awaiting payment",
+    "payment_held": "Payment held",
+    "payment_completed": "Paid",
+    "payment_refunded": "Refunded"
   },
   "vehicle": {
     "economy": "ประหยัด",
@@ -108,7 +138,10 @@
     "title": "แชท",
     "typeMessage": "พิมพ์ข้อความ…",
     "send": "ส่ง",
-    "empty": "ยังไม่มีข้อความ"
+    "empty": "ยังไม่มีข้อความ",
+    "translate": "Translate",
+    "hideTranslation": "Hide translation",
+    "translateFailed": "Translation failed"
   },
   "templates": {
     "0": "ฉันมาถึงแล้ว",
@@ -136,7 +169,8 @@
     "offerYourPrice": "เสนอราคาของคุณ",
     "submitOffer": "ส่ง",
     "offerSent": "ส่งข้อเสนอแล้ว",
-    "negotiable": "ต่อรองได้"
+    "negotiable": "ต่อรองได้",
+    "navigation": "Navigation"
   },
   "earnings": {
     "title": "รายได้",
@@ -144,7 +178,11 @@
     "week": "สัปดาห์",
     "month": "เดือน",
     "totalRides": "การเดินทางทั้งหมด",
-    "afterFee": "หลังหักค่าธรรมเนียม"
+    "afterFee": "หลังหักค่าธรรมเนียม",
+    "forecastToday": "Forecast for today: ~{{amount}}",
+    "forecastHint": "Keep this pace and you will earn about {{amount}}",
+    "tipsTotal": "Tips total",
+    "tip": "tip"
   },
   "register": {
     "title": "ลงทะเบียนคนขับ",
@@ -213,6 +251,23 @@
     "reject": "ปฏิเสธ",
     "pendingDrivers": "คนขับที่รออนุมัติ",
     "feeHint": "ระหว่าง 0% ถึง 20%",
-    "searchUsers": "ค้นหาผู้ใช้"
+    "searchUsers": "ค้นหาผู้ใช้",
+    "driversTab": "All drivers",
+    "analytics": "Analytics",
+    "filter_all": "All",
+    "filter_active": "Active",
+    "filter_completed": "Completed",
+    "filter_cancelled": "Cancelled",
+    "driver_pending": "Pending",
+    "driver_approved": "Approved",
+    "driver_rejected": "Rejected",
+    "driver_all": "All",
+    "ridesByHour": "Rides by hour (7 days)",
+    "revenueByDay": "Platform revenue by day",
+    "topDrivers": "Top 5 drivers",
+    "topRoutes": "Top 5 routes",
+    "minFare": "Minimum fare",
+    "perKmRate": "Rate per km (economy)",
+    "surgeToggle": "Dynamic pricing (surge)"
   }
 }

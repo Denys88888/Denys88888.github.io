@@ -33,7 +33,19 @@
     "chat": "Chat",
     "profile": "Perfil",
     "earnings": "Ganhos",
-    "admin": "Admin"
+    "admin": "Admin",
+    "depart": "Head out",
+    "arrive": "You have arrived",
+    "left": "Turn left",
+    "right": "Turn right",
+    "slight_left": "Keep left",
+    "slight_right": "Keep right",
+    "straight": "Continue straight",
+    "uturn": "Make a U-turn",
+    "roundabout": "Enter the roundabout",
+    "inDistance": "In {{distance}}: {{instruction}}",
+    "loading": "Building the route…",
+    "unavailable": "Navigation unavailable"
   },
   "home": {
     "from": "De",
@@ -59,7 +71,16 @@
     "goHere": "Ir para aqui?",
     "findOffers": "Buscar ofertas",
     "scheduleRide": "Agendar viagem",
-    "tapMapHint": "Toque no mapa para escolher o destino"
+    "tapMapHint": "Toque no mapa para escolher o destino",
+    "home": "Home",
+    "work": "Work",
+    "parents": "Parents",
+    "addressSaved": "{{label}} saved",
+    "addressSaveHint": "Pick a destination first, then tap the chip to save it",
+    "surge_peak": "Peak pricing {{x}}x",
+    "surge_weather": "Bad weather pricing {{x}}x",
+    "surge_night": "Night pricing {{x}}x",
+    "surge_holiday": "Holiday pricing {{x}}x"
   },
   "ride": {
     "statusScheduled": "Agendada",
@@ -96,7 +117,16 @@
     "stops": "paradas",
     "report": "Relatar um problema",
     "reportReason": "Descreva o problema",
-    "reportSent": "Denúncia enviada"
+    "reportSent": "Denúncia enviada",
+    "tipTitle": "Tip your driver",
+    "tipThanks": "Thank you for the tip!",
+    "tipPaid": "Tip sent: {{amount}}",
+    "tipCustom": "Custom amount",
+    "tipSend": "Send tip",
+    "payment_pending": "Awaiting payment",
+    "payment_held": "Payment held",
+    "payment_completed": "Paid",
+    "payment_refunded": "Refunded"
   },
   "vehicle": {
     "economy": "Econômico",
@@ -108,7 +138,10 @@
     "title": "Chat",
     "typeMessage": "Digite uma mensagem…",
     "send": "Enviar",
-    "empty": "Ainda não há mensagens"
+    "empty": "Ainda não há mensagens",
+    "translate": "Translate",
+    "hideTranslation": "Hide translation",
+    "translateFailed": "Translation failed"
   },
   "templates": {
     "0": "Estou aqui",
@@ -136,7 +169,8 @@
     "offerYourPrice": "Ofereça seu preço",
     "submitOffer": "Enviar",
     "offerSent": "Oferta enviada",
-    "negotiable": "Negociável"
+    "negotiable": "Negociável",
+    "navigation": "Navigation"
   },
   "earnings": {
     "title": "Ganhos",
@@ -144,7 +178,11 @@
     "week": "Semana",
     "month": "Mês",
     "totalRides": "Total de corridas",
-    "afterFee": "Após a taxa"
+    "afterFee": "Após a taxa",
+    "forecastToday": "Forecast for today: ~{{amount}}",
+    "forecastHint": "Keep this pace and you will earn about {{amount}}",
+    "tipsTotal": "Tips total",
+    "tip": "tip"
   },
   "register": {
     "title": "Cadastro de motorista",
@@ -213,6 +251,23 @@
     "reject": "Rejeitar",
     "pendingDrivers": "Motoristas pendentes",
     "feeHint": "Entre 0% e 20%",
-    "searchUsers": "Buscar usuários"
+    "searchUsers": "Buscar usuários",
+    "driversTab": "All drivers",
+    "analytics": "Analytics",
+    "filter_all": "All",
+    "filter_active": "Active",
+    "filter_completed": "Completed",
+    "filter_cancelled": "Cancelled",
+    "driver_pending": "Pending",
+    "driver_approved": "Approved",
+    "driver_rejected": "Rejected",
+    "driver_all": "All",
+    "ridesByHour": "Rides by hour (7 days)",
+    "revenueByDay": "Platform revenue by day",
+    "topDrivers": "Top 5 drivers",
+    "topRoutes": "Top 5 routes",
+    "minFare": "Minimum fare",
+    "perKmRate": "Rate per km (economy)",
+    "surgeToggle": "Dynamic pricing (surge)"
   }
 }

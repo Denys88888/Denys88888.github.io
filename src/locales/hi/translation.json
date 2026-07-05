@@ -33,7 +33,19 @@
     "chat": "चैट",
     "profile": "प्रोफ़ाइल",
     "earnings": "कमाई",
-    "admin": "एडमिन"
+    "admin": "एडमिन",
+    "depart": "Head out",
+    "arrive": "You have arrived",
+    "left": "Turn left",
+    "right": "Turn right",
+    "slight_left": "Keep left",
+    "slight_right": "Keep right",
+    "straight": "Continue straight",
+    "uturn": "Make a U-turn",
+    "roundabout": "Enter the roundabout",
+    "inDistance": "In {{distance}}: {{instruction}}",
+    "loading": "Building the route…",
+    "unavailable": "Navigation unavailable"
   },
   "home": {
     "from": "कहाँ से",
@@ -59,7 +71,16 @@
     "goHere": "यहाँ जाएँ?",
     "findOffers": "ऑफ़र खोजें",
     "scheduleRide": "राइड शेड्यूल करें",
-    "tapMapHint": "गंतव्य चुनने के लिए मानचित्र पर टैप करें"
+    "tapMapHint": "गंतव्य चुनने के लिए मानचित्र पर टैप करें",
+    "home": "Home",
+    "work": "Work",
+    "parents": "Parents",
+    "addressSaved": "{{label}} saved",
+    "addressSaveHint": "Pick a destination first, then tap the chip to save it",
+    "surge_peak": "Peak pricing {{x}}x",
+    "surge_weather": "Bad weather pricing {{x}}x",
+    "surge_night": "Night pricing {{x}}x",
+    "surge_holiday": "Holiday pricing {{x}}x"
   },
   "ride": {
     "statusScheduled": "शेड्यूल्ड",
@@ -96,7 +117,16 @@
     "stops": "स्टॉप",
     "report": "समस्या की रिपोर्ट करें",
     "reportReason": "समस्या बताएँ",
-    "reportSent": "रिपोर्ट भेजी गई"
+    "reportSent": "रिपोर्ट भेजी गई",
+    "tipTitle": "Tip your driver",
+    "tipThanks": "Thank you for the tip!",
+    "tipPaid": "Tip sent: {{amount}}",
+    "tipCustom": "Custom amount",
+    "tipSend": "Send tip",
+    "payment_pending": "Awaiting payment",
+    "payment_held": "Payment held",
+    "payment_completed": "Paid",
+    "payment_refunded": "Refunded"
   },
   "vehicle": {
     "economy": "इकॉनमी",
@@ -108,7 +138,10 @@
     "title": "चैट",
     "typeMessage": "संदेश लिखें…",
     "send": "भेजें",
-    "empty": "अभी कोई संदेश नहीं"
+    "empty": "अभी कोई संदेश नहीं",
+    "translate": "Translate",
+    "hideTranslation": "Hide translation",
+    "translateFailed": "Translation failed"
   },
   "templates": {
     "0": "मैं यहाँ हूँ",
@@ -136,7 +169,8 @@
     "offerYourPrice": "अपनी कीमत बताएँ",
     "submitOffer": "भेजें",
     "offerSent": "ऑफ़र भेजा गया",
-    "negotiable": "मोलभाव"
+    "negotiable": "मोलभाव",
+    "navigation": "Navigation"
   },
   "earnings": {
     "title": "कमाई",
@@ -144,7 +178,11 @@
     "week": "सप्ताह",
     "month": "महीना",
     "totalRides": "कुल राइड",
-    "afterFee": "शुल्क के बाद"
+    "afterFee": "शुल्क के बाद",
+    "forecastToday": "Forecast for today: ~{{amount}}",
+    "forecastHint": "Keep this pace and you will earn about {{amount}}",
+    "tipsTotal": "Tips total",
+    "tip": "tip"
   },
   "register": {
     "title": "ड्राइवर पंजीकरण",
@@ -213,6 +251,23 @@
     "reject": "अस्वीकार करें",
     "pendingDrivers": "लंबित ड्राइवर",
     "feeHint": "0% से 20% के बीच",
-    "searchUsers": "उपयोगकर्ता खोजें"
+    "searchUsers": "उपयोगकर्ता खोजें",
+    "driversTab": "All drivers",
+    "analytics": "Analytics",
+    "filter_all": "All",
+    "filter_active": "Active",
+    "filter_completed": "Completed",
+    "filter_cancelled": "Cancelled",
+    "driver_pending": "Pending",
+    "driver_approved": "Approved",
+    "driver_rejected": "Rejected",
+    "driver_all": "All",
+    "ridesByHour": "Rides by hour (7 days)",
+    "revenueByDay": "Platform revenue by day",
+    "topDrivers": "Top 5 drivers",
+    "topRoutes": "Top 5 routes",
+    "minFare": "Minimum fare",
+    "perKmRate": "Rate per km (economy)",
+    "surgeToggle": "Dynamic pricing (surge)"
   }
 }

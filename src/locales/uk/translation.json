@@ -33,7 +33,19 @@
     "chat": "Чат",
     "profile": "Профіль",
     "earnings": "Дохід",
-    "admin": "Адмін"
+    "admin": "Адмін",
+    "depart": "Почніть рух",
+    "arrive": "Ви прибули",
+    "left": "Поверніть ліворуч",
+    "right": "Поверніть праворуч",
+    "slight_left": "Тримайтеся лівіше",
+    "slight_right": "Тримайтеся правіше",
+    "straight": "Продовжуйте прямо",
+    "uturn": "Розверніться",
+    "roundabout": "Виїжджайте на коло",
+    "inDistance": "Через {{distance}}: {{instruction}}",
+    "loading": "Будуємо маршрут…",
+    "unavailable": "Навігація недоступна"
   },
   "home": {
     "from": "Звідки",
@@ -59,7 +71,16 @@
     "goHere": "Поїхати сюди?",
     "findOffers": "Знайти пропозиції",
     "scheduleRide": "Запланувати поїздку",
-    "tapMapHint": "Торкніться карти, щоб обрати точку"
+    "tapMapHint": "Торкніться карти, щоб обрати точку",
+    "home": "Дім",
+    "work": "Робота",
+    "parents": "Батьки",
+    "addressSaved": "«{{label}}» збережено",
+    "addressSaveHint": "Спочатку оберіть пункт призначення, потім натисніть кнопку, щоб зберегти його",
+    "surge_peak": "Піковий тариф {{x}}x",
+    "surge_weather": "Тариф негоди {{x}}x",
+    "surge_night": "Нічний тариф {{x}}x",
+    "surge_holiday": "Святковий тариф {{x}}x"
   },
   "ride": {
     "statusScheduled": "Заплановано",
@@ -96,7 +117,16 @@
     "stops": "зупинок",
     "report": "Поскаржитися",
     "reportReason": "Опишіть проблему",
-    "reportSent": "Скаргу надіслано"
+    "reportSent": "Скаргу надіслано",
+    "tipTitle": "Чайові водієві",
+    "tipThanks": "Дякуємо за чайові!",
+    "tipPaid": "Чайові надіслано: {{amount}}",
+    "tipCustom": "Своя сума",
+    "tipSend": "Надіслати",
+    "payment_pending": "Очікує оплати",
+    "payment_held": "Оплату заморожено",
+    "payment_completed": "Оплачено",
+    "payment_refunded": "Повернено"
   },
   "vehicle": {
     "economy": "Економ",
@@ -108,7 +138,10 @@
     "title": "Чат",
     "typeMessage": "Введіть повідомлення…",
     "send": "Надіслати",
-    "empty": "Повідомлень ще немає"
+    "empty": "Повідомлень ще немає",
+    "translate": "Перекласти",
+    "hideTranslation": "Сховати переклад",
+    "translateFailed": "Не вдалося перекласти"
   },
   "templates": {
     "0": "Я тут",
@@ -136,7 +169,8 @@
     "offerYourPrice": "Запропонувати ціну",
     "submitOffer": "Надіслати",
     "offerSent": "Пропозицію надіслано",
-    "negotiable": "Торг"
+    "negotiable": "Торг",
+    "navigation": "Навігація"
   },
   "earnings": {
     "title": "Дохід",
@@ -144,7 +178,11 @@
     "week": "Тиждень",
     "month": "Місяць",
     "totalRides": "Усього поїздок",
-    "afterFee": "Після комісії"
+    "afterFee": "Після комісії",
+    "forecastToday": "Прогноз на сьогодні: ~{{amount}}",
+    "forecastHint": "Якщо продовжите в такому темпі, заробите {{amount}}",
+    "tipsTotal": "Всього чайових",
+    "tip": "чайові"
   },
   "register": {
     "title": "Реєстрація водія",
@@ -215,6 +253,23 @@
     "reject": "Відхилити",
     "pendingDrivers": "Водії на перевірці",
     "feeHint": "Встановіть від 0% до 20%",
-    "searchUsers": "Пошук користувачів"
+    "searchUsers": "Пошук користувачів",
+    "driversTab": "Усі водії",
+    "analytics": "Аналітика",
+    "filter_all": "Усі",
+    "filter_active": "Активні",
+    "filter_completed": "Завершені",
+    "filter_cancelled": "Скасовані",
+    "driver_pending": "Очікують",
+    "driver_approved": "Схвалені",
+    "driver_rejected": "Відхилені",
+    "driver_all": "Усі",
+    "ridesByHour": "Поїздки за годинами (7 днів)",
+    "revenueByDay": "Дохід платформи за днями",
+    "topDrivers": "Топ-5 водіїв",
+    "topRoutes": "Топ-5 маршрутів",
+    "minFare": "Мінімальна ціна",
+    "perKmRate": "Тариф за км (економ)",
+    "surgeToggle": "Динамічне ціноутворення (surge)"
   }
 }

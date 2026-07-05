@@ -33,7 +33,19 @@
     "chat": "Chatt",
     "profile": "Profil",
     "earnings": "Intäkter",
-    "admin": "Admin"
+    "admin": "Admin",
+    "depart": "Head out",
+    "arrive": "You have arrived",
+    "left": "Turn left",
+    "right": "Turn right",
+    "slight_left": "Keep left",
+    "slight_right": "Keep right",
+    "straight": "Continue straight",
+    "uturn": "Make a U-turn",
+    "roundabout": "Enter the roundabout",
+    "inDistance": "In {{distance}}: {{instruction}}",
+    "loading": "Building the route…",
+    "unavailable": "Navigation unavailable"
   },
   "home": {
     "from": "Från",
@@ -59,7 +71,16 @@
     "goHere": "Åka hit?",
     "findOffers": "Hitta erbjudanden",
     "scheduleRide": "Schemalägg resa",
-    "tapMapHint": "Tryck på kartan för att välja destination"
+    "tapMapHint": "Tryck på kartan för att välja destination",
+    "home": "Home",
+    "work": "Work",
+    "parents": "Parents",
+    "addressSaved": "{{label}} saved",
+    "addressSaveHint": "Pick a destination first, then tap the chip to save it",
+    "surge_peak": "Peak pricing {{x}}x",
+    "surge_weather": "Bad weather pricing {{x}}x",
+    "surge_night": "Night pricing {{x}}x",
+    "surge_holiday": "Holiday pricing {{x}}x"
   },
   "ride": {
     "statusScheduled": "Schemalagd",
@@ -96,7 +117,16 @@
     "stops": "stopp",
     "report": "Rapportera ett problem",
     "reportReason": "Beskriv problemet",
-    "reportSent": "Rapport skickad"
+    "reportSent": "Rapport skickad",
+    "tipTitle": "Tip your driver",
+    "tipThanks": "Thank you for the tip!",
+    "tipPaid": "Tip sent: {{amount}}",
+    "tipCustom": "Custom amount",
+    "tipSend": "Send tip",
+    "payment_pending": "Awaiting payment",
+    "payment_held": "Payment held",
+    "payment_completed": "Paid",
+    "payment_refunded": "Refunded"
   },
   "vehicle": {
     "economy": "Economy",
@@ -108,7 +138,10 @@
     "title": "Chatt",
     "typeMessage": "Skriv ett meddelande…",
     "send": "Skicka",
-    "empty": "Inga meddelanden än"
+    "empty": "Inga meddelanden än",
+    "translate": "Translate",
+    "hideTranslation": "Hide translation",
+    "translateFailed": "Translation failed"
   },
   "templates": {
     "0": "Jag är här",
@@ -136,7 +169,8 @@
     "offerYourPrice": "Erbjud ditt pris",
     "submitOffer": "Skicka",
     "offerSent": "Erbjudande skickat",
-    "negotiable": "Förhandlingsbar"
+    "negotiable": "Förhandlingsbar",
+    "navigation": "Navigation"
   },
   "earnings": {
     "title": "Intäkter",
@@ -144,7 +178,11 @@
     "week": "Vecka",
     "month": "Månad",
     "totalRides": "Totalt antal resor",
-    "afterFee": "Efter avgift"
+    "afterFee": "Efter avgift",
+    "forecastToday": "Forecast for today: ~{{amount}}",
+    "forecastHint": "Keep this pace and you will earn about {{amount}}",
+    "tipsTotal": "Tips total",
+    "tip": "tip"
   },
   "register": {
     "title": "Förarregistrering",
@@ -213,6 +251,23 @@
     "reject": "Avslå",
     "pendingDrivers": "Förare som väntar",
     "feeHint": "Mellan 0 % och 20 %",
-    "searchUsers": "Sök användare"
+    "searchUsers": "Sök användare",
+    "driversTab": "All drivers",
+    "analytics": "Analytics",
+    "filter_all": "All",
+    "filter_active": "Active",
+    "filter_completed": "Completed",
+    "filter_cancelled": "Cancelled",
+    "driver_pending": "Pending",
+    "driver_approved": "Approved",
+    "driver_rejected": "Rejected",
+    "driver_all": "All",
+    "ridesByHour": "Rides by hour (7 days)",
+    "revenueByDay": "Platform revenue by day",
+    "topDrivers": "Top 5 drivers",
+    "topRoutes": "Top 5 routes",
+    "minFare": "Minimum fare",
+    "perKmRate": "Rate per km (economy)",
+    "surgeToggle": "Dynamic pricing (surge)"
   }
 }

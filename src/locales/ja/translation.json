@@ -33,7 +33,19 @@
     "chat": "チャット",
     "profile": "プロフィール",
     "earnings": "収益",
-    "admin": "管理"
+    "admin": "管理",
+    "depart": "Head out",
+    "arrive": "You have arrived",
+    "left": "Turn left",
+    "right": "Turn right",
+    "slight_left": "Keep left",
+    "slight_right": "Keep right",
+    "straight": "Continue straight",
+    "uturn": "Make a U-turn",
+    "roundabout": "Enter the roundabout",
+    "inDistance": "In {{distance}}: {{instruction}}",
+    "loading": "Building the route…",
+    "unavailable": "Navigation unavailable"
   },
   "home": {
     "from": "出発地",
@@ -59,7 +71,16 @@
     "goHere": "ここへ行く？",
     "findOffers": "見積もりを探す",
     "scheduleRide": "乗車を予約",
-    "tapMapHint": "地図をタップして目的地を選択"
+    "tapMapHint": "地図をタップして目的地を選択",
+    "home": "Home",
+    "work": "Work",
+    "parents": "Parents",
+    "addressSaved": "{{label}} saved",
+    "addressSaveHint": "Pick a destination first, then tap the chip to save it",
+    "surge_peak": "Peak pricing {{x}}x",
+    "surge_weather": "Bad weather pricing {{x}}x",
+    "surge_night": "Night pricing {{x}}x",
+    "surge_holiday": "Holiday pricing {{x}}x"
   },
   "ride": {
     "statusScheduled": "予約済み",
@@ -96,7 +117,16 @@
     "stops": "経由地",
     "report": "問題を報告",
     "reportReason": "問題を説明",
-    "reportSent": "報告を送信しました"
+    "reportSent": "報告を送信しました",
+    "tipTitle": "Tip your driver",
+    "tipThanks": "Thank you for the tip!",
+    "tipPaid": "Tip sent: {{amount}}",
+    "tipCustom": "Custom amount",
+    "tipSend": "Send tip",
+    "payment_pending": "Awaiting payment",
+    "payment_held": "Payment held",
+    "payment_completed": "Paid",
+    "payment_refunded": "Refunded"
   },
   "vehicle": {
     "economy": "エコノミー",
@@ -108,7 +138,10 @@
     "title": "チャット",
     "typeMessage": "メッセージを入力…",
     "send": "送信",
-    "empty": "メッセージはまだありません"
+    "empty": "メッセージはまだありません",
+    "translate": "Translate",
+    "hideTranslation": "Hide translation",
+    "translateFailed": "Translation failed"
   },
   "templates": {
     "0": "到着しました",
@@ -136,7 +169,8 @@
     "offerYourPrice": "料金を提示",
     "submitOffer": "送信",
     "offerSent": "提示を送信しました",
-    "negotiable": "交渉可"
+    "negotiable": "交渉可",
+    "navigation": "Navigation"
   },
   "earnings": {
     "title": "収益",
@@ -144,7 +178,11 @@
     "week": "今週",
     "month": "今月",
     "totalRides": "総乗車数",
-    "afterFee": "手数料差引後"
+    "afterFee": "手数料差引後",
+    "forecastToday": "Forecast for today: ~{{amount}}",
+    "forecastHint": "Keep this pace and you will earn about {{amount}}",
+    "tipsTotal": "Tips total",
+    "tip": "tip"
   },
   "register": {
     "title": "ドライバー登録",
@@ -213,6 +251,23 @@
     "reject": "拒否",
     "pendingDrivers": "審査待ちドライバー",
     "feeHint": "0%〜20%で設定",
-    "searchUsers": "ユーザーを検索"
+    "searchUsers": "ユーザーを検索",
+    "driversTab": "All drivers",
+    "analytics": "Analytics",
+    "filter_all": "All",
+    "filter_active": "Active",
+    "filter_completed": "Completed",
+    "filter_cancelled": "Cancelled",
+    "driver_pending": "Pending",
+    "driver_approved": "Approved",
+    "driver_rejected": "Rejected",
+    "driver_all": "All",
+    "ridesByHour": "Rides by hour (7 days)",
+    "revenueByDay": "Platform revenue by day",
+    "topDrivers": "Top 5 drivers",
+    "topRoutes": "Top 5 routes",
+    "minFare": "Minimum fare",
+    "perKmRate": "Rate per km (economy)",
+    "surgeToggle": "Dynamic pricing (surge)"
   }
 }

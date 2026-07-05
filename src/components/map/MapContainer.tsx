@@ -4,11 +4,12 @@ import {
   TileLayer,
   Marker,
   Polyline,
+  Circle,
   useMap,
   useMapEvents,
 } from 'react-leaflet';
 import L from 'leaflet';
-import type { GeoPoint } from '../../types';
+import type { GeoPoint, HeatmapPoint } from '../../types';
 import { fetchRoute } from '../../services/mapService';
 
 // Colored pin built from a divIcon so we don't depend on Leaflet's image assets
@@ -25,12 +26,13 @@ function pin(color: string, pulse = false): L.DivIcon {
   });
 }
 
-// Recenter the map imperatively when the focus point changes.
-function Recenter({ center }: { center: GeoPoint }) {
+// Recenter the map imperatively when the focus point changes. `nonce` lets a
+// "my location" button force a recenter even when the coordinates are unchanged.
+function Recenter({ center, nonce }: { center: GeoPoint; nonce?: number }) {
   const map = useMap();
   useEffect(() => {
     map.setView([center.lat, center.lng], map.getZoom(), { animate: true });
-  }, [center.lat, center.lng, map]);
+  }, [center.lat, center.lng, nonce, map]);
   return null;
 }
 
@@ -69,11 +71,26 @@ function ClickCapture({ onClick }: { onClick: (p: GeoPoint) => void }) {
   return null;
 }
 
+// Demand heatmap cell color by weight: green → yellow → red.
+function heatColor(weight: number): string {
+  if (weight >= 5) return '#FF1744';
+  if (weight >= 3) return '#FFAB00';
+  return '#00C853';
+}
+
 interface Props {
   center: GeoPoint;
   pickup?: GeoPoint | null;
   destination?: GeoPoint | null;
   driver?: GeoPoint | null;
+  // The user's own live GPS position — rendered as a pulsing blue dot.
+  me?: GeoPoint | null;
+  // One-off recenter target (e.g. the "my location" button); bump focusNonce
+  // to re-trigger with unchanged coordinates.
+  focus?: GeoPoint | null;
+  focusNonce?: number;
+  // Demand hotspots (driver map): translucent colored circles.
+  heatmap?: HeatmapPoint[];
   stops?: GeoPoint[];
   onMapClick?: (p: GeoPoint) => void;
   // When provided, the destination pin is draggable and reports its new position.
@@ -88,6 +105,10 @@ export function MapView({
   pickup,
   destination,
   driver,
+  me,
+  focus,
+  focusNonce,
+  heatmap = [],
   stops = [],
   onMapClick,
   onDestinationDrag,
@@ -133,7 +154,7 @@ export function MapView({
           subdomains={['a', 'b', 'c']}
         />
         <SizeInvalidator />
-        <Recenter center={driver ?? pickup ?? center} />
+        <Recenter center={focus ?? driver ?? pickup ?? center} nonce={focusNonce} />
         {onMapClick && <ClickCapture onClick={onMapClick} />}
         {pickup && <Marker position={[pickup.lat, pickup.lng]} icon={pin('#2979FF', true)} />}
         {stops.map((s, i) => (
@@ -157,6 +178,20 @@ export function MapView({
           />
         )}
         {driver && <Marker position={[driver.lat, driver.lng]} icon={pin('#00C853')} />}
+        {me && <Marker position={[me.lat, me.lng]} icon={pin('#2979FF', true)} zIndexOffset={500} />}
+        {heatmap.map((h, i) => (
+          <Circle
+            key={`heat-${i}`}
+            center={[h.lat, h.lng]}
+            radius={500}
+            pathOptions={{
+              color: heatColor(h.weight),
+              fillColor: heatColor(h.weight),
+              fillOpacity: Math.min(0.5, 0.15 + h.weight * 0.07),
+              weight: 1,
+            }}
+          />
+        ))}
         {route.length >= 2 && (
           <Polyline positions={route} pathOptions={{ color: '#7B3FE4', weight: 4 }} />
         )}

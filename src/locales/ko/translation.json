@@ -33,7 +33,19 @@
     "chat": "채팅",
     "profile": "프로필",
     "earnings": "수입",
-    "admin": "관리자"
+    "admin": "관리자",
+    "depart": "Head out",
+    "arrive": "You have arrived",
+    "left": "Turn left",
+    "right": "Turn right",
+    "slight_left": "Keep left",
+    "slight_right": "Keep right",
+    "straight": "Continue straight",
+    "uturn": "Make a U-turn",
+    "roundabout": "Enter the roundabout",
+    "inDistance": "In {{distance}}: {{instruction}}",
+    "loading": "Building the route…",
+    "unavailable": "Navigation unavailable"
   },
   "home": {
     "from": "출발지",
@@ -59,7 +71,16 @@
     "goHere": "여기로 갈까요?",
     "findOffers": "제안 찾기",
     "scheduleRide": "운행 예약",
-    "tapMapHint": "지도를 눌러 목적지 선택"
+    "tapMapHint": "지도를 눌러 목적지 선택",
+    "home": "Home",
+    "work": "Work",
+    "parents": "Parents",
+    "addressSaved": "{{label}} saved",
+    "addressSaveHint": "Pick a destination first, then tap the chip to save it",
+    "surge_peak": "Peak pricing {{x}}x",
+    "surge_weather": "Bad weather pricing {{x}}x",
+    "surge_night": "Night pricing {{x}}x",
+    "surge_holiday": "Holiday pricing {{x}}x"
   },
   "ride": {
     "statusScheduled": "예약됨",
@@ -96,7 +117,16 @@
     "stops": "경유지",
     "report": "문제 신고",
     "reportReason": "문제를 설명하세요",
-    "reportSent": "신고가 접수되었습니다"
+    "reportSent": "신고가 접수되었습니다",
+    "tipTitle": "Tip your driver",
+    "tipThanks": "Thank you for the tip!",
+    "tipPaid": "Tip sent: {{amount}}",
+    "tipCustom": "Custom amount",
+    "tipSend": "Send tip",
+    "payment_pending": "Awaiting payment",
+    "payment_held": "Payment held",
+    "payment_completed": "Paid",
+    "payment_refunded": "Refunded"
   },
   "vehicle": {
     "economy": "이코노미",
@@ -108,7 +138,10 @@
     "title": "채팅",
     "typeMessage": "메시지 입력…",
     "send": "보내기",
-    "empty": "아직 메시지가 없습니다"
+    "empty": "아직 메시지가 없습니다",
+    "translate": "Translate",
+    "hideTranslation": "Hide translation",
+    "translateFailed": "Translation failed"
   },
   "templates": {
     "0": "도착했습니다",
@@ -136,7 +169,8 @@
     "offerYourPrice": "가격 제안",
     "submitOffer": "보내기",
     "offerSent": "제안을 보냈습니다",
-    "negotiable": "흥정 가능"
+    "negotiable": "흥정 가능",
+    "navigation": "Navigation"
   },
   "earnings": {
     "title": "수입",
@@ -144,7 +178,11 @@
     "week": "이번 주",
     "month": "이번 달",
     "totalRides": "총 운행",
-    "afterFee": "수수료 차감 후"
+    "afterFee": "수수료 차감 후",
+    "forecastToday": "Forecast for today: ~{{amount}}",
+    "forecastHint": "Keep this pace and you will earn about {{amount}}",
+    "tipsTotal": "Tips total",
+    "tip": "tip"
   },
   "register": {
     "title": "기사 등록",
@@ -213,6 +251,23 @@
     "reject": "거부",
     "pendingDrivers": "승인 대기 기사",
     "feeHint": "0%~20% 설정",
-    "searchUsers": "사용자 검색"
+    "searchUsers": "사용자 검색",
+    "driversTab": "All drivers",
+    "analytics": "Analytics",
+    "filter_all": "All",
+    "filter_active": "Active",
+    "filter_completed": "Completed",
+    "filter_cancelled": "Cancelled",
+    "driver_pending": "Pending",
+    "driver_approved": "Approved",
+    "driver_rejected": "Rejected",
+    "driver_all": "All",
+    "ridesByHour": "Rides by hour (7 days)",
+    "revenueByDay": "Platform revenue by day",
+    "topDrivers": "Top 5 drivers",
+    "topRoutes": "Top 5 routes",
+    "minFare": "Minimum fare",
+    "perKmRate": "Rate per km (economy)",
+    "surgeToggle": "Dynamic pricing (surge)"
   }
 }

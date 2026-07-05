@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Calendar, Star, Phone, MessageCircle, Flag, Share2, Siren } from 'lucide-react';
+import { Calendar, Star, Phone, MessageCircle, Flag, Share2, Siren, Navigation, Zap } from 'lucide-react';
 import { MapView } from '../components/map/MapContainer';
 import { RideStatusBadge } from '../components/ride/RideStatusBadge';
 import { Button } from '../components/ui/Button';
@@ -13,6 +13,8 @@ import { useToast } from '../hooks/useToast';
 import { usePayments } from '../hooks/usePayments';
 import { wsService } from '../services/wsService';
 import { api } from '../services/api';
+import { payForRide } from '../services/piSdk';
+import { NavigationPanel } from '../components/ride/NavigationPanel';
 import { chatIdForRide, haversineKm } from '../utils/helpers';
 import { formatPi, formatDistance, formatDuration, formatDate, maskPhone } from '../utils/formatters';
 import type { GeoPoint, Ride, RideParty, FareOffer } from '../types';
@@ -38,6 +40,9 @@ export function RideDetailsScreen() {
   const [showReport, setShowReport] = useState(false);
   const [reportText, setReportText] = useState('');
   const [etaSeconds, setEtaSeconds] = useState<number | null>(null);
+  const [showNav, setShowNav] = useState(params.nav === '1');
+  const [tipBusy, setTipBusy] = useState(false);
+  const [tipCustom, setTipCustom] = useState('');
 
   const rideId = params.id ?? storeRide?.id ?? '';
 
@@ -152,6 +157,27 @@ export function RideDetailsScreen() {
     if (txid) api.getRide(ride.id).then(setRide).catch(() => {});
   };
 
+  // Tip the driver: a separate Pi payment (100% goes to the driver).
+  const sendTip = async (amount: number): Promise<void> => {
+    if (!amount || amount <= 0) return;
+    setTipBusy(true);
+    try {
+      const p = await api.createPayment(ride.id, { type: 'tip', amount });
+      await payForRide({
+        paymentId: p.paymentId,
+        amount: p.amount,
+        memo: p.memo,
+        metadata: p.metadata,
+      });
+      addToast('success', t('ride.tipThanks'));
+      api.getRide(ride.id).then(setRide).catch(() => {});
+    } catch (err) {
+      addToast('error', err instanceof Error ? err.message : t('common.error'));
+    } finally {
+      setTipBusy(false);
+    }
+  };
+
   const submitReport = async (): Promise<void> => {
     const reportedId = isDriver ? ride.passengerId : ride.driverId;
     if (!reportedId) return;
@@ -179,7 +205,7 @@ export function RideDetailsScreen() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="h-[48%]">
+      <div className="relative h-[48%]">
         <MapView
           center={driverPos ?? ride.pickup}
           pickup={ride.pickup}
@@ -188,6 +214,17 @@ export function RideDetailsScreen() {
           driver={driverPos}
           className="h-full w-full"
         />
+        {/* Driver turn-by-turn navigation overlay (OSRM maneuvers + voice). */}
+        {showNav && isDriver && targetPoint && (
+          <div className="absolute inset-x-3 bottom-3 z-[500]">
+            <NavigationPanel
+              from={driverPos ?? ride.pickup}
+              to={targetPoint}
+              position={driverPos}
+              onClose={() => setShowNav(false)}
+            />
+          </div>
+        )}
       </div>
 
       <div className="-mt-4 flex-1 space-y-4 overflow-y-auto rounded-t-2xl surface p-4 shadow-card">
@@ -199,9 +236,21 @@ export function RideDetailsScreen() {
                 {t('ride.eta')} {Math.floor(etaSeconds / 60)}:{String(etaSeconds % 60).padStart(2, '0')}
               </span>
             )}
+            {!!ride.surgeMultiplier && ride.surgeMultiplier > 1 && (
+              <span className="inline-flex items-center gap-0.5 rounded-full bg-warning/15 px-2 py-1 text-xs font-semibold text-warning">
+                <Zap size={12} className="fill-warning" />×{ride.surgeMultiplier}
+              </span>
+            )}
             <span className="text-lg font-bold">{formatPi(ride.fare)}</span>
           </div>
         </div>
+
+        {/* Driver: toggle turn-by-turn navigation while the ride is active. */}
+        {isDriver && !['completed', 'cancelled', 'searching', 'scheduled'].includes(ride.status) && (
+          <Button fullWidth variant={showNav ? 'outline' : 'primary'} onClick={() => setShowNav((v) => !v)}>
+            <Navigation size={16} /> {t('driver.navigation')}
+          </Button>
+        )}
 
         {ride.status === 'scheduled' && ride.scheduledAt && (
           <Card className="flex items-center gap-1.5 text-sm">
@@ -297,11 +346,64 @@ export function RideDetailsScreen() {
           </Card>
         )}
 
+        {/* Tip the driver (separate Pi transaction, driver keeps 100%). */}
+        {ride.status === 'completed' && !isDriver && ride.driverId && (
+          <Card className="space-y-3">
+            <p className="text-center font-semibold">{t('ride.tipTitle')}</p>
+            {ride.tipAmount ? (
+              <p className="text-center text-sm font-medium text-success">
+                {t('ride.tipPaid', { amount: formatPi(ride.tipAmount) })}
+              </p>
+            ) : (
+              <>
+                <div className="flex gap-2">
+                  {[1, 2, 5].map((a) => (
+                    <Button
+                      key={a}
+                      variant="outline"
+                      fullWidth
+                      disabled={tipBusy}
+                      onClick={() => sendTip(a)}
+                    >
+                      {a} π
+                    </Button>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <div className="flex flex-1 items-center gap-1 rounded-lg border border-[#E0E0E0] dark:border-white/15 px-3 py-2">
+                    <span className="font-bold text-primary">π</span>
+                    <input
+                      type="number"
+                      min={0}
+                      step="0.1"
+                      value={tipCustom}
+                      onChange={(e) => setTipCustom(e.target.value)}
+                      placeholder={t('ride.tipCustom')}
+                      className="w-full bg-transparent text-sm outline-none"
+                    />
+                  </div>
+                  <Button
+                    loading={tipBusy}
+                    disabled={!Number(tipCustom) || Number(tipCustom) <= 0}
+                    onClick={() => sendTip(Number(tipCustom))}
+                    className="px-4"
+                  >
+                    {t('ride.tipSend')}
+                  </Button>
+                </div>
+              </>
+            )}
+          </Card>
+        )}
+
         <div className="flex items-center justify-between text-xs opacity-60">
           <span>{formatDistance(ride.distanceKm)} · {formatDuration(ride.estimatedDurationMin)}</span>
-          {ride.stops && ride.stops.length > 0 && (
-            <span>{ride.stops.length} {t('ride.stops')}</span>
-          )}
+          <span className="flex items-center gap-2">
+            {ride.paymentStatus && <span>{t(`ride.payment_${ride.paymentStatus}`)}</span>}
+            {ride.stops && ride.stops.length > 0 && (
+              <span>{ride.stops.length} {t('ride.stops')}</span>
+            )}
+          </span>
         </div>
 
         {!['completed', 'cancelled'].includes(ride.status) && !isDriver && (

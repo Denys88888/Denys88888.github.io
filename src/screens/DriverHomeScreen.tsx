@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Circle, Check } from 'lucide-react';
+import { Circle, Check, LocateFixed, Navigation } from 'lucide-react';
 import { MapView } from '../components/map/MapContainer';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -11,7 +11,7 @@ import { wsService } from '../services/wsService';
 import { api } from '../services/api';
 import { formatPi, formatDistance } from '../utils/formatters';
 import { haversineKm, cn } from '../utils/helpers';
-import type { GeoPoint, Ride } from '../types';
+import type { GeoPoint, Ride, HeatmapPoint } from '../types';
 
 // Driver home: online toggle, live map, and the queue of available ride requests.
 export function DriverHomeScreen() {
@@ -25,8 +25,43 @@ export function DriverHomeScreen() {
   const [sortByPrice, setSortByPrice] = useState(false);
   const [offerInputs, setOfferInputs] = useState<Record<string, string>>({});
   const [offered, setOffered] = useState<Record<string, boolean>>({});
+  const [heatmap, setHeatmap] = useState<HeatmapPoint[]>([]);
+  const [activeRide, setActiveRide] = useState<Ride | null>(null);
+  const [focusNonce, setFocusNonce] = useState(0);
 
   const center: GeoPoint = position ?? { lat: 52.2297, lng: 21.0122 };
+
+  // Demand heatmap: refresh every minute while online.
+  useEffect(() => {
+    if (!online) {
+      setHeatmap([]);
+      return;
+    }
+    const load = () => api.getHeatmap().then(setHeatmap).catch(() => {});
+    load();
+    const id = setInterval(load, 60 * 1000);
+    return () => clearInterval(id);
+  }, [online]);
+
+  // An in-progress ride (page reload, back navigation) → offer the Navigation
+  // shortcut back into the ride screen.
+  useEffect(() => {
+    (async () => {
+      for (const status of ['in_progress', 'arrived', 'assigned'] as const) {
+        try {
+          const { rides } = await api.listRides({ status, limit: 1 });
+          const mine = rides.find((r) => r.driverId);
+          if (mine) {
+            setActiveRide(mine);
+            return;
+          }
+        } catch {
+          return;
+        }
+      }
+      setActiveRide(null);
+    })();
+  }, []);
 
   useEffect(() => {
     const offAvail = wsService.on('ride_available', (msg) => {
@@ -98,7 +133,14 @@ export function DriverHomeScreen() {
   return (
     <div className="flex h-full flex-col">
       <div className="relative h-[40%]">
-        <MapView center={center} driver={position} className="h-full w-full" />
+        <MapView
+          center={center}
+          me={position}
+          heatmap={heatmap}
+          focus={focusNonce > 0 ? position : undefined}
+          focusNonce={focusNonce}
+          className="h-full w-full"
+        />
         <button
           onClick={toggleOnline}
           className={cn(
@@ -109,9 +151,26 @@ export function DriverHomeScreen() {
           <Circle size={10} className="fill-white text-white" />
           {online ? t('driver.online') : t('driver.offline')}
         </button>
+        <button
+          onClick={() => setFocusNonce((n) => n + 1)}
+          className="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full bg-primary text-white shadow-fab active:scale-95"
+          aria-label={t('home.useMyLocation')}
+        >
+          <LocateFixed size={20} />
+        </button>
       </div>
 
       <div className="flex-1 space-y-3 overflow-y-auto p-4">
+        {/* Ongoing ride shortcut with turn-by-turn navigation. */}
+        {activeRide && (
+          <Button
+            fullWidth
+            onClick={() => navigate('ride', { id: activeRide.id, nav: '1' })}
+            className="!bg-success"
+          >
+            <Navigation size={16} /> {t('driver.navigation')}
+          </Button>
+        )}
         <div className="flex items-center justify-between">
           <h3>{t('driver.availableRides')}</h3>
           <button

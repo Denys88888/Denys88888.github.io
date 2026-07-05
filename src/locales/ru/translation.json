@@ -33,7 +33,19 @@
     "chat": "Чат",
     "profile": "Профиль",
     "earnings": "Доход",
-    "admin": "Админ"
+    "admin": "Админ",
+    "depart": "Начните движение",
+    "arrive": "Вы прибыли",
+    "left": "Поверните налево",
+    "right": "Поверните направо",
+    "slight_left": "Держитесь левее",
+    "slight_right": "Держитесь правее",
+    "straight": "Продолжайте прямо",
+    "uturn": "Развернитесь",
+    "roundabout": "Въезжайте на круг",
+    "inDistance": "Через {{distance}}: {{instruction}}",
+    "loading": "Строим маршрут…",
+    "unavailable": "Навигация недоступна"
   },
   "home": {
     "from": "Откуда",
@@ -59,7 +71,16 @@
     "goHere": "Поехать сюда?",
     "findOffers": "Найти предложения",
     "scheduleRide": "Запланировать поездку",
-    "tapMapHint": "Нажмите на карту, чтобы выбрать точку"
+    "tapMapHint": "Нажмите на карту, чтобы выбрать точку",
+    "home": "Дом",
+    "work": "Работа",
+    "parents": "Родители",
+    "addressSaved": "«{{label}}» сохранён",
+    "addressSaveHint": "Сначала выберите пункт назначения, затем нажмите кнопку, чтобы сохранить его",
+    "surge_peak": "Пиковый тариф {{x}}x",
+    "surge_weather": "Тариф непогоды {{x}}x",
+    "surge_night": "Ночной тариф {{x}}x",
+    "surge_holiday": "Праздничный тариф {{x}}x"
   },
   "ride": {
     "statusScheduled": "Запланирована",
@@ -96,7 +117,16 @@
     "stops": "остановок",
     "report": "Пожаловаться",
     "reportReason": "Опишите проблему",
-    "reportSent": "Жалоба отправлена"
+    "reportSent": "Жалоба отправлена",
+    "tipTitle": "Чаевые водителю",
+    "tipThanks": "Спасибо за чаевые!",
+    "tipPaid": "Чаевые отправлены: {{amount}}",
+    "tipCustom": "Своя сумма",
+    "tipSend": "Отправить",
+    "payment_pending": "Ожидает оплаты",
+    "payment_held": "Оплата заморожена",
+    "payment_completed": "Оплачено",
+    "payment_refunded": "Возвращено"
   },
   "vehicle": {
     "economy": "Эконом",
@@ -108,7 +138,10 @@
     "title": "Чат",
     "typeMessage": "Введите сообщение…",
     "send": "Отправить",
-    "empty": "Пока нет сообщений"
+    "empty": "Пока нет сообщений",
+    "translate": "Перевести",
+    "hideTranslation": "Скрыть перевод",
+    "translateFailed": "Не удалось перевести"
   },
   "templates": {
     "0": "Я здесь",
@@ -136,7 +169,8 @@
     "offerYourPrice": "Предложить цену",
     "submitOffer": "Отправить",
     "offerSent": "Предложение отправлено",
-    "negotiable": "Торг"
+    "negotiable": "Торг",
+    "navigation": "Навигация"
   },
   "earnings": {
     "title": "Доход",
@@ -144,7 +178,11 @@
     "week": "Неделя",
     "month": "Месяц",
     "totalRides": "Всего поездок",
-    "afterFee": "После комиссии"
+    "afterFee": "После комиссии",
+    "forecastToday": "Прогноз на сегодня: ~{{amount}}",
+    "forecastHint": "Если продолжите в таком темпе, заработаете {{amount}}",
+    "tipsTotal": "Всего чаевых",
+    "tip": "чаевые"
   },
   "register": {
     "title": "Регистрация водителя",
@@ -215,6 +253,23 @@
     "reject": "Отклонить",
     "pendingDrivers": "Водители на проверке",
     "feeHint": "Установите от 0% до 20%",
-    "searchUsers": "Поиск пользователей"
+    "searchUsers": "Поиск пользователей",
+    "driversTab": "Все водители",
+    "analytics": "Аналитика",
+    "filter_all": "Все",
+    "filter_active": "Активные",
+    "filter_completed": "Завершённые",
+    "filter_cancelled": "Отменённые",
+    "driver_pending": "Ожидают",
+    "driver_approved": "Одобрены",
+    "driver_rejected": "Отклонены",
+    "driver_all": "Все",
+    "ridesByHour": "Поездки по часам (7 дней)",
+    "revenueByDay": "Доход платформы по дням",
+    "topDrivers": "Топ-5 водителей",
+    "topRoutes": "Топ-5 маршрутов",
+    "minFare": "Минимальная цена",
+    "perKmRate": "Тариф за км (эконом)",
+    "surgeToggle": "Динамическое ценообразование (surge)"
   }
 }

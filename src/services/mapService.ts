@@ -130,6 +130,58 @@ export async function fetchRoute(waypoints: GeoPoint[]): Promise<RouteResult | n
   }
 }
 
+// ── Turn-by-turn maneuvers (OSRM steps) ──
+
+export interface Maneuver {
+  // OSRM maneuver type ('turn', 'depart', 'arrive', 'roundabout', …) +
+  // modifier ('left', 'right', 'straight', …).
+  type: string;
+  modifier?: string;
+  road: string;
+  distanceM: number; // length of the step following this maneuver
+  lat: number;
+  lng: number;
+}
+
+// Fetch the maneuver list for a route (driver turn-by-turn navigation).
+export async function fetchRouteSteps(waypoints: GeoPoint[]): Promise<Maneuver[] | null> {
+  if (waypoints.length < 2) return null;
+  const coords = waypoints.map((p) => `${p.lng},${p.lat}`).join(';');
+  try {
+    const res = await fetch(
+      `${OSRM}/route/v1/driving/${coords}?overview=false&steps=true`,
+      { headers: { Accept: 'application/json' } }
+    );
+    if (!res.ok) return null;
+    const data = (await res.json()) as {
+      code?: string;
+      routes?: Array<{
+        legs: Array<{
+          steps: Array<{
+            distance: number;
+            name: string;
+            maneuver: { type: string; modifier?: string; location: [number, number] };
+          }>;
+        }>;
+      }>;
+    };
+    const route = data.code === 'Ok' && data.routes?.[0];
+    if (!route) return null;
+    return route.legs.flatMap((leg) =>
+      leg.steps.map((s) => ({
+        type: s.maneuver.type,
+        modifier: s.maneuver.modifier,
+        road: s.name,
+        distanceM: s.distance,
+        lat: s.maneuver.location[1],
+        lng: s.maneuver.location[0],
+      }))
+    );
+  } catch {
+    return null;
+  }
+}
+
 // Reverse geocode: coordinates → human-readable address.
 export async function reverseGeocode(point: GeoPoint): Promise<string> {
   const url = `${NOMINATIM}/reverse?format=json&lat=${point.lat}&lon=${point.lng}`;

@@ -33,7 +33,19 @@
     "chat": "Chat",
     "profile": "Profiel",
     "earnings": "Inkomsten",
-    "admin": "Beheer"
+    "admin": "Beheer",
+    "depart": "Head out",
+    "arrive": "You have arrived",
+    "left": "Turn left",
+    "right": "Turn right",
+    "slight_left": "Keep left",
+    "slight_right": "Keep right",
+    "straight": "Continue straight",
+    "uturn": "Make a U-turn",
+    "roundabout": "Enter the roundabout",
+    "inDistance": "In {{distance}}: {{instruction}}",
+    "loading": "Building the route…",
+    "unavailable": "Navigation unavailable"
   },
   "home": {
     "from": "Van",
@@ -59,7 +71,16 @@
     "goHere": "Hierheen?",
     "findOffers": "Aanbiedingen zoeken",
     "scheduleRide": "Rit plannen",
-    "tapMapHint": "Tik op de kaart om de bestemming te kiezen"
+    "tapMapHint": "Tik op de kaart om de bestemming te kiezen",
+    "home": "Home",
+    "work": "Work",
+    "parents": "Parents",
+    "addressSaved": "{{label}} saved",
+    "addressSaveHint": "Pick a destination first, then tap the chip to save it",
+    "surge_peak": "Peak pricing {{x}}x",
+    "surge_weather": "Bad weather pricing {{x}}x",
+    "surge_night": "Night pricing {{x}}x",
+    "surge_holiday": "Holiday pricing {{x}}x"
   },
   "ride": {
     "statusScheduled": "Gepland",
@@ -96,7 +117,16 @@
     "stops": "stops",
     "report": "Een probleem melden",
     "reportReason": "Beschrijf het probleem",
-    "reportSent": "Melding verzonden"
+    "reportSent": "Melding verzonden",
+    "tipTitle": "Tip your driver",
+    "tipThanks": "Thank you for the tip!",
+    "tipPaid": "Tip sent: {{amount}}",
+    "tipCustom": "Custom amount",
+    "tipSend": "Send tip",
+    "payment_pending": "Awaiting payment",
+    "payment_held": "Payment held",
+    "payment_completed": "Paid",
+    "payment_refunded": "Refunded"
   },
   "vehicle": {
     "economy": "Economy",
@@ -108,7 +138,10 @@
     "title": "Chat",
     "typeMessage": "Typ een bericht…",
     "send": "Verzenden",
-    "empty": "Nog geen berichten"
+    "empty": "Nog geen berichten",
+    "translate": "Translate",
+    "hideTranslation": "Hide translation",
+    "translateFailed": "Translation failed"
   },
   "templates": {
     "0": "Ik ben er",
@@ -136,7 +169,8 @@
     "offerYourPrice": "Bied je prijs",
     "submitOffer": "Versturen",
     "offerSent": "Aanbod verzonden",
-    "negotiable": "Onderhandelbaar"
+    "negotiable": "Onderhandelbaar",
+    "navigation": "Navigation"
   },
   "earnings": {
     "title": "Inkomsten",
@@ -144,7 +178,11 @@
     "week": "Week",
     "month": "Maand",
     "totalRides": "Totaal ritten",
-    "afterFee": "Na kosten"
+    "afterFee": "Na kosten",
+    "forecastToday": "Forecast for today: ~{{amount}}",
+    "forecastHint": "Keep this pace and you will earn about {{amount}}",
+    "tipsTotal": "Tips total",
+    "tip": "tip"
   },
   "register": {
     "title": "Chauffeursregistratie",
@@ -213,6 +251,23 @@
     "reject": "Afwijzen",
     "pendingDrivers": "Chauffeurs in behandeling",
     "feeHint": "Tussen 0% en 20%",
-    "searchUsers": "Gebruikers zoeken"
+    "searchUsers": "Gebruikers zoeken",
+    "driversTab": "All drivers",
+    "analytics": "Analytics",
+    "filter_all": "All",
+    "filter_active": "Active",
+    "filter_completed": "Completed",
+    "filter_cancelled": "Cancelled",
+    "driver_pending": "Pending",
+    "driver_approved": "Approved",
+    "driver_rejected": "Rejected",
+    "driver_all": "All",
+    "ridesByHour": "Rides by hour (7 days)",
+    "revenueByDay": "Platform revenue by day",
+    "topDrivers": "Top 5 drivers",
+    "topRoutes": "Top 5 routes",
+    "minFare": "Minimum fare",
+    "perKmRate": "Rate per km (economy)",
+    "surgeToggle": "Dynamic pricing (surge)"
   }
 }

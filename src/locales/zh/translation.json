@@ -33,7 +33,19 @@
     "chat": "聊天",
     "profile": "我的",
     "earnings": "收入",
-    "admin": "管理"
+    "admin": "管理",
+    "depart": "Head out",
+    "arrive": "You have arrived",
+    "left": "Turn left",
+    "right": "Turn right",
+    "slight_left": "Keep left",
+    "slight_right": "Keep right",
+    "straight": "Continue straight",
+    "uturn": "Make a U-turn",
+    "roundabout": "Enter the roundabout",
+    "inDistance": "In {{distance}}: {{instruction}}",
+    "loading": "Building the route…",
+    "unavailable": "Navigation unavailable"
   },
   "home": {
     "from": "出发地",
@@ -59,7 +71,16 @@
     "goHere": "去这里？",
     "findOffers": "寻找报价",
     "scheduleRide": "预约行程",
-    "tapMapHint": "点击地图选择目的地"
+    "tapMapHint": "点击地图选择目的地",
+    "home": "Home",
+    "work": "Work",
+    "parents": "Parents",
+    "addressSaved": "{{label}} saved",
+    "addressSaveHint": "Pick a destination first, then tap the chip to save it",
+    "surge_peak": "Peak pricing {{x}}x",
+    "surge_weather": "Bad weather pricing {{x}}x",
+    "surge_night": "Night pricing {{x}}x",
+    "surge_holiday": "Holiday pricing {{x}}x"
   },
   "ride": {
     "statusScheduled": "已预约",
@@ -96,7 +117,16 @@
     "stops": "个途经点",
     "report": "举报问题",
     "reportReason": "描述问题",
-    "reportSent": "举报已提交"
+    "reportSent": "举报已提交",
+    "tipTitle": "Tip your driver",
+    "tipThanks": "Thank you for the tip!",
+    "tipPaid": "Tip sent: {{amount}}",
+    "tipCustom": "Custom amount",
+    "tipSend": "Send tip",
+    "payment_pending": "Awaiting payment",
+    "payment_held": "Payment held",
+    "payment_completed": "Paid",
+    "payment_refunded": "Refunded"
   },
   "vehicle": {
     "economy": "经济型",
@@ -108,7 +138,10 @@
     "title": "聊天",
     "typeMessage": "输入消息…",
     "send": "发送",
-    "empty": "暂无消息"
+    "empty": "暂无消息",
+    "translate": "Translate",
+    "hideTranslation": "Hide translation",
+    "translateFailed": "Translation failed"
   },
   "templates": {
     "0": "我到了",
@@ -136,7 +169,8 @@
     "offerYourPrice": "出价",
     "submitOffer": "发送",
     "offerSent": "报价已发送",
-    "negotiable": "可议价"
+    "negotiable": "可议价",
+    "navigation": "Navigation"
   },
   "earnings": {
     "title": "收入",
@@ -144,7 +178,11 @@
     "week": "本周",
     "month": "本月",
     "totalRides": "总行程",
-    "afterFee": "扣除费用后"
+    "afterFee": "扣除费用后",
+    "forecastToday": "Forecast for today: ~{{amount}}",
+    "forecastHint": "Keep this pace and you will earn about {{amount}}",
+    "tipsTotal": "Tips total",
+    "tip": "tip"
   },
   "register": {
     "title": "司机注册",
@@ -213,6 +251,23 @@
     "reject": "拒绝",
     "pendingDrivers": "待审核司机",
     "feeHint": "设置0%到20%",
-    "searchUsers": "搜索用户"
+    "searchUsers": "搜索用户",
+    "driversTab": "All drivers",
+    "analytics": "Analytics",
+    "filter_all": "All",
+    "filter_active": "Active",
+    "filter_completed": "Completed",
+    "filter_cancelled": "Cancelled",
+    "driver_pending": "Pending",
+    "driver_approved": "Approved",
+    "driver_rejected": "Rejected",
+    "driver_all": "All",
+    "ridesByHour": "Rides by hour (7 days)",
+    "revenueByDay": "Platform revenue by day",
+    "topDrivers": "Top 5 drivers",
+    "topRoutes": "Top 5 routes",
+    "minFare": "Minimum fare",
+    "perKmRate": "Rate per km (economy)",
+    "surgeToggle": "Dynamic pricing (surge)"
   }
 }

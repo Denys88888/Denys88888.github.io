@@ -33,7 +33,19 @@
     "chat": "الدردشة",
     "profile": "الملف",
     "earnings": "الأرباح",
-    "admin": "الإدارة"
+    "admin": "الإدارة",
+    "depart": "Head out",
+    "arrive": "You have arrived",
+    "left": "Turn left",
+    "right": "Turn right",
+    "slight_left": "Keep left",
+    "slight_right": "Keep right",
+    "straight": "Continue straight",
+    "uturn": "Make a U-turn",
+    "roundabout": "Enter the roundabout",
+    "inDistance": "In {{distance}}: {{instruction}}",
+    "loading": "Building the route…",
+    "unavailable": "Navigation unavailable"
   },
   "home": {
     "from": "من",
@@ -59,7 +71,16 @@
     "goHere": "الذهاب إلى هنا؟",
     "findOffers": "البحث عن عروض",
     "scheduleRide": "جدولة الرحلة",
-    "tapMapHint": "انقر على الخريطة لتحديد الوجهة"
+    "tapMapHint": "انقر على الخريطة لتحديد الوجهة",
+    "home": "Home",
+    "work": "Work",
+    "parents": "Parents",
+    "addressSaved": "{{label}} saved",
+    "addressSaveHint": "Pick a destination first, then tap the chip to save it",
+    "surge_peak": "Peak pricing {{x}}x",
+    "surge_weather": "Bad weather pricing {{x}}x",
+    "surge_night": "Night pricing {{x}}x",
+    "surge_holiday": "Holiday pricing {{x}}x"
   },
   "ride": {
     "statusScheduled": "مجدولة",
@@ -96,7 +117,16 @@
     "stops": "محطات",
     "report": "الإبلاغ عن مشكلة",
     "reportReason": "صف المشكلة",
-    "reportSent": "تم إرسال البلاغ"
+    "reportSent": "تم إرسال البلاغ",
+    "tipTitle": "Tip your driver",
+    "tipThanks": "Thank you for the tip!",
+    "tipPaid": "Tip sent: {{amount}}",
+    "tipCustom": "Custom amount",
+    "tipSend": "Send tip",
+    "payment_pending": "Awaiting payment",
+    "payment_held": "Payment held",
+    "payment_completed": "Paid",
+    "payment_refunded": "Refunded"
   },
   "vehicle": {
     "economy": "اقتصادي",
@@ -108,7 +138,10 @@
     "title": "الدردشة",
     "typeMessage": "اكتب رسالة…",
     "send": "إرسال",
-    "empty": "لا توجد رسائل بعد"
+    "empty": "لا توجد رسائل بعد",
+    "translate": "Translate",
+    "hideTranslation": "Hide translation",
+    "translateFailed": "Translation failed"
   },
   "templates": {
     "0": "أنا هنا",
@@ -136,7 +169,8 @@
     "offerYourPrice": "اعرض سعرك",
     "submitOffer": "إرسال",
     "offerSent": "تم إرسال العرض",
-    "negotiable": "قابل للتفاوض"
+    "negotiable": "قابل للتفاوض",
+    "navigation": "Navigation"
   },
   "earnings": {
     "title": "الأرباح",
@@ -144,7 +178,11 @@
     "week": "الأسبوع",
     "month": "الشهر",
     "totalRides": "إجمالي الرحلات",
-    "afterFee": "بعد الرسوم"
+    "afterFee": "بعد الرسوم",
+    "forecastToday": "Forecast for today: ~{{amount}}",
+    "forecastHint": "Keep this pace and you will earn about {{amount}}",
+    "tipsTotal": "Tips total",
+    "tip": "tip"
   },
   "register": {
     "title": "تسجيل السائق",
@@ -213,6 +251,23 @@
     "reject": "رفض",
     "pendingDrivers": "سائقون قيد المراجعة",
     "feeHint": "بين 0% و20%",
-    "searchUsers": "بحث عن مستخدمين"
+    "searchUsers": "بحث عن مستخدمين",
+    "driversTab": "All drivers",
+    "analytics": "Analytics",
+    "filter_all": "All",
+    "filter_active": "Active",
+    "filter_completed": "Completed",
+    "filter_cancelled": "Cancelled",
+    "driver_pending": "Pending",
+    "driver_approved": "Approved",
+    "driver_rejected": "Rejected",
+    "driver_all": "All",
+    "ridesByHour": "Rides by hour (7 days)",
+    "revenueByDay": "Platform revenue by day",
+    "topDrivers": "Top 5 drivers",
+    "topRoutes": "Top 5 routes",
+    "minFare": "Minimum fare",
+    "perKmRate": "Rate per km (economy)",
+    "surgeToggle": "Dynamic pricing (surge)"
   }
 }

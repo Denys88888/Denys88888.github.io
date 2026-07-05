@@ -33,7 +33,19 @@
     "chat": "Obrolan",
     "profile": "Profil",
     "earnings": "Pendapatan",
-    "admin": "Admin"
+    "admin": "Admin",
+    "depart": "Head out",
+    "arrive": "You have arrived",
+    "left": "Turn left",
+    "right": "Turn right",
+    "slight_left": "Keep left",
+    "slight_right": "Keep right",
+    "straight": "Continue straight",
+    "uturn": "Make a U-turn",
+    "roundabout": "Enter the roundabout",
+    "inDistance": "In {{distance}}: {{instruction}}",
+    "loading": "Building the route…",
+    "unavailable": "Navigation unavailable"
   },
   "home": {
     "from": "Dari",
@@ -59,7 +71,16 @@
     "goHere": "Ke sini?",
     "findOffers": "Cari penawaran",
     "scheduleRide": "Jadwalkan perjalanan",
-    "tapMapHint": "Ketuk peta untuk memilih tujuan"
+    "tapMapHint": "Ketuk peta untuk memilih tujuan",
+    "home": "Home",
+    "work": "Work",
+    "parents": "Parents",
+    "addressSaved": "{{label}} saved",
+    "addressSaveHint": "Pick a destination first, then tap the chip to save it",
+    "surge_peak": "Peak pricing {{x}}x",
+    "surge_weather": "Bad weather pricing {{x}}x",
+    "surge_night": "Night pricing {{x}}x",
+    "surge_holiday": "Holiday pricing {{x}}x"
   },
   "ride": {
     "statusScheduled": "Terjadwal",
@@ -96,7 +117,16 @@
     "stops": "perhentian",
     "report": "Laporkan masalah",
     "reportReason": "Jelaskan masalahnya",
-    "reportSent": "Laporan terkirim"
+    "reportSent": "Laporan terkirim",
+    "tipTitle": "Tip your driver",
+    "tipThanks": "Thank you for the tip!",
+    "tipPaid": "Tip sent: {{amount}}",
+    "tipCustom": "Custom amount",
+    "tipSend": "Send tip",
+    "payment_pending": "Awaiting payment",
+    "payment_held": "Payment held",
+    "payment_completed": "Paid",
+    "payment_refunded": "Refunded"
   },
   "vehicle": {
     "economy": "Ekonomi",
@@ -108,7 +138,10 @@
     "title": "Obrolan",
     "typeMessage": "Ketik pesan…",
     "send": "Kirim",
-    "empty": "Belum ada pesan"
+    "empty": "Belum ada pesan",
+    "translate": "Translate",
+    "hideTranslation": "Hide translation",
+    "translateFailed": "Translation failed"
   },
   "templates": {
     "0": "Saya di sini",
@@ -136,7 +169,8 @@
     "offerYourPrice": "Tawarkan harga",
     "submitOffer": "Kirim",
     "offerSent": "Penawaran terkirim",
-    "negotiable": "Bisa nego"
+    "negotiable": "Bisa nego",
+    "navigation": "Navigation"
   },
   "earnings": {
     "title": "Pendapatan",
@@ -144,7 +178,11 @@
     "week": "Minggu",
     "month": "Bulan",
     "totalRides": "Total perjalanan",
-    "afterFee": "Setelah biaya"
+    "afterFee": "Setelah biaya",
+    "forecastToday": "Forecast for today: ~{{amount}}",
+    "forecastHint": "Keep this pace and you will earn about {{amount}}",
+    "tipsTotal": "Tips total",
+    "tip": "tip"
   },
   "register": {
     "title": "Pendaftaran pengemudi",
@@ -213,6 +251,23 @@
     "reject": "Tolak",
     "pendingDrivers": "Pengemudi tertunda",
     "feeHint": "Antara 0% dan 20%",
-    "searchUsers": "Cari pengguna"
+    "searchUsers": "Cari pengguna",
+    "driversTab": "All drivers",
+    "analytics": "Analytics",
+    "filter_all": "All",
+    "filter_active": "Active",
+    "filter_completed": "Completed",
+    "filter_cancelled": "Cancelled",
+    "driver_pending": "Pending",
+    "driver_approved": "Approved",
+    "driver_rejected": "Rejected",
+    "driver_all": "All",
+    "ridesByHour": "Rides by hour (7 days)",
+    "revenueByDay": "Platform revenue by day",
+    "topDrivers": "Top 5 drivers",
+    "topRoutes": "Top 5 routes",
+    "minFare": "Minimum fare",
+    "perKmRate": "Rate per km (economy)",
+    "surgeToggle": "Dynamic pricing (surge)"
   }
 }
