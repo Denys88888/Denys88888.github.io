@@ -77,6 +77,59 @@ export async function countryCodeAt(point: GeoPoint): Promise<string | undefined
   }
 }
 
+// ── Road routing via the public OSRM demo server (no API key) ──
+
+const OSRM = 'https://router.project-osrm.org';
+
+export interface RouteResult {
+  points: [number, number][]; // [lat, lng] pairs following the road network
+  distanceKm: number;
+  durationMin: number;
+}
+
+// Cache by waypoint key: the same pickup/stops/destination combination is
+// requested repeatedly as the user pans the map or the screen re-renders.
+const routeCache = new Map<string, RouteResult>();
+
+// Fetch the driving route through the given waypoints (2+). Returns null on
+// any failure — callers should fall back to a straight line.
+export async function fetchRoute(waypoints: GeoPoint[]): Promise<RouteResult | null> {
+  if (waypoints.length < 2) return null;
+  const key = waypoints.map((p) => `${p.lat.toFixed(5)},${p.lng.toFixed(5)}`).join(';');
+  const cached = routeCache.get(key);
+  if (cached) return cached;
+
+  const coords = waypoints.map((p) => `${p.lng},${p.lat}`).join(';');
+  try {
+    const res = await fetch(
+      `${OSRM}/route/v1/driving/${coords}?overview=full&geometries=geojson`,
+      { headers: { Accept: 'application/json' } }
+    );
+    if (!res.ok) return null;
+    const data = (await res.json()) as {
+      code?: string;
+      routes?: Array<{
+        distance: number;
+        duration: number;
+        geometry: { coordinates: [number, number][] };
+      }>;
+    };
+    const route = data.code === 'Ok' && data.routes?.[0];
+    if (!route) return null;
+    const result: RouteResult = {
+      // GeoJSON is [lng, lat]; Leaflet wants [lat, lng].
+      points: route.geometry.coordinates.map(([lng, lat]) => [lat, lng]),
+      distanceKm: route.distance / 1000,
+      durationMin: route.duration / 60,
+    };
+    if (routeCache.size > 50) routeCache.clear();
+    routeCache.set(key, result);
+    return result;
+  } catch {
+    return null;
+  }
+}
+
 // Reverse geocode: coordinates → human-readable address.
 export async function reverseGeocode(point: GeoPoint): Promise<string> {
   const url = `${NOMINATIM}/reverse?format=json&lat=${point.lat}&lon=${point.lng}`;

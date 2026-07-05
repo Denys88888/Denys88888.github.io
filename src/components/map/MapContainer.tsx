@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   MapContainer as LeafletMap,
   TileLayer,
@@ -9,6 +9,7 @@ import {
 } from 'react-leaflet';
 import L from 'leaflet';
 import type { GeoPoint } from '../../types';
+import { fetchRoute } from '../../services/mapService';
 
 // Colored pin built from a divIcon so we don't depend on Leaflet's image assets
 // (which break under a non-root base path on GitHub Pages).
@@ -92,10 +93,31 @@ export function MapView({
   onDestinationDrag,
   className,
 }: Props) {
-  const route: [number, number][] = [];
-  if (pickup) route.push([pickup.lat, pickup.lng]);
-  for (const s of stops) route.push([s.lat, s.lng]);
-  if (destination) route.push([destination.lat, destination.lng]);
+  const waypoints: GeoPoint[] = [];
+  if (pickup) waypoints.push(pickup);
+  waypoints.push(...stops);
+  if (destination) waypoints.push(destination);
+  const waypointKey = waypoints.map((p) => `${p.lat.toFixed(5)},${p.lng.toFixed(5)}`).join(';');
+
+  // Road-following geometry from OSRM; until it arrives (or if it fails) the
+  // straight waypoint line keeps the route visible.
+  const [roadRoute, setRoadRoute] = useState<[number, number][] | null>(null);
+  useEffect(() => {
+    let stale = false;
+    setRoadRoute(null);
+    if (waypoints.length >= 2) {
+      fetchRoute(waypoints).then((r) => {
+        if (!stale && r) setRoadRoute(r.points);
+      });
+    }
+    return () => {
+      stale = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [waypointKey]);
+
+  const route: [number, number][] =
+    roadRoute ?? waypoints.map((p) => [p.lat, p.lng] as [number, number]);
 
   return (
     <div className={className ?? 'h-full w-full overflow-hidden rounded-card'}>
