@@ -25,7 +25,7 @@ function dayPartCoefficient(hour: number): number {
 // and a simple bar chart.
 export function EarningsScreen() {
   const { t } = useTranslation();
-  const [rides, setRides] = useState<Ride[]>([]);
+  const [rides, setRides] = useState<Ride[] | null>(null);
   const [surge, setSurge] = useState<SurgeInfo | null>(null);
 
   useEffect(() => {
@@ -37,17 +37,18 @@ export function EarningsScreen() {
   }, []);
 
   const totals = useMemo(() => {
+    const list = rides ?? [];
     const sum = (pred: (d: Date) => boolean) =>
-      rides.filter((r) => pred(new Date(r.createdAt))).reduce((acc, r) => acc + earned(r), 0);
+      list.filter((r) => pred(new Date(r.createdAt))).reduce((acc, r) => acc + earned(r), 0);
     return {
       today: sum((d) => isToday(d)),
-      week: sum((d) => isThisWeek(d)),
+      week: sum((d) => isThisWeek(d, { weekStartsOn: 1 })),
       month: sum((d) => isThisMonth(d)),
     };
   }, [rides]);
 
   const tipsTotal = useMemo(
-    () => rides.reduce((acc, r) => acc + (r.tipAmount || 0), 0),
+    () => (rides ?? []).reduce((acc, r) => acc + (r.tipAmount || 0), 0),
     [rides]
   );
 
@@ -55,7 +56,7 @@ export function EarningsScreen() {
   const forecast = useMemo(() => {
     const DAY = 24 * 60 * 60 * 1000;
     const weekAgo = Date.now() - 7 * DAY;
-    const recent = rides.filter((r) => new Date(r.createdAt).getTime() >= weekAgo);
+    const recent = (rides ?? []).filter((r) => new Date(r.createdAt).getTime() >= weekAgo);
     if (recent.length === 0) return null;
     const activeDays = new Set(recent.map((r) => r.createdAt.slice(0, 10))).size || 1;
     const avgPerDay = recent.reduce((acc, r) => acc + earned(r), 0) / activeDays;
@@ -64,7 +65,16 @@ export function EarningsScreen() {
     return Math.round(value * 10) / 10;
   }, [rides, surge]);
 
-  const maxEarn = Math.max(1, ...rides.map((r) => earned(r)));
+  const maxEarn = Math.max(1, ...(rides ?? []).map((r) => earned(r)));
+
+  if (rides === null) {
+    return (
+      <div className="flex h-full flex-col">
+        <header className="surface p-4"><h2>{t('earnings.title')}</h2></header>
+        <div className="flex flex-1 items-center justify-center opacity-60">{t('common.loading')}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-full flex-col overflow-y-auto">
