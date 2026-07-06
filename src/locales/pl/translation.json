@@ -127,7 +127,9 @@
     "payment_pending": "Oczekuje na płatność",
     "payment_held": "Płatność zablokowana",
     "payment_completed": "Opłacono",
-    "payment_refunded": "Zwrócono"
+    "payment_refunded": "Zwrócono",
+    "route": "Trasa",
+    "driverEarnings": "Zarobek kierowcy"
   },
   "vehicle": {
     "economy": "Ekonomiczny",
@@ -234,7 +236,8 @@
     "completed": "Zakończone",
     "cancelled": "Anulowane",
     "empty": "Brak przejazdów",
-    "pullToRefresh": "Pociągnij, aby odświeżyć"
+    "pullToRefresh": "Pociągnij, aby odświeżyć",
+    "repeat": "Powtórz"
   },
   "admin": {
     "dashboard": "Panel administratora",

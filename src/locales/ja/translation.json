@@ -127,7 +127,9 @@
     "payment_pending": "Awaiting payment",
     "payment_held": "Payment held",
     "payment_completed": "Paid",
-    "payment_refunded": "Refunded"
+    "payment_refunded": "Refunded",
+    "route": "ルート",
+    "driverEarnings": "ドライバー収益"
   },
   "vehicle": {
     "economy": "エコノミー",
@@ -234,7 +236,8 @@
     "completed": "完了",
     "cancelled": "キャンセル",
     "empty": "乗車履歴はありません",
-    "pullToRefresh": "引っ張って更新"
+    "pullToRefresh": "引っ張って更新",
+    "repeat": "再注文"
   },
   "admin": {
     "dashboard": "管理ダッシュボード",

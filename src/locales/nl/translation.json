@@ -127,7 +127,9 @@
     "payment_pending": "Awaiting payment",
     "payment_held": "Payment held",
     "payment_completed": "Paid",
-    "payment_refunded": "Refunded"
+    "payment_refunded": "Refunded",
+    "route": "Route",
+    "driverEarnings": "Verdiensten chauffeur"
   },
   "vehicle": {
     "economy": "Economy",
@@ -234,7 +236,8 @@
     "completed": "Voltooid",
     "cancelled": "Geannuleerd",
     "empty": "Nog geen ritten",
-    "pullToRefresh": "Trek om te vernieuwen"
+    "pullToRefresh": "Trek om te vernieuwen",
+    "repeat": "Herhalen"
   },
   "admin": {
     "dashboard": "Beheerdersdashboard",

@@ -127,7 +127,9 @@
     "payment_pending": "Awaiting payment",
     "payment_held": "Payment held",
     "payment_completed": "Paid",
-    "payment_refunded": "Refunded"
+    "payment_refunded": "Refunded",
+    "route": "मार्ग",
+    "driverEarnings": "ड्राइवर की कमाई"
   },
   "vehicle": {
     "economy": "इकॉनमी",
@@ -234,7 +236,8 @@
     "completed": "पूर्ण",
     "cancelled": "रद्द",
     "empty": "अभी कोई राइड नहीं",
-    "pullToRefresh": "रिफ़्रेश के लिए खींचें"
+    "pullToRefresh": "रिफ़्रेश के लिए खींचें",
+    "repeat": "दोहराएं"
   },
   "admin": {
     "dashboard": "एडमिन डैशबोर्ड",

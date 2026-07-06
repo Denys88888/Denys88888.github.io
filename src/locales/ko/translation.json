@@ -127,7 +127,9 @@
     "payment_pending": "Awaiting payment",
     "payment_held": "Payment held",
     "payment_completed": "Paid",
-    "payment_refunded": "Refunded"
+    "payment_refunded": "Refunded",
+    "route": "경로",
+    "driverEarnings": "드라이버 수입"
   },
   "vehicle": {
     "economy": "이코노미",
@@ -234,7 +236,8 @@
     "completed": "완료",
     "cancelled": "취소",
     "empty": "아직 운행 기록이 없습니다",
-    "pullToRefresh": "당겨서 새로고침"
+    "pullToRefresh": "당겨서 새로고침",
+    "repeat": "다시 주문"
   },
   "admin": {
     "dashboard": "관리자 대시보드",

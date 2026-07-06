@@ -127,7 +127,9 @@
     "payment_pending": "Awaiting payment",
     "payment_held": "Payment held",
     "payment_completed": "Paid",
-    "payment_refunded": "Refunded"
+    "payment_refunded": "Refunded",
+    "route": "Rutt",
+    "driverEarnings": "Förarens intäkter"
   },
   "vehicle": {
     "economy": "Economy",
@@ -234,7 +236,8 @@
     "completed": "Slutförda",
     "cancelled": "Avbokade",
     "empty": "Inga resor än",
-    "pullToRefresh": "Dra för att uppdatera"
+    "pullToRefresh": "Dra för att uppdatera",
+    "repeat": "Upprepa"
   },
   "admin": {
     "dashboard": "Adminpanel",

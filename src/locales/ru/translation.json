@@ -127,7 +127,9 @@
     "payment_pending": "Ожидает оплаты",
     "payment_held": "Оплата заморожена",
     "payment_completed": "Оплачено",
-    "payment_refunded": "Возвращено"
+    "payment_refunded": "Возвращено",
+    "route": "Маршрут",
+    "driverEarnings": "Заработок водителя"
   },
   "vehicle": {
     "economy": "Эконом",
@@ -234,7 +236,8 @@
     "completed": "Завершённые",
     "cancelled": "Отменённые",
     "empty": "Поездок пока нет",
-    "pullToRefresh": "Потяните для обновления"
+    "pullToRefresh": "Потяните для обновления",
+    "repeat": "Повторить"
   },
   "admin": {
     "dashboard": "Панель администратора",
