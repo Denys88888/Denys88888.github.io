@@ -29,6 +29,16 @@ export function RideProvider({ children }: { children: ReactNode }) {
     });
 
     const offStatus = wsService.on('ride_status_update', (msg) => {
+      if (msg.status === 'driver_approved' && msg.token) {
+        const { setAuth } = useAppStore.getState();
+        setAuth(msg.user as unknown as import('../types').User, String(msg.token));
+        addToast('success', t('register.driverApproved'));
+        return;
+      }
+      if (msg.status === 'driver_rejected') {
+        addToast('error', t('register.driverRejected'));
+        return;
+      }
       const cur = useAppStore.getState().currentRide;
       const rideId = String(msg.rideId ?? '');
       if (cur && cur.id === rideId && msg.status) {
@@ -40,7 +50,7 @@ export function RideProvider({ children }: { children: ReactNode }) {
       offAssigned();
       offStatus();
     };
-  }, [token, setCurrentRide, addToast]);
+  }, [token, setCurrentRide, addToast, t]);
 
   const refresh = (): void => {
     /* Placeholder for manual refresh; ride state is push-driven via WS. */
