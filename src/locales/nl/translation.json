@@ -234,7 +234,11 @@
     "notificationsOn": "Enabled",
     "notificationsEnable": "Enable",
     "share": "App delen",
-    "shareText": "Probeer Taxi Pro — taxi via Pi Network!"
+    "shareText": "Probeer Taxi Pro — taxi via Pi Network!",
+    "switchToDriver": "Naar chauffeur",
+    "switchToPassenger": "Naar passagier",
+    "switchedToDriver": "Chauffeurmodus",
+    "switchedToPassenger": "Passagiersmodus"
   },
   "history": {
     "title": "Ritgeschiedenis",

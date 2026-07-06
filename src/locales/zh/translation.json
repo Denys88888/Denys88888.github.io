@@ -234,7 +234,11 @@
     "notificationsOn": "Enabled",
     "notificationsEnable": "Enable",
     "share": "分享应用",
-    "shareText": "试试Taxi Pro — Pi Network上的打车服务！"
+    "shareText": "试试Taxi Pro — Pi Network上的打车服务！",
+    "switchToDriver": "切换为司机",
+    "switchToPassenger": "切换为乘客",
+    "switchedToDriver": "司机模式",
+    "switchedToPassenger": "乘客模式"
   },
   "history": {
     "title": "行程记录",

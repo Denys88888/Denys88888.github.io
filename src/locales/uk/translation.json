@@ -234,7 +234,11 @@
     "notificationsOn": "Увімкнено",
     "notificationsEnable": "Увімкнути",
     "share": "Поділитися",
-    "shareText": "Спробуй Taxi Pro — таксі на Pi Network!"
+    "shareText": "Спробуй Taxi Pro — таксі на Pi Network!",
+    "switchToDriver": "Переключитися на водія",
+    "switchToPassenger": "Переключитися на пасажира",
+    "switchedToDriver": "Режим водія",
+    "switchedToPassenger": "Режим пасажира"
   },
   "history": {
     "title": "Історія поїздок",

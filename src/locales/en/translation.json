@@ -234,7 +234,11 @@
     "notificationsOn": "Enabled",
     "notificationsEnable": "Enable",
     "share": "Share app",
-    "shareText": "Try Taxi Pro — ride-hailing on Pi Network!"
+    "shareText": "Try Taxi Pro — ride-hailing on Pi Network!",
+    "switchToDriver": "Switch to driver",
+    "switchToPassenger": "Switch to passenger",
+    "switchedToDriver": "Switched to driver mode",
+    "switchedToPassenger": "Switched to passenger mode"
   },
   "history": {
     "title": "Ride history",

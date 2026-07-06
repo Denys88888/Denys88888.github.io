@@ -234,7 +234,11 @@
     "notificationsOn": "Enabled",
     "notificationsEnable": "Enable",
     "share": "ऐप शेयर करें",
-    "shareText": "Taxi Pro आज़माएं — Pi Network पर राइड-हेलिंग!"
+    "shareText": "Taxi Pro आज़माएं — Pi Network पर राइड-हेलिंग!",
+    "switchToDriver": "ड्राइवर पर स्विच करें",
+    "switchToPassenger": "यात्री पर स्विच करें",
+    "switchedToDriver": "ड्राइवर मोड",
+    "switchedToPassenger": "यात्री मोड"
   },
   "history": {
     "title": "यात्रा इतिहास",

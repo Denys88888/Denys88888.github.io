@@ -234,7 +234,11 @@
     "notificationsOn": "Enabled",
     "notificationsEnable": "Enable",
     "share": "Bagikan aplikasi",
-    "shareText": "Coba Taxi Pro — ride-hailing di Pi Network!"
+    "shareText": "Coba Taxi Pro — ride-hailing di Pi Network!",
+    "switchToDriver": "Beralih ke pengemudi",
+    "switchToPassenger": "Beralih ke penumpang",
+    "switchedToDriver": "Mode pengemudi",
+    "switchedToPassenger": "Mode penumpang"
   },
   "history": {
     "title": "Riwayat perjalanan",

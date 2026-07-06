@@ -234,7 +234,11 @@
     "notificationsOn": "Enabled",
     "notificationsEnable": "Enable",
     "share": "Partager l'app",
-    "shareText": "Essayez Taxi Pro — VTC sur Pi Network !"
+    "shareText": "Essayez Taxi Pro — VTC sur Pi Network !",
+    "switchToDriver": "Passer en mode chauffeur",
+    "switchToPassenger": "Passer en mode passager",
+    "switchedToDriver": "Mode chauffeur",
+    "switchedToPassenger": "Mode passager"
   },
   "history": {
     "title": "Historique des courses",

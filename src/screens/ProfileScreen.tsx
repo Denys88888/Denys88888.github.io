@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Camera, Star, LayoutDashboard, Car, Share } from 'lucide-react';
+import { Camera, Star, LayoutDashboard, Car, Share, ArrowLeftRight } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Avatar } from '../components/ui/Avatar';
 import { Badge } from '../components/ui/Badge';
@@ -28,6 +28,7 @@ export function ProfileScreen() {
   const { logout } = useAuth();
   const user = useAppStore((s) => s.user);
   const updateUser = useAppStore((s) => s.updateUser);
+  const setAuth = useAppStore((s) => s.setAuth);
   const health = useAppStore((s) => s.health);
   const navigate = useRouter((s) => s.navigate);
   const { addToast } = useToast();
@@ -35,8 +36,27 @@ export function ProfileScreen() {
   const [phone, setPhone] = useState(user?.phone ?? '');
   const [savingPhone, setSavingPhone] = useState(false);
   const [notifGranted, setNotifGranted] = useState(systemNotificationsEnabled());
+  const [switching, setSwitching] = useState(false);
 
   if (!user) return null;
+
+  const canSwitchToDriver = user.role === 'passenger' && user.driverInfo?.applicationStatus === 'approved';
+  const canSwitchToPassenger = user.role === 'driver';
+
+  const handleSwitchRole = async (): Promise<void> => {
+    const target = user.role === 'driver' ? 'passenger' : 'driver';
+    setSwitching(true);
+    try {
+      const { token, user: updated } = await api.switchRole(target as 'passenger' | 'driver');
+      setAuth(updated, token);
+      navigate('home');
+      addToast('success', t(`profile.switchedTo${target === 'driver' ? 'Driver' : 'Passenger'}`));
+    } catch {
+      addToast('error', t('common.error'));
+    } finally {
+      setSwitching(false);
+    }
+  };
 
   const roleKey =
     user.role === 'admin' ? 'roleAdmin' : user.role === 'driver' ? 'roleDriver' : 'rolePassenger';
@@ -141,13 +161,20 @@ export function ProfileScreen() {
           )}
         </Card>
 
+        {(canSwitchToDriver || canSwitchToPassenger) && (
+          <Button variant="outline" fullWidth loading={switching} onClick={handleSwitchRole}>
+            <ArrowLeftRight size={18} />
+            {user.role === 'driver' ? t('profile.switchToPassenger') : t('profile.switchToDriver')}
+          </Button>
+        )}
+
         {user.role === 'admin' && (
           <Button variant="outline" fullWidth onClick={() => navigate('admin')}>
             <LayoutDashboard size={18} /> {t('profile.adminPanel')}
           </Button>
         )}
 
-        {user.role === 'passenger' && (
+        {user.role === 'passenger' && !user.driverInfo && (
           <Button variant="outline" fullWidth onClick={() => navigate('register')}>
             <Car size={18} /> {t('driver.register')}
           </Button>

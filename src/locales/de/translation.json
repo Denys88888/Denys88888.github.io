@@ -234,7 +234,11 @@
     "notificationsOn": "Enabled",
     "notificationsEnable": "Enable",
     "share": "App teilen",
-    "shareText": "Probiere Taxi Pro — Taxi mit Pi Network!"
+    "shareText": "Probiere Taxi Pro — Taxi mit Pi Network!",
+    "switchToDriver": "Zum Fahrer wechseln",
+    "switchToPassenger": "Zum Fahrgast wechseln",
+    "switchedToDriver": "Fahrermodus",
+    "switchedToPassenger": "Fahrgastmodus"
   },
   "history": {
     "title": "Fahrtverlauf",

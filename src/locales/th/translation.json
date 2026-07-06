@@ -234,7 +234,11 @@
     "notificationsOn": "Enabled",
     "notificationsEnable": "Enable",
     "share": "แชร์แอป",
-    "shareText": "ลอง Taxi Pro — เรียกรถบน Pi Network!"
+    "shareText": "ลอง Taxi Pro — เรียกรถบน Pi Network!",
+    "switchToDriver": "สลับเป็นคนขับ",
+    "switchToPassenger": "สลับเป็นผู้โดยสาร",
+    "switchedToDriver": "โหมดคนขับ",
+    "switchedToPassenger": "โหมดผู้โดยสาร"
   },
   "history": {
     "title": "ประวัติการเดินทาง",

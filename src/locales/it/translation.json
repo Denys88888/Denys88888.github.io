@@ -234,7 +234,11 @@
     "notificationsOn": "Enabled",
     "notificationsEnable": "Enable",
     "share": "Condividi app",
-    "shareText": "Prova Taxi Pro — taxi su Pi Network!"
+    "shareText": "Prova Taxi Pro — taxi su Pi Network!",
+    "switchToDriver": "Passa a conducente",
+    "switchToPassenger": "Passa a passeggero",
+    "switchedToDriver": "Modalità conducente",
+    "switchedToPassenger": "Modalità passeggero"
   },
   "history": {
     "title": "Cronologia corse",

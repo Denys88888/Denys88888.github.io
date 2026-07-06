@@ -234,7 +234,11 @@
     "notificationsOn": "Enabled",
     "notificationsEnable": "Enable",
     "share": "アプリを共有",
-    "shareText": "Taxi Proを試そう — Pi Networkの配車サービス！"
+    "shareText": "Taxi Proを試そう — Pi Networkの配車サービス！",
+    "switchToDriver": "ドライバーに切替",
+    "switchToPassenger": "乗客に切替",
+    "switchedToDriver": "ドライバーモード",
+    "switchedToPassenger": "乗客モード"
   },
   "history": {
     "title": "乗車履歴",
