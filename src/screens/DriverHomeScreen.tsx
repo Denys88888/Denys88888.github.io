@@ -183,7 +183,7 @@ export function DriverHomeScreen() {
         <button
           onClick={toggleOnline}
           className={cn(
-            'absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-fab',
+            'absolute left-4 top-4 z-[1000] inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-fab',
             online ? 'bg-success' : 'bg-danger'
           )}
         >
@@ -192,7 +192,7 @@ export function DriverHomeScreen() {
         </button>
         <button
           onClick={() => setFocusNonce((n) => n + 1)}
-          className="absolute bottom-20 right-4 flex h-11 w-11 items-center justify-center rounded-full bg-primary text-white shadow-fab active:scale-95"
+          className="absolute bottom-20 right-4 z-[1000] flex h-11 w-11 items-center justify-center rounded-full bg-primary text-white shadow-fab active:scale-95"
           aria-label={t('home.useMyLocation')}
         >
           <LocateFixed size={20} />
