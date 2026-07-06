@@ -234,7 +234,11 @@
     "notificationsOn": "Enabled",
     "notificationsEnable": "Enable",
     "share": "Compartir app",
-    "shareText": "¡Prueba Taxi Pro — taxis en Pi Network!"
+    "shareText": "¡Prueba Taxi Pro — taxis en Pi Network!",
+    "switchToDriver": "Cambiar a conductor",
+    "switchToPassenger": "Cambiar a pasajero",
+    "switchedToDriver": "Modo conductor",
+    "switchedToPassenger": "Modo pasajero"
   },
   "history": {
     "title": "Historial de viajes",

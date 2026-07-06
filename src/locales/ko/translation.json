@@ -234,7 +234,11 @@
     "notificationsOn": "Enabled",
     "notificationsEnable": "Enable",
     "share": "앱 공유",
-    "shareText": "Taxi Pro를 사용해 보세요 — Pi Network 기반 택시!"
+    "shareText": "Taxi Pro를 사용해 보세요 — Pi Network 기반 택시!",
+    "switchToDriver": "운전자로 전환",
+    "switchToPassenger": "승객으로 전환",
+    "switchedToDriver": "운전자 모드",
+    "switchedToPassenger": "승객 모드"
   },
   "history": {
     "title": "운행 기록",

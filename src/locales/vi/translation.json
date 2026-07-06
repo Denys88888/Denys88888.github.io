@@ -234,7 +234,11 @@
     "notificationsOn": "Enabled",
     "notificationsEnable": "Enable",
     "share": "Chia sẻ ứng dụng",
-    "shareText": "Thử Taxi Pro — gọi xe trên Pi Network!"
+    "shareText": "Thử Taxi Pro — gọi xe trên Pi Network!",
+    "switchToDriver": "Chuyển sang tài xế",
+    "switchToPassenger": "Chuyển sang hành khách",
+    "switchedToDriver": "Chế độ tài xế",
+    "switchedToPassenger": "Chế độ hành khách"
   },
   "history": {
     "title": "Lịch sử chuyến đi",

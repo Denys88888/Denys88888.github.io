@@ -234,7 +234,11 @@
     "notificationsOn": "Enabled",
     "notificationsEnable": "Enable",
     "share": "Dela appen",
-    "shareText": "Prova Taxi Pro — taxi via Pi Network!"
+    "shareText": "Prova Taxi Pro — taxi via Pi Network!",
+    "switchToDriver": "Byt till förare",
+    "switchToPassenger": "Byt till passagerare",
+    "switchedToDriver": "Förarläge",
+    "switchedToPassenger": "Passagerarläge"
   },
   "history": {
     "title": "Reshistorik",

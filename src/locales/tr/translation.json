@@ -234,7 +234,11 @@
     "notificationsOn": "Enabled",
     "notificationsEnable": "Enable",
     "share": "Uygulamayı paylaş",
-    "shareText": "Taxi Pro'yu dene — Pi Network'te taksi!"
+    "shareText": "Taxi Pro'yu dene — Pi Network'te taksi!",
+    "switchToDriver": "Sürücüye geç",
+    "switchToPassenger": "Yolcuya geç",
+    "switchedToDriver": "Sürücü modu",
+    "switchedToPassenger": "Yolcu modu"
   },
   "history": {
     "title": "Yolculuk geçmişi",

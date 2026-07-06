@@ -234,7 +234,11 @@
     "notificationsOn": "Włączone",
     "notificationsEnable": "Włącz",
     "share": "Udostępnij aplikację",
-    "shareText": "Wypróbuj Taxi Pro — taksówki w sieci Pi!"
+    "shareText": "Wypróbuj Taxi Pro — taksówki w sieci Pi!",
+    "switchToDriver": "Przełącz na kierowcę",
+    "switchToPassenger": "Przełącz na pasażera",
+    "switchedToDriver": "Tryb kierowcy",
+    "switchedToPassenger": "Tryb pasażera"
   },
   "history": {
     "title": "Historia przejazdów",

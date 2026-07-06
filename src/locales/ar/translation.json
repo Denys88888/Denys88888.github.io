@@ -234,7 +234,11 @@
     "notificationsOn": "Enabled",
     "notificationsEnable": "Enable",
     "share": "مشاركة التطبيق",
-    "shareText": "جرّب Taxi Pro — سيارات أجرة على شبكة Pi!"
+    "shareText": "جرّب Taxi Pro — سيارات أجرة على شبكة Pi!",
+    "switchToDriver": "التبديل إلى السائق",
+    "switchToPassenger": "التبديل إلى الراكب",
+    "switchedToDriver": "وضع السائق",
+    "switchedToPassenger": "وضع الراكب"
   },
   "history": {
     "title": "سجل الرحلات",

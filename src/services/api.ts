@@ -73,6 +73,8 @@ export const api = {
   getMe: () => client.get<User>('/api/users/me').then((r) => r.data),
   updateProfile: (patch: Partial<Pick<User, 'name' | 'phone' | 'avatar' | 'preferredLanguage' | 'preferredTheme'>>) =>
     client.patch<User>('/api/users/me', patch).then((r) => r.data),
+  switchRole: (role: 'passenger' | 'driver') =>
+    client.post<{ token: string; user: User }>('/api/users/me/switch-role', { role }).then((r) => r.data),
 
   // ── Rides ──
   createRide: (payload: {
