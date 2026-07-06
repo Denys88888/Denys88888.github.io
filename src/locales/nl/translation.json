@@ -14,7 +14,9 @@
     "submit": "Verzenden",
     "retry": "Opnieuw",
     "search": "Zoeken",
-    "offline": "Geen internetverbinding"
+    "offline": "Geen internetverbinding",
+    "somethingWentWrong": "Er is iets misgegaan",
+    "reload": "Herladen"
   },
   "splash": {
     "poweredBy": "Mogelijk gemaakt door Pi Network"
@@ -131,7 +133,8 @@
     "route": "Route",
     "driverEarnings": "Verdiensten chauffeur",
     "searchingDriver": "Chauffeur zoeken...",
-    "searchingHint": "Duurt meestal 1-3 minuten"
+    "searchingHint": "Duurt meestal 1-3 minuten",
+    "paymentComplete": "Betaling voltooid"
   },
   "vehicle": {
     "economy": "Economy",

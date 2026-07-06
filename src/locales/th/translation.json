@@ -14,7 +14,9 @@
     "submit": "ส่ง",
     "retry": "ลองอีกครั้ง",
     "search": "ค้นหา",
-    "offline": "ไม่มีการเชื่อมต่ออินเทอร์เน็ต"
+    "offline": "ไม่มีการเชื่อมต่ออินเทอร์เน็ต",
+    "somethingWentWrong": "เกิดข้อผิดพลาด",
+    "reload": "โหลดใหม่"
   },
   "splash": {
     "poweredBy": "ขับเคลื่อนโดย Pi Network"
@@ -131,7 +133,8 @@
     "route": "เส้นทาง",
     "driverEarnings": "รายได้คนขับ",
     "searchingDriver": "กำลังหาคนขับ...",
-    "searchingHint": "โดยปกติใช้เวลา 1-3 นาที"
+    "searchingHint": "โดยปกติใช้เวลา 1-3 นาที",
+    "paymentComplete": "ชำระเงินเสร็จสิ้น"
   },
   "vehicle": {
     "economy": "ประหยัด",

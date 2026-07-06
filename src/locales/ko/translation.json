@@ -14,7 +14,9 @@
     "submit": "제출",
     "retry": "다시 시도",
     "search": "검색",
-    "offline": "인터넷 연결 없음"
+    "offline": "인터넷 연결 없음",
+    "somethingWentWrong": "문제가 발생했습니다",
+    "reload": "새로고침"
   },
   "splash": {
     "poweredBy": "Pi Network 제공"
@@ -131,7 +133,8 @@
     "route": "경로",
     "driverEarnings": "드라이버 수입",
     "searchingDriver": "드라이버를 찾는 중...",
-    "searchingHint": "보통 1-3분 소요"
+    "searchingHint": "보통 1-3분 소요",
+    "paymentComplete": "결제 완료"
   },
   "vehicle": {
     "economy": "이코노미",

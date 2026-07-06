@@ -58,16 +58,14 @@ export function PassengerHomeScreen() {
   const [surge, setSurge] = useState<SurgeInfo | null>(null);
   useEffect(() => {
     const point = pickup ?? position ?? undefined;
-    api
-      .getSurge(point ? { lat: point.lat, lng: point.lng } : undefined)
-      .then(setSurge)
-      .catch(() => setSurge(null));
-    // Re-check every 5 minutes — surge is time-of-day dependent.
-    const id = setInterval(() => {
+    const fetchSurge = () =>
       api.getSurge(point ? { lat: point.lat, lng: point.lng } : undefined).then(setSurge).catch(() => {});
-    }, 5 * 60 * 1000);
+    fetchSurge();
+    const id = setInterval(fetchSurge, 5 * 60 * 1000);
     return () => clearInterval(id);
-  }, [pickup?.lat, pickup?.lng, position?.lat, position?.lng]);
+    // Only re-check when pickup changes (not on every GPS tick)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pickup?.lat, pickup?.lng]);
 
   // Saved quick addresses (Home / Work / Parents).
   const [savedAddrs, setSavedAddrs] = useState<SavedAddress[]>([]);

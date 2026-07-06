@@ -14,7 +14,9 @@
     "submit": "Gönder",
     "retry": "Tekrar dene",
     "search": "Ara",
-    "offline": "İnternet bağlantısı yok"
+    "offline": "İnternet bağlantısı yok",
+    "somethingWentWrong": "Bir şeyler ters gitti",
+    "reload": "Yeniden yükle"
   },
   "splash": {
     "poweredBy": "Pi Network tarafından desteklenmektedir"
@@ -131,7 +133,8 @@
     "route": "Rota",
     "driverEarnings": "Sürücü kazancı",
     "searchingDriver": "Sürücü aranıyor...",
-    "searchingHint": "Genellikle 1-3 dakika sürer"
+    "searchingHint": "Genellikle 1-3 dakika sürer",
+    "paymentComplete": "Ödeme tamamlandı"
   },
   "vehicle": {
     "economy": "Ekonomi",

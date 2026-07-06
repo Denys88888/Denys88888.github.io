@@ -71,7 +71,7 @@ class WsService {
     if (this.ws && this.ws.readyState === WebSocket.OPEN) {
       this.ws.send(msg);
     } else {
-      this.queue.push(msg);
+      if (this.queue.length < 50) this.queue.push(msg);
       this.open();
     }
   }
@@ -92,6 +92,7 @@ class WsService {
     this.reconnectTimer = null;
     this.ws?.close();
     this.ws = null;
+    this.queue.length = 0;
   }
 
   // Immediately attempt to reconnect, resetting the backoff. Used when the device
@@ -105,6 +106,11 @@ class WsService {
     }
     this.reconnectAttempt = 0;
     if (this.ws && this.ws.readyState === WebSocket.OPEN) return;
+    if (this.ws) {
+      this.ws.onclose = null;
+      this.ws.onerror = null;
+      this.ws.close();
+    }
     this.ws = null;
     this.open();
   }

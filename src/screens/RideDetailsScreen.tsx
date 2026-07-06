@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Calendar, Star, Phone, MessageCircle, Flag, Share2, Siren, Navigation, Zap } from 'lucide-react';
+import { ArrowLeft, Calendar, Star, Phone, MessageCircle, Flag, Share2, Siren, Navigation, Zap } from 'lucide-react';
 import { MapView } from '../components/map/MapContainer';
 import { RideStatusBadge } from '../components/ride/RideStatusBadge';
 import { SearchingOverlay } from '../components/ride/SearchingOverlay';
@@ -121,11 +121,12 @@ export function RideDetailsScreen() {
     setEtaSeconds(Math.max(0, Math.round((km / AVG_SPEED_KMH) * 3600)));
   }, [driverPos, targetPoint?.lat, targetPoint?.lng, ride?.status]);
 
+  const etaActive = etaSeconds !== null;
   useEffect(() => {
-    if (etaSeconds === null) return;
+    if (!etaActive) return;
     const id = setInterval(() => setEtaSeconds((s) => (s === null ? null : Math.max(0, s - 1))), 1000);
     return () => clearInterval(id);
-  }, [etaSeconds === null]);
+  }, [etaActive]);
 
   if (!ride) {
     return <div className="flex h-full items-center justify-center opacity-60">{t('common.loading')}</div>;
@@ -219,7 +220,13 @@ export function RideDetailsScreen() {
           me={position}
           className="h-full w-full"
         />
-        {/* Driver turn-by-turn navigation overlay (OSRM maneuvers + voice). */}
+        <button
+          onClick={back}
+          className="absolute left-3 top-3 z-[500] flex h-10 w-10 items-center justify-center rounded-full bg-white/90 dark:bg-black/70 shadow-fab active:scale-95"
+          aria-label={t('common.back')}
+        >
+          <ArrowLeft size={20} />
+        </button>
         {showNav && isDriver && targetPoint && (
           <div className="absolute inset-x-3 bottom-3 z-[500]">
             <NavigationPanel
@@ -373,7 +380,7 @@ export function RideDetailsScreen() {
           </Card>
         )}
 
-        {ride.status === 'completed' && !ride.txid && !isDriver && (
+        {ride.status === 'completed' && !ride.txid && !isDriver && ride.paymentStatus !== 'held' && (
           <Button fullWidth loading={processing} onClick={pay}>
             {t('ride.fare')}: {formatPi(ride.fare)} — π Pay
           </Button>
@@ -462,11 +469,18 @@ export function RideDetailsScreen() {
             <Button
               variant="outline"
               onClick={async () => {
-                const { shareToken } = await api.shareRide(ride.id);
-                await navigator.clipboard?.writeText(
-                  `${location.origin}${location.pathname}?share=${shareToken}`
-                );
-                addToast('success', t('ride.shareCopied'));
+                try {
+                  const { shareToken } = await api.shareRide(ride.id);
+                  const url = `${location.origin}${location.pathname}?share=${shareToken}`;
+                  if (navigator.clipboard) {
+                    await navigator.clipboard.writeText(url);
+                    addToast('success', t('ride.shareCopied'));
+                  } else {
+                    addToast('error', t('common.error'));
+                  }
+                } catch {
+                  addToast('error', t('common.error'));
+                }
               }}
             >
               <Share2 size={16} /> {t('ride.share')}

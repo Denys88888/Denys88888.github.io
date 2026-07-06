@@ -81,10 +81,13 @@ export function DriverHomeScreen() {
   // An in-progress ride (page reload, back navigation) → offer the Navigation
   // shortcut back into the ride screen.
   useEffect(() => {
+    let cancelled = false;
     (async () => {
       for (const status of ['in_progress', 'arrived', 'assigned'] as const) {
+        if (cancelled) return;
         try {
           const { rides } = await api.listRides({ status, limit: 1 });
+          if (cancelled) return;
           const mine = rides.find((r) => r.driverId);
           if (mine) {
             setActiveRide(mine);
@@ -94,8 +97,9 @@ export function DriverHomeScreen() {
           return;
         }
       }
-      setActiveRide(null);
+      if (!cancelled) setActiveRide(null);
     })();
+    return () => { cancelled = true; };
   }, []);
 
   useEffect(() => {

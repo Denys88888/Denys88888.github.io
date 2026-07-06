@@ -14,7 +14,9 @@
     "submit": "Wyślij",
     "retry": "Ponów",
     "search": "Szukaj",
-    "offline": "Brak połączenia z internetem"
+    "offline": "Brak połączenia z internetem",
+    "somethingWentWrong": "Coś poszło nie tak",
+    "reload": "Przeładuj"
   },
   "splash": {
     "poweredBy": "Wspierane przez Pi Network"
@@ -131,7 +133,8 @@
     "route": "Trasa",
     "driverEarnings": "Zarobek kierowcy",
     "searchingDriver": "Szukam kierowcy...",
-    "searchingHint": "Zwykle trwa 1–3 minuty"
+    "searchingHint": "Zwykle trwa 1–3 minuty",
+    "paymentComplete": "Płatność zakończona"
   },
   "vehicle": {
     "economy": "Ekonomiczny",

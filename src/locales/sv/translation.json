@@ -14,7 +14,9 @@
     "submit": "Skicka",
     "retry": "Försök igen",
     "search": "Sök",
-    "offline": "Ingen internetanslutning"
+    "offline": "Ingen internetanslutning",
+    "somethingWentWrong": "Något gick fel",
+    "reload": "Ladda om"
   },
   "splash": {
     "poweredBy": "Drivs av Pi Network"
@@ -131,7 +133,8 @@
     "route": "Rutt",
     "driverEarnings": "Förarens intäkter",
     "searchingDriver": "Söker förare...",
-    "searchingHint": "Tar vanligtvis 1–3 minuter"
+    "searchingHint": "Tar vanligtvis 1–3 minuter",
+    "paymentComplete": "Betalning klar"
   },
   "vehicle": {
     "economy": "Economy",

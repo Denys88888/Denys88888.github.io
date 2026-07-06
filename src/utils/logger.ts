@@ -8,7 +8,7 @@ export const logger = {
     if (!isProd) console.info(`[info] ${message}`, ...meta);
   },
   warn(message: string, ...meta: unknown[]): void {
-    if (!isProd) console.info(`[warn] ${message}`, ...meta);
+    if (!isProd) console.warn(`[warn] ${message}`, ...meta);
   },
   error(message: string, ...meta: unknown[]): void {
     // Errors are always surfaced so field issues are diagnosable.

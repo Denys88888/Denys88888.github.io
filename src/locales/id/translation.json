@@ -14,7 +14,9 @@
     "submit": "Kirim",
     "retry": "Coba lagi",
     "search": "Cari",
-    "offline": "Tidak ada koneksi internet"
+    "offline": "Tidak ada koneksi internet",
+    "somethingWentWrong": "Terjadi kesalahan",
+    "reload": "Muat ulang"
   },
   "splash": {
     "poweredBy": "Didukung oleh Pi Network"
@@ -131,7 +133,8 @@
     "route": "Rute",
     "driverEarnings": "Pendapatan pengemudi",
     "searchingDriver": "Mencari pengemudi...",
-    "searchingHint": "Biasanya memakan waktu 1-3 menit"
+    "searchingHint": "Biasanya memakan waktu 1-3 menit",
+    "paymentComplete": "Pembayaran selesai"
   },
   "vehicle": {
     "economy": "Ekonomi",
