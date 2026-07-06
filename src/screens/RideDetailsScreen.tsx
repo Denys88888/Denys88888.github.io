@@ -222,13 +222,13 @@ export function RideDetailsScreen() {
         />
         <button
           onClick={back}
-          className="absolute left-3 top-3 z-[500] flex h-10 w-10 items-center justify-center rounded-full bg-white/90 dark:bg-black/70 shadow-fab active:scale-95"
+          className="absolute left-3 top-3 z-[1000] flex h-10 w-10 items-center justify-center rounded-full bg-white/90 dark:bg-black/70 shadow-fab active:scale-95"
           aria-label={t('common.back')}
         >
           <ArrowLeft size={20} />
         </button>
         {showNav && isDriver && targetPoint && (
-          <div className="absolute inset-x-3 bottom-3 z-[500]">
+          <div className="absolute inset-x-3 bottom-3 z-[1000]">
             <NavigationPanel
               from={driverPos ?? ride.pickup}
               to={targetPoint}

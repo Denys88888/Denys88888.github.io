@@ -225,7 +225,7 @@ export function PassengerHomeScreen() {
           onDestinationDrag={onDestinationDrag}
           className="h-full w-full"
         />
-        <div className="pointer-events-none absolute inset-x-0 top-2 flex justify-center">
+        <div className="pointer-events-none absolute inset-x-0 top-2 z-[1000] flex justify-center">
           <span className="pointer-events-none rounded-full bg-black/60 px-3 py-1 text-xs text-white">
             {t('home.tapMapHint')}
           </span>
@@ -235,7 +235,7 @@ export function PassengerHomeScreen() {
             request();
             setFocusNonce((n) => n + 1);
           }}
-          className="absolute bottom-20 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-fab active:scale-95"
+          className="absolute bottom-20 right-4 z-[1000] flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-fab active:scale-95"
           aria-label={t('home.useMyLocation')}
         >
           <LocateFixed size={22} />
