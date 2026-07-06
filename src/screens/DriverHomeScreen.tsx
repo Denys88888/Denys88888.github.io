@@ -192,7 +192,7 @@ export function DriverHomeScreen() {
         </button>
         <button
           onClick={() => setFocusNonce((n) => n + 1)}
-          className="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full bg-primary text-white shadow-fab active:scale-95"
+          className="absolute bottom-20 right-4 flex h-11 w-11 items-center justify-center rounded-full bg-primary text-white shadow-fab active:scale-95"
           aria-label={t('home.useMyLocation')}
         >
           <LocateFixed size={20} />
