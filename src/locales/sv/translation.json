@@ -129,7 +129,9 @@
     "payment_completed": "Paid",
     "payment_refunded": "Refunded",
     "route": "Rutt",
-    "driverEarnings": "Förarens intäkter"
+    "driverEarnings": "Förarens intäkter",
+    "searchingDriver": "Söker förare...",
+    "searchingHint": "Tar vanligtvis 1–3 minuter"
   },
   "vehicle": {
     "economy": "Economy",
@@ -173,7 +175,9 @@
     "submitOffer": "Skicka",
     "offerSent": "Erbjudande skickat",
     "negotiable": "Förhandlingsbar",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "today": "Idag",
+    "ridesCount": "Resor"
   },
   "earnings": {
     "title": "Intäkter",
@@ -228,7 +232,9 @@
     "call": "Ring",
     "saved": "Sparad",
     "notificationsOn": "Enabled",
-    "notificationsEnable": "Enable"
+    "notificationsEnable": "Enable",
+    "share": "Dela appen",
+    "shareText": "Prova Taxi Pro — taxi via Pi Network!"
   },
   "history": {
     "title": "Reshistorik",

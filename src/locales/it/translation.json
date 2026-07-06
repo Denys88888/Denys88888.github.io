@@ -129,7 +129,9 @@
     "payment_completed": "Paid",
     "payment_refunded": "Refunded",
     "route": "Percorso",
-    "driverEarnings": "Guadagno autista"
+    "driverEarnings": "Guadagno autista",
+    "searchingDriver": "Cerco un autista...",
+    "searchingHint": "Di solito 1–3 minuti"
   },
   "vehicle": {
     "economy": "Economy",
@@ -173,7 +175,9 @@
     "submitOffer": "Invia",
     "offerSent": "Offerta inviata",
     "negotiable": "Trattabile",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "today": "Oggi",
+    "ridesCount": "Corse"
   },
   "earnings": {
     "title": "Guadagni",
@@ -228,7 +232,9 @@
     "call": "Chiama",
     "saved": "Salvato",
     "notificationsOn": "Enabled",
-    "notificationsEnable": "Enable"
+    "notificationsEnable": "Enable",
+    "share": "Condividi app",
+    "shareText": "Prova Taxi Pro — taxi su Pi Network!"
   },
   "history": {
     "title": "Cronologia corse",

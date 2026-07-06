@@ -129,7 +129,9 @@
     "payment_completed": "Paid",
     "payment_refunded": "Refunded",
     "route": "Route",
-    "driverEarnings": "Verdiensten chauffeur"
+    "driverEarnings": "Verdiensten chauffeur",
+    "searchingDriver": "Chauffeur zoeken...",
+    "searchingHint": "Duurt meestal 1-3 minuten"
   },
   "vehicle": {
     "economy": "Economy",
@@ -173,7 +175,9 @@
     "submitOffer": "Versturen",
     "offerSent": "Aanbod verzonden",
     "negotiable": "Onderhandelbaar",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "today": "Vandaag",
+    "ridesCount": "Ritten"
   },
   "earnings": {
     "title": "Inkomsten",
@@ -228,7 +232,9 @@
     "call": "Bellen",
     "saved": "Opgeslagen",
     "notificationsOn": "Enabled",
-    "notificationsEnable": "Enable"
+    "notificationsEnable": "Enable",
+    "share": "App delen",
+    "shareText": "Probeer Taxi Pro — taxi via Pi Network!"
   },
   "history": {
     "title": "Ritgeschiedenis",

@@ -129,7 +129,9 @@
     "payment_completed": "Оплачено",
     "payment_refunded": "Повернено",
     "route": "Маршрут",
-    "driverEarnings": "Заробіток водія"
+    "driverEarnings": "Заробіток водія",
+    "searchingDriver": "Шукаємо водія...",
+    "searchingHint": "Зазвичай 1–3 хвилини"
   },
   "vehicle": {
     "economy": "Економ",
@@ -173,7 +175,9 @@
     "submitOffer": "Надіслати",
     "offerSent": "Пропозицію надіслано",
     "negotiable": "Торг",
-    "navigation": "Навігація"
+    "navigation": "Навігація",
+    "today": "Сьогодні",
+    "ridesCount": "Поїздки"
   },
   "earnings": {
     "title": "Дохід",
@@ -228,7 +232,9 @@
     "call": "Подзвонити",
     "saved": "Збережено",
     "notificationsOn": "Увімкнено",
-    "notificationsEnable": "Увімкнути"
+    "notificationsEnable": "Увімкнути",
+    "share": "Поділитися",
+    "shareText": "Спробуй Taxi Pro — таксі на Pi Network!"
   },
   "history": {
     "title": "Історія поїздок",

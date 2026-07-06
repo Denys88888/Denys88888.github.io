@@ -129,7 +129,9 @@
     "payment_completed": "Opłacono",
     "payment_refunded": "Zwrócono",
     "route": "Trasa",
-    "driverEarnings": "Zarobek kierowcy"
+    "driverEarnings": "Zarobek kierowcy",
+    "searchingDriver": "Szukam kierowcy...",
+    "searchingHint": "Zwykle trwa 1–3 minuty"
   },
   "vehicle": {
     "economy": "Ekonomiczny",
@@ -173,7 +175,9 @@
     "submitOffer": "Wyślij",
     "offerSent": "Oferta wysłana",
     "negotiable": "Negocjacja",
-    "navigation": "Nawigacja"
+    "navigation": "Nawigacja",
+    "today": "Dziś",
+    "ridesCount": "Przejazdy"
   },
   "earnings": {
     "title": "Zarobki",
@@ -228,7 +232,9 @@
     "call": "Zadzwoń",
     "saved": "Zapisano",
     "notificationsOn": "Włączone",
-    "notificationsEnable": "Włącz"
+    "notificationsEnable": "Włącz",
+    "share": "Udostępnij aplikację",
+    "shareText": "Wypróbuj Taxi Pro — taksówki w sieci Pi!"
   },
   "history": {
     "title": "Historia przejazdów",

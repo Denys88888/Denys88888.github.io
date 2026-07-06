@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Circle, Check, LocateFixed, Navigation } from 'lucide-react';
+import { Circle, Check, LocateFixed, Navigation, TrendingUp } from 'lucide-react';
 import { MapView } from '../components/map/MapContainer';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -11,6 +11,7 @@ import { wsService } from '../services/wsService';
 import { api } from '../services/api';
 import { formatPi, formatDistance } from '../utils/formatters';
 import { haversineKm, cn } from '../utils/helpers';
+import { isToday } from 'date-fns';
 import type { GeoPoint, Ride, HeatmapPoint } from '../types';
 
 // Driver home: online toggle, live map, and the queue of available ride requests.
@@ -28,6 +29,19 @@ export function DriverHomeScreen() {
   const [heatmap, setHeatmap] = useState<HeatmapPoint[]>([]);
   const [activeRide, setActiveRide] = useState<Ride | null>(null);
   const [focusNonce, setFocusNonce] = useState(0);
+
+  const [todayRides, setTodayRides] = useState<Ride[]>([]);
+
+  useEffect(() => {
+    api.listRides({ status: 'completed', limit: 50 })
+      .then((r) => setTodayRides(r.rides.filter((x) => isToday(new Date(x.createdAt)))))
+      .catch(() => {});
+  }, []);
+
+  const todayEarnings = useMemo(
+    () => todayRides.reduce((s, r) => s + (r.driverEarnings || 0) + (r.tipAmount || 0), 0),
+    [todayRides]
+  );
 
   const center: GeoPoint = position ?? { lat: 52.2297, lng: 21.0122 };
 
@@ -192,6 +206,22 @@ export function DriverHomeScreen() {
             <Navigation size={16} /> {t('driver.navigation')}
           </Button>
         )}
+        {online && (todayRides.length > 0 || todayEarnings > 0) && (
+          <Card className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <TrendingUp size={18} className="text-success" />
+              <div>
+                <p className="text-xs opacity-60">{t('driver.today')}</p>
+                <p className="font-bold">{formatPi(todayEarnings)}</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-xs opacity-60">{t('driver.ridesCount')}</p>
+              <p className="font-bold">{todayRides.length}</p>
+            </div>
+          </Card>
+        )}
+
         <div className="flex items-center justify-between">
           <h3>{t('driver.availableRides')}</h3>
           <button

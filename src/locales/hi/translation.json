@@ -129,7 +129,9 @@
     "payment_completed": "Paid",
     "payment_refunded": "Refunded",
     "route": "मार्ग",
-    "driverEarnings": "ड्राइवर की कमाई"
+    "driverEarnings": "ड्राइवर की कमाई",
+    "searchingDriver": "ड्राइवर खोज रहे हैं...",
+    "searchingHint": "आमतौर पर 1-3 मिनट लगते हैं"
   },
   "vehicle": {
     "economy": "इकॉनमी",
@@ -173,7 +175,9 @@
     "submitOffer": "भेजें",
     "offerSent": "ऑफ़र भेजा गया",
     "negotiable": "मोलभाव",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "today": "आज",
+    "ridesCount": "सवारियां"
   },
   "earnings": {
     "title": "कमाई",
@@ -228,7 +232,9 @@
     "call": "कॉल",
     "saved": "सहेजा गया",
     "notificationsOn": "Enabled",
-    "notificationsEnable": "Enable"
+    "notificationsEnable": "Enable",
+    "share": "ऐप शेयर करें",
+    "shareText": "Taxi Pro आज़माएं — Pi Network पर राइड-हेलिंग!"
   },
   "history": {
     "title": "यात्रा इतिहास",

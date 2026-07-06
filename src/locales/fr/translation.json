@@ -129,7 +129,9 @@
     "payment_completed": "Paid",
     "payment_refunded": "Refunded",
     "route": "Trajet",
-    "driverEarnings": "Gains du chauffeur"
+    "driverEarnings": "Gains du chauffeur",
+    "searchingDriver": "Recherche d'un chauffeur...",
+    "searchingHint": "Prend généralement 1 à 3 minutes"
   },
   "vehicle": {
     "economy": "Éco",
@@ -173,7 +175,9 @@
     "submitOffer": "Envoyer",
     "offerSent": "Offre envoyée",
     "negotiable": "Négociable",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "today": "Aujourd'hui",
+    "ridesCount": "Courses"
   },
   "earnings": {
     "title": "Gains",
@@ -228,7 +232,9 @@
     "call": "Appeler",
     "saved": "Enregistré",
     "notificationsOn": "Enabled",
-    "notificationsEnable": "Enable"
+    "notificationsEnable": "Enable",
+    "share": "Partager l'app",
+    "shareText": "Essayez Taxi Pro — VTC sur Pi Network !"
   },
   "history": {
     "title": "Historique des courses",

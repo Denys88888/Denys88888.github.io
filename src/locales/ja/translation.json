@@ -129,7 +129,9 @@
     "payment_completed": "Paid",
     "payment_refunded": "Refunded",
     "route": "ルート",
-    "driverEarnings": "ドライバー収益"
+    "driverEarnings": "ドライバー収益",
+    "searchingDriver": "ドライバーを探しています...",
+    "searchingHint": "通常1〜3分かかります"
   },
   "vehicle": {
     "economy": "エコノミー",
@@ -173,7 +175,9 @@
     "submitOffer": "送信",
     "offerSent": "提示を送信しました",
     "negotiable": "交渉可",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "today": "今日",
+    "ridesCount": "乗車数"
   },
   "earnings": {
     "title": "収益",
@@ -228,7 +232,9 @@
     "call": "電話",
     "saved": "保存しました",
     "notificationsOn": "Enabled",
-    "notificationsEnable": "Enable"
+    "notificationsEnable": "Enable",
+    "share": "アプリを共有",
+    "shareText": "Taxi Proを試そう — Pi Networkの配車サービス！"
   },
   "history": {
     "title": "乗車履歴",
