@@ -24,7 +24,7 @@ export function MessageInput({ onSend, placeholder }: Props) {
         value={text}
         maxLength={500}
         onChange={(e) => setText(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && submit()}
+        onKeyDown={(e) => e.key === 'Enter' && !e.nativeEvent.isComposing && submit()}
         placeholder={placeholder ?? t('chat.typeMessage')}
         className="flex-1 rounded-full border border-[#E0E0E0] dark:border-white/15 bg-transparent px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/40"
       />

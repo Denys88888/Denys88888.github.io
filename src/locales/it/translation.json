@@ -16,7 +16,8 @@
     "search": "Cerca",
     "offline": "Nessuna connessione internet",
     "somethingWentWrong": "Qualcosa è andato storto",
-    "reload": "Ricarica"
+    "reload": "Ricarica",
+    "language": "Lingua"
   },
   "splash": {
     "poweredBy": "Realizzato con Pi Network"
@@ -48,7 +49,9 @@
     "roundabout": "Enter the roundabout",
     "inDistance": "In {{distance}}: {{instruction}}",
     "loading": "Building the route…",
-    "unavailable": "Navigation unavailable"
+    "unavailable": "Navigation unavailable",
+    "mute": "Disattiva voce",
+    "unmute": "Attiva voce"
   },
   "home": {
     "from": "Da",
@@ -241,7 +244,9 @@
     "switchToDriver": "Passa a conducente",
     "switchToPassenger": "Passa a passeggero",
     "switchedToDriver": "Modalità conducente",
-    "switchedToPassenger": "Modalità passeggero"
+    "switchedToPassenger": "Modalità passeggero",
+    "testnet": "Rete di test",
+    "mainnet": "Rete principale"
   },
   "history": {
     "title": "Cronologia corse",

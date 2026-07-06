@@ -203,7 +203,7 @@ export function ProfileScreen() {
         <p className="text-center text-xs opacity-40">
           Taxi Pro v3.0.0 ·{' '}
           {health
-            ? health.sandbox ? 'Testnet' : 'Mainnet'
+            ? health.sandbox ? t('profile.testnet') : t('profile.mainnet')
             : '…'}
         </p>
       </div>

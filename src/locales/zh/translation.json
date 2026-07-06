@@ -16,7 +16,8 @@
     "search": "搜索",
     "offline": "无网络连接",
     "somethingWentWrong": "出了点问题",
-    "reload": "重新加载"
+    "reload": "重新加载",
+    "language": "语言"
   },
   "splash": {
     "poweredBy": "由 Pi Network 提供支持"
@@ -48,7 +49,9 @@
     "roundabout": "Enter the roundabout",
     "inDistance": "In {{distance}}: {{instruction}}",
     "loading": "Building the route…",
-    "unavailable": "Navigation unavailable"
+    "unavailable": "Navigation unavailable",
+    "mute": "关闭语音",
+    "unmute": "开启语音"
   },
   "home": {
     "from": "出发地",
@@ -241,7 +244,9 @@
     "switchToDriver": "切换为司机",
     "switchToPassenger": "切换为乘客",
     "switchedToDriver": "司机模式",
-    "switchedToPassenger": "乘客模式"
+    "switchedToPassenger": "乘客模式",
+    "testnet": "测试网",
+    "mainnet": "主网"
   },
   "history": {
     "title": "行程记录",

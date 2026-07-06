@@ -16,7 +16,8 @@
     "search": "Sök",
     "offline": "Ingen internetanslutning",
     "somethingWentWrong": "Något gick fel",
-    "reload": "Ladda om"
+    "reload": "Ladda om",
+    "language": "Språk"
   },
   "splash": {
     "poweredBy": "Drivs av Pi Network"
@@ -48,7 +49,9 @@
     "roundabout": "Enter the roundabout",
     "inDistance": "In {{distance}}: {{instruction}}",
     "loading": "Building the route…",
-    "unavailable": "Navigation unavailable"
+    "unavailable": "Navigation unavailable",
+    "mute": "Stäng av röst",
+    "unmute": "Slå på röst"
   },
   "home": {
     "from": "Från",
@@ -241,7 +244,9 @@
     "switchToDriver": "Byt till förare",
     "switchToPassenger": "Byt till passagerare",
     "switchedToDriver": "Förarläge",
-    "switchedToPassenger": "Passagerarläge"
+    "switchedToPassenger": "Passagerarläge",
+    "testnet": "Testnät",
+    "mainnet": "Huvudnät"
   },
   "history": {
     "title": "Reshistorik",

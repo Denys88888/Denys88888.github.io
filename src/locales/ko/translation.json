@@ -16,7 +16,8 @@
     "search": "검색",
     "offline": "인터넷 연결 없음",
     "somethingWentWrong": "문제가 발생했습니다",
-    "reload": "새로고침"
+    "reload": "새로고침",
+    "language": "언어"
   },
   "splash": {
     "poweredBy": "Pi Network 제공"
@@ -48,7 +49,9 @@
     "roundabout": "Enter the roundabout",
     "inDistance": "In {{distance}}: {{instruction}}",
     "loading": "Building the route…",
-    "unavailable": "Navigation unavailable"
+    "unavailable": "Navigation unavailable",
+    "mute": "음성 끄기",
+    "unmute": "음성 켜기"
   },
   "home": {
     "from": "출발지",
@@ -241,7 +244,9 @@
     "switchToDriver": "운전자로 전환",
     "switchToPassenger": "승객으로 전환",
     "switchedToDriver": "운전자 모드",
-    "switchedToPassenger": "승객 모드"
+    "switchedToPassenger": "승객 모드",
+    "testnet": "테스트넷",
+    "mainnet": "메인넷"
   },
   "history": {
     "title": "운행 기록",

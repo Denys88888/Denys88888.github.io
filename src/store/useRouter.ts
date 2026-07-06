@@ -26,7 +26,10 @@ export const useRouter = create<RouterState>((set, get) => ({
   params: {},
   history: [],
   navigate: (screen, params = {}) =>
-    set((s) => ({ screen, params, history: [...s.history, s.screen] })),
+    set((s) => {
+      if (screen === s.screen && Object.keys(params).length === 0) return s;
+      return { screen, params, history: [...s.history, s.screen] };
+    }),
   back: () => {
     const hist = get().history;
     if (hist.length === 0) {

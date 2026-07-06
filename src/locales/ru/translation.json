@@ -16,7 +16,8 @@
     "search": "Поиск",
     "offline": "Нет подключения к интернету",
     "somethingWentWrong": "Что-то пошло не так",
-    "reload": "Перезагрузить"
+    "reload": "Перезагрузить",
+    "language": "Язык"
   },
   "splash": {
     "poweredBy": "При поддержке Pi Network"
@@ -48,7 +49,9 @@
     "roundabout": "Въезжайте на круг",
     "inDistance": "Через {{distance}}: {{instruction}}",
     "loading": "Строим маршрут…",
-    "unavailable": "Навигация недоступна"
+    "unavailable": "Навигация недоступна",
+    "mute": "Выключить голос",
+    "unmute": "Включить голос"
   },
   "home": {
     "from": "Откуда",
@@ -241,7 +244,9 @@
     "switchToDriver": "Переключиться на водителя",
     "switchToPassenger": "Переключиться на пассажира",
     "switchedToDriver": "Режим водителя",
-    "switchedToPassenger": "Режим пассажира"
+    "switchedToPassenger": "Режим пассажира",
+    "testnet": "Тестовая сеть",
+    "mainnet": "Основная сеть"
   },
   "history": {
     "title": "История поездок",

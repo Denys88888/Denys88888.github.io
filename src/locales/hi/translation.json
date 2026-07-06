@@ -16,7 +16,8 @@
     "search": "खोजें",
     "offline": "इंटरनेट कनेक्शन नहीं है",
     "somethingWentWrong": "कुछ गड़बड़ हुई",
-    "reload": "पुनः लोड करें"
+    "reload": "पुनः लोड करें",
+    "language": "भाषा"
   },
   "splash": {
     "poweredBy": "Pi Network द्वारा संचालित"
@@ -48,7 +49,9 @@
     "roundabout": "Enter the roundabout",
     "inDistance": "In {{distance}}: {{instruction}}",
     "loading": "Building the route…",
-    "unavailable": "Navigation unavailable"
+    "unavailable": "Navigation unavailable",
+    "mute": "आवाज़ बंद",
+    "unmute": "आवाज़ चालू"
   },
   "home": {
     "from": "कहाँ से",
@@ -241,7 +244,9 @@
     "switchToDriver": "ड्राइवर पर स्विच करें",
     "switchToPassenger": "यात्री पर स्विच करें",
     "switchedToDriver": "ड्राइवर मोड",
-    "switchedToPassenger": "यात्री मोड"
+    "switchedToPassenger": "यात्री मोड",
+    "testnet": "टेस्टनेट",
+    "mainnet": "मेननेट"
   },
   "history": {
     "title": "यात्रा इतिहास",

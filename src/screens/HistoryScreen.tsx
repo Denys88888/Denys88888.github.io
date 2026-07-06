@@ -76,7 +76,7 @@ export function HistoryScreen() {
               <div className="ml-3 flex flex-col items-end gap-1">
                 <p className="font-bold">{formatPi(ride.fare)}</p>
                 <RideStatusBadge status={ride.status} />
-                {ride.status === 'completed' && user?.role !== 'driver' && (
+                {ride.status === 'completed' && user?.role === 'passenger' && (
                   <button
                     onClick={(e) => {
                       e.stopPropagation();

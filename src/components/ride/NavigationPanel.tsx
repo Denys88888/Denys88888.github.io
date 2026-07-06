@@ -107,6 +107,7 @@ export function NavigationPanel({ from, to, position, onClose }: Props) {
     u.lang = i18n.language;
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(u);
+    return () => { window.speechSynthesis?.cancel(); };
   }, [spoken, voice, i18n.language]);
 
   const Icon = key ? maneuverIcon(key) : Navigation;
@@ -133,7 +134,7 @@ export function NavigationPanel({ from, to, position, onClose }: Props) {
         <button
           onClick={() => setVoice((v) => !v)}
           className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15"
-          aria-label="voice"
+          aria-label={voice ? t('nav.mute') : t('nav.unmute')}
         >
           {voice ? <Volume2 size={17} /> : <VolumeX size={17} />}
         </button>

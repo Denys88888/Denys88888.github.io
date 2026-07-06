@@ -16,7 +16,8 @@
     "search": "Rechercher",
     "offline": "Pas de connexion internet",
     "somethingWentWrong": "Une erreur est survenue",
-    "reload": "Recharger"
+    "reload": "Recharger",
+    "language": "Langue"
   },
   "splash": {
     "poweredBy": "Propulsé par Pi Network"
@@ -48,7 +49,9 @@
     "roundabout": "Enter the roundabout",
     "inDistance": "In {{distance}}: {{instruction}}",
     "loading": "Building the route…",
-    "unavailable": "Navigation unavailable"
+    "unavailable": "Navigation unavailable",
+    "mute": "Couper la voix",
+    "unmute": "Activer la voix"
   },
   "home": {
     "from": "Départ",
@@ -241,7 +244,9 @@
     "switchToDriver": "Passer en mode chauffeur",
     "switchToPassenger": "Passer en mode passager",
     "switchedToDriver": "Mode chauffeur",
-    "switchedToPassenger": "Mode passager"
+    "switchedToPassenger": "Mode passager",
+    "testnet": "Réseau test",
+    "mainnet": "Réseau principal"
   },
   "history": {
     "title": "Historique des courses",

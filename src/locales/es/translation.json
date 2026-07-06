@@ -16,7 +16,8 @@
     "search": "Buscar",
     "offline": "Sin conexión a internet",
     "somethingWentWrong": "Algo salió mal",
-    "reload": "Recargar"
+    "reload": "Recargar",
+    "language": "Idioma"
   },
   "splash": {
     "poweredBy": "Con la tecnología de Pi Network"
@@ -48,7 +49,9 @@
     "roundabout": "Enter the roundabout",
     "inDistance": "In {{distance}}: {{instruction}}",
     "loading": "Building the route…",
-    "unavailable": "Navigation unavailable"
+    "unavailable": "Navigation unavailable",
+    "mute": "Silenciar voz",
+    "unmute": "Activar voz"
   },
   "home": {
     "from": "Desde",
@@ -241,7 +244,9 @@
     "switchToDriver": "Cambiar a conductor",
     "switchToPassenger": "Cambiar a pasajero",
     "switchedToDriver": "Modo conductor",
-    "switchedToPassenger": "Modo pasajero"
+    "switchedToPassenger": "Modo pasajero",
+    "testnet": "Red de prueba",
+    "mainnet": "Red principal"
   },
   "history": {
     "title": "Historial de viajes",

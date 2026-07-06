@@ -16,7 +16,8 @@
     "search": "Cari",
     "offline": "Tidak ada koneksi internet",
     "somethingWentWrong": "Terjadi kesalahan",
-    "reload": "Muat ulang"
+    "reload": "Muat ulang",
+    "language": "Bahasa"
   },
   "splash": {
     "poweredBy": "Didukung oleh Pi Network"
@@ -48,7 +49,9 @@
     "roundabout": "Enter the roundabout",
     "inDistance": "In {{distance}}: {{instruction}}",
     "loading": "Building the route…",
-    "unavailable": "Navigation unavailable"
+    "unavailable": "Navigation unavailable",
+    "mute": "Bisukan suara",
+    "unmute": "Aktifkan suara"
   },
   "home": {
     "from": "Dari",
@@ -241,7 +244,9 @@
     "switchToDriver": "Beralih ke pengemudi",
     "switchToPassenger": "Beralih ke penumpang",
     "switchedToDriver": "Mode pengemudi",
-    "switchedToPassenger": "Mode penumpang"
+    "switchedToPassenger": "Mode penumpang",
+    "testnet": "Testnet",
+    "mainnet": "Mainnet"
   },
   "history": {
     "title": "Riwayat perjalanan",

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { cn } from '../../utils/helpers';
 
 interface Props {
@@ -9,6 +10,7 @@ interface Props {
 
 // Circular avatar with an initials fallback derived from the name.
 export function Avatar({ name, src, size = 40, className }: Props) {
+  const [imgError, setImgError] = useState(false);
   const initials = name
     .split(' ')
     .map((p) => p[0])
@@ -23,8 +25,8 @@ export function Avatar({ name, src, size = 40, className }: Props) {
       )}
       style={{ width: size, height: size, fontSize: size * 0.4 }}
     >
-      {src ? (
-        <img src={src} alt={name} className="h-full w-full object-cover" />
+      {src && !imgError ? (
+        <img src={src} alt={name} className="h-full w-full object-cover" onError={() => setImgError(true)} />
       ) : (
         initials || '?'
       )}
