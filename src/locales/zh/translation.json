@@ -127,7 +127,9 @@
     "payment_pending": "Awaiting payment",
     "payment_held": "Payment held",
     "payment_completed": "Paid",
-    "payment_refunded": "Refunded"
+    "payment_refunded": "Refunded",
+    "route": "路线",
+    "driverEarnings": "司机收入"
   },
   "vehicle": {
     "economy": "经济型",
@@ -234,7 +236,8 @@
     "completed": "已完成",
     "cancelled": "已取消",
     "empty": "暂无行程",
-    "pullToRefresh": "下拉刷新"
+    "pullToRefresh": "下拉刷新",
+    "repeat": "再次预订"
   },
   "admin": {
     "dashboard": "管理后台",

@@ -322,6 +322,46 @@ export function RideDetailsScreen() {
           </div>
         )}
 
+        {ride.status === 'completed' && (
+          <Card className="space-y-2">
+            <p className="text-center text-sm font-semibold">{t('ride.receipt')}</p>
+            <div className="space-y-1 text-sm">
+              <div className="flex justify-between">
+                <span className="opacity-60">{t('ride.route')}</span>
+                <span>{formatDistance(ride.distanceKm)} · {formatDuration(ride.estimatedDurationMin)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="opacity-60">{t('ride.fare')}</span>
+                <span className="font-semibold">{formatPi(ride.fare)}</span>
+              </div>
+              {ride.surgeMultiplier && ride.surgeMultiplier > 1 && (
+                <div className="flex justify-between text-warning">
+                  <span className="flex items-center gap-1"><Zap size={12} /> {t('ride.surge')}</span>
+                  <span>×{ride.surgeMultiplier.toFixed(1)}</span>
+                </div>
+              )}
+              <div className="flex justify-between opacity-60">
+                <span>{t('ride.platformFee')}</span>
+                <span>{formatPi(ride.platformFee)}</span>
+              </div>
+              <div className="flex justify-between opacity-60">
+                <span>{t('ride.driverEarnings')}</span>
+                <span>{formatPi(ride.driverEarnings)}</span>
+              </div>
+              {ride.tipAmount ? (
+                <div className="flex justify-between text-success">
+                  <span>{t('ride.tipTitle')}</span>
+                  <span>{formatPi(ride.tipAmount)}</span>
+                </div>
+              ) : null}
+              <div className="border-t border-black/10 dark:border-white/10 pt-1 flex justify-between opacity-50 text-xs">
+                <span>{formatDate(ride.createdAt)}</span>
+                <span>{ride.id.slice(0, 12)}</span>
+              </div>
+            </div>
+          </Card>
+        )}
+
         {ride.status === 'completed' && !ride.txid && !isDriver && (
           <Button fullWidth loading={processing} onClick={pay}>
             {t('ride.fare')}: {formatPi(ride.fare)} — π Pay

@@ -127,7 +127,9 @@
     "payment_pending": "Awaiting payment",
     "payment_held": "Payment held",
     "payment_completed": "Paid",
-    "payment_refunded": "Refunded"
+    "payment_refunded": "Refunded",
+    "route": "Rota",
+    "driverEarnings": "Sürücü kazancı"
   },
   "vehicle": {
     "economy": "Ekonomi",
@@ -234,7 +236,8 @@
     "completed": "Tamamlanan",
     "cancelled": "İptal edilen",
     "empty": "Henüz yolculuk yok",
-    "pullToRefresh": "Yenilemek için çekin"
+    "pullToRefresh": "Yenilemek için çekin",
+    "repeat": "Tekrarla"
   },
   "admin": {
     "dashboard": "Yönetici paneli",

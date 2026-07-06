@@ -127,7 +127,9 @@
     "payment_pending": "Очікує оплати",
     "payment_held": "Оплату заморожено",
     "payment_completed": "Оплачено",
-    "payment_refunded": "Повернено"
+    "payment_refunded": "Повернено",
+    "route": "Маршрут",
+    "driverEarnings": "Заробіток водія"
   },
   "vehicle": {
     "economy": "Економ",
@@ -234,7 +236,8 @@
     "completed": "Завершені",
     "cancelled": "Скасовані",
     "empty": "Поїздок ще немає",
-    "pullToRefresh": "Потягніть, щоб оновити"
+    "pullToRefresh": "Потягніть, щоб оновити",
+    "repeat": "Повторити"
   },
   "admin": {
     "dashboard": "Панель адміністратора",

@@ -127,7 +127,9 @@
     "payment_pending": "Awaiting payment",
     "payment_held": "Payment held",
     "payment_completed": "Paid",
-    "payment_refunded": "Refunded"
+    "payment_refunded": "Refunded",
+    "route": "Strecke",
+    "driverEarnings": "Fahrerverdienst"
   },
   "vehicle": {
     "economy": "Economy",
@@ -234,7 +236,8 @@
     "completed": "Abgeschlossen",
     "cancelled": "Storniert",
     "empty": "Noch keine Fahrten",
-    "pullToRefresh": "Zum Aktualisieren ziehen"
+    "pullToRefresh": "Zum Aktualisieren ziehen",
+    "repeat": "Wiederholen"
   },
   "admin": {
     "dashboard": "Admin-Dashboard",

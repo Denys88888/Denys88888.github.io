@@ -127,7 +127,9 @@
     "payment_pending": "Awaiting payment",
     "payment_held": "Payment held",
     "payment_completed": "Paid",
-    "payment_refunded": "Refunded"
+    "payment_refunded": "Refunded",
+    "route": "المسار",
+    "driverEarnings": "أرباح السائق"
   },
   "vehicle": {
     "economy": "اقتصادي",
@@ -234,7 +236,8 @@
     "completed": "مكتملة",
     "cancelled": "ملغاة",
     "empty": "لا توجد رحلات بعد",
-    "pullToRefresh": "اسحب للتحديث"
+    "pullToRefresh": "اسحب للتحديث",
+    "repeat": "تكرار"
   },
   "admin": {
     "dashboard": "لوحة الإدارة",

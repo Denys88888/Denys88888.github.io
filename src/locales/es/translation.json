@@ -127,7 +127,9 @@
     "payment_pending": "Awaiting payment",
     "payment_held": "Payment held",
     "payment_completed": "Paid",
-    "payment_refunded": "Refunded"
+    "payment_refunded": "Refunded",
+    "route": "Ruta",
+    "driverEarnings": "Ganancias del conductor"
   },
   "vehicle": {
     "economy": "Económico",
@@ -234,7 +236,8 @@
     "completed": "Completados",
     "cancelled": "Cancelados",
     "empty": "Aún no hay viajes",
-    "pullToRefresh": "Desliza para actualizar"
+    "pullToRefresh": "Desliza para actualizar",
+    "repeat": "Repetir"
   },
   "admin": {
     "dashboard": "Panel de administración",

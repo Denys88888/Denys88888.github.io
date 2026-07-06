@@ -127,7 +127,9 @@
     "payment_pending": "Awaiting payment",
     "payment_held": "Payment held",
     "payment_completed": "Paid",
-    "payment_refunded": "Refunded"
+    "payment_refunded": "Refunded",
+    "route": "เส้นทาง",
+    "driverEarnings": "รายได้คนขับ"
   },
   "vehicle": {
     "economy": "ประหยัด",
@@ -234,7 +236,8 @@
     "completed": "เสร็จสิ้น",
     "cancelled": "ยกเลิก",
     "empty": "ยังไม่มีการเดินทาง",
-    "pullToRefresh": "ดึงเพื่อรีเฟรช"
+    "pullToRefresh": "ดึงเพื่อรีเฟรช",
+    "repeat": "สั่งอีกครั้ง"
   },
   "admin": {
     "dashboard": "แดชบอร์ดผู้ดูแล",

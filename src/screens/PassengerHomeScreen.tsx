@@ -34,10 +34,15 @@ export function PassengerHomeScreen() {
   const { position, request } = useGeolocation();
   const { addToast } = useToast();
   const setCurrentRide = useAppStore((s) => s.setCurrentRide);
+  const params = useRouter((s) => s.params);
   const navigate = useRouter((s) => s.navigate);
 
-  const [pickup, setPickup] = useState<GeoPoint | null>(null);
-  const [destination, setDestination] = useState<GeoPoint | null>(null);
+  const [pickup, setPickup] = useState<GeoPoint | null>(() => {
+    try { return params.repeatPickup ? JSON.parse(params.repeatPickup) : null; } catch { return null; }
+  });
+  const [destination, setDestination] = useState<GeoPoint | null>(() => {
+    try { return params.repeatDest ? JSON.parse(params.repeatDest) : null; } catch { return null; }
+  });
   const [stops, setStops] = useState<GeoPoint[]>([]);
   const [vehicle, setVehicle] = useState<VehicleType>('economy');
   const [ordering, setOrdering] = useState(false);

@@ -127,7 +127,9 @@
     "payment_pending": "Awaiting payment",
     "payment_held": "Payment held",
     "payment_completed": "Paid",
-    "payment_refunded": "Refunded"
+    "payment_refunded": "Refunded",
+    "route": "Trajet",
+    "driverEarnings": "Gains du chauffeur"
   },
   "vehicle": {
     "economy": "Éco",
@@ -234,7 +236,8 @@
     "completed": "Terminées",
     "cancelled": "Annulées",
     "empty": "Aucune course",
-    "pullToRefresh": "Tirez pour actualiser"
+    "pullToRefresh": "Tirez pour actualiser",
+    "repeat": "Répéter"
   },
   "admin": {
     "dashboard": "Tableau de bord admin",

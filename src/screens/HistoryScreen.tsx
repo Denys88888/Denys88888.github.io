@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { RotateCcw } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { RideStatusBadge } from '../components/ride/RideStatusBadge';
 import { SkeletonCard } from '../components/ui/SkeletonCard';
 import { useRouter } from '../store/useRouter';
+import { useAppStore } from '../store/useAppStore';
 import { api } from '../services/api';
 import { formatPi, formatDate } from '../utils/formatters';
 import { cn } from '../utils/helpers';
@@ -15,6 +17,7 @@ type Tab = 'all' | 'completed' | 'cancelled';
 export function HistoryScreen() {
   const { t } = useTranslation();
   const navigate = useRouter((s) => s.navigate);
+  const user = useAppStore((s) => s.user);
   const [tab, setTab] = useState<Tab>('all');
   const [rides, setRides] = useState<Ride[] | null>(null);
 
@@ -70,11 +73,23 @@ export function HistoryScreen() {
                 </p>
                 <p className="mt-1 text-xs opacity-40">{formatDate(ride.createdAt)}</p>
               </div>
-              <div className="ml-3 text-right">
+              <div className="ml-3 flex flex-col items-end gap-1">
                 <p className="font-bold">{formatPi(ride.fare)}</p>
-                <div className="mt-1">
-                  <RideStatusBadge status={ride.status} />
-                </div>
+                <RideStatusBadge status={ride.status} />
+                {ride.status === 'completed' && user?.role !== 'driver' && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate('home', {
+                        repeatPickup: JSON.stringify(ride.pickup),
+                        repeatDest: JSON.stringify(ride.destination),
+                      });
+                    }}
+                    className="mt-1 flex items-center gap-1 rounded-lg bg-primary/10 px-2 py-1 text-xs font-medium text-primary"
+                  >
+                    <RotateCcw size={12} /> {t('history.repeat')}
+                  </button>
+                )}
               </div>
             </div>
           </Card>
