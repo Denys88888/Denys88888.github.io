@@ -57,19 +57,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (): Promise<void> => {
     setLoading(true);
     try {
-      console.log('[TaxiProDebug] 1. Before authenticateWithPi');
       const piResult = await authenticateWithPi();
-      console.log('[TaxiProDebug] 2. Pi result:', JSON.stringify({
-        accessToken: piResult.accessToken?.slice(0, 10) + '…',
-        user: piResult.user,
-      }));
-      console.log('[TaxiProDebug] 3. Before api.piAuth');
       const { token: jwt, user } = await api.piAuth(piResult.accessToken);
-      console.log('[TaxiProDebug] 4. API response:', JSON.stringify({ token: jwt?.slice(0, 10), user }));
       setAuth(user, jwt);
-      console.log('[TaxiProDebug] 5. After setAuth');
     } catch (err) {
-      console.error('[TaxiProDebug] login failed:', err instanceof Error ? `${err.name}: ${err.message}` : JSON.stringify(err));
       addToast('error', err instanceof Error ? err.message : 'Login failed');
       throw err;
     } finally {
