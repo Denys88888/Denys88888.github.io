@@ -7,6 +7,7 @@ import { initNotifications } from '../services/notificationService';
 
 interface AuthCtx {
   login: () => Promise<void>;
+  devLogin: (name: string, role?: 'passenger' | 'driver' | 'admin') => Promise<void>;
   logout: () => void;
   loading: boolean;
 }
@@ -76,12 +77,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const devLogin = async (name: string, role?: 'passenger' | 'driver' | 'admin'): Promise<void> => {
+    setLoading(true);
+    try {
+      const { token: jwt, user } = await api.devAuth(name, role);
+      setAuth(user, jwt);
+    } catch (err) {
+      addToast('error', err instanceof Error ? err.message : 'Dev login failed');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const logout = (): void => {
     wsService.disconnect();
     storeLogout();
   };
 
-  return <Ctx.Provider value={{ login, logout, loading }}>{children}</Ctx.Provider>;
+  return <Ctx.Provider value={{ login, devLogin, logout, loading }}>{children}</Ctx.Provider>;
 }
 
 export function useAuth(): AuthCtx {

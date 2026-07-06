@@ -74,6 +74,10 @@ export const api = {
     client
       .post<{ token: string; user: User }>('/api/auth/pi', { accessToken })
       .then((r) => r.data),
+  devAuth: (name: string, role?: 'passenger' | 'driver' | 'admin') =>
+    client
+      .post<{ token: string; user: User }>('/api/auth/dev', { name, role })
+      .then((r) => r.data),
 
   // ── Profile ──
   getMe: () => client.get<User>('/api/users/me').then((r) => r.data),
