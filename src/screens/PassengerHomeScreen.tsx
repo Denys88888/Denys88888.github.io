@@ -235,7 +235,7 @@ export function PassengerHomeScreen() {
             request();
             setFocusNonce((n) => n + 1);
           }}
-          className="absolute bottom-4 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-fab active:scale-95"
+          className="absolute bottom-20 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-fab active:scale-95"
           aria-label={t('home.useMyLocation')}
         >
           <LocateFixed size={22} />
@@ -391,7 +391,7 @@ export function PassengerHomeScreen() {
             </div>
           )}
 
-          {distanceKm > 0 && !negotiate && (
+          {distanceKm > 0 && (
             <div className="flex items-center justify-between rounded-card bg-black/5 dark:bg-white/5 px-4 py-3">
               <div>
                 <p className="text-xs opacity-60">
