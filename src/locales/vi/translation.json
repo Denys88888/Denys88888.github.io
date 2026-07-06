@@ -16,7 +16,8 @@
     "search": "Tìm kiếm",
     "offline": "Không có kết nối internet",
     "somethingWentWrong": "Đã xảy ra lỗi",
-    "reload": "Tải lại"
+    "reload": "Tải lại",
+    "language": "Ngôn ngữ"
   },
   "splash": {
     "poweredBy": "Được cung cấp bởi Pi Network"
@@ -48,7 +49,9 @@
     "roundabout": "Enter the roundabout",
     "inDistance": "In {{distance}}: {{instruction}}",
     "loading": "Building the route…",
-    "unavailable": "Navigation unavailable"
+    "unavailable": "Navigation unavailable",
+    "mute": "Tắt giọng nói",
+    "unmute": "Bật giọng nói"
   },
   "home": {
     "from": "Điểm đón",
@@ -241,7 +244,9 @@
     "switchToDriver": "Chuyển sang tài xế",
     "switchToPassenger": "Chuyển sang hành khách",
     "switchedToDriver": "Chế độ tài xế",
-    "switchedToPassenger": "Chế độ hành khách"
+    "switchedToPassenger": "Chế độ hành khách",
+    "testnet": "Mạng thử nghiệm",
+    "mainnet": "Mạng chính"
   },
   "history": {
     "title": "Lịch sử chuyến đi",

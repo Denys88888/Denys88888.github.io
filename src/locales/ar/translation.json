@@ -16,7 +16,8 @@
     "search": "بحث",
     "offline": "لا يوجد اتصال بالإنترنت",
     "somethingWentWrong": "حدث خطأ ما",
-    "reload": "إعادة تحميل"
+    "reload": "إعادة تحميل",
+    "language": "اللغة"
   },
   "splash": {
     "poweredBy": "مدعوم من Pi Network"
@@ -48,7 +49,9 @@
     "roundabout": "Enter the roundabout",
     "inDistance": "In {{distance}}: {{instruction}}",
     "loading": "Building the route…",
-    "unavailable": "Navigation unavailable"
+    "unavailable": "Navigation unavailable",
+    "mute": "كتم الصوت",
+    "unmute": "تشغيل الصوت"
   },
   "home": {
     "from": "من",
@@ -241,7 +244,9 @@
     "switchToDriver": "التبديل إلى السائق",
     "switchToPassenger": "التبديل إلى الراكب",
     "switchedToDriver": "وضع السائق",
-    "switchedToPassenger": "وضع الراكب"
+    "switchedToPassenger": "وضع الراكب",
+    "testnet": "شبكة اختبار",
+    "mainnet": "الشبكة الرئيسية"
   },
   "history": {
     "title": "سجل الرحلات",

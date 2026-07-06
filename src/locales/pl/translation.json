@@ -16,7 +16,8 @@
     "search": "Szukaj",
     "offline": "Brak połączenia z internetem",
     "somethingWentWrong": "Coś poszło nie tak",
-    "reload": "Przeładuj"
+    "reload": "Przeładuj",
+    "language": "Język"
   },
   "splash": {
     "poweredBy": "Wspierane przez Pi Network"
@@ -48,7 +49,9 @@
     "roundabout": "Wjedź na rondo",
     "inDistance": "Za {{distance}}: {{instruction}}",
     "loading": "Wyznaczanie trasy…",
-    "unavailable": "Nawigacja niedostępna"
+    "unavailable": "Nawigacja niedostępna",
+    "mute": "Wycisz głos",
+    "unmute": "Włącz głos"
   },
   "home": {
     "from": "Skąd",
@@ -241,7 +244,9 @@
     "switchToDriver": "Przełącz na kierowcę",
     "switchToPassenger": "Przełącz na pasażera",
     "switchedToDriver": "Tryb kierowcy",
-    "switchedToPassenger": "Tryb pasażera"
+    "switchedToPassenger": "Tryb pasażera",
+    "testnet": "Testnet",
+    "mainnet": "Mainnet"
   },
   "history": {
     "title": "Historia przejazdów",

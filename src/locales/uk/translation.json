@@ -16,7 +16,8 @@
     "search": "Пошук",
     "offline": "Немає підключення до інтернету",
     "somethingWentWrong": "Щось пішло не так",
-    "reload": "Перезавантажити"
+    "reload": "Перезавантажити",
+    "language": "Мова"
   },
   "splash": {
     "poweredBy": "За підтримки Pi Network"
@@ -48,7 +49,9 @@
     "roundabout": "Виїжджайте на коло",
     "inDistance": "Через {{distance}}: {{instruction}}",
     "loading": "Будуємо маршрут…",
-    "unavailable": "Навігація недоступна"
+    "unavailable": "Навігація недоступна",
+    "mute": "Вимкнути голос",
+    "unmute": "Увімкнути голос"
   },
   "home": {
     "from": "Звідки",
@@ -241,7 +244,9 @@
     "switchToDriver": "Переключитися на водія",
     "switchToPassenger": "Переключитися на пасажира",
     "switchedToDriver": "Режим водія",
-    "switchedToPassenger": "Режим пасажира"
+    "switchedToPassenger": "Режим пасажира",
+    "testnet": "Тестова мережа",
+    "mainnet": "Основна мережа"
   },
   "history": {
     "title": "Історія поїздок",

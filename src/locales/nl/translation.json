@@ -16,7 +16,8 @@
     "search": "Zoeken",
     "offline": "Geen internetverbinding",
     "somethingWentWrong": "Er is iets misgegaan",
-    "reload": "Herladen"
+    "reload": "Herladen",
+    "language": "Taal"
   },
   "splash": {
     "poweredBy": "Mogelijk gemaakt door Pi Network"
@@ -48,7 +49,9 @@
     "roundabout": "Enter the roundabout",
     "inDistance": "In {{distance}}: {{instruction}}",
     "loading": "Building the route…",
-    "unavailable": "Navigation unavailable"
+    "unavailable": "Navigation unavailable",
+    "mute": "Stem uit",
+    "unmute": "Stem aan"
   },
   "home": {
     "from": "Van",
@@ -241,7 +244,9 @@
     "switchToDriver": "Naar chauffeur",
     "switchToPassenger": "Naar passagier",
     "switchedToDriver": "Chauffeurmodus",
-    "switchedToPassenger": "Passagiersmodus"
+    "switchedToPassenger": "Passagiersmodus",
+    "testnet": "Testnet",
+    "mainnet": "Mainnet"
   },
   "history": {
     "title": "Ritgeschiedenis",

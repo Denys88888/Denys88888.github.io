@@ -16,7 +16,8 @@
     "search": "Search",
     "offline": "No internet connection",
     "somethingWentWrong": "Something went wrong",
-    "reload": "Reload"
+    "reload": "Reload",
+    "language": "Language"
   },
   "splash": {
     "poweredBy": "Powered by Pi Network"
@@ -48,7 +49,9 @@
     "roundabout": "Enter the roundabout",
     "inDistance": "In {{distance}}: {{instruction}}",
     "loading": "Building the route…",
-    "unavailable": "Navigation unavailable"
+    "unavailable": "Navigation unavailable",
+    "mute": "Mute voice",
+    "unmute": "Unmute voice"
   },
   "home": {
     "from": "From",
@@ -241,7 +244,9 @@
     "switchToDriver": "Switch to driver",
     "switchToPassenger": "Switch to passenger",
     "switchedToDriver": "Switched to driver mode",
-    "switchedToPassenger": "Switched to passenger mode"
+    "switchedToPassenger": "Switched to passenger mode",
+    "testnet": "Testnet",
+    "mainnet": "Mainnet"
   },
   "history": {
     "title": "Ride history",

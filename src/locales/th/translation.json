@@ -16,7 +16,8 @@
     "search": "ค้นหา",
     "offline": "ไม่มีการเชื่อมต่ออินเทอร์เน็ต",
     "somethingWentWrong": "เกิดข้อผิดพลาด",
-    "reload": "โหลดใหม่"
+    "reload": "โหลดใหม่",
+    "language": "ภาษา"
   },
   "splash": {
     "poweredBy": "ขับเคลื่อนโดย Pi Network"
@@ -48,7 +49,9 @@
     "roundabout": "Enter the roundabout",
     "inDistance": "In {{distance}}: {{instruction}}",
     "loading": "Building the route…",
-    "unavailable": "Navigation unavailable"
+    "unavailable": "Navigation unavailable",
+    "mute": "ปิดเสียง",
+    "unmute": "เปิดเสียง"
   },
   "home": {
     "from": "จาก",
@@ -241,7 +244,9 @@
     "switchToDriver": "สลับเป็นคนขับ",
     "switchToPassenger": "สลับเป็นผู้โดยสาร",
     "switchedToDriver": "โหมดคนขับ",
-    "switchedToPassenger": "โหมดผู้โดยสาร"
+    "switchedToPassenger": "โหมดผู้โดยสาร",
+    "testnet": "เครือข่ายทดสอบ",
+    "mainnet": "เครือข่ายหลัก"
   },
   "history": {
     "title": "ประวัติการเดินทาง",
