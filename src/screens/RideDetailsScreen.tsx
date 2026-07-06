@@ -4,6 +4,7 @@ import { Calendar, Star, Phone, MessageCircle, Flag, Share2, Siren, Navigation, 
 import { MapView } from '../components/map/MapContainer';
 import { RideStatusBadge } from '../components/ride/RideStatusBadge';
 import { SearchingOverlay } from '../components/ride/SearchingOverlay';
+import { RideProgressSteps } from '../components/ride/RideProgressSteps';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Avatar } from '../components/ui/Avatar';
@@ -12,6 +13,7 @@ import { useRouter } from '../store/useRouter';
 import { useAppStore } from '../store/useAppStore';
 import { useToast } from '../hooks/useToast';
 import { usePayments } from '../hooks/usePayments';
+import { useGeolocation } from '../hooks/useGeolocation';
 import { wsService } from '../services/wsService';
 import { api } from '../services/api';
 import { payForRide } from '../services/piSdk';
@@ -31,6 +33,7 @@ export function RideDetailsScreen() {
   const back = useRouter((s) => s.back);
   const { addToast } = useToast();
   const { payRide, processing } = usePayments();
+  const { position } = useGeolocation();
   const storeRide = useAppStore((s) => s.currentRide);
   const uid = useAppStore((s) => s.user?.uid ?? '');
 
@@ -213,6 +216,7 @@ export function RideDetailsScreen() {
           destination={ride.destination}
           stops={ride.stops}
           driver={driverPos}
+          me={position}
           className="h-full w-full"
         />
         {/* Driver turn-by-turn navigation overlay (OSRM maneuvers + voice). */}
@@ -245,6 +249,8 @@ export function RideDetailsScreen() {
             <span className="text-lg font-bold">{formatPi(ride.fare)}</span>
           </div>
         </div>
+
+        <RideProgressSteps status={ride.status} />
 
         {/* Driver: toggle turn-by-turn navigation while the ride is active. */}
         {isDriver && !['completed', 'cancelled', 'searching', 'scheduled'].includes(ride.status) && (

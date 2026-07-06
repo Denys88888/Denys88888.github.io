@@ -14,6 +14,20 @@ import { fetchRoute } from '../../services/mapService';
 
 // Colored pin built from a divIcon so we don't depend on Leaflet's image assets
 // (which break under a non-root base path on GitHub Pages).
+function carIcon(): L.DivIcon {
+  return L.divIcon({
+    className: '',
+    html: `<div style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#00C853;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9L18 10l-2.7-3.4A2 2 0 0 0 13.7 6H10.3a2 2 0 0 0-1.6.8L6 10l-2.5 1.1C2.7 11.3 2 12.1 2 13v3c0 .6.4 1 1 1h2"/>
+        <circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>
+      </svg>
+    </div>`,
+    iconSize: [36, 36],
+    iconAnchor: [18, 18],
+  });
+}
+
 function pin(color: string, pulse = false): L.DivIcon {
   return L.divIcon({
     className: '',
@@ -177,7 +191,7 @@ export function MapView({
             }
           />
         )}
-        {driver && <Marker position={[driver.lat, driver.lng]} icon={pin('#00C853')} />}
+        {driver && <Marker position={[driver.lat, driver.lng]} icon={carIcon()} />}
         {me && <Marker position={[me.lat, me.lng]} icon={pin('#2979FF', true)} zIndexOffset={500} />}
         {heatmap.map((h, i) => (
           <Circle
