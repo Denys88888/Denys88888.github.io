@@ -129,7 +129,9 @@
     "payment_completed": "Paid",
     "payment_refunded": "Refunded",
     "route": "Rota",
-    "driverEarnings": "Sürücü kazancı"
+    "driverEarnings": "Sürücü kazancı",
+    "searchingDriver": "Sürücü aranıyor...",
+    "searchingHint": "Genellikle 1-3 dakika sürer"
   },
   "vehicle": {
     "economy": "Ekonomi",
@@ -173,7 +175,9 @@
     "submitOffer": "Gönder",
     "offerSent": "Teklif gönderildi",
     "negotiable": "Pazarlık",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "today": "Bugün",
+    "ridesCount": "Yolculuklar"
   },
   "earnings": {
     "title": "Kazanç",
@@ -228,7 +232,9 @@
     "call": "Ara",
     "saved": "Kaydedildi",
     "notificationsOn": "Enabled",
-    "notificationsEnable": "Enable"
+    "notificationsEnable": "Enable",
+    "share": "Uygulamayı paylaş",
+    "shareText": "Taxi Pro'yu dene — Pi Network'te taksi!"
   },
   "history": {
     "title": "Yolculuk geçmişi",

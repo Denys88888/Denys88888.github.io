@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Camera, Star, LayoutDashboard, Car } from 'lucide-react';
+import { Camera, Star, LayoutDashboard, Car, Share } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Avatar } from '../components/ui/Avatar';
 import { Badge } from '../components/ui/Badge';
@@ -153,20 +153,32 @@ export function ProfileScreen() {
           </Button>
         )}
 
+        {'share' in navigator && (
+          <Button
+            variant="outline"
+            fullWidth
+            onClick={() =>
+              navigator.share?.({
+                title: 'Taxi Pro',
+                text: t('profile.shareText'),
+                url: window.location.origin,
+              }).catch(() => {})
+            }
+          >
+            <Share size={18} /> {t('profile.share')}
+          </Button>
+        )}
+
         <Button variant="ghost" fullWidth className="!text-danger" onClick={logout}>
           {t('auth.logout')}
         </Button>
 
-        {health && (
-          <p className="text-center text-xs opacity-40">
-            {health.sandbox ? 'Testnet · Sandbox' : 'Mainnet'} ·{' '}
-            {health.store === 'firestore' || health.firebase
-              ? 'Firestore'
-              : health.store === 'sqlite'
-                ? 'SQLite'
-                : 'In-memory'}
-          </p>
-        )}
+        <p className="text-center text-xs opacity-40">
+          Taxi Pro v3.0.0 ·{' '}
+          {health
+            ? health.sandbox ? 'Testnet' : 'Mainnet'
+            : '…'}
+        </p>
       </div>
     </div>
   );

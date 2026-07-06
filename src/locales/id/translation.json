@@ -129,7 +129,9 @@
     "payment_completed": "Paid",
     "payment_refunded": "Refunded",
     "route": "Rute",
-    "driverEarnings": "Pendapatan pengemudi"
+    "driverEarnings": "Pendapatan pengemudi",
+    "searchingDriver": "Mencari pengemudi...",
+    "searchingHint": "Biasanya memakan waktu 1-3 menit"
   },
   "vehicle": {
     "economy": "Ekonomi",
@@ -173,7 +175,9 @@
     "submitOffer": "Kirim",
     "offerSent": "Penawaran terkirim",
     "negotiable": "Bisa nego",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "today": "Hari ini",
+    "ridesCount": "Perjalanan"
   },
   "earnings": {
     "title": "Pendapatan",
@@ -228,7 +232,9 @@
     "call": "Telepon",
     "saved": "Tersimpan",
     "notificationsOn": "Enabled",
-    "notificationsEnable": "Enable"
+    "notificationsEnable": "Enable",
+    "share": "Bagikan aplikasi",
+    "shareText": "Coba Taxi Pro — ride-hailing di Pi Network!"
   },
   "history": {
     "title": "Riwayat perjalanan",

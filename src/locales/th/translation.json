@@ -129,7 +129,9 @@
     "payment_completed": "Paid",
     "payment_refunded": "Refunded",
     "route": "เส้นทาง",
-    "driverEarnings": "รายได้คนขับ"
+    "driverEarnings": "รายได้คนขับ",
+    "searchingDriver": "กำลังหาคนขับ...",
+    "searchingHint": "โดยปกติใช้เวลา 1-3 นาที"
   },
   "vehicle": {
     "economy": "ประหยัด",
@@ -173,7 +175,9 @@
     "submitOffer": "ส่ง",
     "offerSent": "ส่งข้อเสนอแล้ว",
     "negotiable": "ต่อรองได้",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "today": "วันนี้",
+    "ridesCount": "การเดินทาง"
   },
   "earnings": {
     "title": "รายได้",
@@ -228,7 +232,9 @@
     "call": "โทร",
     "saved": "บันทึกแล้ว",
     "notificationsOn": "Enabled",
-    "notificationsEnable": "Enable"
+    "notificationsEnable": "Enable",
+    "share": "แชร์แอป",
+    "shareText": "ลอง Taxi Pro — เรียกรถบน Pi Network!"
   },
   "history": {
     "title": "ประวัติการเดินทาง",

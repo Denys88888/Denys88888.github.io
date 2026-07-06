@@ -129,7 +129,9 @@
     "payment_completed": "Paid",
     "payment_refunded": "Refunded",
     "route": "경로",
-    "driverEarnings": "드라이버 수입"
+    "driverEarnings": "드라이버 수입",
+    "searchingDriver": "드라이버를 찾는 중...",
+    "searchingHint": "보통 1-3분 소요"
   },
   "vehicle": {
     "economy": "이코노미",
@@ -173,7 +175,9 @@
     "submitOffer": "보내기",
     "offerSent": "제안을 보냈습니다",
     "negotiable": "흥정 가능",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "today": "오늘",
+    "ridesCount": "탑승"
   },
   "earnings": {
     "title": "수입",
@@ -228,7 +232,9 @@
     "call": "전화",
     "saved": "저장됨",
     "notificationsOn": "Enabled",
-    "notificationsEnable": "Enable"
+    "notificationsEnable": "Enable",
+    "share": "앱 공유",
+    "shareText": "Taxi Pro를 사용해 보세요 — Pi Network 기반 택시!"
   },
   "history": {
     "title": "운행 기록",

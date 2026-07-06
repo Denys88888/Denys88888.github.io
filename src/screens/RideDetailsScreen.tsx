@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Calendar, Star, Phone, MessageCircle, Flag, Share2, Siren, Navigation, Zap } from 'lucide-react';
 import { MapView } from '../components/map/MapContainer';
 import { RideStatusBadge } from '../components/ride/RideStatusBadge';
+import { SearchingOverlay } from '../components/ride/SearchingOverlay';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Avatar } from '../components/ui/Avatar';
@@ -320,6 +321,10 @@ export function RideDetailsScreen() {
               </Card>
             ))}
           </div>
+        )}
+
+        {ride.status === 'searching' && !ride.negotiable && !isDriver && (
+          <SearchingOverlay />
         )}
 
         {ride.status === 'completed' && (

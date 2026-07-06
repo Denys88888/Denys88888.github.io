@@ -129,7 +129,9 @@
     "payment_completed": "Paid",
     "payment_refunded": "Refunded",
     "route": "路线",
-    "driverEarnings": "司机收入"
+    "driverEarnings": "司机收入",
+    "searchingDriver": "正在寻找司机...",
+    "searchingHint": "通常需要1-3分钟"
   },
   "vehicle": {
     "economy": "经济型",
@@ -173,7 +175,9 @@
     "submitOffer": "发送",
     "offerSent": "报价已发送",
     "negotiable": "可议价",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "today": "今天",
+    "ridesCount": "行程"
   },
   "earnings": {
     "title": "收入",
@@ -228,7 +232,9 @@
     "call": "呼叫",
     "saved": "已保存",
     "notificationsOn": "Enabled",
-    "notificationsEnable": "Enable"
+    "notificationsEnable": "Enable",
+    "share": "分享应用",
+    "shareText": "试试Taxi Pro — Pi Network上的打车服务！"
   },
   "history": {
     "title": "行程记录",

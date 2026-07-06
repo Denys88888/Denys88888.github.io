@@ -129,7 +129,9 @@
     "payment_completed": "Paid",
     "payment_refunded": "Refunded",
     "route": "Rota",
-    "driverEarnings": "Ganhos do motorista"
+    "driverEarnings": "Ganhos do motorista",
+    "searchingDriver": "Procurando motorista...",
+    "searchingHint": "Geralmente leva 1–3 minutos"
   },
   "vehicle": {
     "economy": "Econômico",
@@ -173,7 +175,9 @@
     "submitOffer": "Enviar",
     "offerSent": "Oferta enviada",
     "negotiable": "Negociável",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "today": "Hoje",
+    "ridesCount": "Corridas"
   },
   "earnings": {
     "title": "Ganhos",
@@ -228,7 +232,9 @@
     "call": "Ligar",
     "saved": "Salvo",
     "notificationsOn": "Enabled",
-    "notificationsEnable": "Enable"
+    "notificationsEnable": "Enable",
+    "share": "Compartilhar app",
+    "shareText": "Experimente Taxi Pro — táxi na Pi Network!"
   },
   "history": {
     "title": "Histórico de viagens",

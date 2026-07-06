@@ -129,7 +129,9 @@
     "payment_completed": "Paid",
     "payment_refunded": "Refunded",
     "route": "Route",
-    "driverEarnings": "Driver earnings"
+    "driverEarnings": "Driver earnings",
+    "searchingDriver": "Looking for a driver...",
+    "searchingHint": "Usually takes 1–3 minutes"
   },
   "vehicle": {
     "economy": "Economy",
@@ -173,7 +175,9 @@
     "submitOffer": "Send offer",
     "offerSent": "Offer sent",
     "negotiable": "Negotiable",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "today": "Today",
+    "ridesCount": "Rides"
   },
   "earnings": {
     "title": "Earnings",
@@ -228,7 +232,9 @@
     "call": "Call",
     "saved": "Saved",
     "notificationsOn": "Enabled",
-    "notificationsEnable": "Enable"
+    "notificationsEnable": "Enable",
+    "share": "Share app",
+    "shareText": "Try Taxi Pro — ride-hailing on Pi Network!"
   },
   "history": {
     "title": "Ride history",
