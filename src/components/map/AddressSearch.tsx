@@ -44,7 +44,7 @@ export function AddressSearch({ label, placeholder, value, icon, near, countryCo
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };
-  }, [query]);
+  }, [query, near, countryCodes]);
 
   return (
     <div className="relative">
