@@ -3,83 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta name="theme-color" content="#7B3FE4" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="theme-color" content="#05140F" />
-    <meta name="description" content="Taxi Pro - Ride-hailing powered by Pi Network" />
-
-    <!-- Prevent FOUC: apply theme before React loads. Default = emerald (signature). -->
-    <script>
-      (function() {
-        var theme = localStorage.getItem('taxipro_theme') || 'emerald';
-        var resolved = theme === 'system'
-          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-          : theme;
-        document.documentElement.classList.add(resolved);
-        document.documentElement.setAttribute('data-theme', resolved);
-      })();
-    </script>
-
-    <link rel="manifest" href="./manifest.json" />
-    <link rel="apple-touch-icon" href="./icon-192x192.png" />
-    <title>Taxi Pro</title>
-
-    <!-- Fonts -->
+    <!-- The web manifest link is injected by vite-plugin-pwa (manifest.webmanifest). -->
+    <link rel="icon" type="image/png" href="/icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
-    <!-- Pi Network SDK (must load before app code) -->
+    <title>Taxi Pro</title>
+    <!-- Pi Network SDK (available only inside the Pi Browser) -->
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   </head>
   <body>
     <div id="root"></div>
-
-    <!-- GPS pre-fetch so pickup loads instantly -->
-    <script>
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          pos => {
-            localStorage.setItem('taxipro_gps_pickup', JSON.stringify({
-              lat: pos.coords.latitude,
-              lng: pos.coords.longitude,
-              name: 'Current Location',
-              address: 'My Location'
-            }));
-          },
-          () => {},
-          { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
-        );
-      }
-    </script>
-
-    <!-- Service Worker registration (skipped on localhost: a SW caching Vite's
-         dev modules serves stale/mixed chunks → "duplicate React" in dev) -->
-    <script>
-      var isLocalDev = ['localhost', '127.0.0.1', ''].indexOf(location.hostname) !== -1;
-      if ('serviceWorker' in navigator && isLocalDev) {
-        // Tidy up any SW a previous dev session registered.
-        navigator.serviceWorker.getRegistrations().then(function (regs) { regs.forEach(function (r) { r.unregister(); }); });
-        if (window.caches) caches.keys().then(function (keys) { keys.forEach(function (k) { caches.delete(k); }); });
-      }
-      if ('serviceWorker' in navigator && !isLocalDev) {
-        window.addEventListener('load', function () {
-          navigator.serviceWorker.register('./sw.js').then(reg => {
-            reg.addEventListener('updatefound', () => {
-              reg.installing?.addEventListener('statechange', function () {
-                if (this.state === 'installed' && navigator.serviceWorker.controller) {
-                  console.log('[SW] New version ready');
-                }
-              });
-            });
-          });
-          navigator.serviceWorker.register('./firebase-messaging-sw.js').catch(() => {});
-        });
-      }
-    </script>
-
-    <!-- Vite entry point -->
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

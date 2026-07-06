@@ -1,4 +1,10 @@
-node_modules/
+node_modules
+dist
+dist-ssr
+*.local
 .env
-.env.local
-dist/
+.env.*.local
+.DS_Store
+coverage
+*.log
+dev-dist

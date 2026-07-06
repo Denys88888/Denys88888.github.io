@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-bg-light text-text-light antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    overscroll-behavior-y: none;
+  }
+
+  .dark body {
+    @apply bg-bg-dark text-text-dark;
+  }
+
+  h1 {
+    @apply text-[32px] font-bold leading-tight;
+  }
+  h2 {
+    @apply text-2xl font-bold;
+  }
+  h3 {
+    @apply text-xl font-semibold;
+  }
+
+  [dir='rtl'] {
+    direction: rtl;
+  }
+}
+
+@layer components {
+  .surface {
+    @apply bg-surface-light dark:bg-surface-dark;
+  }
+  .card {
+    @apply surface rounded-card shadow-card p-4;
+  }
+  .skeleton {
+    @apply animate-pulse rounded-md bg-black/10 dark:bg-white/10;
+  }
+  /* Hide scrollbars on horizontal chip/vehicle rows. */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Pulsing halo used by the map's divIcon markers. */
+@keyframes tp-pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* Leaflet map must fill its rounded container. */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  background: #e5e7eb;
+}
+.dark .leaflet-container {
+  background: #2a2a2a;
+}

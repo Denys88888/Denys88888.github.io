@@ -1,0 +1,56 @@
+import { createContext, useContext, useEffect, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAppStore } from '../store/useAppStore';
+import { wsService } from '../services/wsService';
+import { api } from '../services/api';
+import type { Ride } from '../types';
+
+interface RideCtx {
+  refresh: () => void;
+}
+
+const Ctx = createContext<RideCtx | null>(null);
+
+export function RideProvider({ children }: { children: ReactNode }) {
+  const { t } = useTranslation();
+  const token = useAppStore((s) => s.token);
+  const setCurrentRide = useAppStore((s) => s.setCurrentRide);
+  const addToast = useAppStore((s) => s.addToast);
+
+  useEffect(() => {
+    if (!token) return;
+
+    const offAssigned = wsService.on('ride_assigned', (msg) => {
+      addToast('success', t('ride.driverFound'));
+      const rideId = String(msg.rideId ?? '');
+      if (rideId) {
+        api.getRide(rideId).then(setCurrentRide).catch(() => {});
+      }
+    });
+
+    const offStatus = wsService.on('ride_status_update', (msg) => {
+      const cur = useAppStore.getState().currentRide;
+      const rideId = String(msg.rideId ?? '');
+      if (cur && cur.id === rideId && msg.status) {
+        setCurrentRide({ ...cur, status: msg.status as Ride['status'] });
+      }
+    });
+
+    return () => {
+      offAssigned();
+      offStatus();
+    };
+  }, [token, setCurrentRide, addToast]);
+
+  const refresh = (): void => {
+    /* Placeholder for manual refresh; ride state is push-driven via WS. */
+  };
+
+  return <Ctx.Provider value={{ refresh }}>{children}</Ctx.Provider>;
+}
+
+export function useRideContext(): RideCtx {
+  const ctx = useContext(Ctx);
+  if (!ctx) throw new Error('useRideContext must be used within RideProvider');
+  return ctx;
+}

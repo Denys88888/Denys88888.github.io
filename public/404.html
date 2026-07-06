@@ -1,18 +1,12 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
     <title>Taxi Pro</title>
-    <!-- GitHub Pages serves this for unknown paths. Convert a /track/{token}
-         deep link into the hash route the SPA understands, then load the app. -->
-    <script>
-      (function () {
-        var m = location.pathname.match(/\/track\/([^/?#]+)/);
-        var root = location.origin + '/';
-        location.replace(m ? root + '#/track/' + m[1] : root);
-      })();
-    </script>
+    <!-- SPA fallback: the app router is in-memory, so any unknown path just
+         returns to the app shell at the root. -->
+    <script>window.location.replace('/');</script>
+    <meta http-equiv="refresh" content="0;url=/" />
   </head>
-  <body>Redirecting…</body>
+  <body></body>
 </html>
