@@ -13,7 +13,8 @@
     "next": "आगे",
     "submit": "सबमिट",
     "retry": "फिर कोशिश करें",
-    "search": "खोजें"
+    "search": "खोजें",
+    "offline": "इंटरनेट कनेक्शन नहीं है"
   },
   "splash": {
     "poweredBy": "Pi Network द्वारा संचालित"
@@ -279,7 +280,11 @@
     "newMessage": "New message: {{text}}",
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
-    "driverRejected": "Your driver application was rejected."
+    "driverRejected": "Your driver application was rejected.",
+    "driverArrived": "आपका ड्राइवर आ गया है!",
+    "rideStarted": "आपकी सवारी शुरू हो गई है",
+    "rideCompleted": "सवारी पूरी हुई",
+    "rideCancelled": "आपकी सवारी रद्द कर दी गई"
   },
   "onboarding": {
     "slide1Title": "Pi से राइड बुक करें",

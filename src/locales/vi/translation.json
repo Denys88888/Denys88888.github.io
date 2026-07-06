@@ -13,7 +13,8 @@
     "next": "Tiếp",
     "submit": "Gửi",
     "retry": "Thử lại",
-    "search": "Tìm kiếm"
+    "search": "Tìm kiếm",
+    "offline": "Không có kết nối internet"
   },
   "splash": {
     "poweredBy": "Được cung cấp bởi Pi Network"
@@ -279,7 +280,11 @@
     "newMessage": "New message: {{text}}",
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
-    "driverRejected": "Your driver application was rejected."
+    "driverRejected": "Your driver application was rejected.",
+    "driverArrived": "Tài xế của bạn đã đến!",
+    "rideStarted": "Chuyến đi của bạn đã bắt đầu",
+    "rideCompleted": "Chuyến đi hoàn thành",
+    "rideCancelled": "Chuyến đi của bạn đã bị hủy"
   },
   "onboarding": {
     "slide1Title": "Đặt chuyến với Pi",

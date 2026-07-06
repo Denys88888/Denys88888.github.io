@@ -13,7 +13,8 @@
     "next": "İleri",
     "submit": "Gönder",
     "retry": "Tekrar dene",
-    "search": "Ara"
+    "search": "Ara",
+    "offline": "İnternet bağlantısı yok"
   },
   "splash": {
     "poweredBy": "Pi Network tarafından desteklenmektedir"
@@ -279,7 +280,11 @@
     "newMessage": "New message: {{text}}",
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
-    "driverRejected": "Your driver application was rejected."
+    "driverRejected": "Your driver application was rejected.",
+    "driverArrived": "Sürücünüz geldi!",
+    "rideStarted": "Yolculuğunuz başladı",
+    "rideCompleted": "Yolculuk tamamlandı",
+    "rideCancelled": "Yolculuğunuz iptal edildi"
   },
   "onboarding": {
     "slide1Title": "Pi ile yolculuk rezervasyonu",

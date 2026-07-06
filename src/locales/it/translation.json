@@ -13,7 +13,8 @@
     "next": "Avanti",
     "submit": "Invia",
     "retry": "Riprova",
-    "search": "Cerca"
+    "search": "Cerca",
+    "offline": "Nessuna connessione internet"
   },
   "splash": {
     "poweredBy": "Realizzato con Pi Network"
@@ -279,7 +280,11 @@
     "newMessage": "New message: {{text}}",
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
-    "driverRejected": "Your driver application was rejected."
+    "driverRejected": "Your driver application was rejected.",
+    "driverArrived": "Il tuo autista è arrivato!",
+    "rideStarted": "La tua corsa è iniziata",
+    "rideCompleted": "Corsa completata",
+    "rideCancelled": "La tua corsa è stata annullata"
   },
   "onboarding": {
     "slide1Title": "Prenota corse con Pi",

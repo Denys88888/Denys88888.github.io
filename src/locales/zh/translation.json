@@ -13,7 +13,8 @@
     "next": "下一步",
     "submit": "提交",
     "retry": "重试",
-    "search": "搜索"
+    "search": "搜索",
+    "offline": "无网络连接"
   },
   "splash": {
     "poweredBy": "由 Pi Network 提供支持"
@@ -279,7 +280,11 @@
     "newMessage": "New message: {{text}}",
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
-    "driverRejected": "Your driver application was rejected."
+    "driverRejected": "Your driver application was rejected.",
+    "driverArrived": "您的司机已到达！",
+    "rideStarted": "您的行程已开始",
+    "rideCompleted": "行程已完成",
+    "rideCancelled": "您的行程已取消"
   },
   "onboarding": {
     "slide1Title": "用Pi预约行程",

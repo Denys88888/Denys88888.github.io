@@ -28,7 +28,6 @@ const client: AxiosInstance = axios.create({
 client.interceptors.request.use((config) => {
   const token = storage.getToken();
   if (token) config.headers.Authorization = `Bearer ${token}`;
-  console.log('[TaxiProDebug] API Request:', config.method, config.url, JSON.stringify(config.data)?.slice(0, 200));
   return config;
 });
 
@@ -36,17 +35,8 @@ client.interceptors.request.use((config) => {
 // (store + storage + socket) so the app routes back to login instead of
 // silently failing every request until a manual reload.
 client.interceptors.response.use(
-  (res) => {
-    console.log('[TaxiProDebug] API Response:', res.status, res.config.url, JSON.stringify(res.data)?.slice(0, 200));
-    return res;
-  },
+  (res) => res,
   (error) => {
-    console.error(
-      '[TaxiProDebug] API Error:',
-      error.config?.url,
-      error.response?.status ?? error.code ?? error.message,
-      JSON.stringify(error.response?.data)?.slice(0, 200)
-    );
     if (error.response?.status === 401) {
       storage.clearAuth();
       if (useAppStore.getState().token) {

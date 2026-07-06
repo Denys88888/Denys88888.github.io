@@ -8,6 +8,7 @@ import { ErrorBoundary } from './components/layout/ErrorBoundary';
 import { SplashScreen } from './components/layout/SplashScreen';
 import { BottomNav } from './components/layout/BottomNav';
 import { ToastContainer } from './components/ui/Toast';
+import { OfflineBanner } from './components/ui/OfflineBanner';
 import { AuthScreen } from './screens/AuthScreen';
 import { PassengerHomeScreen } from './screens/PassengerHomeScreen';
 import { DriverHomeScreen } from './screens/DriverHomeScreen';
@@ -85,6 +86,7 @@ export default function App() {
                 <Shell />
               )}
               <ToastContainer />
+              <OfflineBanner />
             </div>
           </ErrorBoundary>
         </RideProvider>

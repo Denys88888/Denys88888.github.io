@@ -13,7 +13,8 @@
     "next": "Далее",
     "submit": "Отправить",
     "retry": "Повторить",
-    "search": "Поиск"
+    "search": "Поиск",
+    "offline": "Нет подключения к интернету"
   },
   "splash": {
     "poweredBy": "При поддержке Pi Network"
@@ -279,7 +280,11 @@
     "newMessage": "Новое сообщение: {{text}}",
     "tip": "Вам оставили чаевые: {{amount}}",
     "driverApproved": "Ваша заявка водителя одобрена! Можете выходить на линию.",
-    "driverRejected": "Ваша заявка водителя отклонена."
+    "driverRejected": "Ваша заявка водителя отклонена.",
+    "driverArrived": "Ваш водитель прибыл!",
+    "rideStarted": "Поездка началась",
+    "rideCompleted": "Поездка завершена",
+    "rideCancelled": "Ваша поездка отменена"
   },
   "onboarding": {
     "slide1Title": "Поездки за Pi",

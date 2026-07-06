@@ -13,7 +13,8 @@
     "next": "次へ",
     "submit": "送信",
     "retry": "再試行",
-    "search": "検索"
+    "search": "検索",
+    "offline": "インターネット接続がありません"
   },
   "splash": {
     "poweredBy": "Pi Network 提供"
@@ -279,7 +280,11 @@
     "newMessage": "New message: {{text}}",
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
-    "driverRejected": "Your driver application was rejected."
+    "driverRejected": "Your driver application was rejected.",
+    "driverArrived": "ドライバーが到着しました！",
+    "rideStarted": "乗車が開始されました",
+    "rideCompleted": "乗車完了",
+    "rideCancelled": "乗車がキャンセルされました"
   },
   "onboarding": {
     "slide1Title": "Piで乗車予約",

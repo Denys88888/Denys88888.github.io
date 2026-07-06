@@ -13,7 +13,8 @@
     "next": "ถัดไป",
     "submit": "ส่ง",
     "retry": "ลองอีกครั้ง",
-    "search": "ค้นหา"
+    "search": "ค้นหา",
+    "offline": "ไม่มีการเชื่อมต่ออินเทอร์เน็ต"
   },
   "splash": {
     "poweredBy": "ขับเคลื่อนโดย Pi Network"
@@ -279,7 +280,11 @@
     "newMessage": "New message: {{text}}",
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
-    "driverRejected": "Your driver application was rejected."
+    "driverRejected": "Your driver application was rejected.",
+    "driverArrived": "คนขับของคุณมาถึงแล้ว!",
+    "rideStarted": "การเดินทางของคุณเริ่มต้นแล้ว",
+    "rideCompleted": "การเดินทางเสร็จสิ้น",
+    "rideCancelled": "การเดินทางของคุณถูกยกเลิก"
   },
   "onboarding": {
     "slide1Title": "จองรถด้วย Pi",

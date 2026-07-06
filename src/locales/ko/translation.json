@@ -13,7 +13,8 @@
     "next": "다음",
     "submit": "제출",
     "retry": "다시 시도",
-    "search": "검색"
+    "search": "검색",
+    "offline": "인터넷 연결 없음"
   },
   "splash": {
     "poweredBy": "Pi Network 제공"
@@ -279,7 +280,11 @@
     "newMessage": "New message: {{text}}",
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
-    "driverRejected": "Your driver application was rejected."
+    "driverRejected": "Your driver application was rejected.",
+    "driverArrived": "드라이버가 도착했습니다!",
+    "rideStarted": "탑승이 시작되었습니다",
+    "rideCompleted": "탑승 완료",
+    "rideCancelled": "탑승이 취소되었습니다"
   },
   "onboarding": {
     "slide1Title": "Pi로 라이드 예약",

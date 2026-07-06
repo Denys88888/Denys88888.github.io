@@ -13,7 +13,8 @@
     "next": "Berikutnya",
     "submit": "Kirim",
     "retry": "Coba lagi",
-    "search": "Cari"
+    "search": "Cari",
+    "offline": "Tidak ada koneksi internet"
   },
   "splash": {
     "poweredBy": "Didukung oleh Pi Network"
@@ -279,7 +280,11 @@
     "newMessage": "New message: {{text}}",
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
-    "driverRejected": "Your driver application was rejected."
+    "driverRejected": "Your driver application was rejected.",
+    "driverArrived": "Pengemudi Anda telah tiba!",
+    "rideStarted": "Perjalanan Anda telah dimulai",
+    "rideCompleted": "Perjalanan selesai",
+    "rideCancelled": "Perjalanan Anda dibatalkan"
   },
   "onboarding": {
     "slide1Title": "Pesan perjalanan dengan Pi",
