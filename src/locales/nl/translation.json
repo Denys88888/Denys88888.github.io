@@ -13,7 +13,8 @@
     "next": "Volgende",
     "submit": "Verzenden",
     "retry": "Opnieuw",
-    "search": "Zoeken"
+    "search": "Zoeken",
+    "offline": "Geen internetverbinding"
   },
   "splash": {
     "poweredBy": "Mogelijk gemaakt door Pi Network"
@@ -279,7 +280,11 @@
     "newMessage": "New message: {{text}}",
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
-    "driverRejected": "Your driver application was rejected."
+    "driverRejected": "Your driver application was rejected.",
+    "driverArrived": "Uw chauffeur is gearriveerd!",
+    "rideStarted": "Uw rit is begonnen",
+    "rideCompleted": "Rit voltooid",
+    "rideCancelled": "Uw rit is geannuleerd"
   },
   "onboarding": {
     "slide1Title": "Boek ritten met Pi",

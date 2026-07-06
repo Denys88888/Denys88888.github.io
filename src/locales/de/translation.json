@@ -13,7 +13,8 @@
     "next": "Weiter",
     "submit": "Senden",
     "retry": "Erneut versuchen",
-    "search": "Suchen"
+    "search": "Suchen",
+    "offline": "Keine Internetverbindung"
   },
   "splash": {
     "poweredBy": "Unterstützt von Pi Network"
@@ -279,7 +280,11 @@
     "newMessage": "New message: {{text}}",
     "tip": "You received a tip: {{amount}}",
     "driverApproved": "Your driver application was approved! You can go online now.",
-    "driverRejected": "Your driver application was rejected."
+    "driverRejected": "Your driver application was rejected.",
+    "driverArrived": "Ihr Fahrer ist da!",
+    "rideStarted": "Ihre Fahrt hat begonnen",
+    "rideCompleted": "Fahrt abgeschlossen",
+    "rideCancelled": "Ihre Fahrt wurde storniert"
   },
   "onboarding": {
     "slide1Title": "Fahrten mit Pi buchen",

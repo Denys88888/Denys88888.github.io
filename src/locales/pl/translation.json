@@ -13,7 +13,8 @@
     "next": "Dalej",
     "submit": "Wyślij",
     "retry": "Ponów",
-    "search": "Szukaj"
+    "search": "Szukaj",
+    "offline": "Brak połączenia z internetem"
   },
   "splash": {
     "poweredBy": "Wspierane przez Pi Network"
@@ -279,7 +280,11 @@
     "newMessage": "Nowa wiadomość: {{text}}",
     "tip": "Otrzymałeś napiwek: {{amount}}",
     "driverApproved": "Twoja aplikacja kierowcy została zatwierdzona! Możesz wyjechać na trasę.",
-    "driverRejected": "Twoja aplikacja kierowcy została odrzucona."
+    "driverRejected": "Twoja aplikacja kierowcy została odrzucona.",
+    "driverArrived": "Twój kierowca przyjechał!",
+    "rideStarted": "Twój przejazd się rozpoczął",
+    "rideCompleted": "Przejazd zakończony",
+    "rideCancelled": "Twój przejazd został anulowany"
   },
   "onboarding": {
     "slide1Title": "Przejazdy za Pi",

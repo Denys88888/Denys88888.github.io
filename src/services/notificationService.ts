@@ -98,6 +98,17 @@ export function initNotifications(): void {
         .catch(() => {
           /* next login will pick the new role up anyway */
         });
+      return;
+    }
+    const isPassenger = useAppStore.getState().user?.role !== 'driver';
+    if (isPassenger && msg.status === 'arrived') {
+      notify(i18n.t('notify.driverArrived', 'Your driver has arrived!'));
+    } else if (isPassenger && msg.status === 'in_progress') {
+      notify(i18n.t('notify.rideStarted', 'Your ride has started'));
+    } else if (msg.status === 'completed') {
+      notify(i18n.t('notify.rideCompleted', 'Ride completed'));
+    } else if (isPassenger && msg.status === 'cancelled') {
+      notify(i18n.t('notify.rideCancelled', 'Your ride was cancelled'));
     }
   });
 }
