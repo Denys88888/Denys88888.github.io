@@ -14,7 +14,9 @@
     "submit": "送信",
     "retry": "再試行",
     "search": "検索",
-    "offline": "インターネット接続がありません"
+    "offline": "インターネット接続がありません",
+    "somethingWentWrong": "問題が発生しました",
+    "reload": "再読み込み"
   },
   "splash": {
     "poweredBy": "Pi Network 提供"
@@ -131,7 +133,8 @@
     "route": "ルート",
     "driverEarnings": "ドライバー収益",
     "searchingDriver": "ドライバーを探しています...",
-    "searchingHint": "通常1〜3分かかります"
+    "searchingHint": "通常1〜3分かかります",
+    "paymentComplete": "支払い完了"
   },
   "vehicle": {
     "economy": "エコノミー",

@@ -45,10 +45,13 @@ function Shell() {
   // Drivers land on their own home screen.
   useEffect(() => {
     if (user?.role === 'driver' && screen === 'home') navigate('driver');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.role]);
+  }, [user?.role, screen, navigate]);
 
   if (!user) return <AuthScreen />;
+  if (screen === 'admin' && user.role !== 'admin') {
+    navigate(user.role === 'driver' ? 'driver' : 'home');
+    return null;
+  }
 
   const Active = SCREENS[screen] ?? PassengerHomeScreen;
   const showNav = !FULLSCREEN.includes(screen);

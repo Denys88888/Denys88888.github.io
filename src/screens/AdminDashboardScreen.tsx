@@ -66,30 +66,42 @@ export function AdminDashboardScreen() {
   }, [tab]);
 
   const toggleBlock = async (u: User): Promise<void> => {
-    await api.adminBlockUser(u.uid, !u.isBlocked, 'admin action');
-    const flip = (x: User) => (x.uid === u.uid ? { ...x, isBlocked: !x.isBlocked } : x);
-    setUsers((prev) => prev.map(flip));
-    setDrivers((prev) => prev.map(flip) as AdminDriver[]);
+    try {
+      await api.adminBlockUser(u.uid, !u.isBlocked, 'admin action');
+      const flip = (x: User) => (x.uid === u.uid ? { ...x, isBlocked: !x.isBlocked } : x);
+      setUsers((prev) => prev.map(flip));
+      setDrivers((prev) => prev.map(flip) as AdminDriver[]);
+    } catch {
+      addToast('error', t('common.error'));
+    }
   };
 
   const verify = async (u: User, approve: boolean): Promise<void> => {
-    await api.adminVerifyDriver(u.uid, approve);
-    setDrivers((prev) =>
-      prev.map((d) =>
-        d.uid === u.uid ? { ...d, applicationStatus: approve ? 'approved' : 'rejected' } : d
-      )
-    );
-    addToast('success', approve ? t('admin.approve') : t('admin.reject'));
+    try {
+      await api.adminVerifyDriver(u.uid, approve);
+      setDrivers((prev) =>
+        prev.map((d) =>
+          d.uid === u.uid ? { ...d, applicationStatus: approve ? 'approved' : 'rejected' } : d
+        )
+      );
+      addToast('success', approve ? t('admin.approve') : t('admin.reject'));
+    } catch {
+      addToast('error', t('common.error'));
+    }
   };
 
   const saveSettings = async (): Promise<void> => {
-    await api.adminUpdateSettings({
-      platformFeePercent: fee,
-      minFare,
-      baseFarePerKm: perKm,
-      surgeEnabled,
-    });
-    addToast('success', t('common.success'));
+    try {
+      await api.adminUpdateSettings({
+        platformFeePercent: fee,
+        minFare,
+        baseFarePerKm: perKm,
+        surgeEnabled,
+      });
+      addToast('success', t('common.success'));
+    } catch {
+      addToast('error', t('common.error'));
+    }
   };
 
   const filteredRides = rides.filter((r) => {

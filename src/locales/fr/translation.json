@@ -14,7 +14,9 @@
     "submit": "Envoyer",
     "retry": "Réessayer",
     "search": "Rechercher",
-    "offline": "Pas de connexion internet"
+    "offline": "Pas de connexion internet",
+    "somethingWentWrong": "Une erreur est survenue",
+    "reload": "Recharger"
   },
   "splash": {
     "poweredBy": "Propulsé par Pi Network"
@@ -131,7 +133,8 @@
     "route": "Trajet",
     "driverEarnings": "Gains du chauffeur",
     "searchingDriver": "Recherche d'un chauffeur...",
-    "searchingHint": "Prend généralement 1 à 3 minutes"
+    "searchingHint": "Prend généralement 1 à 3 minutes",
+    "paymentComplete": "Paiement effectué"
   },
   "vehicle": {
     "economy": "Éco",

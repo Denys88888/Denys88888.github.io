@@ -14,7 +14,9 @@
     "submit": "Отправить",
     "retry": "Повторить",
     "search": "Поиск",
-    "offline": "Нет подключения к интернету"
+    "offline": "Нет подключения к интернету",
+    "somethingWentWrong": "Что-то пошло не так",
+    "reload": "Перезагрузить"
   },
   "splash": {
     "poweredBy": "При поддержке Pi Network"
@@ -131,7 +133,8 @@
     "route": "Маршрут",
     "driverEarnings": "Заработок водителя",
     "searchingDriver": "Ищем водителя...",
-    "searchingHint": "Обычно 1–3 минуты"
+    "searchingHint": "Обычно 1–3 минуты",
+    "paymentComplete": "Оплата завершена"
   },
   "vehicle": {
     "economy": "Эконом",

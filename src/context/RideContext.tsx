@@ -1,17 +1,18 @@
 import { createContext, useContext, useEffect, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../store/useAppStore';
 import { wsService } from '../services/wsService';
+import { api } from '../services/api';
 import type { Ride } from '../types';
 
 interface RideCtx {
-  /* Subscriptions are wired in the provider; consumers read store.currentRide. */
   refresh: () => void;
 }
 
 const Ctx = createContext<RideCtx | null>(null);
 
-// Keeps the active ride in sync with real-time WebSocket events.
 export function RideProvider({ children }: { children: ReactNode }) {
+  const { t } = useTranslation();
   const token = useAppStore((s) => s.token);
   const setCurrentRide = useAppStore((s) => s.setCurrentRide);
   const addToast = useAppStore((s) => s.addToast);
@@ -20,10 +21,11 @@ export function RideProvider({ children }: { children: ReactNode }) {
     if (!token) return;
 
     const offAssigned = wsService.on('ride_assigned', (msg) => {
-      addToast('success', 'Driver found!');
-      setCurrentRide(useAppStore.getState().currentRide
-        ? { ...(useAppStore.getState().currentRide as Ride), status: 'assigned', driverId: String(msg.driverId) }
-        : null);
+      addToast('success', t('ride.driverFound'));
+      const rideId = String(msg.rideId ?? '');
+      if (rideId) {
+        api.getRide(rideId).then(setCurrentRide).catch(() => {});
+      }
     });
 
     const offStatus = wsService.on('ride_status_update', (msg) => {

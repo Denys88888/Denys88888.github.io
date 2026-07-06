@@ -14,7 +14,9 @@
     "submit": "提交",
     "retry": "重试",
     "search": "搜索",
-    "offline": "无网络连接"
+    "offline": "无网络连接",
+    "somethingWentWrong": "出了点问题",
+    "reload": "重新加载"
   },
   "splash": {
     "poweredBy": "由 Pi Network 提供支持"
@@ -131,7 +133,8 @@
     "route": "路线",
     "driverEarnings": "司机收入",
     "searchingDriver": "正在寻找司机...",
-    "searchingHint": "通常需要1-3分钟"
+    "searchingHint": "通常需要1-3分钟",
+    "paymentComplete": "支付完成"
   },
   "vehicle": {
     "economy": "经济型",

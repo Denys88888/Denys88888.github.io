@@ -14,7 +14,9 @@
     "submit": "Invia",
     "retry": "Riprova",
     "search": "Cerca",
-    "offline": "Nessuna connessione internet"
+    "offline": "Nessuna connessione internet",
+    "somethingWentWrong": "Qualcosa è andato storto",
+    "reload": "Ricarica"
   },
   "splash": {
     "poweredBy": "Realizzato con Pi Network"
@@ -131,7 +133,8 @@
     "route": "Percorso",
     "driverEarnings": "Guadagno autista",
     "searchingDriver": "Cerco un autista...",
-    "searchingHint": "Di solito 1–3 minuti"
+    "searchingHint": "Di solito 1–3 minuti",
+    "paymentComplete": "Pagamento completato"
   },
   "vehicle": {
     "economy": "Economy",

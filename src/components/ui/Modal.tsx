@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from './Button';
 
 interface Props {
@@ -23,6 +24,7 @@ export function Modal({
   confirmVariant = 'primary',
   cancelLabel,
 }: Props) {
+  const { t } = useTranslation();
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
@@ -32,11 +34,11 @@ export function Modal({
         <div className="text-sm text-text-light/80 dark:text-text-dark/80">{children}</div>
         <div className="mt-5 flex gap-3">
           <Button variant="ghost" fullWidth onClick={onClose}>
-            {cancelLabel ?? 'Cancel'}
+            {cancelLabel ?? t('common.cancel')}
           </Button>
           {onConfirm && (
             <Button variant={confirmVariant} fullWidth onClick={onConfirm}>
-              {confirmLabel ?? 'Confirm'}
+              {confirmLabel ?? t('common.confirm')}
             </Button>
           )}
         </div>

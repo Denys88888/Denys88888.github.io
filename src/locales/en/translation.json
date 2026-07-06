@@ -14,7 +14,9 @@
     "submit": "Submit",
     "retry": "Retry",
     "search": "Search",
-    "offline": "No internet connection"
+    "offline": "No internet connection",
+    "somethingWentWrong": "Something went wrong",
+    "reload": "Reload"
   },
   "splash": {
     "poweredBy": "Powered by Pi Network"
@@ -131,7 +133,8 @@
     "route": "Route",
     "driverEarnings": "Driver earnings",
     "searchingDriver": "Looking for a driver...",
-    "searchingHint": "Usually takes 1–3 minutes"
+    "searchingHint": "Usually takes 1–3 minutes",
+    "paymentComplete": "Payment complete"
   },
   "vehicle": {
     "economy": "Economy",

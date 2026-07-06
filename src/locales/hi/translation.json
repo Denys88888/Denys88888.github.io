@@ -14,7 +14,9 @@
     "submit": "सबमिट",
     "retry": "फिर कोशिश करें",
     "search": "खोजें",
-    "offline": "इंटरनेट कनेक्शन नहीं है"
+    "offline": "इंटरनेट कनेक्शन नहीं है",
+    "somethingWentWrong": "कुछ गड़बड़ हुई",
+    "reload": "पुनः लोड करें"
   },
   "splash": {
     "poweredBy": "Pi Network द्वारा संचालित"
@@ -131,7 +133,8 @@
     "route": "मार्ग",
     "driverEarnings": "ड्राइवर की कमाई",
     "searchingDriver": "ड्राइवर खोज रहे हैं...",
-    "searchingHint": "आमतौर पर 1-3 मिनट लगते हैं"
+    "searchingHint": "आमतौर पर 1-3 मिनट लगते हैं",
+    "paymentComplete": "भुगतान पूर्ण"
   },
   "vehicle": {
     "economy": "इकॉनमी",
