@@ -196,6 +196,29 @@ export function RideDetailsScreen() {
     }
   };
 
+  // SOS: file a high-priority report to the admin queue with the sender's live
+  // GPS coordinates and a timestamp, so support/admin can act immediately.
+  const [sosSending, setSosSending] = useState(false);
+  const sendSos = async (): Promise<void> => {
+    const reportedId = isDriver ? ride.passengerId : ride.driverId;
+    const where = position
+      ? `${position.lat.toFixed(5)},${position.lng.toFixed(5)}`
+      : 'location unavailable';
+    const when = new Date().toISOString();
+    const detail = `SOS from ${isDriver ? 'driver' : 'passenger'} at ${where} (${when})`;
+    setSosSending(true);
+    try {
+      // reportedId may be missing if no driver is assigned yet — fall back to self
+      // so the alert still reaches the admin with the ride + coordinates.
+      await api.createReport(ride.id, reportedId || uid, 'SOS', detail);
+      addToast('warning', t('ride.sosSent'));
+    } catch {
+      addToast('error', t('common.error'));
+    } finally {
+      setSosSending(false);
+    }
+  };
+
   const acceptOffer = async (offer: FareOffer): Promise<void> => {
     try {
       await api.acceptOffer(ride.id, offer.driverId);
@@ -485,7 +508,7 @@ export function RideDetailsScreen() {
             >
               <Share2 size={16} /> {t('ride.share')}
             </Button>
-            <Button variant="danger" onClick={() => addToast('warning', t('ride.sosSent'))}>
+            <Button variant="danger" loading={sosSending} onClick={sendSos}>
               <Siren size={16} /> {t('ride.sos')}
             </Button>
             <Button variant="ghost" className="col-span-2 !text-danger" onClick={() => setShowCancel(true)}>
