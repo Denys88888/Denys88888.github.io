@@ -14,8 +14,16 @@ class WsService {
   private queue: string[] = [];
 
   connect(token: string): void {
+    // If the token changed while a socket is live (e.g. a driver was just
+    // approved and received a fresh JWT), the open socket is still authenticated
+    // with the OLD token/role — tear it down and reconnect with the new one.
+    const tokenChanged = this.token !== null && this.token !== token;
     this.token = token;
     this.manualClose = false;
+    if (tokenChanged && this.ws) {
+      this.ws.close();
+      this.ws = null;
+    }
     this.open();
   }
 
