@@ -294,7 +294,9 @@
     "topRoutes": "Top 5 tras",
     "minFare": "Cena minimalna",
     "perKmRate": "Stawka za km (ekonomiczna)",
-    "surgeToggle": "Ceny dynamiczne (surge)"
+    "surgeToggle": "Ceny dynamiczne (surge)",
+    "blocked": "zablokowany",
+    "driverPhoto": "Zdjęcie kierowcy"
   },
   "notify": {
     "newRide": "Nowe zlecenie: {{fare}}",
