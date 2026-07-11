@@ -294,7 +294,9 @@
     "topRoutes": "En iyi 5 güzergah",
     "minFare": "Asgari ücret",
     "perKmRate": "Km başına ücret (ekonomi)",
-    "surgeToggle": "Dinamik fiyatlandırma"
+    "surgeToggle": "Dinamik fiyatlandırma",
+    "blocked": "engellendi",
+    "driverPhoto": "Sürücü fotoğrafı"
   },
   "notify": {
     "newRide": "Yeni yolculuk isteği: {{fare}}",
