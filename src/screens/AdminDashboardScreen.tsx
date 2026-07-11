@@ -46,7 +46,7 @@ export function AdminDashboardScreen() {
   const [surgeEnabled, setSurgeEnabled] = useState(true);
 
   useEffect(() => {
-    api.adminStats().then(setStats).catch(() => {});
+    api.adminStats().then(setStats).catch((err) => { console.error("API error:", err); });
     api
       .adminSettings()
       .then((s) => {
@@ -55,14 +55,14 @@ export function AdminDashboardScreen() {
         setPerKm(s.baseFarePerKm ?? 0.5);
         setSurgeEnabled(s.surgeEnabled !== false);
       })
-      .catch(() => {});
+      .catch((err) => { console.error("API error:", err); });
   }, []);
 
   useEffect(() => {
-    if (tab === 'users') api.adminUsers().then(setUsers).catch(() => {});
-    if (tab === 'rides') api.adminRides().then(setRides).catch(() => {});
-    if (tab === 'drivers') api.adminDrivers().then(setDrivers).catch(() => {});
-    if (tab === 'analytics') api.adminAnalytics().then(setAnalytics).catch(() => {});
+    if (tab === 'users') api.adminUsers().then(setUsers).catch((err) => { console.error("API error:", err); });
+    if (tab === 'rides') api.adminRides().then(setRides).catch((err) => { console.error("API error:", err); });
+    if (tab === 'drivers') api.adminDrivers().then(setDrivers).catch((err) => { console.error("API error:", err); });
+    if (tab === 'analytics') api.adminAnalytics().then(setAnalytics).catch((err) => { console.error("API error:", err); });
   }, [tab]);
 
   const toggleBlock = async (u: User): Promise<void> => {
