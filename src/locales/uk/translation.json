@@ -294,7 +294,9 @@
     "topRoutes": "Топ-5 маршрутів",
     "minFare": "Мінімальна ціна",
     "perKmRate": "Тариф за км (економ)",
-    "surgeToggle": "Динамічне ціноутворення (surge)"
+    "surgeToggle": "Динамічне ціноутворення (surge)",
+    "blocked": "заблоковано",
+    "driverPhoto": "Фото водія"
   },
   "notify": {
     "newRide": "Нове замовлення: {{fare}}",
