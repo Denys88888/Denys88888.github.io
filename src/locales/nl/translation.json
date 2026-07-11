@@ -294,7 +294,9 @@
     "topRoutes": "Top 5 routes",
     "minFare": "Minimumtarief",
     "perKmRate": "Tarief per km (economy)",
-    "surgeToggle": "Dynamische prijzen"
+    "surgeToggle": "Dynamische prijzen",
+    "blocked": "geblokkeerd",
+    "driverPhoto": "Chauffeursfoto"
   },
   "notify": {
     "newRide": "Nieuwe ritaanvraag: {{fare}}",
