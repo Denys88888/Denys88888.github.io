@@ -294,7 +294,9 @@
     "topRoutes": "Top 5 percorsi",
     "minFare": "Tariffa minima",
     "perKmRate": "Tariffa al km (economy)",
-    "surgeToggle": "Prezzi dinamici"
+    "surgeToggle": "Prezzi dinamici",
+    "blocked": "bloccato",
+    "driverPhoto": "Foto dell'autista"
   },
   "notify": {
     "newRide": "Nuova richiesta di corsa: {{fare}}",
