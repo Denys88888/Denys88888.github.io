@@ -8,19 +8,11 @@ import type { SavedAddress } from '../types';
 const LS_KEY = 'taxipro_saved_addresses';
 
 function readLocal(): SavedAddress[] {
-  try {
-    return JSON.parse(localStorage.getItem(LS_KEY) ?? '[]') as SavedAddress[];
-  } catch {
-    return [];
-  }
+  try { return JSON.parse(localStorage.getItem(LS_KEY) ?? '[]') as SavedAddress[]; } catch { return []; }
 }
 
 function writeLocal(addresses: SavedAddress[]): void {
-  try {
-    localStorage.setItem(LS_KEY, JSON.stringify(addresses));
-  } catch {
-    /* storage full/blocked — chips just won't persist */
-  }
+  try { localStorage.setItem(LS_KEY, JSON.stringify(addresses)); } catch { /* storage full/blocked */ }
 }
 
 export async function loadSavedAddresses(): Promise<SavedAddress[]> {

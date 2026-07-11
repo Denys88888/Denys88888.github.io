@@ -65,12 +65,7 @@ export async function translateMessage(text: string, target: string): Promise<st
   if (source === targetLang) return null;
 
   const key = cacheKey(text, targetLang);
-  try {
-    const cached = localStorage.getItem(key);
-    if (cached) return cached;
-  } catch {
-    /* ignore */
-  }
+  try { const cached = localStorage.getItem(key); if (cached) return cached; } catch { /* ignore */ }
 
   let result: string | null = null;
   try {
@@ -86,11 +81,7 @@ export async function translateMessage(text: string, target: string): Promise<st
     }
   }
   if (result && result.trim() && result.trim().toLowerCase() !== text.trim().toLowerCase()) {
-    try {
-      localStorage.setItem(key, result);
-    } catch {
-      /* ignore */
-    }
+    try { localStorage.setItem(key, result); } catch { /* ignore */ }
     return result;
   }
   return null;
