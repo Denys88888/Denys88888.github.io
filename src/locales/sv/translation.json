@@ -295,7 +295,8 @@
     "minFare": "Minimipris",
     "perKmRate": "Pris per km (economy)",
     "surgeToggle": "Dynamisk prissättning",
-    "blocked": "Blockerad"
+    "blocked": "Blockerad",
+    "driverPhoto": "Foto på körkort"
   },
   "notify": {
     "newRide": "Ny reseförfrågan: {{fare}}",

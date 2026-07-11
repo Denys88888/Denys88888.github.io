@@ -295,7 +295,8 @@
     "minFare": "Minimum fare",
     "perKmRate": "Rate per km (economy)",
     "surgeToggle": "Dynamic pricing (surge)",
-    "blocked": "Blocked"
+    "blocked": "Blocked",
+    "driverPhoto": "Driver license photo"
   },
   "notify": {
     "newRide": "New ride request: {{fare}}",

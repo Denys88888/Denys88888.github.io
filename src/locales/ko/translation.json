@@ -295,7 +295,8 @@
     "minFare": "최소 요금",
     "perKmRate": "km당 요금(이코노미)",
     "surgeToggle": "탄력 요금제(급증)",
-    "blocked": "차단됨"
+    "blocked": "차단됨",
+    "driverPhoto": "운전면허증 사진"
   },
   "notify": {
     "newRide": "새 운행 요청: {{fare}}",

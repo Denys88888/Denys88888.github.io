@@ -295,7 +295,8 @@
     "minFare": "Tarif minimum",
     "perKmRate": "Tarif au km (économique)",
     "surgeToggle": "Tarification dynamique",
-    "blocked": "Bloqué"
+    "blocked": "Bloqué",
+    "driverPhoto": "Photo du permis de conduire"
   },
   "notify": {
     "newRide": "Nouvelle demande de course : {{fare}}",

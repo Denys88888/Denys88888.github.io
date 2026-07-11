@@ -446,7 +446,7 @@ export function AdminDashboardScreen() {
 
       {/* License photo viewer. */}
       <Modal open={!!docPhoto} title={t('register.licensePhoto')} onClose={() => setDocPhoto(null)}>
-        {docPhoto && <img src={docPhoto} alt="license" className="w-full rounded-lg" />}
+        {docPhoto && <img src={docPhoto} alt={t('admin.driverPhoto')} className="w-full rounded-lg" />}
       </Modal>
     </div>
   );

@@ -295,7 +295,8 @@
     "minFare": "الحد الأدنى للأجرة",
     "perKmRate": "السعر لكل كم (اقتصادي)",
     "surgeToggle": "التسعير الديناميكي",
-    "blocked": "محظور"
+    "blocked": "محظور",
+    "driverPhoto": "صورة رخصة القيادة"
   },
   "notify": {
     "newRide": "طلب رحلة جديد: {{fare}}",

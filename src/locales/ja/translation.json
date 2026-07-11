@@ -295,7 +295,8 @@
     "minFare": "最低料金",
     "perKmRate": "1kmあたり料金（エコノミー）",
     "surgeToggle": "ダイナミック料金（サージ）",
-    "blocked": "ブロック済み"
+    "blocked": "ブロック済み",
+    "driverPhoto": "運転免許証の写真"
   },
   "notify": {
     "newRide": "新しい配車リクエスト：{{fare}}",

@@ -295,7 +295,8 @@
     "minFare": "Cena minimalna",
     "perKmRate": "Stawka za km (ekonomiczna)",
     "surgeToggle": "Ceny dynamiczne (surge)",
-    "blocked": "Zablokowany"
+    "blocked": "Zablokowany",
+    "driverPhoto": "Zdjęcie prawa jazdy"
   },
   "notify": {
     "newRide": "Nowe zlecenie: {{fare}}",

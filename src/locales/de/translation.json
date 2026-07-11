@@ -295,7 +295,8 @@
     "minFare": "Mindestpreis",
     "perKmRate": "Preis pro km (Economy)",
     "surgeToggle": "Dynamische Preise",
-    "blocked": "Gesperrt"
+    "blocked": "Gesperrt",
+    "driverPhoto": "Führerschein-Foto"
   },
   "notify": {
     "newRide": "Neue Fahrtanfrage: {{fare}}",

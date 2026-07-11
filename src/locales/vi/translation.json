@@ -295,7 +295,8 @@
     "minFare": "Giá tối thiểu",
     "perKmRate": "Giá mỗi km (tiết kiệm)",
     "surgeToggle": "Định giá linh hoạt",
-    "blocked": "Đã chặn"
+    "blocked": "Đã chặn",
+    "driverPhoto": "Ảnh bằng lái xe"
   },
   "notify": {
     "newRide": "Yêu cầu chuyến mới: {{fare}}",

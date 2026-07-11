@@ -295,7 +295,8 @@
     "minFare": "Tarif minimum",
     "perKmRate": "Tarif per km (ekonomi)",
     "surgeToggle": "Harga dinamis",
-    "blocked": "Diblokir"
+    "blocked": "Diblokir",
+    "driverPhoto": "Foto SIM"
   },
   "notify": {
     "newRide": "Permintaan perjalanan baru: {{fare}}",

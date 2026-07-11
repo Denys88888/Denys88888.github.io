@@ -295,7 +295,8 @@
     "minFare": "Minimumtarief",
     "perKmRate": "Tarief per km (economy)",
     "surgeToggle": "Dynamische prijzen",
-    "blocked": "Geblokkeerd"
+    "blocked": "Geblokkeerd",
+    "driverPhoto": "Foto rijbewijs"
   },
   "notify": {
     "newRide": "Nieuwe ritaanvraag: {{fare}}",

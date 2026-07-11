@@ -295,7 +295,8 @@
     "minFare": "Tarifa mínima",
     "perKmRate": "Tarifa por km (económico)",
     "surgeToggle": "Precios dinámicos",
-    "blocked": "Bloqueado"
+    "blocked": "Bloqueado",
+    "driverPhoto": "Foto del carnet de conducir"
   },
   "notify": {
     "newRide": "Nueva solicitud de viaje: {{fare}}",

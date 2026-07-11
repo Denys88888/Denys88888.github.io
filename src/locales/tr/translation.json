@@ -295,7 +295,8 @@
     "minFare": "Asgari ücret",
     "perKmRate": "Km başına ücret (ekonomi)",
     "surgeToggle": "Dinamik fiyatlandırma",
-    "blocked": "Engellendi"
+    "blocked": "Engellendi",
+    "driverPhoto": "Ehliyet fotoğrafı"
   },
   "notify": {
     "newRide": "Yeni yolculuk isteği: {{fare}}",
