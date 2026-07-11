@@ -140,7 +140,8 @@
     "driverEarnings": "Guadagno autista",
     "searchingDriver": "Cerco un autista...",
     "searchingHint": "Di solito 1–3 minuti",
-    "paymentComplete": "Pagamento completato"
+    "paymentComplete": "Pagamento completato",
+    "paymentFailed": "Pagamento non riuscito. Riprova."
   },
   "vehicle": {
     "economy": "Economy",

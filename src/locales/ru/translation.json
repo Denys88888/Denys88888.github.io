@@ -140,7 +140,8 @@
     "driverEarnings": "Заработок водителя",
     "searchingDriver": "Ищем водителя...",
     "searchingHint": "Обычно 1–3 минуты",
-    "paymentComplete": "Оплата завершена"
+    "paymentComplete": "Оплата завершена",
+    "paymentFailed": "Оплата не прошла. Попробуйте ещё раз."
   },
   "vehicle": {
     "economy": "Эконом",

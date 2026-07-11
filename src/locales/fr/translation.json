@@ -140,7 +140,8 @@
     "driverEarnings": "Gains du chauffeur",
     "searchingDriver": "Recherche d'un chauffeur...",
     "searchingHint": "Prend généralement 1 à 3 minutes",
-    "paymentComplete": "Paiement effectué"
+    "paymentComplete": "Paiement effectué",
+    "paymentFailed": "Le paiement a échoué. Veuillez réessayer."
   },
   "vehicle": {
     "economy": "Économique",

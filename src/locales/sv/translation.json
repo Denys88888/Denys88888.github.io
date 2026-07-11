@@ -140,7 +140,8 @@
     "driverEarnings": "Förarens intäkter",
     "searchingDriver": "Söker förare...",
     "searchingHint": "Tar vanligtvis 1–3 minuter",
-    "paymentComplete": "Betalning klar"
+    "paymentComplete": "Betalning klar",
+    "paymentFailed": "Betalningen misslyckades. Försök igen."
   },
   "vehicle": {
     "economy": "Economy",

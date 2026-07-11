@@ -140,7 +140,8 @@
     "driverEarnings": "司机收入",
     "searchingDriver": "正在寻找司机...",
     "searchingHint": "通常需要1-3分钟",
-    "paymentComplete": "支付完成"
+    "paymentComplete": "支付完成",
+    "paymentFailed": "支付失败,请重试。"
   },
   "vehicle": {
     "economy": "经济型",

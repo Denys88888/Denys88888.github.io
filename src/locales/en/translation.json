@@ -140,7 +140,8 @@
     "driverEarnings": "Driver earnings",
     "searchingDriver": "Looking for a driver...",
     "searchingHint": "Usually takes 1–3 minutes",
-    "paymentComplete": "Payment complete"
+    "paymentComplete": "Payment complete",
+    "paymentFailed": "Payment failed. Please try again."
   },
   "vehicle": {
     "economy": "Economy",

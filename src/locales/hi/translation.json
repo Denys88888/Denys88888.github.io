@@ -140,7 +140,8 @@
     "driverEarnings": "ड्राइवर की कमाई",
     "searchingDriver": "ड्राइवर खोज रहे हैं...",
     "searchingHint": "आमतौर पर 1-3 मिनट लगते हैं",
-    "paymentComplete": "भुगतान पूर्ण"
+    "paymentComplete": "भुगतान पूर्ण",
+    "paymentFailed": "भुगतान विफल रहा। कृपया पुनः प्रयास करें।"
   },
   "vehicle": {
     "economy": "इकॉनमी",

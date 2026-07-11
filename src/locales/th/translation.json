@@ -140,7 +140,8 @@
     "driverEarnings": "รายได้คนขับ",
     "searchingDriver": "กำลังหาคนขับ...",
     "searchingHint": "โดยปกติใช้เวลา 1-3 นาที",
-    "paymentComplete": "ชำระเงินเสร็จสิ้น"
+    "paymentComplete": "ชำระเงินเสร็จสิ้น",
+    "paymentFailed": "การชำระเงินล้มเหลว กรุณาลองอีกครั้ง"
   },
   "vehicle": {
     "economy": "อีโคโนมี",

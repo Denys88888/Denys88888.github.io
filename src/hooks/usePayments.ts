@@ -23,13 +23,16 @@ export function usePayments() {
         addToast('success', t('ride.paymentComplete'));
         return txid;
       } catch (err) {
-        addToast('error', err instanceof Error ? err.message : 'Payment failed');
+        addToast(
+          'error',
+          err instanceof Error && err.message ? err.message : t('ride.paymentFailed')
+        );
         return null;
       } finally {
         setProcessing(false);
       }
     },
-    [addToast]
+    [addToast, t]
   );
 
   return { payRide, processing };

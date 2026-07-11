@@ -140,7 +140,8 @@
     "driverEarnings": "ドライバー収益",
     "searchingDriver": "ドライバーを探しています...",
     "searchingHint": "通常1〜3分かかります",
-    "paymentComplete": "支払い完了"
+    "paymentComplete": "支払い完了",
+    "paymentFailed": "支払いに失敗しました。もう一度お試しください。"
   },
   "vehicle": {
     "economy": "エコノミー",

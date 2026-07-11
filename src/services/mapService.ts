@@ -42,26 +42,30 @@ export async function searchAddress(
   }
   if (countryCodes) params.set('countrycodes', countryCodes);
 
-  const res = await fetch(`${NOMINATIM}/search?${params.toString()}`, {
-    headers: { Accept: 'application/json' },
-  });
-  if (!res.ok) return [];
-  const data = (await res.json()) as Array<{ display_name: string; lat: string; lon: string }>;
-  let results = data.map((d) => ({
-    displayName: d.display_name,
-    lat: parseFloat(d.lat),
-    lng: parseFloat(d.lon),
-  }));
-  // Hard local filter: drop anything beyond the local radius from the user.
-  if (near) {
-    results = results.filter(
-      (r) => haversineKm(near.lat, near.lng, r.lat, r.lng) <= LOCAL_RADIUS_KM
-    );
+  try {
+    const res = await fetch(`${NOMINATIM}/search?${params.toString()}`, {
+      headers: { Accept: 'application/json' },
+    });
+    if (!res.ok) return [];
+    const data = (await res.json()) as Array<{ display_name: string; lat: string; lon: string }>;
+    let results = data.map((d) => ({
+      displayName: d.display_name,
+      lat: parseFloat(d.lat),
+      lng: parseFloat(d.lon),
+    }));
+    // Hard local filter: drop anything beyond the local radius from the user.
+    if (near) {
+      results = results.filter(
+        (r) => haversineKm(near.lat, near.lng, r.lat, r.lng) <= LOCAL_RADIUS_KM
+      );
+    }
+    // Nominatim often returns the same place twice (e.g. a city node and its
+    // administrative boundary share one display name) — keep the first of each.
+    const seen = new Set<string>();
+    return results.filter((r) => !seen.has(r.displayName) && seen.add(r.displayName));
+  } catch {
+    return []; // offline / Nominatim unreachable — empty dropdown, not an unhandled rejection
   }
-  // Nominatim often returns the same place twice (e.g. a city node and its
-  // administrative boundary share one display name) — keep the first of each.
-  const seen = new Set<string>();
-  return results.filter((r) => !seen.has(r.displayName) && seen.add(r.displayName));
 }
 
 // Reverse geocode to a 2-letter country code, for constraining searches by country.

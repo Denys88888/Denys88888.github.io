@@ -37,11 +37,15 @@ export function AddressSearch({ label, placeholder, value, icon, near, countryCo
       setOpen(false);
       return;
     }
+    let stale = false; // a newer query superseded this request mid-flight
     timer.current = setTimeout(async () => {
-      setResults(await searchAddress(query, near, countryCodes));
-      setOpen(true);
+      const found = await searchAddress(query, near, countryCodes);
+      if (stale) return;
+      setResults(found);
+      setOpen(found.length > 0);
     }, 400);
     return () => {
+      stale = true;
       if (timer.current) clearTimeout(timer.current);
     };
   }, [query, near, countryCodes]);

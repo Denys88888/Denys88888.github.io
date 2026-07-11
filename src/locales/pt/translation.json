@@ -140,7 +140,8 @@
     "driverEarnings": "Ganhos do motorista",
     "searchingDriver": "Procurando motorista...",
     "searchingHint": "Geralmente leva 1–3 minutos",
-    "paymentComplete": "Pagamento concluído"
+    "paymentComplete": "Pagamento concluído",
+    "paymentFailed": "O pagamento falhou. Tente novamente."
   },
   "vehicle": {
     "economy": "Econômico",
