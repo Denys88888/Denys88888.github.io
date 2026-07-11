@@ -38,6 +38,7 @@ export function AdminDashboardScreen() {
   const [driverFilter, setDriverFilter] = useState<DriverFilter>('pending');
   const [analytics, setAnalytics] = useState<AdminAnalytics | null>(null);
   const [docPhoto, setDocPhoto] = useState<string | null>(null);
+  const [tabLoading, setTabLoading] = useState(false);
 
   // Settings.
   const [fee, setFee] = useState(10);
@@ -65,11 +66,15 @@ export function AdminDashboardScreen() {
 
   useEffect(() => {
     let cancelled = false;
-    const fail = () => addToast('error', t('common.error'));
-    if (tab === 'users') api.adminUsers().then((u) => { if (!cancelled) setUsers(u); }).catch(fail);
-    if (tab === 'rides') api.adminRides().then((r) => { if (!cancelled) setRides(r); }).catch(fail);
-    if (tab === 'drivers') api.adminDrivers().then((d) => { if (!cancelled) setDrivers(d); }).catch(fail);
-    if (tab === 'analytics') api.adminAnalytics().then((a) => { if (!cancelled) setAnalytics(a); }).catch(fail);
+    const DATA_TABS = ['users', 'rides', 'drivers', 'analytics'] as const;
+    if (!(DATA_TABS as readonly string[]).includes(tab)) return;
+    setTabLoading(true);
+    const done = () => { if (!cancelled) setTabLoading(false); };
+    const fail = () => { done(); addToast('error', t('common.error')); };
+    if (tab === 'users') api.adminUsers().then((u) => { if (!cancelled) setUsers(u); done(); }).catch(fail);
+    if (tab === 'rides') api.adminRides().then((r) => { if (!cancelled) setRides(r); done(); }).catch(fail);
+    if (tab === 'drivers') api.adminDrivers().then((d) => { if (!cancelled) setDrivers(d); done(); }).catch(fail);
+    if (tab === 'analytics') api.adminAnalytics().then((a) => { if (!cancelled) setAnalytics(a); done(); }).catch(fail);
     return () => { cancelled = true; };
   }, [tab, addToast, t]);
 
@@ -156,6 +161,11 @@ export function AdminDashboardScreen() {
       </header>
 
       <div className="flex-1 space-y-3 overflow-y-auto p-4">
+        {tabLoading && (
+          <div className="flex justify-center pt-10 opacity-50">
+            <span className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+          </div>
+        )}
         {tab === 'stats' && stats && (
           <div className="grid grid-cols-2 gap-3">
             <Card>

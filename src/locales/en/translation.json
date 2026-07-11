@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Works only in the Pi Browser",
     "logout": "Logout",
     "loggingIn": "Signing in…",
-    "loginFailed": "Login failed. Please try again."
+    "loginFailed": "Login failed. Please try again.",
+    "devLogin": "Sandbox Dev Login",
+    "devPassenger": "Passenger",
+    "devDriver": "Driver"
   },
   "nav": {
     "home": "Home",

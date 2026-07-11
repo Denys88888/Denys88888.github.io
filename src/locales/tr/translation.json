@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Yalnızca Pi Tarayıcısında çalışır",
     "logout": "Çıkış",
     "loggingIn": "Giriş yapılıyor…",
-    "loginFailed": "Giriş başarısız. Lütfen tekrar deneyin."
+    "loginFailed": "Giriş başarısız. Lütfen tekrar deneyin.",
+    "devLogin": "Geliştirici girişi",
+    "devPassenger": "Yolcu",
+    "devDriver": "Sürücü"
   },
   "nav": {
     "home": "Ana sayfa",

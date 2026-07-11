@@ -29,7 +29,10 @@
     "onlyPiBrowser": "يعمل فقط في متصفح Pi",
     "logout": "تسجيل الخروج",
     "loggingIn": "جارٍ تسجيل الدخول…",
-    "loginFailed": "فشل تسجيل الدخول. حاول مرة أخرى."
+    "loginFailed": "فشل تسجيل الدخول. حاول مرة أخرى.",
+    "devLogin": "تسجيل دخول المطور",
+    "devPassenger": "راكب",
+    "devDriver": "سائق"
   },
   "nav": {
     "home": "الرئيسية",

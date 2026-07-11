@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Funziona solo nel browser Pi",
     "logout": "Esci",
     "loggingIn": "Accesso…",
-    "loginFailed": "Accesso non riuscito. Riprova."
+    "loginFailed": "Accesso non riuscito. Riprova.",
+    "devLogin": "Login sviluppatore",
+    "devPassenger": "Passeggero",
+    "devDriver": "Autista"
   },
   "nav": {
     "home": "Home",

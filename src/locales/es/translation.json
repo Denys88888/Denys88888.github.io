@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Solo funciona en el navegador Pi",
     "logout": "Salir",
     "loggingIn": "Iniciando sesión…",
-    "loginFailed": "Error al iniciar sesión. Inténtalo de nuevo."
+    "loginFailed": "Error al iniciar sesión. Inténtalo de nuevo.",
+    "devLogin": "Inicio de sesión dev",
+    "devPassenger": "Pasajero",
+    "devDriver": "Conductor"
   },
   "nav": {
     "home": "Inicio",

@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Fonctionne uniquement dans le navigateur Pi",
     "logout": "Déconnexion",
     "loggingIn": "Connexion…",
-    "loginFailed": "Échec de la connexion. Réessayez."
+    "loginFailed": "Échec de la connexion. Réessayez.",
+    "devLogin": "Connexion développeur",
+    "devPassenger": "Passager",
+    "devDriver": "Conducteur"
   },
   "nav": {
     "home": "Accueil",

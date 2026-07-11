@@ -22,12 +22,14 @@ export function HistoryScreen() {
   const [rides, setRides] = useState<Ride[] | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
     setRides(null);
     const status = tab === 'all' ? undefined : (tab as RideStatus);
     api
       .listRides({ status, limit: 50 })
-      .then((r) => setRides(r.rides))
-      .catch(() => setRides([]));
+      .then((r) => { if (!cancelled) setRides(r.rides); })
+      .catch((err) => { console.error('[history] listRides:', err); if (!cancelled) setRides([]); });
+    return () => { cancelled = true; };
   }, [tab]);
 
   const tabs: Tab[] = ['all', 'completed', 'cancelled'];

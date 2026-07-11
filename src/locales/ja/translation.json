@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Pi ブラウザでのみ動作します",
     "logout": "ログアウト",
     "loggingIn": "ログイン中…",
-    "loginFailed": "ログインに失敗しました。もう一度お試しください。"
+    "loginFailed": "ログインに失敗しました。もう一度お試しください。",
+    "devLogin": "開発者ログイン",
+    "devPassenger": "乗客",
+    "devDriver": "ドライバー"
   },
   "nav": {
     "home": "ホーム",

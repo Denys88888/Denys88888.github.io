@@ -29,7 +29,10 @@
     "onlyPiBrowser": "仅在 Pi 浏览器中可用",
     "logout": "退出",
     "loggingIn": "正在登录…",
-    "loginFailed": "登录失败，请重试。"
+    "loginFailed": "登录失败，请重试。",
+    "devLogin": "开发者登录",
+    "devPassenger": "乘客",
+    "devDriver": "司机"
   },
   "nav": {
     "home": "首页",

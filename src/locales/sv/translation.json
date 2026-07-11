@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Fungerar endast i Pi-webbläsaren",
     "logout": "Logga ut",
     "loggingIn": "Loggar in…",
-    "loginFailed": "Inloggning misslyckades. Försök igen."
+    "loginFailed": "Inloggning misslyckades. Försök igen.",
+    "devLogin": "Utvecklarinloggning",
+    "devPassenger": "Passagerare",
+    "devDriver": "Förare"
   },
   "nav": {
     "home": "Hem",

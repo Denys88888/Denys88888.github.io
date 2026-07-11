@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Chỉ hoạt động trong trình duyệt Pi",
     "logout": "Đăng xuất",
     "loggingIn": "Đang đăng nhập…",
-    "loginFailed": "Đăng nhập thất bại. Vui lòng thử lại."
+    "loginFailed": "Đăng nhập thất bại. Vui lòng thử lại.",
+    "devLogin": "Đăng nhập nhà phát triển",
+    "devPassenger": "Hành khách",
+    "devDriver": "Tài xế"
   },
   "nav": {
     "home": "Trang chủ",

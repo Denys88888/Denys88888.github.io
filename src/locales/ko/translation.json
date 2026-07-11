@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Pi 브라우저에서만 작동합니다",
     "logout": "로그아웃",
     "loggingIn": "로그인 중…",
-    "loginFailed": "로그인에 실패했습니다. 다시 시도하세요."
+    "loginFailed": "로그인에 실패했습니다. 다시 시도하세요.",
+    "devLogin": "개발자 로그인",
+    "devPassenger": "승객",
+    "devDriver": "운전자"
   },
   "nav": {
     "home": "홈",

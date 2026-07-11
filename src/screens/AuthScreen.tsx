@@ -41,7 +41,7 @@ export function AuthScreen() {
 
         {isDevMode && (
           <div className="space-y-2 border-t border-white/20 pt-4">
-            <p className="text-center text-xs text-white/60">Sandbox Dev Login</p>
+            <p className="text-center text-xs text-white/60">{t('auth.devLogin')}</p>
             <div className="grid grid-cols-2 gap-2">
               <Button
                 variant="outline"
@@ -49,7 +49,7 @@ export function AuthScreen() {
                 onClick={() => devLogin('TestPassenger', 'passenger').catch((err) => console.error('[auth] devLogin:', err))}
                 className="!border-white/30 !text-white"
               >
-                Passenger
+                {t('auth.devPassenger')}
               </Button>
               <Button
                 variant="outline"
@@ -57,7 +57,7 @@ export function AuthScreen() {
                 onClick={() => devLogin('TestDriver', 'driver').catch((err) => console.error('[auth] devLogin:', err))}
                 className="!border-white/30 !text-white"
               >
-                Driver
+                {t('auth.devDriver')}
               </Button>
             </div>
           </div>

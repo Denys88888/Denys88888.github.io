@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Hanya berfungsi di Peramban Pi",
     "logout": "Keluar",
     "loggingIn": "Masuk…",
-    "loginFailed": "Gagal masuk. Silakan coba lagi."
+    "loginFailed": "Gagal masuk. Silakan coba lagi.",
+    "devLogin": "Login pengembang",
+    "devPassenger": "Penumpang",
+    "devDriver": "Pengemudi"
   },
   "nav": {
     "home": "Beranda",

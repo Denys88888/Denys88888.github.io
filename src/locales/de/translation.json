@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Funktioniert nur im Pi Browser",
     "logout": "Abmelden",
     "loggingIn": "Anmeldung…",
-    "loginFailed": "Anmeldung fehlgeschlagen. Bitte erneut versuchen."
+    "loginFailed": "Anmeldung fehlgeschlagen. Bitte erneut versuchen.",
+    "devLogin": "Entwickler-Login",
+    "devPassenger": "Fahrgast",
+    "devDriver": "Fahrer"
   },
   "nav": {
     "home": "Start",

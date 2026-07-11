@@ -31,12 +31,14 @@ export function DriverHomeScreen() {
   const [focusNonce, setFocusNonce] = useState(0);
 
   const [todayRides, setTodayRides] = useState<Ride[]>([]);
+  const [todayLoading, setTodayLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
     api.listRides({ status: 'completed', limit: 50 })
       .then((r) => { if (!cancelled) setTodayRides(r.rides.filter((x) => isToday(new Date(x.createdAt)))); })
-      .catch((err) => console.error('[driver] today rides:', err));
+      .catch((err) => console.error('[driver] today rides:', err))
+      .finally(() => { if (!cancelled) setTodayLoading(false); });
     return () => { cancelled = true; };
   }, []);
 
@@ -212,7 +214,12 @@ export function DriverHomeScreen() {
             <Navigation size={16} /> {t('driver.navigation')}
           </Button>
         )}
-        {online && (todayRides.length > 0 || todayEarnings > 0) && (
+        {online && todayLoading && (
+          <div className="flex justify-center py-3 opacity-40">
+            <span className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+          </div>
+        )}
+        {online && !todayLoading && (todayRides.length > 0 || todayEarnings > 0) && (
           <Card className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <TrendingUp size={18} className="text-success" />

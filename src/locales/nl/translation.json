@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Werkt alleen in de Pi-browser",
     "logout": "Uitloggen",
     "loggingIn": "Bezig met inloggen…",
-    "loginFailed": "Inloggen mislukt. Probeer opnieuw."
+    "loginFailed": "Inloggen mislukt. Probeer opnieuw.",
+    "devLogin": "Ontwikkelaarslogin",
+    "devPassenger": "Passagier",
+    "devDriver": "Chauffeur"
   },
   "nav": {
     "home": "Home",

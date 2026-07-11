@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Działa tylko w przeglądarce Pi",
     "logout": "Wyloguj",
     "loggingIn": "Logowanie…",
-    "loginFailed": "Logowanie nie powiodło się. Spróbuj ponownie."
+    "loginFailed": "Logowanie nie powiodło się. Spróbuj ponownie.",
+    "devLogin": "Logowanie deweloperskie",
+    "devPassenger": "Pasażer",
+    "devDriver": "Kierowca"
   },
   "nav": {
     "home": "Start",
