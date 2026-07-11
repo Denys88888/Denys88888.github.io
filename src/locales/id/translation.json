@@ -294,7 +294,9 @@
     "topRoutes": "5 rute teratas",
     "minFare": "Tarif minimum",
     "perKmRate": "Tarif per km (ekonomi)",
-    "surgeToggle": "Harga dinamis"
+    "surgeToggle": "Harga dinamis",
+    "blocked": "diblokir",
+    "driverPhoto": "Foto pengemudi"
   },
   "notify": {
     "newRide": "Permintaan perjalanan baru: {{fare}}",
