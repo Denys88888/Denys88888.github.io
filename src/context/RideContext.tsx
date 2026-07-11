@@ -21,7 +21,7 @@ export function RideProvider({ children }: { children: ReactNode }) {
     if (!token) return;
 
     const offAssigned = wsService.on('ride_assigned', (msg) => {
-      addToast('success', t('ride.driverFound'));
+      addToast('success', t('home.driverFound'));
       const rideId = String(msg.rideId ?? '');
       if (rideId) {
         api.getRide(rideId).then(setCurrentRide).catch((err) => console.error('[RideContext] getRide:', err));

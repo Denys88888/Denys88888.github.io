@@ -141,7 +141,8 @@
     "searchingDriver": "Procurando motorista...",
     "searchingHint": "Geralmente leva 1–3 minutos",
     "paymentComplete": "Pagamento concluído",
-    "paymentFailed": "O pagamento falhou. Tente novamente."
+    "paymentFailed": "O pagamento falhou. Tente novamente.",
+    "surge": "Tarifa dinâmica"
   },
   "vehicle": {
     "economy": "Econômico",

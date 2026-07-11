@@ -141,7 +141,8 @@
     "searchingDriver": "Cerco un autista...",
     "searchingHint": "Di solito 1–3 minuti",
     "paymentComplete": "Pagamento completato",
-    "paymentFailed": "Pagamento non riuscito. Riprova."
+    "paymentFailed": "Pagamento non riuscito. Riprova.",
+    "surge": "Tariffa maggiorata"
   },
   "vehicle": {
     "economy": "Economy",

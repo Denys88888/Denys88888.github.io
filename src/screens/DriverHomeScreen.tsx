@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { isAxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
 import { Circle, Check, LocateFixed, Navigation, TrendingUp } from 'lucide-react';
 import { MapView } from '../components/map/MapContainer';
@@ -139,8 +140,14 @@ export function DriverHomeScreen() {
         setOnline(false);
         setRequests([]);
       }
-    } catch {
-      addToast('error', t('common.error'));
+    } catch (err) {
+      // 403 = not a verified driver (no vehicle on file or application still
+      // pending) — the registration wizard is the actionable next step.
+      if (isAxiosError(err) && err.response?.status === 403) {
+        navigate('register');
+      } else {
+        addToast('error', t('common.error'));
+      }
     }
   };
 

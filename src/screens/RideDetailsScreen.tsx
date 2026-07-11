@@ -47,6 +47,7 @@ export function RideDetailsScreen() {
   const [showNav, setShowNav] = useState(params.nav === '1');
   const [tipBusy, setTipBusy] = useState(false);
   const [tipCustom, setTipCustom] = useState('');
+  const [sosSending, setSosSending] = useState(false);
 
   const rideId = params.id ?? storeRide?.id ?? '';
 
@@ -205,7 +206,6 @@ export function RideDetailsScreen() {
 
   // SOS: file a high-priority report to the admin queue with the sender's live
   // GPS coordinates and a timestamp, so support/admin can act immediately.
-  const [sosSending, setSosSending] = useState(false);
   const sendSos = async (): Promise<void> => {
     const reportedId = isDriver ? ride.passengerId : ride.driverId;
     const where = position
@@ -290,6 +290,31 @@ export function RideDetailsScreen() {
         <RideProgressSteps status={ride.status} />
 
         {/* Driver: toggle turn-by-turn navigation while the ride is active. */}
+        {/* Driver ride progression: assigned → arrived → in_progress → completed.
+            The server broadcasts the status change back, which refetches the ride
+            and advances this button to the next step. */}
+        {isDriver && ['assigned', 'arrived', 'in_progress'].includes(ride.status) && (
+          <Button
+            fullWidth
+            onClick={() =>
+              wsService.send(
+                ride.status === 'assigned'
+                  ? 'ride_arrived'
+                  : ride.status === 'arrived'
+                    ? 'ride_started'
+                    : 'ride_completed',
+                { rideId: ride.id }
+              )
+            }
+          >
+            {ride.status === 'assigned'
+              ? t('driver.arrived')
+              : ride.status === 'arrived'
+                ? t('driver.startRide')
+                : t('driver.completeRide')}
+          </Button>
+        )}
+
         {isDriver && !['completed', 'cancelled', 'searching', 'scheduled'].includes(ride.status) && (
           <Button fullWidth variant={showNav ? 'outline' : 'primary'} onClick={() => setShowNav((v) => !v)}>
             <Navigation size={16} /> {t('driver.navigation')}
@@ -415,7 +440,7 @@ export function RideDetailsScreen() {
             {t('ride.fare')}: {formatPi(ride.fare)} — π Pay
           </Button>
         )}
-        {ride.status === 'completed' && !isDriver && (
+        {ride.status === 'completed' && !isDriver && !ride.driverRating && (
           <Card className="space-y-3">
             <p className="text-center font-semibold">{t('ride.rateTitle')}</p>
             <div className="flex justify-center gap-2">

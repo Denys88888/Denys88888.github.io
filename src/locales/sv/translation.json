@@ -141,7 +141,8 @@
     "searchingDriver": "Söker förare...",
     "searchingHint": "Tar vanligtvis 1–3 minuter",
     "paymentComplete": "Betalning klar",
-    "paymentFailed": "Betalningen misslyckades. Försök igen."
+    "paymentFailed": "Betalningen misslyckades. Försök igen.",
+    "surge": "Rusningstaxa"
   },
   "vehicle": {
     "economy": "Economy",

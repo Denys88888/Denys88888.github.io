@@ -141,7 +141,8 @@
     "searchingDriver": "Szukam kierowcy...",
     "searchingHint": "Zwykle trwa 1–3 minuty",
     "paymentComplete": "Płatność zakończona",
-    "paymentFailed": "Płatność nie powiodła się. Spróbuj ponownie."
+    "paymentFailed": "Płatność nie powiodła się. Spróbuj ponownie.",
+    "surge": "Zwiększony popyt"
   },
   "vehicle": {
     "economy": "Ekonomiczny",

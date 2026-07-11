@@ -141,7 +141,8 @@
     "searchingDriver": "Looking for a driver...",
     "searchingHint": "Usually takes 1–3 minutes",
     "paymentComplete": "Payment complete",
-    "paymentFailed": "Payment failed. Please try again."
+    "paymentFailed": "Payment failed. Please try again.",
+    "surge": "Surge"
   },
   "vehicle": {
     "economy": "Economy",

@@ -141,7 +141,8 @@
     "searchingDriver": "Chauffeur zoeken...",
     "searchingHint": "Duurt meestal 1-3 minuten",
     "paymentComplete": "Betaling voltooid",
-    "paymentFailed": "Betaling mislukt. Probeer het opnieuw."
+    "paymentFailed": "Betaling mislukt. Probeer het opnieuw.",
+    "surge": "Piektarief"
   },
   "vehicle": {
     "economy": "Economy",

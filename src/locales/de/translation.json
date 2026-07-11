@@ -141,7 +141,8 @@
     "searchingDriver": "Fahrer wird gesucht...",
     "searchingHint": "Dauert in der Regel 1–3 Minuten",
     "paymentComplete": "Zahlung abgeschlossen",
-    "paymentFailed": "Zahlung fehlgeschlagen. Bitte erneut versuchen."
+    "paymentFailed": "Zahlung fehlgeschlagen. Bitte erneut versuchen.",
+    "surge": "Erhöhte Nachfrage"
   },
   "vehicle": {
     "economy": "Economy",

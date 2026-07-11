@@ -33,11 +33,14 @@ export function useGeolocation(auto = true) {
     setState((s) => ({ ...s, loading: true }));
     watchId.current = navigator.geolocation.watchPosition(
       (pos) => {
-        setState({
-          position: { lat: pos.coords.latitude, lng: pos.coords.longitude },
-          error: null,
-          loading: false,
-        });
+        const { latitude: lat, longitude: lng } = pos.coords;
+        // Keep the same object when the device hasn't moved so downstream
+        // effects keyed on `position` don't re-fire on every GPS tick.
+        setState((s) =>
+          s.position && s.position.lat === lat && s.position.lng === lng && !s.error && !s.loading
+            ? s
+            : { position: { lat, lng }, error: null, loading: false }
+        );
       },
       (err) => setState((s) => ({ ...s, error: err.message, loading: false })),
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 }

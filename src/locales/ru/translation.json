@@ -141,7 +141,8 @@
     "searchingDriver": "Ищем водителя...",
     "searchingHint": "Обычно 1–3 минуты",
     "paymentComplete": "Оплата завершена",
-    "paymentFailed": "Оплата не прошла. Попробуйте ещё раз."
+    "paymentFailed": "Оплата не прошла. Попробуйте ещё раз.",
+    "surge": "Повышенный спрос"
   },
   "vehicle": {
     "economy": "Эконом",

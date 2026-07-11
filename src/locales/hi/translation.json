@@ -141,7 +141,8 @@
     "searchingDriver": "ड्राइवर खोज रहे हैं...",
     "searchingHint": "आमतौर पर 1-3 मिनट लगते हैं",
     "paymentComplete": "भुगतान पूर्ण",
-    "paymentFailed": "भुगतान विफल रहा। कृपया पुनः प्रयास करें।"
+    "paymentFailed": "भुगतान विफल रहा। कृपया पुनः प्रयास करें।",
+    "surge": "सर्ज मूल्य"
   },
   "vehicle": {
     "economy": "इकॉनमी",

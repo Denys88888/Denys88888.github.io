@@ -141,7 +141,8 @@
     "searchingDriver": "드라이버를 찾는 중...",
     "searchingHint": "보통 1-3분 소요",
     "paymentComplete": "결제 완료",
-    "paymentFailed": "결제에 실패했습니다. 다시 시도해 주세요."
+    "paymentFailed": "결제에 실패했습니다. 다시 시도해 주세요.",
+    "surge": "할증 요금"
   },
   "vehicle": {
     "economy": "이코노미",
