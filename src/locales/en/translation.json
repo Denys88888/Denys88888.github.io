@@ -294,7 +294,8 @@
     "topRoutes": "Top 5 routes",
     "minFare": "Minimum fare",
     "perKmRate": "Rate per km (economy)",
-    "surgeToggle": "Dynamic pricing (surge)"
+    "surgeToggle": "Dynamic pricing (surge)",
+    "blocked": "Blocked"
   },
   "notify": {
     "newRide": "New ride request: {{fare}}",

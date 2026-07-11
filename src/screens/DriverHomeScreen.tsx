@@ -33,9 +33,11 @@ export function DriverHomeScreen() {
   const [todayRides, setTodayRides] = useState<Ride[]>([]);
 
   useEffect(() => {
+    let cancelled = false;
     api.listRides({ status: 'completed', limit: 50 })
-      .then((r) => setTodayRides(r.rides.filter((x) => isToday(new Date(x.createdAt)))))
-      .catch(() => {});
+      .then((r) => { if (!cancelled) setTodayRides(r.rides.filter((x) => isToday(new Date(x.createdAt)))); })
+      .catch((err) => console.error('[driver] today rides:', err));
+    return () => { cancelled = true; };
   }, []);
 
   const todayEarnings = useMemo(
@@ -51,7 +53,7 @@ export function DriverHomeScreen() {
       setHeatmap([]);
       return;
     }
-    const load = () => api.getHeatmap().then(setHeatmap).catch(() => {});
+    const load = () => api.getHeatmap().then(setHeatmap).catch((err) => console.error('[driver] heatmap:', err));
     load();
     const id = setInterval(load, 60 * 1000);
     return () => clearInterval(id);
@@ -72,7 +74,7 @@ export function DriverHomeScreen() {
             return fresh.length ? [...prev, ...fresh] : prev;
           })
         )
-        .catch(() => {});
+        .catch((err) => console.error('[driver] open rides:', err));
     load();
     const id = setInterval(load, 15 * 1000);
     return () => clearInterval(id);

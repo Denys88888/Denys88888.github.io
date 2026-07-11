@@ -9,8 +9,12 @@ if (import.meta.env.VITE_E2E === '1') {
   const token = params.get('e2eToken');
   const user = params.get('e2eUser');
   if (token && user) {
-    localStorage.setItem(TOKEN_KEY, token);
-    localStorage.setItem(USER_KEY, user);
+    try {
+      localStorage.setItem(TOKEN_KEY, token);
+      localStorage.setItem(USER_KEY, user);
+    } catch {
+      // storage unavailable (private browsing / quota exceeded)
+    }
   }
 }
 

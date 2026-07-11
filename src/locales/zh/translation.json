@@ -294,7 +294,8 @@
     "topRoutes": "前5条路线",
     "minFare": "最低车费",
     "perKmRate": "每公里费率（经济型）",
-    "surgeToggle": "动态定价（高峰加价）"
+    "surgeToggle": "动态定价（高峰加价）",
+    "blocked": "已封锁"
   },
   "notify": {
     "newRide": "新订单请求：{{fare}}",

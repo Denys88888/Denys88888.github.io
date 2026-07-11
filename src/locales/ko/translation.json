@@ -294,7 +294,8 @@
     "topRoutes": "상위 5개 경로",
     "minFare": "최소 요금",
     "perKmRate": "km당 요금(이코노미)",
-    "surgeToggle": "탄력 요금제(급증)"
+    "surgeToggle": "탄력 요금제(급증)",
+    "blocked": "차단됨"
   },
   "notify": {
     "newRide": "새 운행 요청: {{fare}}",

@@ -29,11 +29,14 @@ export function EarningsScreen() {
   const [surge, setSurge] = useState<SurgeInfo | null>(null);
 
   useEffect(() => {
-    api
-      .listRides({ status: 'completed', limit: 50 })
-      .then((r) => setRides(r.rides))
-      .catch(() => setRides([]));
-    api.getSurge().then(setSurge).catch(() => {});
+    let cancelled = false;
+    api.listRides({ status: 'completed', limit: 50 })
+      .then((r) => { if (!cancelled) setRides(r.rides); })
+      .catch((err) => { console.error('[earnings] rides:', err); if (!cancelled) setRides([]); });
+    api.getSurge()
+      .then((s) => { if (!cancelled) setSurge(s); })
+      .catch((err) => console.error('[earnings] surge:', err));
+    return () => { cancelled = true; };
   }, []);
 
   const totals = useMemo(() => {

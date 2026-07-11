@@ -294,7 +294,8 @@
     "topRoutes": "上位5ルート",
     "minFare": "最低料金",
     "perKmRate": "1kmあたり料金（エコノミー）",
-    "surgeToggle": "ダイナミック料金（サージ）"
+    "surgeToggle": "ダイナミック料金（サージ）",
+    "blocked": "ブロック済み"
   },
   "notify": {
     "newRide": "新しい配車リクエスト：{{fare}}",

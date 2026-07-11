@@ -52,7 +52,13 @@ export function RideDetailsScreen() {
 
   useEffect(() => {
     if (!rideId) return;
-    const refresh = () => api.getRide(rideId).then(setRide).catch(() => {});
+    let cancelled = false;
+    const refresh = () => {
+      if (cancelled) return;
+      api.getRide(rideId)
+        .then((data) => { if (!cancelled) setRide(data); })
+        .catch((err) => console.error('[ride] getRide:', err));
+    };
     refresh();
     const offStatus = wsService.on('ride_status_update', (msg) => {
       if (String(msg.rideId) === rideId) refresh();
@@ -71,6 +77,7 @@ export function RideDetailsScreen() {
       }
     });
     return () => {
+      cancelled = true;
       offStatus();
       offAssigned();
       offOffers();

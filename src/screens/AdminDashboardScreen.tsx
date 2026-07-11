@@ -46,24 +46,32 @@ export function AdminDashboardScreen() {
   const [surgeEnabled, setSurgeEnabled] = useState(true);
 
   useEffect(() => {
-    api.adminStats().then(setStats).catch(() => {});
-    api
-      .adminSettings()
+    let cancelled = false;
+    api.adminStats()
+      .then((s) => { if (!cancelled) setStats(s); })
+      .catch((err) => console.error('[admin] stats:', err));
+    api.adminSettings()
       .then((s) => {
-        setFee(s.platformFeePercent ?? 10);
-        setMinFare(s.minFare ?? 1.5);
-        setPerKm(s.baseFarePerKm ?? 0.5);
-        setSurgeEnabled(s.surgeEnabled !== false);
+        if (!cancelled) {
+          setFee(s.platformFeePercent ?? 10);
+          setMinFare(s.minFare ?? 1.5);
+          setPerKm(s.baseFarePerKm ?? 0.5);
+          setSurgeEnabled(s.surgeEnabled !== false);
+        }
       })
-      .catch(() => {});
+      .catch((err) => console.error('[admin] settings:', err));
+    return () => { cancelled = true; };
   }, []);
 
   useEffect(() => {
-    if (tab === 'users') api.adminUsers().then(setUsers).catch(() => {});
-    if (tab === 'rides') api.adminRides().then(setRides).catch(() => {});
-    if (tab === 'drivers') api.adminDrivers().then(setDrivers).catch(() => {});
-    if (tab === 'analytics') api.adminAnalytics().then(setAnalytics).catch(() => {});
-  }, [tab]);
+    let cancelled = false;
+    const fail = () => addToast('error', t('common.error'));
+    if (tab === 'users') api.adminUsers().then((u) => { if (!cancelled) setUsers(u); }).catch(fail);
+    if (tab === 'rides') api.adminRides().then((r) => { if (!cancelled) setRides(r); }).catch(fail);
+    if (tab === 'drivers') api.adminDrivers().then((d) => { if (!cancelled) setDrivers(d); }).catch(fail);
+    if (tab === 'analytics') api.adminAnalytics().then((a) => { if (!cancelled) setAnalytics(a); }).catch(fail);
+    return () => { cancelled = true; };
+  }, [tab, addToast, t]);
 
   const toggleBlock = async (u: User): Promise<void> => {
     try {
@@ -226,7 +234,7 @@ export function AdminDashboardScreen() {
                   <Badge tone={u.role === 'admin' ? 'primary' : u.role === 'driver' ? 'info' : 'neutral'}>
                     {u.role}
                   </Badge>
-                  {u.isBlocked && <Badge tone="danger">blocked</Badge>}
+                  {u.isBlocked && <Badge tone="danger">{t('admin.blocked')}</Badge>}
                 </div>
               </div>
               <Button
@@ -285,7 +293,7 @@ export function AdminDashboardScreen() {
                   >
                     <img
                       src={u.driverInfo.licensePhoto}
-                      alt="license"
+                      alt={t('register.licensePhoto')}
                       className="h-16 rounded-lg object-cover"
                     />
                   </button>

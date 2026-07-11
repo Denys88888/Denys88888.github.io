@@ -59,7 +59,7 @@ export function PassengerHomeScreen() {
   useEffect(() => {
     const point = pickup ?? position ?? undefined;
     const fetchSurge = () =>
-      api.getSurge(point ? { lat: point.lat, lng: point.lng } : undefined).then(setSurge).catch(() => {});
+      api.getSurge(point ? { lat: point.lat, lng: point.lng } : undefined).then(setSurge).catch((err) => console.error('[passenger] surge:', err));
     fetchSurge();
     const id = setInterval(fetchSurge, 5 * 60 * 1000);
     return () => clearInterval(id);

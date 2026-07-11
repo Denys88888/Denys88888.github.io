@@ -294,7 +294,8 @@
     "topRoutes": "Topp 5 rutter",
     "minFare": "Minimipris",
     "perKmRate": "Pris per km (economy)",
-    "surgeToggle": "Dynamisk prissättning"
+    "surgeToggle": "Dynamisk prissättning",
+    "blocked": "Blockerad"
   },
   "notify": {
     "newRide": "Ny reseförfrågan: {{fare}}",

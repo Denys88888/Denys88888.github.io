@@ -28,7 +28,14 @@ export function Modal({
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
-      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+      <div
+        className="absolute inset-0 bg-black/50"
+        role="button"
+        tabIndex={-1}
+        aria-label="Close"
+        onClick={onClose}
+        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onClose()}
+      />
       <div className="relative z-10 w-full sm:max-w-md surface rounded-t-2xl sm:rounded-2xl p-5 animate-slide-up">
         {title && <h3 className="mb-2">{title}</h3>}
         <div className="text-sm text-text-light/80 dark:text-text-dark/80">{children}</div>

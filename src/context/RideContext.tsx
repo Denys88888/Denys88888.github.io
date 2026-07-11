@@ -24,7 +24,7 @@ export function RideProvider({ children }: { children: ReactNode }) {
       addToast('success', t('ride.driverFound'));
       const rideId = String(msg.rideId ?? '');
       if (rideId) {
-        api.getRide(rideId).then(setCurrentRide).catch(() => {});
+        api.getRide(rideId).then(setCurrentRide).catch((err) => console.error('[RideContext] getRide:', err));
       }
     });
 
@@ -32,11 +32,11 @@ export function RideProvider({ children }: { children: ReactNode }) {
       if (msg.status === 'driver_approved' && msg.token) {
         const { setAuth } = useAppStore.getState();
         setAuth(msg.user as unknown as import('../types').User, String(msg.token));
-        addToast('success', t('register.driverApproved'));
+        addToast('success', t('notify.driverApproved'));
         return;
       }
       if (msg.status === 'driver_rejected') {
-        addToast('error', t('register.driverRejected'));
+        addToast('error', t('notify.driverRejected'));
         return;
       }
       const cur = useAppStore.getState().currentRide;

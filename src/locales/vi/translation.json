@@ -294,7 +294,8 @@
     "topRoutes": "Top 5 tuyến đường",
     "minFare": "Giá tối thiểu",
     "perKmRate": "Giá mỗi km (tiết kiệm)",
-    "surgeToggle": "Định giá linh hoạt"
+    "surgeToggle": "Định giá linh hoạt",
+    "blocked": "Đã chặn"
   },
   "notify": {
     "newRide": "Yêu cầu chuyến mới: {{fare}}",
