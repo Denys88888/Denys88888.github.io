@@ -294,7 +294,9 @@
     "topRoutes": "أفضل 5 مسارات",
     "minFare": "الحد الأدنى للأجرة",
     "perKmRate": "السعر لكل كم (اقتصادي)",
-    "surgeToggle": "التسعير الديناميكي"
+    "surgeToggle": "التسعير الديناميكي",
+    "blocked": "محظور",
+    "driverPhoto": "صورة السائق"
   },
   "notify": {
     "newRide": "طلب رحلة جديد: {{fare}}",
