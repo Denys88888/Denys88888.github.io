@@ -34,7 +34,7 @@ export function Modal({
         tabIndex={-1}
         aria-label="Close"
         onClick={onClose}
-        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onClose()}
+        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') && onClose()}
       />
       <div className="relative z-10 w-full sm:max-w-md surface rounded-t-2xl sm:rounded-2xl p-5 animate-slide-up">
         {title && <h3 className="mb-2">{title}</h3>}
