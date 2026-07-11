@@ -31,7 +31,7 @@ export function AuthScreen() {
           variant="primary"
           fullWidth
           loading={loading}
-          onClick={() => login().catch(() => {})}
+          onClick={() => login().catch((err) => { console.error("API error:", err); })}
           className="h-14 bg-white !text-primary hover:!brightness-100 hover:bg-white/90"
         >
           <span className="text-xl">π</span>
@@ -46,7 +46,7 @@ export function AuthScreen() {
               <Button
                 variant="outline"
                 loading={loading}
-                onClick={() => devLogin('TestPassenger', 'passenger').catch(() => {})}
+                onClick={() => devLogin('TestPassenger', 'passenger').catch((err) => { console.error("API error:", err); })}
                 className="!border-white/30 !text-white"
               >
                 Passenger
@@ -54,7 +54,7 @@ export function AuthScreen() {
               <Button
                 variant="outline"
                 loading={loading}
-                onClick={() => devLogin('TestDriver', 'driver').catch(() => {})}
+                onClick={() => devLogin('TestDriver', 'driver').catch((err) => { console.error("API error:", err); })}
                 className="!border-white/30 !text-white"
               >
                 Driver
