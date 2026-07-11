@@ -99,7 +99,7 @@ export function RideDetailsScreen() {
           const { latitude: lat, longitude: lng } = pos.coords;
           setDriverPos({ lat, lng });
           wsService.send('driver_location', { rideId, lat, lng });
-          api.updateDriverLocation(lat, lng).catch(() => {});
+          api.updateDriverLocation(lat, lng).catch((err) => console.error('[ride] location:', err));
         },
         () => {},
         { enableHighAccuracy: true, maximumAge: 4000, timeout: 5000 }
@@ -166,7 +166,7 @@ export function RideDetailsScreen() {
 
   const pay = async (): Promise<void> => {
     const txid = await payRide(ride.id);
-    if (txid) api.getRide(ride.id).then(setRide).catch(() => {});
+    if (txid) api.getRide(ride.id).then(setRide).catch((err) => console.error('[ride] refresh after pay:', err));
   };
 
   // Tip the driver: a separate Pi payment (100% goes to the driver).
@@ -182,7 +182,7 @@ export function RideDetailsScreen() {
         metadata: p.metadata,
       });
       addToast('success', t('ride.tipThanks'));
-      api.getRide(ride.id).then(setRide).catch(() => {});
+      api.getRide(ride.id).then(setRide).catch((err) => console.error('[ride] refresh after tip:', err));
     } catch (err) {
       addToast('error', err instanceof Error ? err.message : t('common.error'));
     } finally {

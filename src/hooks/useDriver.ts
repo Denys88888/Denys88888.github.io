@@ -26,7 +26,7 @@ export function useDriver() {
   }, []);
 
   const updateLocation = useCallback((lat: number, lng: number, rideId?: string) => {
-    api.updateDriverLocation(lat, lng).catch(() => {});
+    api.updateDriverLocation(lat, lng).catch((err) => console.error('[driver] location:', err));
     wsService.send('driver_location', { lat, lng, rideId });
   }, []);
 
