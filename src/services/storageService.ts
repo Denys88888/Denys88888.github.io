@@ -5,13 +5,25 @@ import type { User, Theme } from '../types';
 // through here so keys and (de)serialization stay consistent.
 export const storage = {
   getToken(): string | null {
-    return localStorage.getItem(TOKEN_KEY);
+    try {
+      return localStorage.getItem(TOKEN_KEY);
+    } catch {
+      // Ignore localStorage errors (private mode, quota exceeded)
+    }
   },
   setToken(token: string): void {
-    localStorage.setItem(TOKEN_KEY, token);
+    try {
+      localStorage.setItem(TOKEN_KEY, token);
+    } catch {
+      // Ignore localStorage errors (private mode, quota exceeded)
+    }
   },
   getUser(): User | null {
-    const raw = localStorage.getItem(USER_KEY);
+    try {
+      const raw = localStorage.getItem(USER_KEY);
+    } catch {
+      // Ignore localStorage errors (private mode, quota exceeded)
+    }
     if (!raw) return null;
     try {
       return JSON.parse(raw) as User;
@@ -20,22 +32,50 @@ export const storage = {
     }
   },
   setUser(user: User): void {
-    localStorage.setItem(USER_KEY, JSON.stringify(user));
+    try {
+      localStorage.setItem(USER_KEY, JSON.stringify(user));
+    } catch {
+      // Ignore localStorage errors (private mode, quota exceeded)
+    }
   },
   getTheme(): Theme {
-    return (localStorage.getItem(THEME_KEY) as Theme) ?? 'auto';
+    try {
+      return (localStorage.getItem(THEME_KEY) as Theme) ?? 'auto';
+    } catch {
+      // Ignore localStorage errors (private mode, quota exceeded)
+    }
   },
   setTheme(theme: Theme): void {
-    localStorage.setItem(THEME_KEY, theme);
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+    } catch {
+      // Ignore localStorage errors (private mode, quota exceeded)
+    }
   },
   getLang(): string | null {
-    return localStorage.getItem(LANG_KEY);
+    try {
+      return localStorage.getItem(LANG_KEY);
+    } catch {
+      // Ignore localStorage errors (private mode, quota exceeded)
+    }
   },
   setLang(lang: string): void {
-    localStorage.setItem(LANG_KEY, lang);
+    try {
+      localStorage.setItem(LANG_KEY, lang);
+    } catch {
+      // Ignore localStorage errors (private mode, quota exceeded)
+    }
   },
   clearAuth(): void {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
+    try {
+      localStorage.removeItem(TOKEN_KEY);
+    } catch {
+      // Ignore localStorage errors (private mode, quota exceeded)
+    }
+    try {
+      localStorage.removeItem(USER_KEY);
+    } catch {
+      // Ignore localStorage errors (private mode, quota exceeded)
+    }
   },
 };
