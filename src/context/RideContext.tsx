@@ -24,7 +24,7 @@ export function RideProvider({ children }: { children: ReactNode }) {
       addToast('success', t('ride.driverFound'));
       const rideId = String(msg.rideId ?? '');
       if (rideId) {
-        api.getRide(rideId).then(setCurrentRide).catch(() => {});
+        api.getRide(rideId).then(setCurrentRide).catch((err) => { console.error("API error:", err); });
       }
     });
 
