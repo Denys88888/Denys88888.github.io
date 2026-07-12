@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Funziona solo nel browser Pi",
     "logout": "Esci",
     "loggingIn": "Accesso…",
-    "loginFailed": "Accesso non riuscito. Riprova."
+    "loginFailed": "Accesso non riuscito. Riprova.",
+    "devLogin": "Login sviluppatore",
+    "devPassenger": "Passeggero",
+    "devDriver": "Autista"
   },
   "nav": {
     "home": "Home",
@@ -137,7 +140,9 @@
     "driverEarnings": "Guadagno autista",
     "searchingDriver": "Cerco un autista...",
     "searchingHint": "Di solito 1–3 minuti",
-    "paymentComplete": "Pagamento completato"
+    "paymentComplete": "Pagamento completato",
+    "paymentFailed": "Pagamento non riuscito. Riprova.",
+    "surge": "Tariffa maggiorata"
   },
   "vehicle": {
     "economy": "Economy",
@@ -295,8 +300,8 @@
     "minFare": "Tariffa minima",
     "perKmRate": "Tariffa al km (economy)",
     "surgeToggle": "Prezzi dinamici",
-    "blocked": "bloccato",
-    "driverPhoto": "Foto dell'autista"
+    "blocked": "Bloccato",
+    "driverPhoto": "Foto della patente di guida"
   },
   "notify": {
     "newRide": "Nuova richiesta di corsa: {{fare}}",

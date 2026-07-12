@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Fonctionne uniquement dans le navigateur Pi",
     "logout": "Déconnexion",
     "loggingIn": "Connexion…",
-    "loginFailed": "Échec de la connexion. Réessayez."
+    "loginFailed": "Échec de la connexion. Réessayez.",
+    "devLogin": "Connexion développeur",
+    "devPassenger": "Passager",
+    "devDriver": "Conducteur"
   },
   "nav": {
     "home": "Accueil",
@@ -137,7 +140,9 @@
     "driverEarnings": "Gains du chauffeur",
     "searchingDriver": "Recherche d'un chauffeur...",
     "searchingHint": "Prend généralement 1 à 3 minutes",
-    "paymentComplete": "Paiement effectué"
+    "paymentComplete": "Paiement effectué",
+    "paymentFailed": "Le paiement a échoué. Veuillez réessayer.",
+    "surge": "Tarif majoré"
   },
   "vehicle": {
     "economy": "Économique",
@@ -295,8 +300,8 @@
     "minFare": "Tarif minimum",
     "perKmRate": "Tarif au km (économique)",
     "surgeToggle": "Tarification dynamique",
-    "blocked": "bloqué",
-    "driverPhoto": "Photo du conducteur"
+    "blocked": "Bloqué",
+    "driverPhoto": "Photo du permis de conduire"
   },
   "notify": {
     "newRide": "Nouvelle demande de course : {{fare}}",

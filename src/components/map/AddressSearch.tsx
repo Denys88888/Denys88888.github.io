@@ -23,6 +23,10 @@ export function AddressSearch({ label, placeholder, value, icon, near, countryCo
   // Only user keystrokes may trigger a search: programmatic value changes
   // (selecting a suggestion, confirming a map tap) must not reopen the list.
   const fromUser = useRef(false);
+  // `near` is only a ~50 km bias for ranking; a GPS tick must not restart the
+  // debounce or invalidate an in-flight search, so it lives outside the deps.
+  const nearRef = useRef(near);
+  nearRef.current = near;
 
   useEffect(() => {
     fromUser.current = false;
@@ -37,14 +41,18 @@ export function AddressSearch({ label, placeholder, value, icon, near, countryCo
       setOpen(false);
       return;
     }
+    let stale = false; // a newer query superseded this request mid-flight
     timer.current = setTimeout(async () => {
-      setResults(await searchAddress(query, near, countryCodes));
-      setOpen(true);
+      const found = await searchAddress(query, nearRef.current, countryCodes);
+      if (stale) return;
+      setResults(found);
+      setOpen(found.length > 0);
     }, 400);
     return () => {
+      stale = true;
       if (timer.current) clearTimeout(timer.current);
     };
-  }, [query, near, countryCodes]);
+  }, [query, countryCodes]);
 
   return (
     <div className="relative">

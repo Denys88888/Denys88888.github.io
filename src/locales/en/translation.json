@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Works only in the Pi Browser",
     "logout": "Logout",
     "loggingIn": "Signing in…",
-    "loginFailed": "Login failed. Please try again."
+    "loginFailed": "Login failed. Please try again.",
+    "devLogin": "Sandbox Dev Login",
+    "devPassenger": "Passenger",
+    "devDriver": "Driver"
   },
   "nav": {
     "home": "Home",
@@ -137,7 +140,9 @@
     "driverEarnings": "Driver earnings",
     "searchingDriver": "Looking for a driver...",
     "searchingHint": "Usually takes 1–3 minutes",
-    "paymentComplete": "Payment complete"
+    "paymentComplete": "Payment complete",
+    "paymentFailed": "Payment failed. Please try again.",
+    "surge": "Surge"
   },
   "vehicle": {
     "economy": "Economy",
@@ -295,8 +300,8 @@
     "minFare": "Minimum fare",
     "perKmRate": "Rate per km (economy)",
     "surgeToggle": "Dynamic pricing (surge)",
-    "blocked": "blocked",
-    "driverPhoto": "Driver photo"
+    "blocked": "Blocked",
+    "driverPhoto": "Driver license photo"
   },
   "notify": {
     "newRide": "New ride request: {{fare}}",

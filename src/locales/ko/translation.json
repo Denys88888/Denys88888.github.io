@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Pi 브라우저에서만 작동합니다",
     "logout": "로그아웃",
     "loggingIn": "로그인 중…",
-    "loginFailed": "로그인에 실패했습니다. 다시 시도하세요."
+    "loginFailed": "로그인에 실패했습니다. 다시 시도하세요.",
+    "devLogin": "개발자 로그인",
+    "devPassenger": "승객",
+    "devDriver": "운전자"
   },
   "nav": {
     "home": "홈",
@@ -137,7 +140,9 @@
     "driverEarnings": "드라이버 수입",
     "searchingDriver": "드라이버를 찾는 중...",
     "searchingHint": "보통 1-3분 소요",
-    "paymentComplete": "결제 완료"
+    "paymentComplete": "결제 완료",
+    "paymentFailed": "결제에 실패했습니다. 다시 시도해 주세요.",
+    "surge": "할증 요금"
   },
   "vehicle": {
     "economy": "이코노미",
@@ -296,7 +301,7 @@
     "perKmRate": "km당 요금(이코노미)",
     "surgeToggle": "탄력 요금제(급증)",
     "blocked": "차단됨",
-    "driverPhoto": "운전자 사진"
+    "driverPhoto": "운전면허증 사진"
   },
   "notify": {
     "newRide": "새 운행 요청: {{fare}}",

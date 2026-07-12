@@ -38,6 +38,7 @@ export function AdminDashboardScreen() {
   const [driverFilter, setDriverFilter] = useState<DriverFilter>('pending');
   const [analytics, setAnalytics] = useState<AdminAnalytics | null>(null);
   const [docPhoto, setDocPhoto] = useState<string | null>(null);
+  const [tabLoading, setTabLoading] = useState(false);
 
   // Settings.
   const [fee, setFee] = useState(10);
@@ -46,24 +47,36 @@ export function AdminDashboardScreen() {
   const [surgeEnabled, setSurgeEnabled] = useState(true);
 
   useEffect(() => {
-    api.adminStats().then(setStats).catch((err) => { console.error("API error:", err); });
-    api
-      .adminSettings()
+    let cancelled = false;
+    api.adminStats()
+      .then((s) => { if (!cancelled) setStats(s); })
+      .catch((err) => console.error('[admin] stats:', err));
+    api.adminSettings()
       .then((s) => {
-        setFee(s.platformFeePercent ?? 10);
-        setMinFare(s.minFare ?? 1.5);
-        setPerKm(s.baseFarePerKm ?? 0.5);
-        setSurgeEnabled(s.surgeEnabled !== false);
+        if (!cancelled) {
+          setFee(s.platformFeePercent ?? 10);
+          setMinFare(s.minFare ?? 1.5);
+          setPerKm(s.baseFarePerKm ?? 0.5);
+          setSurgeEnabled(s.surgeEnabled !== false);
+        }
       })
-      .catch((err) => { console.error("API error:", err); });
+      .catch((err) => console.error('[admin] settings:', err));
+    return () => { cancelled = true; };
   }, []);
 
   useEffect(() => {
-    if (tab === 'users') api.adminUsers().then(setUsers).catch((err) => { console.error("API error:", err); });
-    if (tab === 'rides') api.adminRides().then(setRides).catch((err) => { console.error("API error:", err); });
-    if (tab === 'drivers') api.adminDrivers().then(setDrivers).catch((err) => { console.error("API error:", err); });
-    if (tab === 'analytics') api.adminAnalytics().then(setAnalytics).catch((err) => { console.error("API error:", err); });
-  }, [tab]);
+    let cancelled = false;
+    const DATA_TABS = ['users', 'rides', 'drivers', 'analytics'] as const;
+    if (!(DATA_TABS as readonly string[]).includes(tab)) return;
+    setTabLoading(true);
+    const done = () => { if (!cancelled) setTabLoading(false); };
+    const fail = () => { done(); addToast('error', t('common.error')); };
+    if (tab === 'users') api.adminUsers().then((u) => { if (!cancelled) setUsers(u); done(); }).catch(fail);
+    if (tab === 'rides') api.adminRides().then((r) => { if (!cancelled) setRides(r); done(); }).catch(fail);
+    if (tab === 'drivers') api.adminDrivers().then((d) => { if (!cancelled) setDrivers(d); done(); }).catch(fail);
+    if (tab === 'analytics') api.adminAnalytics().then((a) => { if (!cancelled) setAnalytics(a); done(); }).catch(fail);
+    return () => { cancelled = true; };
+  }, [tab, addToast, t]);
 
   const toggleBlock = async (u: User): Promise<void> => {
     try {
@@ -148,6 +161,11 @@ export function AdminDashboardScreen() {
       </header>
 
       <div className="flex-1 space-y-3 overflow-y-auto p-4">
+        {tabLoading && (
+          <div className="flex justify-center pt-10 opacity-50">
+            <span className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+          </div>
+        )}
         {tab === 'stats' && stats && (
           <div className="grid grid-cols-2 gap-3">
             <Card>
@@ -226,7 +244,7 @@ export function AdminDashboardScreen() {
                   <Badge tone={u.role === 'admin' ? 'primary' : u.role === 'driver' ? 'info' : 'neutral'}>
                     {u.role}
                   </Badge>
-                  {u.isBlocked && <Badge tone="danger">blocked</Badge>}
+                  {u.isBlocked && <Badge tone="danger">{t('admin.blocked')}</Badge>}
                 </div>
               </div>
               <Button
@@ -285,7 +303,7 @@ export function AdminDashboardScreen() {
                   >
                     <img
                       src={u.driverInfo.licensePhoto}
-                      alt="license"
+                      alt={t('register.licensePhoto')}
                       className="h-16 rounded-lg object-cover"
                     />
                   </button>
@@ -438,7 +456,7 @@ export function AdminDashboardScreen() {
 
       {/* License photo viewer. */}
       <Modal open={!!docPhoto} title={t('register.licensePhoto')} onClose={() => setDocPhoto(null)}>
-        {docPhoto && <img src={docPhoto} alt="license" className="w-full rounded-lg" />}
+        {docPhoto && <img src={docPhoto} alt={t('admin.driverPhoto')} className="w-full rounded-lg" />}
       </Modal>
     </div>
   );

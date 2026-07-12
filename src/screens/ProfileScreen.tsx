@@ -189,7 +189,11 @@ export function ProfileScreen() {
                 title: 'Taxi Pro',
                 text: t('profile.shareText'),
                 url: window.location.origin,
-              }).catch(() => {})
+              }).catch((err: unknown) => {
+                if ((err as { name?: string }).name !== 'AbortError') {
+                  console.error('[profile] share:', err);
+                }
+              })
             }
           >
             <Share size={18} /> {t('profile.share')}

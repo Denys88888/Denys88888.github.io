@@ -95,9 +95,7 @@ export function initNotifications(): void {
       api
         .getMe()
         .then((me) => useAppStore.getState().updateUser(me))
-        .catch(() => {
-          /* next login will pick the new role up anyway */
-        });
+        .catch((err) => console.error('[notify] getMe after role change:', err));
       return;
     }
     const isPassenger = useAppStore.getState().user?.role !== 'driver';

@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Fungerar endast i Pi-webbläsaren",
     "logout": "Logga ut",
     "loggingIn": "Loggar in…",
-    "loginFailed": "Inloggning misslyckades. Försök igen."
+    "loginFailed": "Inloggning misslyckades. Försök igen.",
+    "devLogin": "Utvecklarinloggning",
+    "devPassenger": "Passagerare",
+    "devDriver": "Förare"
   },
   "nav": {
     "home": "Hem",
@@ -137,7 +140,9 @@
     "driverEarnings": "Förarens intäkter",
     "searchingDriver": "Söker förare...",
     "searchingHint": "Tar vanligtvis 1–3 minuter",
-    "paymentComplete": "Betalning klar"
+    "paymentComplete": "Betalning klar",
+    "paymentFailed": "Betalningen misslyckades. Försök igen.",
+    "surge": "Rusningstaxa"
   },
   "vehicle": {
     "economy": "Economy",
@@ -295,8 +300,8 @@
     "minFare": "Minimipris",
     "perKmRate": "Pris per km (economy)",
     "surgeToggle": "Dynamisk prissättning",
-    "blocked": "blocked",
-    "driverPhoto": "Driver photo"
+    "blocked": "Blockerad",
+    "driverPhoto": "Foto på körkort"
   },
   "notify": {
     "newRide": "Ny reseförfrågan: {{fare}}",

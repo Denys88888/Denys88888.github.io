@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Работает только в браузере Pi",
     "logout": "Выйти",
     "loggingIn": "Вход…",
-    "loginFailed": "Не удалось войти. Попробуйте снова."
+    "loginFailed": "Не удалось войти. Попробуйте снова.",
+    "devLogin": "Вход для разработчика",
+    "devPassenger": "Пассажир",
+    "devDriver": "Водитель"
   },
   "nav": {
     "home": "Главная",
@@ -137,7 +140,9 @@
     "driverEarnings": "Заработок водителя",
     "searchingDriver": "Ищем водителя...",
     "searchingHint": "Обычно 1–3 минуты",
-    "paymentComplete": "Оплата завершена"
+    "paymentComplete": "Оплата завершена",
+    "paymentFailed": "Оплата не прошла. Попробуйте ещё раз.",
+    "surge": "Повышенный спрос"
   },
   "vehicle": {
     "economy": "Эконом",
@@ -295,8 +300,8 @@
     "minFare": "Минимальная цена",
     "perKmRate": "Тариф за км (эконом)",
     "surgeToggle": "Динамическое ценообразование (surge)",
-    "blocked": "заблокирован",
-    "driverPhoto": "Фото водителя"
+    "blocked": "Заблокирован",
+    "driverPhoto": "Фото водительских прав"
   },
   "notify": {
     "newRide": "Новый заказ: {{fare}}",

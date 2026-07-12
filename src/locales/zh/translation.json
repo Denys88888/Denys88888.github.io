@@ -29,7 +29,10 @@
     "onlyPiBrowser": "仅在 Pi 浏览器中可用",
     "logout": "退出",
     "loggingIn": "正在登录…",
-    "loginFailed": "登录失败，请重试。"
+    "loginFailed": "登录失败，请重试。",
+    "devLogin": "开发者登录",
+    "devPassenger": "乘客",
+    "devDriver": "司机"
   },
   "nav": {
     "home": "首页",
@@ -137,7 +140,9 @@
     "driverEarnings": "司机收入",
     "searchingDriver": "正在寻找司机...",
     "searchingHint": "通常需要1-3分钟",
-    "paymentComplete": "支付完成"
+    "paymentComplete": "支付完成",
+    "paymentFailed": "支付失败,请重试。",
+    "surge": "高峰溢价"
   },
   "vehicle": {
     "economy": "经济型",
@@ -295,8 +300,8 @@
     "minFare": "最低车费",
     "perKmRate": "每公里费率（经济型）",
     "surgeToggle": "动态定价（高峰加价）",
-    "blocked": "已屏蔽",
-    "driverPhoto": "司机照片"
+    "blocked": "已封锁",
+    "driverPhoto": "驾照照片"
   },
   "notify": {
     "newRide": "新订单请求：{{fare}}",

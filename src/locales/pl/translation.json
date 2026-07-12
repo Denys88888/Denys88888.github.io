@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Działa tylko w przeglądarce Pi",
     "logout": "Wyloguj",
     "loggingIn": "Logowanie…",
-    "loginFailed": "Logowanie nie powiodło się. Spróbuj ponownie."
+    "loginFailed": "Logowanie nie powiodło się. Spróbuj ponownie.",
+    "devLogin": "Logowanie deweloperskie",
+    "devPassenger": "Pasażer",
+    "devDriver": "Kierowca"
   },
   "nav": {
     "home": "Start",
@@ -137,7 +140,9 @@
     "driverEarnings": "Zarobek kierowcy",
     "searchingDriver": "Szukam kierowcy...",
     "searchingHint": "Zwykle trwa 1–3 minuty",
-    "paymentComplete": "Płatność zakończona"
+    "paymentComplete": "Płatność zakończona",
+    "paymentFailed": "Płatność nie powiodła się. Spróbuj ponownie.",
+    "surge": "Zwiększony popyt"
   },
   "vehicle": {
     "economy": "Ekonomiczny",
@@ -295,8 +300,8 @@
     "minFare": "Cena minimalna",
     "perKmRate": "Stawka za km (ekonomiczna)",
     "surgeToggle": "Ceny dynamiczne (surge)",
-    "blocked": "zablokowany",
-    "driverPhoto": "Zdjęcie kierowcy"
+    "blocked": "Zablokowany",
+    "driverPhoto": "Zdjęcie prawa jazdy"
   },
   "notify": {
     "newRide": "Nowe zlecenie: {{fare}}",

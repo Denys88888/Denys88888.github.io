@@ -26,8 +26,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     initPi();
-    api.health().then(setHealth).catch(() => {
-      /* backend may be cold-starting; health is non-critical */
+    api.health().then(setHealth).catch((err) => {
+      console.error('[auth] health check (non-critical, server may be cold-starting):', err);
     });
   }, [setHealth]);
 

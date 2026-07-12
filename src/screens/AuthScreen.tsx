@@ -31,7 +31,7 @@ export function AuthScreen() {
           variant="primary"
           fullWidth
           loading={loading}
-          onClick={() => login().catch((err) => { console.error("API error:", err); })}
+          onClick={() => login().catch((err) => console.error('[auth] login:', err))}
           className="h-14 bg-white !text-primary hover:!brightness-100 hover:bg-white/90"
         >
           <span className="text-xl">π</span>
@@ -41,23 +41,23 @@ export function AuthScreen() {
 
         {isDevMode && (
           <div className="space-y-2 border-t border-white/20 pt-4">
-            <p className="text-center text-xs text-white/60">Sandbox Dev Login</p>
+            <p className="text-center text-xs text-white/60">{t('auth.devLogin')}</p>
             <div className="grid grid-cols-2 gap-2">
               <Button
                 variant="outline"
                 loading={loading}
-                onClick={() => devLogin('TestPassenger', 'passenger').catch((err) => { console.error("API error:", err); })}
+                onClick={() => devLogin('TestPassenger', 'passenger').catch((err) => console.error('[auth] devLogin:', err))}
                 className="!border-white/30 !text-white"
               >
-                Passenger
+                {t('auth.devPassenger')}
               </Button>
               <Button
                 variant="outline"
                 loading={loading}
-                onClick={() => devLogin('TestDriver', 'driver').catch((err) => { console.error("API error:", err); })}
+                onClick={() => devLogin('TestDriver', 'driver').catch((err) => console.error('[auth] devLogin:', err))}
                 className="!border-white/30 !text-white"
               >
-                Driver
+                {t('auth.devDriver')}
               </Button>
             </div>
           </div>

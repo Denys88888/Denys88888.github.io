@@ -34,7 +34,7 @@ export async function searchAddress(
   countryCodes?: string
 ): Promise<AddressResult[]> {
   if (query.trim().length < 3) return [];
-  const params = new URLSearchParams({ format: 'json', limit: '8', q: query });
+  const params = new URLSearchParams({ format: 'json', limit: '8', addressdetails: '1', q: query });
   if (near) {
     const b = bbox(near, LOCAL_RADIUS_KM);
     params.set('viewbox', `${b.left},${b.top},${b.right},${b.bottom}`);
@@ -42,26 +42,40 @@ export async function searchAddress(
   }
   if (countryCodes) params.set('countrycodes', countryCodes);
 
-  const res = await fetch(`${NOMINATIM}/search?${params.toString()}`, {
-    headers: { Accept: 'application/json' },
-  });
-  if (!res.ok) return [];
-  const data = (await res.json()) as Array<{ display_name: string; lat: string; lon: string }>;
-  let results = data.map((d) => ({
-    displayName: d.display_name,
-    lat: parseFloat(d.lat),
-    lng: parseFloat(d.lon),
-  }));
-  // Hard local filter: drop anything beyond the local radius from the user.
-  if (near) {
-    results = results.filter(
-      (r) => haversineKm(near.lat, near.lng, r.lat, r.lng) <= LOCAL_RADIUS_KM
-    );
+  try {
+    const res = await fetch(`${NOMINATIM}/search?${params.toString()}`, {
+      headers: { Accept: 'application/json' },
+    });
+    if (!res.ok) return [];
+    const data = (await res.json()) as Array<{
+      display_name: string;
+      lat: string;
+      lon: string;
+      address?: { postcode?: string };
+    }>;
+    let results = data.map((d) => ({
+      // Drop the postcode: it is noise in a ride address, and Nominatim lists
+      // long streets once per postcode zone — without it the dedupe below
+      // collapses those segments into a single suggestion.
+      displayName: d.address?.postcode
+        ? d.display_name.replace(`, ${d.address.postcode}`, '')
+        : d.display_name,
+      lat: parseFloat(d.lat),
+      lng: parseFloat(d.lon),
+    }));
+    // Hard local filter: drop anything beyond the local radius from the user.
+    if (near) {
+      results = results.filter(
+        (r) => haversineKm(near.lat, near.lng, r.lat, r.lng) <= LOCAL_RADIUS_KM
+      );
+    }
+    // Nominatim often returns the same place twice (e.g. a city node and its
+    // administrative boundary share one display name) — keep the first of each.
+    const seen = new Set<string>();
+    return results.filter((r) => !seen.has(r.displayName) && seen.add(r.displayName));
+  } catch {
+    return []; // offline / Nominatim unreachable — empty dropdown, not an unhandled rejection
   }
-  // Nominatim often returns the same place twice (e.g. a city node and its
-  // administrative boundary share one display name) — keep the first of each.
-  const seen = new Set<string>();
-  return results.filter((r) => !seen.has(r.displayName) && seen.add(r.displayName));
 }
 
 // Reverse geocode to a 2-letter country code, for constraining searches by country.

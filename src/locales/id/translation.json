@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Hanya berfungsi di Peramban Pi",
     "logout": "Keluar",
     "loggingIn": "Masuk…",
-    "loginFailed": "Gagal masuk. Silakan coba lagi."
+    "loginFailed": "Gagal masuk. Silakan coba lagi.",
+    "devLogin": "Login pengembang",
+    "devPassenger": "Penumpang",
+    "devDriver": "Pengemudi"
   },
   "nav": {
     "home": "Beranda",
@@ -137,7 +140,9 @@
     "driverEarnings": "Pendapatan pengemudi",
     "searchingDriver": "Mencari pengemudi...",
     "searchingHint": "Biasanya memakan waktu 1-3 menit",
-    "paymentComplete": "Pembayaran selesai"
+    "paymentComplete": "Pembayaran selesai",
+    "paymentFailed": "Pembayaran gagal. Silakan coba lagi.",
+    "surge": "Tarif sibuk"
   },
   "vehicle": {
     "economy": "Ekonomi",
@@ -295,8 +300,8 @@
     "minFare": "Tarif minimum",
     "perKmRate": "Tarif per km (ekonomi)",
     "surgeToggle": "Harga dinamis",
-    "blocked": "diblokir",
-    "driverPhoto": "Foto pengemudi"
+    "blocked": "Diblokir",
+    "driverPhoto": "Foto SIM"
   },
   "notify": {
     "newRide": "Permintaan perjalanan baru: {{fare}}",

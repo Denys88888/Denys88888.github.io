@@ -24,6 +24,7 @@ export function DriverRegistrationScreen() {
   const user = useAppStore((s) => s.user);
   const updateUser = useAppStore((s) => s.updateUser);
   const [step, setStep] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
     name: user?.name ?? '',
@@ -81,6 +82,8 @@ export function DriverRegistrationScreen() {
           : true;
 
   const submit = async (): Promise<void> => {
+    if (submitting) return; // double-tap guard
+    setSubmitting(true);
     try {
       // Persist the name/phone captured in step 1 onto the profile.
       await api.updateProfile({ name: form.name, phone: form.phone });
@@ -97,6 +100,8 @@ export function DriverRegistrationScreen() {
       setSubmitted(true);
     } catch {
       addToast('error', t('common.error'));
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -148,7 +153,7 @@ export function DriverRegistrationScreen() {
               <Avatar name={form.name || user?.name || '?'} src={user?.avatar} size={56} />
               <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-btn border border-primary px-4 py-2 text-sm font-semibold text-primary">
                 <Camera size={16} />
-                {user?.avatar ? t('profile.uploadAvatar') : t('register.title')}
+                {t('profile.uploadAvatar')}
                 <input
                   type="file"
                   accept="image/*"
@@ -163,7 +168,7 @@ export function DriverRegistrationScreen() {
             <div className="space-y-2">
               <label className="flex h-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-card border-2 border-dashed border-black/15 dark:border-white/15 text-sm opacity-70 hover:border-primary hover:opacity-100">
                 {form.vehiclePhoto ? (
-                  <img src={form.vehiclePhoto} alt="Vehicle" className="h-20 w-full object-contain" />
+                  <img src={form.vehiclePhoto} alt={t('register.vehiclePhoto')} className="h-20 w-full object-contain" />
                 ) : (
                   <>
                     <Camera size={20} /> {t('register.vehiclePhoto')}
@@ -184,7 +189,7 @@ export function DriverRegistrationScreen() {
             <div className="space-y-2">
               <label className="flex h-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-card border-2 border-dashed border-black/15 dark:border-white/15 text-sm opacity-70 hover:border-primary hover:opacity-100">
                 {form.licensePhoto ? (
-                  <img src={form.licensePhoto} alt="License" className="h-20 w-full object-contain" />
+                  <img src={form.licensePhoto} alt={t('register.licensePhoto')} className="h-20 w-full object-contain" />
                 ) : (
                   <>
                     <CreditCard size={20} /> {t('register.licensePhoto')}
@@ -211,13 +216,13 @@ export function DriverRegistrationScreen() {
             {form.vehiclePhoto && (
               <div>
                 <p className="opacity-60">{t('register.vehiclePhoto')}:</p>
-                <img src={form.vehiclePhoto} alt="Vehicle" className="mt-1 h-24 rounded-lg object-contain" />
+                <img src={form.vehiclePhoto} alt={t('register.vehiclePhoto')} className="mt-1 h-24 rounded-lg object-contain" />
               </div>
             )}
             {form.licensePhoto && (
               <div>
                 <p className="opacity-60">{t('register.licensePhoto')}:</p>
-                <img src={form.licensePhoto} alt="License" className="mt-1 h-24 rounded-lg object-contain" />
+                <img src={form.licensePhoto} alt={t('register.licensePhoto')} className="mt-1 h-24 rounded-lg object-contain" />
               </div>
             )}
           </Card>
@@ -233,7 +238,7 @@ export function DriverRegistrationScreen() {
             {t('common.next')}
           </Button>
         ) : (
-          <Button fullWidth onClick={submit}>
+          <Button fullWidth loading={submitting} onClick={submit}>
             {t('register.submit')}
           </Button>
         )}

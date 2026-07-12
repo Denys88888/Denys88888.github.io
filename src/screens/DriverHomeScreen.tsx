@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { isAxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
 import { Circle, Check, LocateFixed, Navigation, TrendingUp } from 'lucide-react';
 import { MapView } from '../components/map/MapContainer';
@@ -31,11 +32,15 @@ export function DriverHomeScreen() {
   const [focusNonce, setFocusNonce] = useState(0);
 
   const [todayRides, setTodayRides] = useState<Ride[]>([]);
+  const [todayLoading, setTodayLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
     api.listRides({ status: 'completed', limit: 50 })
-      .then((r) => setTodayRides(r.rides.filter((x) => isToday(new Date(x.createdAt)))))
-      .catch(() => {});
+      .then((r) => { if (!cancelled) setTodayRides(r.rides.filter((x) => isToday(new Date(x.createdAt)))); })
+      .catch((err) => console.error('[driver] today rides:', err))
+      .finally(() => { if (!cancelled) setTodayLoading(false); });
+    return () => { cancelled = true; };
   }, []);
 
   const todayEarnings = useMemo(
@@ -51,7 +56,7 @@ export function DriverHomeScreen() {
       setHeatmap([]);
       return;
     }
-    const load = () => api.getHeatmap().then(setHeatmap).catch(() => {});
+    const load = () => api.getHeatmap().then(setHeatmap).catch((err) => console.error('[driver] heatmap:', err));
     load();
     const id = setInterval(load, 60 * 1000);
     return () => clearInterval(id);
@@ -72,7 +77,7 @@ export function DriverHomeScreen() {
             return fresh.length ? [...prev, ...fresh] : prev;
           })
         )
-        .catch(() => {});
+        .catch((err) => console.error('[driver] open rides:', err));
     load();
     const id = setInterval(load, 15 * 1000);
     return () => clearInterval(id);
@@ -135,8 +140,14 @@ export function DriverHomeScreen() {
         setOnline(false);
         setRequests([]);
       }
-    } catch {
-      addToast('error', t('common.error'));
+    } catch (err) {
+      // 403 = not a verified driver (no vehicle on file or application still
+      // pending) — the registration wizard is the actionable next step.
+      if (isAxiosError(err) && err.response?.status === 403) {
+        navigate('register');
+      } else {
+        addToast('error', t('common.error'));
+      }
     }
   };
 
@@ -210,7 +221,12 @@ export function DriverHomeScreen() {
             <Navigation size={16} /> {t('driver.navigation')}
           </Button>
         )}
-        {online && (todayRides.length > 0 || todayEarnings > 0) && (
+        {online && todayLoading && (
+          <div className="flex justify-center py-3 opacity-40">
+            <span className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+          </div>
+        )}
+        {online && !todayLoading && (todayRides.length > 0 || todayEarnings > 0) && (
           <Card className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <TrendingUp size={18} className="text-success" />

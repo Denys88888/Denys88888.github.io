@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Pi ブラウザでのみ動作します",
     "logout": "ログアウト",
     "loggingIn": "ログイン中…",
-    "loginFailed": "ログインに失敗しました。もう一度お試しください。"
+    "loginFailed": "ログインに失敗しました。もう一度お試しください。",
+    "devLogin": "開発者ログイン",
+    "devPassenger": "乗客",
+    "devDriver": "ドライバー"
   },
   "nav": {
     "home": "ホーム",
@@ -137,7 +140,9 @@
     "driverEarnings": "ドライバー収益",
     "searchingDriver": "ドライバーを探しています...",
     "searchingHint": "通常1〜3分かかります",
-    "paymentComplete": "支払い完了"
+    "paymentComplete": "支払い完了",
+    "paymentFailed": "支払いに失敗しました。もう一度お試しください。",
+    "surge": "サージ料金"
   },
   "vehicle": {
     "economy": "エコノミー",
@@ -296,7 +301,7 @@
     "perKmRate": "1kmあたり料金（エコノミー）",
     "surgeToggle": "ダイナミック料金（サージ）",
     "blocked": "ブロック済み",
-    "driverPhoto": "運転手の写真"
+    "driverPhoto": "運転免許証の写真"
   },
   "notify": {
     "newRide": "新しい配車リクエスト：{{fare}}",

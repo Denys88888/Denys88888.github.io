@@ -29,7 +29,10 @@
     "onlyPiBrowser": "Yalnızca Pi Tarayıcısında çalışır",
     "logout": "Çıkış",
     "loggingIn": "Giriş yapılıyor…",
-    "loginFailed": "Giriş başarısız. Lütfen tekrar deneyin."
+    "loginFailed": "Giriş başarısız. Lütfen tekrar deneyin.",
+    "devLogin": "Geliştirici girişi",
+    "devPassenger": "Yolcu",
+    "devDriver": "Sürücü"
   },
   "nav": {
     "home": "Ana sayfa",
@@ -137,7 +140,9 @@
     "driverEarnings": "Sürücü kazancı",
     "searchingDriver": "Sürücü aranıyor...",
     "searchingHint": "Genellikle 1-3 dakika sürer",
-    "paymentComplete": "Ödeme tamamlandı"
+    "paymentComplete": "Ödeme tamamlandı",
+    "paymentFailed": "Ödeme başarısız oldu. Lütfen tekrar deneyin.",
+    "surge": "Yoğunluk çarpanı"
   },
   "vehicle": {
     "economy": "Ekonomi",
@@ -295,8 +300,8 @@
     "minFare": "Asgari ücret",
     "perKmRate": "Km başına ücret (ekonomi)",
     "surgeToggle": "Dinamik fiyatlandırma",
-    "blocked": "engellendi",
-    "driverPhoto": "Sürücü fotoğrafı"
+    "blocked": "Engellendi",
+    "driverPhoto": "Ehliyet fotoğrafı"
   },
   "notify": {
     "newRide": "Yeni yolculuk isteği: {{fare}}",
