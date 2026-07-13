@@ -140,6 +140,7 @@
     "payment_held": "款项已冻结",
     "payment_completed": "已支付",
     "payment_refunded": "已退款",
+    "payment_cancelled": "Cancelled",
     "route": "路线",
     "driverEarnings": "司机收入",
     "searchingDriver": "正在寻找司机...",

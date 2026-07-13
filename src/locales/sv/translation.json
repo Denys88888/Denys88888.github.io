@@ -140,6 +140,7 @@
     "payment_held": "Betalning reserverad",
     "payment_completed": "Betald",
     "payment_refunded": "Återbetald",
+    "payment_cancelled": "Cancelled",
     "route": "Rutt",
     "driverEarnings": "Förarens intäkter",
     "searchingDriver": "Söker förare...",

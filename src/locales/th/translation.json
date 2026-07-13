@@ -140,6 +140,7 @@
     "payment_held": "พักการชำระเงิน",
     "payment_completed": "ชำระแล้ว",
     "payment_refunded": "คืนเงินแล้ว",
+    "payment_cancelled": "Cancelled",
     "route": "เส้นทาง",
     "driverEarnings": "รายได้คนขับ",
     "searchingDriver": "กำลังหาคนขับ...",

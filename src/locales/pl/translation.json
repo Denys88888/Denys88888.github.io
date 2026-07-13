@@ -140,6 +140,7 @@
     "payment_held": "Płatność zablokowana",
     "payment_completed": "Opłacono",
     "payment_refunded": "Zwrócono",
+    "payment_cancelled": "Anulowany",
     "route": "Trasa",
     "driverEarnings": "Zarobek kierowcy",
     "searchingDriver": "Szukam kierowcy...",

@@ -140,6 +140,7 @@
     "payment_held": "الدفع محجوز",
     "payment_completed": "مدفوع",
     "payment_refunded": "مسترد",
+    "payment_cancelled": "Cancelled",
     "route": "المسار",
     "driverEarnings": "أرباح السائق",
     "searchingDriver": "جاري البحث عن سائق...",

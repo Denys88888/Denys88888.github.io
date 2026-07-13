@@ -140,6 +140,7 @@
     "payment_held": "Payment held",
     "payment_completed": "Paid",
     "payment_refunded": "Refunded",
+    "payment_cancelled": "Cancelled",
     "route": "Route",
     "driverEarnings": "Driver earnings",
     "searchingDriver": "Looking for a driver...",

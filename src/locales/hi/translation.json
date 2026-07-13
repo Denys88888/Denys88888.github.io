@@ -140,6 +140,7 @@
     "payment_held": "भुगतान रोका गया",
     "payment_completed": "भुगतान हुआ",
     "payment_refunded": "वापस किया गया",
+    "payment_cancelled": "Cancelled",
     "route": "मार्ग",
     "driverEarnings": "ड्राइवर की कमाई",
     "searchingDriver": "ड्राइवर खोज रहे हैं...",

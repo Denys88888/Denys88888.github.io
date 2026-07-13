@@ -140,6 +140,7 @@
     "payment_held": "Zahlung reserviert",
     "payment_completed": "Bezahlt",
     "payment_refunded": "Erstattet",
+    "payment_cancelled": "Cancelled",
     "route": "Route",
     "driverEarnings": "Fahrerverdienst",
     "searchingDriver": "Fahrer wird gesucht...",

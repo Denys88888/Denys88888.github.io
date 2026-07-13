@@ -140,6 +140,7 @@
     "payment_held": "Оплата заморожена",
     "payment_completed": "Оплачено",
     "payment_refunded": "Возвращено",
+    "payment_cancelled": "Отменено",
     "route": "Маршрут",
     "driverEarnings": "Заработок водителя",
     "searchingDriver": "Ищем водителя...",

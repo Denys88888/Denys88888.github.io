@@ -140,6 +140,7 @@
     "payment_held": "결제 보류",
     "payment_completed": "결제 완료",
     "payment_refunded": "환불됨",
+    "payment_cancelled": "Cancelled",
     "route": "경로",
     "driverEarnings": "드라이버 수입",
     "searchingDriver": "드라이버를 찾는 중...",

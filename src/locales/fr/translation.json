@@ -140,6 +140,7 @@
     "payment_held": "Paiement bloqué",
     "payment_completed": "Payé",
     "payment_refunded": "Remboursé",
+    "payment_cancelled": "Cancelled",
     "route": "Itinéraire",
     "driverEarnings": "Gains du chauffeur",
     "searchingDriver": "Recherche d'un chauffeur...",

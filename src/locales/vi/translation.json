@@ -140,6 +140,7 @@
     "payment_held": "Đang giữ thanh toán",
     "payment_completed": "Đã thanh toán",
     "payment_refunded": "Đã hoàn tiền",
+    "payment_cancelled": "Cancelled",
     "route": "Tuyến đường",
     "driverEarnings": "Thu nhập tài xế",
     "searchingDriver": "Đang tìm tài xế...",

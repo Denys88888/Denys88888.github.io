@@ -140,6 +140,7 @@
     "payment_held": "Betaling gereserveerd",
     "payment_completed": "Betaald",
     "payment_refunded": "Terugbetaald",
+    "payment_cancelled": "Cancelled",
     "route": "Route",
     "driverEarnings": "Verdiensten chauffeur",
     "searchingDriver": "Chauffeur zoeken...",

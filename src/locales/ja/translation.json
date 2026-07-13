@@ -140,6 +140,7 @@
     "payment_held": "支払い保留中",
     "payment_completed": "支払い済み",
     "payment_refunded": "返金済み",
+    "payment_cancelled": "Cancelled",
     "route": "ルート",
     "driverEarnings": "ドライバー収益",
     "searchingDriver": "ドライバーを探しています...",

@@ -140,6 +140,7 @@
     "payment_held": "Pagamento bloccato",
     "payment_completed": "Pagato",
     "payment_refunded": "Rimborsato",
+    "payment_cancelled": "Cancelled",
     "route": "Percorso",
     "driverEarnings": "Guadagno autista",
     "searchingDriver": "Cerco un autista...",

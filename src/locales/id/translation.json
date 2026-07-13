@@ -140,6 +140,7 @@
     "payment_held": "Pembayaran ditahan",
     "payment_completed": "Dibayar",
     "payment_refunded": "Dikembalikan",
+    "payment_cancelled": "Cancelled",
     "route": "Rute",
     "driverEarnings": "Pendapatan pengemudi",
     "searchingDriver": "Mencari pengemudi...",

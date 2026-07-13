@@ -140,6 +140,7 @@
     "payment_held": "Ödeme bloke edildi",
     "payment_completed": "Ödendi",
     "payment_refunded": "İade edildi",
+    "payment_cancelled": "Cancelled",
     "route": "Güzergah",
     "driverEarnings": "Sürücü kazancı",
     "searchingDriver": "Sürücü aranıyor...",

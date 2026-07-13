@@ -140,6 +140,7 @@
     "payment_held": "Pagamento retido",
     "payment_completed": "Pago",
     "payment_refunded": "Reembolsado",
+    "payment_cancelled": "Cancelled",
     "route": "Rota",
     "driverEarnings": "Ganhos do motorista",
     "searchingDriver": "Procurando motorista...",
