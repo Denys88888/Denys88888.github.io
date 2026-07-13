@@ -89,7 +89,9 @@
     "surge_peak": "Tarif de pointe {{x}}×",
     "surge_weather": "Tarif intempéries {{x}}×",
     "surge_night": "Tarif de nuit {{x}}×",
-    "surge_holiday": "Tarif jours fériés {{x}}×"
+    "surge_holiday": "Tarif jours fériés {{x}}×",
+    "needPickup": "Indiquez le point de départ — autorisez la localisation ou remplissez « De »",
+    "needDestination": "Indiquez la destination — touchez la carte ou remplissez « Vers »"
   },
   "ride": {
     "statusScheduled": "Planifiée",

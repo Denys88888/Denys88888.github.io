@@ -89,7 +89,9 @@
     "surge_peak": "Yoğun saat fiyatı {{x}}×",
     "surge_weather": "Kötü hava fiyatı {{x}}×",
     "surge_night": "Gece fiyatı {{x}}×",
-    "surge_holiday": "Tatil fiyatı {{x}}×"
+    "surge_holiday": "Tatil fiyatı {{x}}×",
+    "needPickup": "Alınma noktası girin — konuma izin verin veya “Nereden” alanını doldurun",
+    "needDestination": "Varış noktası girin — haritaya dokunun veya “Nereye” alanını doldurun"
   },
   "ride": {
     "statusScheduled": "Planlandı",

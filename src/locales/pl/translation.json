@@ -89,7 +89,9 @@
     "surge_peak": "Taryfa szczytowa {{x}}x",
     "surge_weather": "Taryfa pogodowa {{x}}x",
     "surge_night": "Taryfa nocna {{x}}x",
-    "surge_holiday": "Taryfa świąteczna {{x}}x"
+    "surge_holiday": "Taryfa świąteczna {{x}}x",
+    "needPickup": "Podaj miejsce odbioru — zezwól na lokalizację lub wypełnij „Skąd”",
+    "needDestination": "Podaj cel podróży — dotknij mapy lub wypełnij „Dokąd”"
   },
   "ride": {
     "statusScheduled": "Zaplanowany",

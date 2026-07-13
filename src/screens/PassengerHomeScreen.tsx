@@ -410,6 +410,13 @@ export function PassengerHomeScreen() {
           <Button fullWidth loading={ordering} disabled={!canOrder} onClick={order} className="h-14">
             {orderLabel}
           </Button>
+          {/* The disabled button gives no feedback on its own — spell out what's missing. */}
+          {!ordering && !isValidCoord(pickup) && (
+            <p className="text-center text-xs opacity-60">{t('home.needPickup')}</p>
+          )}
+          {!ordering && isValidCoord(pickup) && !isValidCoord(destination) && (
+            <p className="text-center text-xs opacity-60">{t('home.needDestination')}</p>
+          )}
         </div>
       </div>
 

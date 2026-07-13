@@ -89,7 +89,9 @@
     "surge_peak": "Rusningspris {{x}}×",
     "surge_weather": "Pris vid dåligt väder {{x}}×",
     "surge_night": "Nattpris {{x}}×",
-    "surge_holiday": "Helgdagspris {{x}}×"
+    "surge_holiday": "Helgdagspris {{x}}×",
+    "needPickup": "Ange upphämtningsplats — tillåt plats eller fyll i ”Från”",
+    "needDestination": "Ange destination — tryck på kartan eller fyll i ”Till”"
   },
   "ride": {
     "statusScheduled": "Schemalagd",

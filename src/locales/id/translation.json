@@ -89,7 +89,9 @@
     "surge_peak": "Harga jam sibuk {{x}}×",
     "surge_weather": "Harga cuaca buruk {{x}}×",
     "surge_night": "Harga malam {{x}}×",
-    "surge_holiday": "Harga hari libur {{x}}×"
+    "surge_holiday": "Harga hari libur {{x}}×",
+    "needPickup": "Tentukan titik jemput — izinkan lokasi atau isi “Dari”",
+    "needDestination": "Tentukan tujuan — ketuk peta atau isi “Ke”"
   },
   "ride": {
     "statusScheduled": "Terjadwal",

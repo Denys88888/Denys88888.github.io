@@ -89,7 +89,9 @@
     "surge_peak": "Spitstarief {{x}}×",
     "surge_weather": "Slechtweertarief {{x}}×",
     "surge_night": "Nachttarief {{x}}×",
-    "surge_holiday": "Feestdagtarief {{x}}×"
+    "surge_holiday": "Feestdagtarief {{x}}×",
+    "needPickup": "Geef een ophaalpunt op — sta locatie toe of vul “Van” in",
+    "needDestination": "Kies een bestemming — tik op de kaart of vul “Naar” in"
   },
   "ride": {
     "statusScheduled": "Gepland",

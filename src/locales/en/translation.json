@@ -89,7 +89,9 @@
     "surge_peak": "Peak pricing {{x}}x",
     "surge_weather": "Bad weather pricing {{x}}x",
     "surge_night": "Night pricing {{x}}x",
-    "surge_holiday": "Holiday pricing {{x}}x"
+    "surge_holiday": "Holiday pricing {{x}}x",
+    "needPickup": "Enter a pickup point — allow location access or fill in “From”",
+    "needDestination": "Choose a destination — tap the map or fill in “To”"
   },
   "ride": {
     "statusScheduled": "Scheduled",

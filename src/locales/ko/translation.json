@@ -89,7 +89,9 @@
     "surge_peak": "피크 요금 {{x}}배",
     "surge_weather": "악천후 요금 {{x}}배",
     "surge_night": "야간 요금 {{x}}배",
-    "surge_holiday": "휴일 요금 {{x}}배"
+    "surge_holiday": "휴일 요금 {{x}}배",
+    "needPickup": "탑승 위치를 지정하세요 — 위치 접근을 허용하거나 “출발지”를 입력",
+    "needDestination": "목적지를 지정하세요 — 지도를 탭하거나 “도착지”를 입력"
   },
   "ride": {
     "statusScheduled": "예약됨",

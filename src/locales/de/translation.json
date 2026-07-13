@@ -89,7 +89,9 @@
     "surge_peak": "Stoßzeitpreis {{x}}×",
     "surge_weather": "Schlechtwetterpreis {{x}}×",
     "surge_night": "Nachtpreis {{x}}×",
-    "surge_holiday": "Feiertagspreis {{x}}×"
+    "surge_holiday": "Feiertagspreis {{x}}×",
+    "needPickup": "Abholort angeben — Standortzugriff erlauben oder „Von“ ausfüllen",
+    "needDestination": "Ziel angeben — auf die Karte tippen oder „Nach“ ausfüllen"
   },
   "ride": {
     "statusScheduled": "Geplant",

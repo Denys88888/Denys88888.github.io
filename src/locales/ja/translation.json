@@ -89,7 +89,9 @@
     "surge_peak": "ピーク料金 {{x}}倍",
     "surge_weather": "悪天候料金 {{x}}倍",
     "surge_night": "深夜料金 {{x}}倍",
-    "surge_holiday": "祝日料金 {{x}}倍"
+    "surge_holiday": "祝日料金 {{x}}倍",
+    "needPickup": "乗車地点を指定してください — 位置情報を許可するか「出発地」を入力",
+    "needDestination": "目的地を指定してください — 地図をタップするか「目的地」を入力"
   },
   "ride": {
     "statusScheduled": "予約済み",

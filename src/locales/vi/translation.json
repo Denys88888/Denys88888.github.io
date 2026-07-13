@@ -89,7 +89,9 @@
     "surge_peak": "Giá giờ cao điểm {{x}}×",
     "surge_weather": "Giá thời tiết xấu {{x}}×",
     "surge_night": "Giá ban đêm {{x}}×",
-    "surge_holiday": "Giá ngày lễ {{x}}×"
+    "surge_holiday": "Giá ngày lễ {{x}}×",
+    "needPickup": "Nhập điểm đón — cho phép vị trí hoặc điền “Từ”",
+    "needDestination": "Nhập điểm đến — chạm bản đồ hoặc điền “Đến”"
   },
   "ride": {
     "statusScheduled": "Đã đặt lịch",

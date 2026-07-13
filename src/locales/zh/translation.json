@@ -89,7 +89,9 @@
     "surge_peak": "高峰加价 {{x}} 倍",
     "surge_weather": "恶劣天气加价 {{x}} 倍",
     "surge_night": "夜间加价 {{x}} 倍",
-    "surge_holiday": "节假日加价 {{x}} 倍"
+    "surge_holiday": "节假日加价 {{x}} 倍",
+    "needPickup": "请设置上车点 — 允许定位或填写“出发地”",
+    "needDestination": "请设置目的地 — 点按地图或填写“目的地”"
   },
   "ride": {
     "statusScheduled": "已预约",

@@ -89,7 +89,9 @@
     "surge_peak": "Precio de hora punta {{x}}×",
     "surge_weather": "Precio por mal tiempo {{x}}×",
     "surge_night": "Precio nocturno {{x}}×",
-    "surge_holiday": "Precio festivo {{x}}×"
+    "surge_holiday": "Precio festivo {{x}}×",
+    "needPickup": "Indica el punto de recogida: permite la ubicación o completa «Desde»",
+    "needDestination": "Indica el destino: toca el mapa o completa «Hasta»"
   },
   "ride": {
     "statusScheduled": "Programado",
