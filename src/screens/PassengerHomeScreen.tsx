@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { isAxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
 import { LocateFixed, Circle, X, Calendar, Coins, Zap, Home, Briefcase, Users } from 'lucide-react';
 import { MapView } from '../components/map/MapContainer';
@@ -19,6 +20,21 @@ import { cn, routeDistanceKm } from '../utils/helpers';
 import type { GeoPoint, VehicleType, SavedAddress, SurgeInfo } from '../types';
 
 const DEFAULT_CENTER: GeoPoint = { lat: 52.2297, lng: 21.0122 }; // Warsaw fallback
+
+// Statuses that block a new order (server enforces one active ride per passenger).
+const ACTIVE_STATUSES = ['searching', 'assigned', 'arrived', 'in_progress', 'scheduled'] as const;
+
+async function findActiveRide() {
+  for (const status of ACTIVE_STATUSES) {
+    try {
+      const { rides } = await api.listRides({ status, limit: 1 });
+      if (rides.length) return rides[0];
+    } catch {
+      return null;
+    }
+  }
+  return null;
+}
 
 // Fixed quick-address slots (one-tap destinations).
 const QUICK_SLOTS = [
@@ -66,6 +82,15 @@ export function PassengerHomeScreen() {
     // Only re-check when pickup changes (not on every GPS tick)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pickup?.lat, pickup?.lng]);
+
+  // An unfinished ride (page reload, back navigation) — surface it so the
+  // passenger can return to it or cancel it; new orders are blocked meanwhile.
+  const [activeRide, setActiveRide] = useState<import('../types').Ride | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    findActiveRide().then((r) => { if (!cancelled) setActiveRide(r); });
+    return () => { cancelled = true; };
+  }, []);
 
   // Saved quick addresses (Home / Work / Parents).
   const [savedAddrs, setSavedAddrs] = useState<SavedAddress[]>([]);
@@ -197,8 +222,19 @@ export function PassengerHomeScreen() {
       setCurrentRide(ride);
       addToast('success', schedule ? t('home.scheduleRide') : t('home.searching'));
       navigate('ride', { id: ride.id });
-    } catch {
-      addToast('error', t('common.error'));
+    } catch (err) {
+      // 409 = a previous ride is still active; take the passenger to it so
+      // they can track or cancel it instead of failing with a generic error.
+      if (isAxiosError(err) && err.response?.data?.code === 'ACTIVE_RIDE_EXISTS') {
+        addToast('error', t('home.activeRideExists'));
+        const active = await findActiveRide();
+        if (active) {
+          setCurrentRide(active);
+          navigate('ride', { id: active.id });
+        }
+      } else {
+        addToast('error', t('common.error'));
+      }
     } finally {
       setOrdering(false);
     }
@@ -245,6 +281,18 @@ export function PassengerHomeScreen() {
       <div className="-mt-4 flex-1 overflow-y-auto rounded-t-2xl surface p-4 shadow-card">
         <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-black/15 dark:bg-white/20" />
         <div className="space-y-3">
+          {activeRide && (
+            <Button
+              fullWidth
+              onClick={() => {
+                setCurrentRide(activeRide);
+                navigate('ride', { id: activeRide.id });
+              }}
+              className="!bg-warning"
+            >
+              {t('home.activeRideBanner')}
+            </Button>
+          )}
           <AddressSearch
             label={t('home.from')}
             placeholder={t('home.fromPlaceholder')}

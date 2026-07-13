@@ -91,7 +91,9 @@
     "surge_night": "Taryfa nocna {{x}}x",
     "surge_holiday": "Taryfa świąteczna {{x}}x",
     "needPickup": "Podaj miejsce odbioru — zezwól na lokalizację lub wypełnij „Skąd”",
-    "needDestination": "Podaj cel podróży — dotknij mapy lub wypełnij „Dokąd”"
+    "needDestination": "Podaj cel podróży — dotknij mapy lub wypełnij „Dokąd”",
+    "activeRideExists": "Masz już aktywny przejazd — najpierw go zakończ lub anuluj",
+    "activeRideBanner": "Masz aktywny przejazd — dotknij, aby otworzyć"
   },
   "ride": {
     "statusScheduled": "Zaplanowany",

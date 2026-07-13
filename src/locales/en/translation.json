@@ -91,7 +91,9 @@
     "surge_night": "Night pricing {{x}}x",
     "surge_holiday": "Holiday pricing {{x}}x",
     "needPickup": "Enter a pickup point — allow location access or fill in “From”",
-    "needDestination": "Choose a destination — tap the map or fill in “To”"
+    "needDestination": "Choose a destination — tap the map or fill in “To”",
+    "activeRideExists": "You already have an active ride — finish or cancel it first",
+    "activeRideBanner": "You have an active ride — tap to open it"
   },
   "ride": {
     "statusScheduled": "Scheduled",

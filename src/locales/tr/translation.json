@@ -91,7 +91,9 @@
     "surge_night": "Gece fiyatı {{x}}×",
     "surge_holiday": "Tatil fiyatı {{x}}×",
     "needPickup": "Alınma noktası girin — konuma izin verin veya “Nereden” alanını doldurun",
-    "needDestination": "Varış noktası girin — haritaya dokunun veya “Nereye” alanını doldurun"
+    "needDestination": "Varış noktası girin — haritaya dokunun veya “Nereye” alanını doldurun",
+    "activeRideExists": "Zaten aktif bir yolculuğunuz var — önce onu bitirin veya iptal edin",
+    "activeRideBanner": "Aktif bir yolculuğunuz var — açmak için dokunun"
   },
   "ride": {
     "statusScheduled": "Planlandı",

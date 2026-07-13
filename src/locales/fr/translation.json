@@ -91,7 +91,9 @@
     "surge_night": "Tarif de nuit {{x}}×",
     "surge_holiday": "Tarif jours fériés {{x}}×",
     "needPickup": "Indiquez le point de départ — autorisez la localisation ou remplissez « De »",
-    "needDestination": "Indiquez la destination — touchez la carte ou remplissez « Vers »"
+    "needDestination": "Indiquez la destination — touchez la carte ou remplissez « Vers »",
+    "activeRideExists": "Vous avez déjà une course active — terminez-la ou annulez-la d'abord",
+    "activeRideBanner": "Vous avez une course active — appuyez pour l'ouvrir"
   },
   "ride": {
     "statusScheduled": "Planifiée",

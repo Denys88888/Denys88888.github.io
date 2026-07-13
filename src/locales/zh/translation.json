@@ -91,7 +91,9 @@
     "surge_night": "夜间加价 {{x}} 倍",
     "surge_holiday": "节假日加价 {{x}} 倍",
     "needPickup": "请设置上车点 — 允许定位或填写“出发地”",
-    "needDestination": "请设置目的地 — 点按地图或填写“目的地”"
+    "needDestination": "请设置目的地 — 点按地图或填写“目的地”",
+    "activeRideExists": "您已有一个进行中的行程 — 请先完成或取消它",
+    "activeRideBanner": "您有一个进行中的行程 — 点按打开"
   },
   "ride": {
     "statusScheduled": "已预约",

@@ -91,7 +91,9 @@
     "surge_night": "Nachtpreis {{x}}×",
     "surge_holiday": "Feiertagspreis {{x}}×",
     "needPickup": "Abholort angeben — Standortzugriff erlauben oder „Von“ ausfüllen",
-    "needDestination": "Ziel angeben — auf die Karte tippen oder „Nach“ ausfüllen"
+    "needDestination": "Ziel angeben — auf die Karte tippen oder „Nach“ ausfüllen",
+    "activeRideExists": "Sie haben bereits eine aktive Fahrt — beenden oder stornieren Sie sie zuerst",
+    "activeRideBanner": "Sie haben eine aktive Fahrt — zum Öffnen tippen"
   },
   "ride": {
     "statusScheduled": "Geplant",

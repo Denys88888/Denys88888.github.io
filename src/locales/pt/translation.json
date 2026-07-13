@@ -91,7 +91,9 @@
     "surge_night": "Preço noturno {{x}}×",
     "surge_holiday": "Preço de feriado {{x}}×",
     "needPickup": "Informe o local de partida — permita a localização ou preencha “De”",
-    "needDestination": "Informe o destino — toque no mapa ou preencha “Para”"
+    "needDestination": "Informe o destino — toque no mapa ou preencha “Para”",
+    "activeRideExists": "Você já tem uma corrida ativa — finalize ou cancele primeiro",
+    "activeRideBanner": "Você tem uma corrida ativa — toque para abrir"
   },
   "ride": {
     "statusScheduled": "Agendada",

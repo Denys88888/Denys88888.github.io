@@ -91,7 +91,9 @@
     "surge_night": "Giá ban đêm {{x}}×",
     "surge_holiday": "Giá ngày lễ {{x}}×",
     "needPickup": "Nhập điểm đón — cho phép vị trí hoặc điền “Từ”",
-    "needDestination": "Nhập điểm đến — chạm bản đồ hoặc điền “Đến”"
+    "needDestination": "Nhập điểm đến — chạm bản đồ hoặc điền “Đến”",
+    "activeRideExists": "Bạn đã có một chuyến đi đang hoạt động — hãy hoàn tất hoặc hủy trước",
+    "activeRideBanner": "Bạn có chuyến đi đang hoạt động — chạm để mở"
   },
   "ride": {
     "statusScheduled": "Đã đặt lịch",

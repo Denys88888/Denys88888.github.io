@@ -91,7 +91,9 @@
     "surge_night": "Harga malam {{x}}×",
     "surge_holiday": "Harga hari libur {{x}}×",
     "needPickup": "Tentukan titik jemput — izinkan lokasi atau isi “Dari”",
-    "needDestination": "Tentukan tujuan — ketuk peta atau isi “Ke”"
+    "needDestination": "Tentukan tujuan — ketuk peta atau isi “Ke”",
+    "activeRideExists": "Anda sudah memiliki perjalanan aktif — selesaikan atau batalkan dulu",
+    "activeRideBanner": "Anda punya perjalanan aktif — ketuk untuk membuka"
   },
   "ride": {
     "statusScheduled": "Terjadwal",

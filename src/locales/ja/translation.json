@@ -91,7 +91,9 @@
     "surge_night": "深夜料金 {{x}}倍",
     "surge_holiday": "祝日料金 {{x}}倍",
     "needPickup": "乗車地点を指定してください — 位置情報を許可するか「出発地」を入力",
-    "needDestination": "目的地を指定してください — 地図をタップするか「目的地」を入力"
+    "needDestination": "目的地を指定してください — 地図をタップするか「目的地」を入力",
+    "activeRideExists": "すでに進行中の配車があります — まず完了またはキャンセルしてください",
+    "activeRideBanner": "進行中の配車があります — タップして開く"
   },
   "ride": {
     "statusScheduled": "予約済み",
