@@ -92,10 +92,20 @@ export function initNotifications(): void {
       notify(
         i18n.t(msg.status === 'driver_approved' ? 'notify.driverApproved' : 'notify.driverRejected')
       );
-      api
-        .getMe()
-        .then((me) => useAppStore.getState().updateUser(me))
-        .catch((err) => console.error('[notify] getMe after role change:', err));
+      // The server sends a fresh JWT with the new role. Save it and reconnect
+      // the WebSocket so ws.role becomes 'driver' immediately (without re-login).
+      if (msg.status === 'driver_approved' && msg.token && typeof msg.token === 'string') {
+        useAppStore.getState().setAuth(
+          (msg.user as import('../types').User) ?? useAppStore.getState().user!,
+          msg.token
+        );
+        wsService.connect(msg.token);
+      } else {
+        api
+          .getMe()
+          .then((me) => useAppStore.getState().updateUser(me))
+          .catch((err) => console.error('[notify] getMe after role change:', err));
+      }
       return;
     }
     const isPassenger = useAppStore.getState().user?.role !== 'driver';
