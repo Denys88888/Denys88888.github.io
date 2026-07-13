@@ -527,11 +527,17 @@ export function RideDetailsScreen() {
                 try {
                   const { shareToken } = await api.shareRide(ride.id);
                   const url = `${location.origin}${location.pathname}?share=${shareToken}`;
-                  if (navigator.clipboard) {
+                  // Native share sheet first (most reliable in mobile webviews),
+                  // then clipboard, then a plain prompt the user can copy from.
+                  if (navigator.share) {
+                    await navigator.share({ title: 'Taxi Pro', url }).catch((err) => {
+                      if ((err as Error).name !== 'AbortError') throw err;
+                    });
+                  } else if (navigator.clipboard) {
                     await navigator.clipboard.writeText(url);
                     addToast('success', t('ride.shareCopied'));
                   } else {
-                    addToast('error', t('common.error'));
+                    window.prompt(t('ride.share'), url);
                   }
                 } catch {
                   addToast('error', t('common.error'));
