@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Camera, Star, LayoutDashboard, Car, Share, ArrowLeftRight } from 'lucide-react';
+import { Camera, Star, LayoutDashboard, Car, Share, ArrowLeftRight, TrendingUp } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Avatar } from '../components/ui/Avatar';
 import { Badge } from '../components/ui/Badge';
@@ -165,6 +165,12 @@ export function ProfileScreen() {
           <Button variant="outline" fullWidth loading={switching} onClick={handleSwitchRole}>
             <ArrowLeftRight size={18} />
             {user.role === 'driver' ? t('profile.switchToPassenger') : t('profile.switchToDriver')}
+          </Button>
+        )}
+
+        {user.role === 'driver' && (
+          <Button variant="outline" fullWidth onClick={() => navigate('earnings')}>
+            <TrendingUp size={18} /> {t('earnings.title')}
           </Button>
         )}
 
