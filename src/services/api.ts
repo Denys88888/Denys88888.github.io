@@ -34,10 +34,12 @@ client.interceptors.request.use((config) => {
 // On 401 with an active session the token is stale/expired: fully log out
 // (store + storage + socket) so the app routes back to login instead of
 // silently failing every request until a manual reload.
+// In E2E test builds (VITE_E2E=1) the token is a fake JWT, so we skip logout
+// to keep the injected test session alive.
 client.interceptors.response.use(
   (res) => res,
   (error) => {
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 && import.meta.env.VITE_E2E !== '1') {
       storage.clearAuth();
       if (useAppStore.getState().token) {
         wsService.disconnect();
