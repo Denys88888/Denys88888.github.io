@@ -7,7 +7,13 @@ import { cn } from '../utils/helpers';
 const ONBOARDING_KEY = 'taxi_pro_onboarded';
 
 export function hasSeenOnboarding(): boolean {
-  try { return localStorage.getItem(ONBOARDING_KEY) === '1'; } catch { return false; }
+  try {
+    if (new URLSearchParams(window.location.search).has('skip_onboarding')) {
+      localStorage.setItem(ONBOARDING_KEY, '1');
+      return true;
+    }
+    return localStorage.getItem(ONBOARDING_KEY) === '1';
+  } catch { return false; }
 }
 
 function markOnboardingSeen(): void {
