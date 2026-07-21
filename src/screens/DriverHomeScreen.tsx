@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { isAxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
-import { Circle, Check, LocateFixed, Navigation, TrendingUp } from 'lucide-react';
+import { Circle, Check, LocateFixed, Navigation, TrendingUp, Route } from 'lucide-react';
 import { MapView } from '../components/map/MapContainer';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -10,7 +10,7 @@ import { useToast } from '../hooks/useToast';
 import { useRouter } from '../store/useRouter';
 import { wsService } from '../services/wsService';
 import { api } from '../services/api';
-import { formatPi, formatDistance } from '../utils/formatters';
+import { formatPi, formatDistance, formatDuration } from '../utils/formatters';
 import { haversineKm, cn } from '../utils/helpers';
 import { isToday } from 'date-fns';
 import type { GeoPoint, Ride, HeatmapPoint } from '../types';
@@ -292,8 +292,15 @@ export function DriverHomeScreen() {
                 {ride.negotiable && <span className="text-[10px] text-primary">{t('driver.negotiable')}</span>}
               </span>
             </div>
-            <div className="text-xs opacity-60">
-              {formatDistance(haversineKm(center.lat, center.lng, ride.pickup.lat, ride.pickup.lng))} · {ride.vehicleType}
+            <div className="flex items-center gap-1.5 rounded-lg bg-primary/10 px-2.5 py-1.5 text-sm font-semibold text-primary">
+              <Route size={15} className="shrink-0" />
+              {formatDistance(haversineKm(center.lat, center.lng, ride.pickup.lat, ride.pickup.lng))}
+              <span className="opacity-50">·</span>
+              {formatDuration(
+                (haversineKm(center.lat, center.lng, ride.pickup.lat, ride.pickup.lng) / 30) * 60
+              )}
+              <span className="opacity-60">{t('driver.toPickup')}</span>
+              <span className="ml-auto text-xs font-normal opacity-60">{ride.vehicleType}</span>
             </div>
 
             {ride.negotiable ? (
