@@ -285,6 +285,12 @@ export function PassengerHomeScreen() {
         <button
           onClick={() => {
             request();
+            if (position) {
+              setPickup({ ...position });
+              reverseGeocode(position).then((address) =>
+                setPickup((cur) => (cur ? { ...cur, address } : { ...position, address }))
+              );
+            }
             setFocusNonce((n) => n + 1);
           }}
           className="absolute bottom-20 right-4 z-[1000] flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-fab active:scale-95"
