@@ -62,6 +62,15 @@ export function DriverHomeScreen() {
     return () => clearInterval(id);
   }, [online]);
 
+  // Push live location to backend every 30 s while online so nearby-drivers stays fresh.
+  useEffect(() => {
+    if (!online || !position) return;
+    const id = setInterval(() => {
+      if (position) api.updateDriverLocation(position.lat, position.lng).catch(() => {});
+    }, 30_000);
+    return () => clearInterval(id);
+  }, [online, position?.lat, position?.lng]);
+
   // Backfill open requests while online: rides created before this driver
   // connected never got a live 'ride_available' event, so poll /rides/open
   // (every 15 s) and merge into the queue.
@@ -185,7 +194,7 @@ export function DriverHomeScreen() {
       <div className="relative h-[40%]">
         <MapView
           center={center}
-          me={position}
+          driver={position}
           heatmap={heatmap}
           focus={focusNonce > 0 ? position : undefined}
           focusNonce={focusNonce}

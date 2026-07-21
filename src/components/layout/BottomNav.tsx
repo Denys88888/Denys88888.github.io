@@ -30,7 +30,7 @@ export function BottomNav() {
   const tabs = TABS.filter((tab) => !tab.roles || tab.roles.includes(role));
 
   return (
-    <nav className="surface z-40 flex shrink-0 items-stretch justify-around border-t border-black/5 dark:border-white/10 pb-[env(safe-area-inset-bottom)]">
+    <nav className="surface z-40 flex shrink-0 items-stretch justify-around border-t border-black/5 dark:border-white/10" style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 12px)' }}>
       {tabs.map((tab) => {
         const home = tab.screen === 'home';
         const active = screen === tab.screen || (home && screen === 'driver');
