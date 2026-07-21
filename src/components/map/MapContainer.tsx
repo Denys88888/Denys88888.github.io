@@ -14,17 +14,20 @@ import { fetchRoute } from '../../services/mapService';
 
 // Colored pin built from a divIcon so we don't depend on Leaflet's image assets
 // (which break under a non-root base path on GitHub Pages).
-function carIcon(): L.DivIcon {
+function carIcon(small = false): L.DivIcon {
+  const size = small ? 28 : 36;
+  const svg = small ? 14 : 18;
+  const bg = small ? '#7B61FF' : '#00C853';
   return L.divIcon({
     className: '',
-    html: `<div style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#00C853;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35)">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    html: `<div style="display:flex;align-items:center;justify-content:center;width:${size}px;height:${size}px;border-radius:50%;background:${bg};border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35)">
+      <svg width="${svg}" height="${svg}" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9L18 10l-2.7-3.4A2 2 0 0 0 13.7 6H10.3a2 2 0 0 0-1.6.8L6 10l-2.5 1.1C2.7 11.3 2 12.1 2 13v3c0 .6.4 1 1 1h2"/>
         <circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>
       </svg>
     </div>`,
-    iconSize: [36, 36],
-    iconAnchor: [18, 18],
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2],
   });
 }
 
@@ -105,6 +108,8 @@ interface Props {
   focusNonce?: number;
   // Demand hotspots (driver map): translucent colored circles.
   heatmap?: HeatmapPoint[];
+  // Nearby available drivers shown on passenger map before booking.
+  nearbyDrivers?: Array<{ uid: string; location: GeoPoint }>;
   stops?: GeoPoint[];
   onMapClick?: (p: GeoPoint) => void;
   // When provided, the destination pin is draggable and reports its new position.
@@ -123,6 +128,7 @@ export function MapView({
   focus,
   focusNonce,
   heatmap = [],
+  nearbyDrivers = [],
   stops = [],
   onMapClick,
   onDestinationDrag,
@@ -191,6 +197,9 @@ export function MapView({
             }
           />
         )}
+        {nearbyDrivers.map((d) => (
+          <Marker key={d.uid} position={[d.location.lat, d.location.lng]} icon={carIcon(true)} />
+        ))}
         {driver && <Marker position={[driver.lat, driver.lng]} icon={carIcon()} />}
         {me && <Marker position={[me.lat, me.lng]} icon={pin('#2979FF', true)} zIndexOffset={500} />}
         {heatmap.map((h, i) => (

@@ -70,6 +70,21 @@ export function PassengerHomeScreen() {
   const [negotiate, setNegotiate] = useState(false);
   const [offeredFare, setOfferedFare] = useState('');
 
+  // Nearby available drivers shown on map before booking.
+  const [nearbyDrivers, setNearbyDrivers] = useState<Array<{ uid: string; location: GeoPoint }>>([]);
+  useEffect(() => {
+    const pos = position;
+    if (!pos) return;
+    let cancelled = false;
+    const fetch = () =>
+      api.nearbyDrivers({ lat: pos.lat, lng: pos.lng, radius: 5 })
+        .then((drivers) => { if (!cancelled) setNearbyDrivers(drivers.filter((d) => d.location).map((d) => ({ uid: d.uid, location: d.location! }))); })
+        .catch(() => {});
+    fetch();
+    const id = setInterval(fetch, 20_000);
+    return () => { cancelled = true; clearInterval(id); };
+  }, [position?.lat, position?.lng]);
+
   // Dynamic pricing: multiplier shown to the passenger before ordering.
   const [surge, setSurge] = useState<SurgeInfo | null>(null);
   useEffect(() => {
@@ -255,6 +270,7 @@ export function PassengerHomeScreen() {
           destination={destination}
           stops={stops}
           me={position}
+          nearbyDrivers={nearbyDrivers}
           focus={focusNonce > 0 ? position : undefined}
           focusNonce={focusNonce}
           onMapClick={onMapTap}
