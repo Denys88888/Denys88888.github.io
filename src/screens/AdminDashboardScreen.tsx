@@ -10,7 +10,7 @@ import { useToast } from '../hooks/useToast';
 import { api, type AdminRide, type AdminDriver, type AdminAnalytics } from '../services/api';
 import { formatPi, formatDate } from '../utils/formatters';
 import { cn } from '../utils/helpers';
-import type { User, RideStatus } from '../types';
+import type { User, RideStatus, Report } from '../types';
 
 interface Stats {
   totalRides: number;
@@ -18,9 +18,10 @@ interface Stats {
   platformEarnings: number;
   pendingReports: number;
 }
-type Tab = 'stats' | 'rides' | 'users' | 'drivers' | 'analytics' | 'settings';
+type Tab = 'stats' | 'rides' | 'users' | 'drivers' | 'analytics' | 'reports' | 'settings';
 type RideFilter = 'all' | 'active' | 'completed' | 'cancelled';
 type DriverFilter = 'all' | 'pending' | 'approved' | 'rejected';
+type ReportFilter = 'open' | 'resolved' | 'dismissed' | 'all';
 
 const ACTIVE_STATUSES: RideStatus[] = ['searching', 'assigned', 'arrived', 'in_progress'];
 
@@ -37,6 +38,8 @@ export function AdminDashboardScreen() {
   const [drivers, setDrivers] = useState<AdminDriver[]>([]);
   const [driverFilter, setDriverFilter] = useState<DriverFilter>('pending');
   const [analytics, setAnalytics] = useState<AdminAnalytics | null>(null);
+  const [reports, setReports] = useState<Report[]>([]);
+  const [reportFilter, setReportFilter] = useState<ReportFilter>('open');
   const [docPhoto, setDocPhoto] = useState<string | null>(null);
   const [tabLoading, setTabLoading] = useState(false);
 
@@ -66,7 +69,7 @@ export function AdminDashboardScreen() {
 
   useEffect(() => {
     let cancelled = false;
-    const DATA_TABS = ['users', 'rides', 'drivers', 'analytics'] as const;
+    const DATA_TABS = ['users', 'rides', 'drivers', 'analytics', 'reports'] as const;
     if (!(DATA_TABS as readonly string[]).includes(tab)) return;
     setTabLoading(true);
     const done = () => { if (!cancelled) setTabLoading(false); };
@@ -75,6 +78,7 @@ export function AdminDashboardScreen() {
     if (tab === 'rides') api.adminRides().then((r) => { if (!cancelled) setRides(r); done(); }).catch(fail);
     if (tab === 'drivers') api.adminDrivers().then((d) => { if (!cancelled) setDrivers(d); done(); }).catch(fail);
     if (tab === 'analytics') api.adminAnalytics().then((a) => { if (!cancelled) setAnalytics(a); done(); }).catch(fail);
+    if (tab === 'reports') api.adminReports().then((r) => { if (!cancelled) setReports(r); done(); }).catch(fail);
     return () => { cancelled = true; };
   }, [tab, addToast, t]);
 
@@ -103,6 +107,16 @@ export function AdminDashboardScreen() {
     }
   };
 
+  const resolveReport = async (r: Report, status: 'resolved' | 'dismissed'): Promise<void> => {
+    try {
+      await api.adminResolveReport(r.id, status);
+      setReports((prev) => prev.map((x) => (x.id === r.id ? { ...x, status } : x)));
+      setStats((prev) => (prev ? { ...prev, pendingReports: Math.max(0, prev.pendingReports - 1) } : prev));
+    } catch {
+      addToast('error', t('common.error'));
+    }
+  };
+
   const saveSettings = async (): Promise<void> => {
     try {
       await api.adminUpdateSettings({
@@ -125,18 +139,22 @@ export function AdminDashboardScreen() {
   const filteredDrivers = drivers.filter(
     (d) => driverFilter === 'all' || d.applicationStatus === driverFilter
   );
+  const filteredReports = reports.filter(
+    (r) => reportFilter === 'all' || r.status === reportFilter
+  );
 
   const shortAddr = (a?: string) => (a ?? '?').split(',')[0];
   const maxHour = analytics ? Math.max(1, ...analytics.ridesByHour) : 1;
   const maxRevenue = analytics ? Math.max(0.1, ...analytics.revenueByDay.map((d) => d.revenue)) : 1;
 
-  const tabs: Tab[] = ['stats', 'rides', 'users', 'drivers', 'analytics', 'settings'];
+  const tabs: Tab[] = ['stats', 'rides', 'users', 'drivers', 'analytics', 'reports', 'settings'];
   const tabLabel: Record<Tab, string> = {
     stats: t('admin.dashboard'),
     rides: t('admin.rides'),
     users: t('admin.users'),
     drivers: t('admin.driversTab'),
     analytics: t('admin.analytics'),
+    reports: t('admin.reports'),
     settings: t('admin.settings'),
   };
 
@@ -180,9 +198,14 @@ export function AdminDashboardScreen() {
               <p className="text-xs opacity-60">{t('admin.platformEarnings')}</p>
               <p className="text-2xl font-bold">{formatPi(stats.platformEarnings)}</p>
             </Card>
-            <Card>
+            <Card
+              className={stats.pendingReports > 0 ? 'cursor-pointer' : undefined}
+              onClick={() => stats.pendingReports > 0 && setTab('reports')}
+            >
               <p className="text-xs opacity-60">{t('admin.pendingReports')}</p>
-              <p className="text-2xl font-bold">{stats.pendingReports}</p>
+              <p className={cn('text-2xl font-bold', stats.pendingReports > 0 && 'text-danger')}>
+                {stats.pendingReports}
+              </p>
             </Card>
           </div>
         )}
@@ -389,6 +412,63 @@ export function AdminDashboardScreen() {
                 </div>
               ))}
             </Card>
+          </>
+        )}
+
+        {/* ── Reports / SOS moderation queue ── */}
+        {tab === 'reports' && (
+          <>
+            <div className="no-scrollbar flex gap-2 overflow-x-auto">
+              {(['open', 'resolved', 'dismissed', 'all'] as const).map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setReportFilter(f)}
+                  className={cn(
+                    'whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium',
+                    reportFilter === f ? 'bg-primary text-white' : 'bg-black/5 dark:bg-white/10'
+                  )}
+                >
+                  {t(`admin.reportFilter_${f}`)}
+                </button>
+              ))}
+            </div>
+            {filteredReports.length === 0 && (
+              <p className="pt-6 text-center text-sm opacity-50">—</p>
+            )}
+            {filteredReports.map((r) => (
+              <Card key={r.id} className="space-y-1.5 text-sm">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs opacity-50">{r.rideId.slice(-12)}</span>
+                  <Badge
+                    tone={
+                      r.status === 'open' ? 'warning' : r.status === 'resolved' ? 'success' : 'neutral'
+                    }
+                  >
+                    {t(`admin.reportFilter_${r.status}`)}
+                  </Badge>
+                </div>
+                <p className="font-medium">{r.reason}</p>
+                {r.description && <p className="text-xs opacity-70">{r.description}</p>}
+                <p className="text-xs opacity-50">
+                  {t('admin.reporter')}: <span className="font-mono">{r.reporterId}</span>
+                  {' · '}
+                  {t('admin.reportedUser')}: <span className="font-mono">{r.reportedId}</span>
+                </p>
+                <div className="flex items-center justify-between text-xs opacity-60">
+                  <span>{formatDate(r.createdAt)}</span>
+                </div>
+                {r.status === 'open' && (
+                  <div className="flex gap-2 pt-1">
+                    <Button variant="success" fullWidth onClick={() => resolveReport(r, 'resolved')}>
+                      {t('admin.resolve')}
+                    </Button>
+                    <Button variant="outline" fullWidth onClick={() => resolveReport(r, 'dismissed')}>
+                      {t('admin.dismiss')}
+                    </Button>
+                  </div>
+                )}
+              </Card>
+            ))}
           </>
         )}
 

@@ -15,6 +15,7 @@ import type {
   SavedAddress,
   SurgeInfo,
   HeatmapPoint,
+  Report,
 } from '../types';
 
 // Render's free tier spins the server down when idle; the first request after
@@ -204,6 +205,12 @@ export const api = {
       .get<{ drivers: AdminDriver[] }>('/api/admin/drivers', { params: { status } })
       .then((r) => r.data.drivers),
   adminAnalytics: () => client.get<AdminAnalytics>('/api/admin/analytics').then((r) => r.data),
+  adminReports: (status?: 'open' | 'resolved' | 'dismissed') =>
+    client
+      .get<{ reports: Report[] }>('/api/admin/reports', { params: { status } })
+      .then((r) => r.data.reports),
+  adminResolveReport: (id: string, status: 'resolved' | 'dismissed') =>
+    client.patch<Report>(`/api/admin/reports/${id}`, { status }).then((r) => r.data),
 };
 
 export type AdminDriver = User & { applicationStatus: 'pending' | 'approved' | 'rejected' };

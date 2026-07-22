@@ -169,3 +169,15 @@ export interface HealthInfo {
   firebase: boolean;
   store?: 'firestore' | 'sqlite' | 'memory';
 }
+
+export interface Report {
+  id: string;
+  rideId: string;
+  reporterId: string;
+  reportedId: string;
+  reason: string;
+  description?: string;
+  status: 'open' | 'resolved' | 'dismissed';
+  resolvedBy?: string;
+  createdAt: string;
+}
