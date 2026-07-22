@@ -66,6 +66,7 @@
     "driverFound": "ड्राइवर मिल गया!",
     "noDrivers": "आसपास कोई ड्राइवर नहीं",
     "useMyLocation": "मेरा स्थान",
+    "locationError": "आपका स्थान नहीं मिल सका। कृपया लोकेशन अनुमति जांचें।",
     "chooseVehicle": "वाहन चुनें",
     "estimatedFare": "अनुमानित किराया",
     "now": "अभी",

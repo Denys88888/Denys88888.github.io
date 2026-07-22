@@ -66,6 +66,7 @@
     "driverFound": "Sürücü bulundu!",
     "noDrivers": "Yakında sürücü yok",
     "useMyLocation": "Konumum",
+    "locationError": "Konumunuz alınamadı. Konum iznini kontrol edin.",
     "chooseVehicle": "Araç seçin",
     "estimatedFare": "Tahmini ücret",
     "now": "Şimdi",

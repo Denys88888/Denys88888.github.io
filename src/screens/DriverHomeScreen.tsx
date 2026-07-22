@@ -18,7 +18,7 @@ import type { GeoPoint, Ride, HeatmapPoint } from '../types';
 // Driver home: online toggle, live map, and the queue of available ride requests.
 export function DriverHomeScreen() {
   const { t } = useTranslation();
-  const { position } = useGeolocation();
+  const { position, error: geoError, request } = useGeolocation();
   const { addToast } = useToast();
   const navigate = useRouter((s) => s.navigate);
 
@@ -49,6 +49,12 @@ export function DriverHomeScreen() {
   );
 
   const center: GeoPoint = position ?? { lat: 52.2297, lng: 21.0122 };
+
+  // Surface GPS failures (denied permission, timeout, unsupported) instead of
+  // silently leaving the map centered on the default fallback with no marker.
+  useEffect(() => {
+    if (geoError) addToast('error', t('home.locationError'));
+  }, [geoError, addToast, t]);
 
   // Demand heatmap: refresh every minute while online.
   useEffect(() => {
@@ -211,7 +217,16 @@ export function DriverHomeScreen() {
           {online ? t('driver.online') : t('driver.offline')}
         </button>
         <button
-          onClick={() => setFocusNonce((n) => n + 1)}
+          onClick={() => {
+            if (!position && geoError) {
+              // Permission was already denied — request() below will fail the
+              // same way again, so the error-driven toast (keyed on the
+              // message) won't re-fire on its own. Tell the user now.
+              addToast('error', t('home.locationError'));
+            }
+            request();
+            setFocusNonce((n) => n + 1);
+          }}
           className="absolute bottom-20 right-4 z-[1000] flex h-11 w-11 items-center justify-center rounded-full bg-primary text-white shadow-fab active:scale-95"
           aria-label={t('home.useMyLocation')}
         >

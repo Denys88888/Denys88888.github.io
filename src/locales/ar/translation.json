@@ -66,6 +66,7 @@
     "driverFound": "تم العثور على سائق!",
     "noDrivers": "لا يوجد سائقون قريبون",
     "useMyLocation": "موقعي",
+    "locationError": "تعذر تحديد موقعك. تحقق من إذن الموقع.",
     "chooseVehicle": "اختر مركبة",
     "estimatedFare": "الأجرة التقديرية",
     "now": "الآن",

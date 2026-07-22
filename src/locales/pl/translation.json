@@ -66,6 +66,7 @@
     "driverFound": "Znaleziono kierowcę!",
     "noDrivers": "Brak kierowców w pobliżu",
     "useMyLocation": "Moja lokalizacja",
+    "locationError": "Nie udało się ustalić lokalizacji. Sprawdź uprawnienia do lokalizacji.",
     "chooseVehicle": "Wybierz pojazd",
     "estimatedFare": "Szacowana cena",
     "now": "Teraz",

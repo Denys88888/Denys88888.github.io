@@ -66,6 +66,7 @@
     "driverFound": "Driver found!",
     "noDrivers": "No drivers available nearby",
     "useMyLocation": "Use my location",
+    "locationError": "Couldn't get your location. Check location permission for this site.",
     "chooseVehicle": "Choose a vehicle",
     "estimatedFare": "Estimated fare",
     "now": "Now",

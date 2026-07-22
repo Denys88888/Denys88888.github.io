@@ -66,6 +66,7 @@
     "driverFound": "Fahrer gefunden!",
     "noDrivers": "Keine Fahrer in der Nähe",
     "useMyLocation": "Mein Standort",
+    "locationError": "Standort konnte nicht ermittelt werden. Prüfe die Standortberechtigung.",
     "chooseVehicle": "Fahrzeug wählen",
     "estimatedFare": "Geschätzter Preis",
     "now": "Jetzt",

@@ -66,6 +66,7 @@
     "driverFound": "Förare hittad!",
     "noDrivers": "Inga förare i närheten",
     "useMyLocation": "Min plats",
+    "locationError": "Kunde inte hämta din plats. Kontrollera platsbehörigheten.",
     "chooseVehicle": "Välj fordon",
     "estimatedFare": "Uppskattat pris",
     "now": "Nu",

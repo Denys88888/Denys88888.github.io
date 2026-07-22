@@ -66,6 +66,7 @@
     "driverFound": "ドライバーが見つかりました！",
     "noDrivers": "近くにドライバーがいません",
     "useMyLocation": "現在地",
+    "locationError": "位置情報を取得できませんでした。位置情報の許可を確認してください。",
     "chooseVehicle": "車種を選択",
     "estimatedFare": "概算料金",
     "now": "今すぐ",

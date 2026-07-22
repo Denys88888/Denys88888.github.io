@@ -47,7 +47,7 @@ const QUICK_SLOTS = [
 // local address search, multi-stop, scheduled rides, and price negotiation.
 export function PassengerHomeScreen() {
   const { t } = useTranslation();
-  const { position, request } = useGeolocation();
+  const { position, error: geoError, request } = useGeolocation();
   const { addToast } = useToast();
   const setCurrentRide = useAppStore((s) => s.setCurrentRide);
   const params = useRouter((s) => s.params);
@@ -152,6 +152,12 @@ export function PassengerHomeScreen() {
       countryCodeAt(position).then(setCountry);
     }
   }, [position, pickup]);
+
+  // Surface GPS failures (denied permission, timeout, unsupported) instead of
+  // silently leaving the map centered on the default fallback with no marker.
+  useEffect(() => {
+    if (geoError) addToast('error', t('home.locationError'));
+  }, [geoError, addToast, t]);
 
   const center = pickup ?? position ?? DEFAULT_CENTER;
 
@@ -290,6 +296,11 @@ export function PassengerHomeScreen() {
               reverseGeocode(position).then((address) =>
                 setPickup((cur) => (cur ? { ...cur, address } : { ...position, address }))
               );
+            } else if (geoError) {
+              // Permission was already denied — request() will fail the same way
+              // again, so the error-driven toast (keyed on the message) won't
+              // re-fire on its own. Tell the user now instead of doing nothing.
+              addToast('error', t('home.locationError'));
             }
             setFocusNonce((n) => n + 1);
           }}

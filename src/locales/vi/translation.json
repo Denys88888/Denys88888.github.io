@@ -66,6 +66,7 @@
     "driverFound": "Đã tìm thấy tài xế!",
     "noDrivers": "Không có tài xế gần đây",
     "useMyLocation": "Vị trí của tôi",
+    "locationError": "Không thể xác định vị trí của bạn. Vui lòng kiểm tra quyền truy cập vị trí.",
     "chooseVehicle": "Chọn loại xe",
     "estimatedFare": "Giá ước tính",
     "now": "Bây giờ",

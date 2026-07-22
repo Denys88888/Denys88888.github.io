@@ -66,6 +66,7 @@
     "driverFound": "Chauffeur gevonden!",
     "noDrivers": "Geen chauffeurs in de buurt",
     "useMyLocation": "Mijn locatie",
+    "locationError": "Kon je locatie niet bepalen. Controleer de locatietoestemming.",
     "chooseVehicle": "Kies een voertuig",
     "estimatedFare": "Geschatte prijs",
     "now": "Nu",

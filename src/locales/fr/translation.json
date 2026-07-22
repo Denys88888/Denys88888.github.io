@@ -66,6 +66,7 @@
     "driverFound": "Chauffeur trouvé !",
     "noDrivers": "Aucun chauffeur à proximité",
     "useMyLocation": "Ma position",
+    "locationError": "Impossible d'obtenir votre position. Vérifiez l'autorisation de localisation.",
     "chooseVehicle": "Choisissez un véhicule",
     "estimatedFare": "Tarif estimé",
     "now": "Maintenant",
