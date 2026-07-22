@@ -18,7 +18,7 @@ export function MessageBubble({ message, mine }: Props) {
   const [translated, setTranslated] = useState<string | null>(null);
   const [shown, setShown] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [failed, setFailed] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'failed' | 'same-language'>('idle');
 
   const toggleTranslate = async (): Promise<void> => {
     if (shown) {
@@ -30,14 +30,14 @@ export function MessageBubble({ message, mine }: Props) {
       return;
     }
     setBusy(true);
-    setFailed(false);
+    setStatus('idle');
     const result = await translateMessage(message.text, i18n.language);
     setBusy(false);
-    if (result) {
-      setTranslated(result);
+    if (result.status === 'translated') {
+      setTranslated(result.text);
       setShown(true);
     } else {
-      setFailed(true);
+      setStatus(result.status === 'same-language' ? 'same-language' : 'failed');
     }
   };
 
@@ -67,14 +67,25 @@ export function MessageBubble({ message, mine }: Props) {
           {!mine && (
             <button
               onClick={toggleTranslate}
+              disabled={status === 'same-language'}
               className={cn(
                 'inline-flex min-h-[24px] items-center gap-1 text-[10px] font-medium',
-                failed ? 'text-danger' : 'text-primary'
+                status === 'failed'
+                  ? 'text-danger'
+                  : status === 'same-language'
+                    ? 'opacity-50'
+                    : 'text-primary'
               )}
               aria-label={t('chat.translate')}
             >
               {busy ? <Loader2 size={11} className="animate-spin" /> : <Languages size={11} />}
-              {failed ? t('chat.translateFailed') : shown ? t('chat.hideTranslation') : t('chat.translate')}
+              {status === 'failed'
+                ? t('chat.translateFailed')
+                : status === 'same-language'
+                  ? t('chat.translateSameLanguage')
+                  : shown
+                    ? t('chat.hideTranslation')
+                    : t('chat.translate')}
             </button>
           )}
         </div>

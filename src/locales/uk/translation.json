@@ -163,7 +163,8 @@
     "empty": "Повідомлень ще немає",
     "translate": "Перекласти",
     "hideTranslation": "Сховати переклад",
-    "translateFailed": "Не вдалося перекласти"
+    "translateFailed": "Не вдалося перекласти",
+    "translateSameLanguage": "Вже вашою мовою"
   },
   "templates": {
     "0": "Я тут",

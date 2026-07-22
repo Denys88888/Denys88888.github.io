@@ -163,7 +163,8 @@
     "empty": "Belum ada pesan",
     "translate": "Terjemahkan",
     "hideTranslation": "Sembunyikan terjemahan",
-    "translateFailed": "Terjemahan gagal"
+    "translateFailed": "Terjemahan gagal",
+    "translateSameLanguage": "Sudah dalam bahasa Anda"
   },
   "templates": {
     "0": "Saya di sini",

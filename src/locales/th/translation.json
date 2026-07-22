@@ -163,7 +163,8 @@
     "empty": "ยังไม่มีข้อความ",
     "translate": "แปล",
     "hideTranslation": "ซ่อนคำแปล",
-    "translateFailed": "แปลไม่สำเร็จ"
+    "translateFailed": "แปลไม่สำเร็จ",
+    "translateSameLanguage": "เป็นภาษาของคุณอยู่แล้ว"
   },
   "templates": {
     "0": "ฉันมาถึงแล้ว",

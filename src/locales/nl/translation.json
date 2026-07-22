@@ -163,7 +163,8 @@
     "empty": "Nog geen berichten",
     "translate": "Vertalen",
     "hideTranslation": "Vertaling verbergen",
-    "translateFailed": "Vertaling mislukt"
+    "translateFailed": "Vertaling mislukt",
+    "translateSameLanguage": "Al in uw taal"
   },
   "templates": {
     "0": "Ik ben er",

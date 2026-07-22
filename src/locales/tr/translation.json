@@ -163,7 +163,8 @@
     "empty": "Henüz mesaj yok",
     "translate": "Çevir",
     "hideTranslation": "Çeviriyi gizle",
-    "translateFailed": "Çeviri başarısız"
+    "translateFailed": "Çeviri başarısız",
+    "translateSameLanguage": "Zaten sizin dilinizde"
   },
   "templates": {
     "0": "Buradayım",

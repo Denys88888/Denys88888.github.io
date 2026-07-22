@@ -54,13 +54,29 @@ export function RideDetailsScreen() {
   useEffect(() => {
     if (!rideId) return;
     let cancelled = false;
+    // Poll as a fallback: WS events are the primary signal, but a dropped socket
+    // (phone sleep, webview background) must not leave the screen frozen on a
+    // ride the server has already advanced, completed or auto-cancelled.
+    let poll: ReturnType<typeof setInterval> | undefined;
     const refresh = () => {
       if (cancelled) return;
       api.getRide(rideId)
-        .then((data) => { if (!cancelled) setRide(data); })
+        .then((data) => {
+          if (cancelled) return;
+          setRide(data);
+          if (poll && ['completed', 'cancelled'].includes(data.status)) {
+            clearInterval(poll);
+            poll = undefined;
+          }
+        })
         .catch((err) => console.error('[ride] getRide:', err));
     };
     refresh();
+    poll = setInterval(refresh, 15000);
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') refresh();
+    };
+    document.addEventListener('visibilitychange', onVisible);
     const offStatus = wsService.on('ride_status_update', (msg) => {
       if (String(msg.rideId) === rideId) refresh();
     });
@@ -79,6 +95,8 @@ export function RideDetailsScreen() {
     });
     return () => {
       cancelled = true;
+      if (poll) clearInterval(poll);
+      document.removeEventListener('visibilitychange', onVisible);
       offStatus();
       offAssigned();
       offOffers();

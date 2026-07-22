@@ -163,7 +163,8 @@
     "empty": "メッセージはまだありません",
     "translate": "翻訳",
     "hideTranslation": "翻訳を隠す",
-    "translateFailed": "翻訳に失敗しました"
+    "translateFailed": "翻訳に失敗しました",
+    "translateSameLanguage": "すでにあなたの言語です"
   },
   "templates": {
     "0": "到着しました",

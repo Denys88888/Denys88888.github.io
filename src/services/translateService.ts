@@ -57,15 +57,24 @@ async function viaLibreTranslate(
   return data.translatedText ?? null;
 }
 
-// Translate into the receiver's language. Returns null when the text already
-// appears to be in the target language or every provider failed.
-export async function translateMessage(text: string, target: string): Promise<string | null> {
+export type TranslateResult =
+  | { status: 'translated'; text: string }
+  | { status: 'same-language' }
+  | { status: 'error' };
+
+// Translate into the receiver's language. Distinguishes "already in your
+// language" (no call made, not an error) from a genuine provider failure —
+// callers should render these two cases differently.
+export async function translateMessage(text: string, target: string): Promise<TranslateResult> {
   const targetLang = target.slice(0, 2).toLowerCase();
   const source = detectLanguage(text);
-  if (source === targetLang) return null;
+  if (source === targetLang) return { status: 'same-language' };
 
   const key = cacheKey(text, targetLang);
-  try { const cached = localStorage.getItem(key); if (cached) return cached; } catch { /* ignore */ }
+  try {
+    const cached = localStorage.getItem(key);
+    if (cached) return { status: 'translated', text: cached };
+  } catch { /* ignore */ }
 
   let result: string | null = null;
   try {
@@ -82,7 +91,7 @@ export async function translateMessage(text: string, target: string): Promise<st
   }
   if (result && result.trim() && result.trim().toLowerCase() !== text.trim().toLowerCase()) {
     try { localStorage.setItem(key, result); } catch { /* ignore */ }
-    return result;
+    return { status: 'translated', text: result };
   }
-  return null;
+  return { status: 'error' };
 }

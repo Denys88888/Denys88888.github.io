@@ -163,7 +163,8 @@
     "empty": "Noch keine Nachrichten",
     "translate": "Übersetzen",
     "hideTranslation": "Übersetzung ausblenden",
-    "translateFailed": "Übersetzung fehlgeschlagen"
+    "translateFailed": "Übersetzung fehlgeschlagen",
+    "translateSameLanguage": "Bereits in Ihrer Sprache"
   },
   "templates": {
     "0": "Ich bin da",

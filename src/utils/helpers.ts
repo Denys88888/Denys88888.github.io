@@ -12,6 +12,28 @@ export function sanitize(text: string): string {
   return DOMPurify.sanitize(text, { ALLOWED_TAGS: [], ALLOWED_ATTR: [] });
 }
 
+// Client-side mirror of the server fare model (services/fareCalculator.ts on the
+// backend): total = (base + km * perKm + min * perMin) * surge, floored at
+// minFare. Indicative only — the server computes the authoritative fare (admin
+// settings can scale perKm / raise minFare at runtime).
+const FARE_TABLE: Record<string, { base: number; perKm: number; perMin: number; minFare: number }> = {
+  economy: { base: 1.0, perKm: 0.5, perMin: 0.1, minFare: 1.5 },
+  comfort: { base: 1.5, perKm: 0.7, perMin: 0.12, minFare: 2.0 },
+  business: { base: 2.5, perKm: 1.0, perMin: 0.18, minFare: 3.5 },
+  xl: { base: 2.0, perKm: 0.9, perMin: 0.15, minFare: 3.0 },
+};
+
+export function estimateFare(
+  vehicleType: string,
+  distanceKm: number,
+  durationMin: number,
+  surge = 1
+): number {
+  const t = FARE_TABLE[vehicleType] ?? FARE_TABLE.economy;
+  const raw = (t.base + distanceKm * t.perKm + durationMin * t.perMin) * (surge > 0 ? surge : 1);
+  return Math.round(Math.max(raw, t.minFare) * 100) / 100;
+}
+
 // Great-circle distance in km (client-side estimate for UI only).
 export function haversineKm(
   lat1: number,

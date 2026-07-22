@@ -163,7 +163,8 @@
     "empty": "Aucun message",
     "translate": "Traduire",
     "hideTranslation": "Masquer la traduction",
-    "translateFailed": "Échec de la traduction"
+    "translateFailed": "Échec de la traduction",
+    "translateSameLanguage": "Déjà dans votre langue"
   },
   "templates": {
     "0": "Je suis là",

@@ -1,21 +1,23 @@
 import { useTranslation } from 'react-i18next';
 import { VEHICLE_OPTIONS } from '../../utils/constants';
 import type { VehicleType } from '../../types';
-import { cn } from '../../utils/helpers';
+import { cn, estimateFare } from '../../utils/helpers';
 
 interface Props {
   value: VehicleType;
   onChange: (v: VehicleType) => void;
   distanceKm?: number;
+  durationMin?: number;
+  surge?: number;
 }
 
 // Horizontally scrollable vehicle-class cards. The selected card is highlighted.
-export function VehicleTypeSelector({ value, onChange, distanceKm = 0 }: Props) {
+export function VehicleTypeSelector({ value, onChange, distanceKm = 0, durationMin = 0, surge = 1 }: Props) {
   const { t } = useTranslation();
   return (
     <div className="no-scrollbar flex gap-3 overflow-x-auto pb-1">
       {VEHICLE_OPTIONS.map((o) => {
-        const estimate = (o.basePrice + distanceKm * o.basePrice * 0.5).toFixed(1);
+        const estimate = estimateFare(o.type, distanceKm, durationMin, surge).toFixed(1);
         const selected = value === o.type;
         return (
           <button

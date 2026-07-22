@@ -163,7 +163,8 @@
     "empty": "لا توجد رسائل بعد",
     "translate": "ترجمة",
     "hideTranslation": "إخفاء الترجمة",
-    "translateFailed": "فشلت الترجمة"
+    "translateFailed": "فشلت الترجمة",
+    "translateSameLanguage": "باللغة الخاصة بك بالفعل"
   },
   "templates": {
     "0": "أنا هنا",

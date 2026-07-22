@@ -163,7 +163,8 @@
     "empty": "Ainda não há mensagens",
     "translate": "Traduzir",
     "hideTranslation": "Ocultar tradução",
-    "translateFailed": "Falha na tradução"
+    "translateFailed": "Falha na tradução",
+    "translateSameLanguage": "Já está no seu idioma"
   },
   "templates": {
     "0": "Estou aqui",

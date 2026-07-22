@@ -163,7 +163,8 @@
     "empty": "아직 메시지가 없습니다",
     "translate": "번역",
     "hideTranslation": "번역 숨기기",
-    "translateFailed": "번역 실패"
+    "translateFailed": "번역 실패",
+    "translateSameLanguage": "이미 사용자 언어입니다"
   },
   "templates": {
     "0": "도착했습니다",

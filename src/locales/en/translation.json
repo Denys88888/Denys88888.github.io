@@ -163,7 +163,8 @@
     "empty": "No messages yet",
     "translate": "Translate",
     "hideTranslation": "Hide translation",
-    "translateFailed": "Translation failed"
+    "translateFailed": "Translation failed",
+    "translateSameLanguage": "Already in your language"
   },
   "templates": {
     "0": "I'm here",

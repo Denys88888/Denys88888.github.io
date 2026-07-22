@@ -163,7 +163,8 @@
     "empty": "Inga meddelanden än",
     "translate": "Översätt",
     "hideTranslation": "Dölj översättning",
-    "translateFailed": "Översättningen misslyckades"
+    "translateFailed": "Översättningen misslyckades",
+    "translateSameLanguage": "Redan på ditt språk"
   },
   "templates": {
     "0": "Jag är här",

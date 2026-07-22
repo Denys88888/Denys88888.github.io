@@ -163,7 +163,8 @@
     "empty": "Chưa có tin nhắn",
     "translate": "Dịch",
     "hideTranslation": "Ẩn bản dịch",
-    "translateFailed": "Dịch thất bại"
+    "translateFailed": "Dịch thất bại",
+    "translateSameLanguage": "Đã ở ngôn ngữ của bạn"
   },
   "templates": {
     "0": "Tôi ở đây",

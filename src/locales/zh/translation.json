@@ -163,7 +163,8 @@
     "empty": "暂无消息",
     "translate": "翻译",
     "hideTranslation": "隐藏翻译",
-    "translateFailed": "翻译失败"
+    "translateFailed": "翻译失败",
+    "translateSameLanguage": "已经是您的语言"
   },
   "templates": {
     "0": "我到了",

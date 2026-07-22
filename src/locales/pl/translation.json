@@ -163,7 +163,8 @@
     "empty": "Brak wiadomości",
     "translate": "Przetłumacz",
     "hideTranslation": "Ukryj tłumaczenie",
-    "translateFailed": "Tłumaczenie nie powiodło się"
+    "translateFailed": "Tłumaczenie nie powiodło się",
+    "translateSameLanguage": "Już w Twoim języku"
   },
   "templates": {
     "0": "Jestem na miejscu",

@@ -163,7 +163,8 @@
     "empty": "Пока нет сообщений",
     "translate": "Перевести",
     "hideTranslation": "Скрыть перевод",
-    "translateFailed": "Не удалось перевести"
+    "translateFailed": "Не удалось перевести",
+    "translateSameLanguage": "Уже на вашем языке"
   },
   "templates": {
     "0": "Я здесь",

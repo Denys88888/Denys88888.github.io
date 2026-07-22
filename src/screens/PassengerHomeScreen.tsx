@@ -16,7 +16,7 @@ import { reverseGeocode, countryCodeAt, fetchRoute } from '../services/mapServic
 import { loadSavedAddresses, saveAddress } from '../services/savedAddresses';
 import { formatPi, formatDistance, formatDuration } from '../utils/formatters';
 import { isValidCoord } from '../utils/validators';
-import { cn, routeDistanceKm } from '../utils/helpers';
+import { cn, estimateFare, routeDistanceKm } from '../utils/helpers';
 import type { GeoPoint, VehicleType, SavedAddress, SurgeInfo } from '../types';
 
 const DEFAULT_CENTER: GeoPoint = { lat: 52.2297, lng: 21.0122 }; // Warsaw fallback
@@ -187,7 +187,7 @@ export function PassengerHomeScreen() {
     ? Math.max(1, Math.round(road.durationMin))
     : Math.max(1, Math.round((distanceKm / 30) * 60));
   const surgeX = surge && surge.multiplier > 1 ? surge.multiplier : 1;
-  const fareEstimate = (distanceKm * (vehicle === 'business' ? 1.4 : 1) + 1.5) * surgeX;
+  const fareEstimate = estimateFare(vehicle, distanceKm, durationMin, surgeX);
 
   const canOrder =
     isValidCoord(pickup) &&
@@ -430,7 +430,7 @@ export function PassengerHomeScreen() {
 
           <div>
             <p className="mb-2 text-sm font-medium opacity-70">{t('home.chooseVehicle')}</p>
-            <VehicleTypeSelector value={vehicle} onChange={setVehicle} distanceKm={distanceKm} />
+            <VehicleTypeSelector value={vehicle} onChange={setVehicle} distanceKm={distanceKm} durationMin={durationMin} surge={surgeX} />
           </div>
 
           {/* Price negotiation (inDriver-style). */}

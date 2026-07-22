@@ -163,7 +163,8 @@
     "empty": "अभी कोई संदेश नहीं",
     "translate": "अनुवाद",
     "hideTranslation": "अनुवाद छिपाएँ",
-    "translateFailed": "अनुवाद विफल"
+    "translateFailed": "अनुवाद विफल",
+    "translateSameLanguage": "पहले से आपकी भाषा में"
   },
   "templates": {
     "0": "मैं यहाँ हूँ",
