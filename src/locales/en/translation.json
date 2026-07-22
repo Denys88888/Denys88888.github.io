@@ -193,6 +193,8 @@
     "offerSent": "Offer sent",
     "negotiable": "Negotiable",
     "toPickup": "to pickup",
+    "showRoute": "Show route",
+    "hideRoute": "Hide route",
     "navigation": "Navigation",
     "today": "Today",
     "ridesCount": "Rides"

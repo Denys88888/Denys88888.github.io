@@ -193,6 +193,8 @@
     "offerSent": "Пропозицію надіслано",
     "negotiable": "Торг",
     "toPickup": "до посадки",
+    "showRoute": "Маршрут",
+    "hideRoute": "Сховати",
     "navigation": "Навігація",
     "today": "Сьогодні",
     "ridesCount": "Поїздки"

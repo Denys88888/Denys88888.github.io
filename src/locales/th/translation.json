@@ -192,6 +192,8 @@
     "submitOffer": "ส่ง",
     "offerSent": "ส่งข้อเสนอแล้ว",
     "negotiable": "ต่อรองได้",
+    "showRoute": "แสดงเส้นทาง",
+    "hideRoute": "ซ่อน",
     "navigation": "นำทาง",
     "today": "วันนี้",
     "ridesCount": "การเดินทาง"

@@ -192,6 +192,8 @@
     "submitOffer": "送信",
     "offerSent": "提示を送信しました",
     "negotiable": "交渉可",
+    "showRoute": "ルート表示",
+    "hideRoute": "非表示",
     "navigation": "ナビ",
     "today": "今日",
     "ridesCount": "乗車数"

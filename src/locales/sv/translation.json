@@ -192,6 +192,8 @@
     "submitOffer": "Skicka",
     "offerSent": "Erbjudande skickat",
     "negotiable": "Förhandlingsbar",
+    "showRoute": "Visa rutt",
+    "hideRoute": "Dölj",
     "navigation": "Navigering",
     "today": "Idag",
     "ridesCount": "Resor"

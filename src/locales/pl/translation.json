@@ -193,6 +193,8 @@
     "offerSent": "Oferta wysłana",
     "negotiable": "Negocjacja",
     "toPickup": "do odbioru",
+    "showRoute": "Trasa",
+    "hideRoute": "Ukryj",
     "navigation": "Nawigacja",
     "today": "Dziś",
     "ridesCount": "Przejazdy"

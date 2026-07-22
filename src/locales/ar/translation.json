@@ -192,6 +192,8 @@
     "submitOffer": "إرسال",
     "offerSent": "تم إرسال العرض",
     "negotiable": "قابل للتفاوض",
+    "showRoute": "إظهار المسار",
+    "hideRoute": "إخفاء",
     "navigation": "الملاحة",
     "today": "اليوم",
     "ridesCount": "الرحلات"

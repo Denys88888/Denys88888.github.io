@@ -192,6 +192,8 @@
     "submitOffer": "Enviar",
     "offerSent": "Oferta enviada",
     "negotiable": "Negociável",
+    "showRoute": "Ver rota",
+    "hideRoute": "Ocultar",
     "navigation": "Navegação",
     "today": "Hoje",
     "ridesCount": "Corridas"

@@ -30,6 +30,7 @@ export function DriverHomeScreen() {
   const [heatmap, setHeatmap] = useState<HeatmapPoint[]>([]);
   const [activeRide, setActiveRide] = useState<Ride | null>(null);
   const [focusNonce, setFocusNonce] = useState(0);
+  const [previewRideId, setPreviewRideId] = useState<string | null>(null);
 
   const [todayRides, setTodayRides] = useState<Ride[]>([]);
   const [todayLoading, setTodayLoading] = useState(true);
@@ -172,6 +173,12 @@ export function DriverHomeScreen() {
     navigate('ride', { id: ride.id });
   };
 
+  const previewRide = requests.find((r) => r.id === previewRideId) ?? null;
+  const togglePreview = (ride: Ride): void => {
+    setPreviewRideId((cur) => (cur === ride.id ? null : ride.id));
+    setFocusNonce((n) => n + 1);
+  };
+
   // Bid on a negotiable ride (counter-offer with the driver's own price).
   const sendOffer = async (ride: Ride): Promise<void> => {
     const amount = Number(offerInputs[ride.id]);
@@ -201,8 +208,10 @@ export function DriverHomeScreen() {
         <MapView
           center={center}
           driver={position}
+          pickup={previewRide ? position ?? undefined : undefined}
+          destination={previewRide?.pickup}
           heatmap={heatmap}
-          focus={focusNonce > 0 ? position : undefined}
+          focus={previewRide ? previewRide.pickup : focusNonce > 0 ? position : undefined}
           focusNonce={focusNonce}
           className="h-full w-full"
         />
@@ -304,10 +313,19 @@ export function DriverHomeScreen() {
               </div>
               <span className="ml-2 text-right">
                 <span className="block font-bold">{formatPi(ride.fare)}</span>
+                <span className="block text-[10px] opacity-60">{ride.vehicleType}</span>
                 {ride.negotiable && <span className="text-[10px] text-primary">{t('driver.negotiable')}</span>}
               </span>
             </div>
-            <div className="flex items-center gap-1.5 rounded-lg bg-primary/10 px-2.5 py-1.5 text-sm font-semibold text-primary">
+            <button
+              onClick={() => togglePreview(ride)}
+              className={cn(
+                'flex w-full items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-semibold transition',
+                previewRideId === ride.id
+                  ? 'bg-primary text-white'
+                  : 'bg-primary/10 text-primary'
+              )}
+            >
               <Route size={15} className="shrink-0" />
               {formatDistance(haversineKm(center.lat, center.lng, ride.pickup.lat, ride.pickup.lng))}
               <span className="opacity-50">·</span>
@@ -315,8 +333,10 @@ export function DriverHomeScreen() {
                 (haversineKm(center.lat, center.lng, ride.pickup.lat, ride.pickup.lng) / 30) * 60
               )}
               <span className="opacity-60">{t('driver.toPickup')}</span>
-              <span className="ml-auto text-xs font-normal opacity-60">{ride.vehicleType}</span>
-            </div>
+              <span className="ml-auto text-xs font-normal opacity-60">
+                {previewRideId === ride.id ? t('driver.hideRoute') : t('driver.showRoute')}
+              </span>
+            </button>
 
             {ride.negotiable ? (
               offered[ride.id] ? (

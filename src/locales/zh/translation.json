@@ -192,6 +192,8 @@
     "submitOffer": "发送",
     "offerSent": "报价已发送",
     "negotiable": "可议价",
+    "showRoute": "显示路线",
+    "hideRoute": "隐藏",
     "navigation": "导航",
     "today": "今天",
     "ridesCount": "行程"
