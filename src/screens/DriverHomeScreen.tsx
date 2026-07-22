@@ -8,6 +8,7 @@ import { Button } from '../components/ui/Button';
 import { useGeolocation } from '../hooks/useGeolocation';
 import { useToast } from '../hooks/useToast';
 import { useRouter } from '../store/useRouter';
+import { useAppStore } from '../store/useAppStore';
 import { wsService } from '../services/wsService';
 import { api } from '../services/api';
 import { formatPi, formatDistance, formatDuration } from '../utils/formatters';
@@ -21,6 +22,7 @@ export function DriverHomeScreen() {
   const { position, error: geoError, request } = useGeolocation();
   const { addToast } = useToast();
   const navigate = useRouter((s) => s.navigate);
+  const uid = useAppStore((s) => s.user?.uid ?? '');
 
   const [online, setOnline] = useState(false);
   const [requests, setRequests] = useState<Ride[]>([]);
@@ -133,11 +135,20 @@ export function DriverHomeScreen() {
         setRequests((prev) => prev.filter((r) => r.id !== String(msg.rideId)));
       }
     });
+    // A negotiated offer was accepted: unlike the direct-accept path (accept()
+    // below), nothing else navigates the driver into the ride, so without this
+    // they're left on this screen with no indication they got the job.
+    const offAssigned = wsService.on('ride_assigned', (msg) => {
+      if (String(msg.driverId) === uid) {
+        navigate('ride', { id: String(msg.rideId) });
+      }
+    });
     return () => {
       offAvail();
       offTaken();
+      offAssigned();
     };
-  }, []);
+  }, [uid, navigate]);
 
   const toggleOnline = async (): Promise<void> => {
     try {

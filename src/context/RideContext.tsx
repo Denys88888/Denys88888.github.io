@@ -14,6 +14,7 @@ const Ctx = createContext<RideCtx | null>(null);
 export function RideProvider({ children }: { children: ReactNode }) {
   const { t } = useTranslation();
   const token = useAppStore((s) => s.token);
+  const uid = useAppStore((s) => s.user?.uid ?? '');
   const setCurrentRide = useAppStore((s) => s.setCurrentRide);
   const addToast = useAppStore((s) => s.addToast);
 
@@ -21,7 +22,12 @@ export function RideProvider({ children }: { children: ReactNode }) {
     if (!token) return;
 
     const offAssigned = wsService.on('ride_assigned', (msg) => {
-      addToast('success', t('home.driverFound'));
+      // This event fires on both sides of an assignment: the passenger whose
+      // ride just got a driver, and — for a negotiated ride — the driver whose
+      // offer was just accepted. Same payload, opposite meaning; pick the
+      // toast that matches which one this client is.
+      const iAmTheDriver = String(msg.driverId ?? '') === uid;
+      addToast('success', t(iAmTheDriver ? 'driver.offerAccepted' : 'home.driverFound'));
       const rideId = String(msg.rideId ?? '');
       if (rideId) {
         api.getRide(rideId).then(setCurrentRide).catch((err) => console.error('[RideContext] getRide:', err));
@@ -50,7 +56,7 @@ export function RideProvider({ children }: { children: ReactNode }) {
       offAssigned();
       offStatus();
     };
-  }, [token, setCurrentRide, addToast, t]);
+  }, [token, uid, setCurrentRide, addToast, t]);
 
   const refresh = (): void => {
     /* Placeholder for manual refresh; ride state is push-driven via WS. */
