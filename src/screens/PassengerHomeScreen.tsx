@@ -48,7 +48,7 @@ const QUICK_SLOTS = [
 // local address search, multi-stop, scheduled rides, and price negotiation.
 export function PassengerHomeScreen() {
   const { t } = useTranslation();
-  const { position, error: geoError, request } = useGeolocation();
+  const { position, error: geoError, permissionDenied: geoPermissionDenied, request } = useGeolocation();
   const { addToast } = useToast();
   const setCurrentRide = useAppStore((s) => s.setCurrentRide);
   const params = useRouter((s) => s.params);
@@ -156,9 +156,13 @@ export function PassengerHomeScreen() {
 
   // Surface GPS failures (denied permission, timeout, unsupported) instead of
   // silently leaving the map centered on the default fallback with no marker.
+  // A denied permission needs a different message — telling the user to check
+  // their connection won't help when the fix is in the phone's app settings.
   useEffect(() => {
-    if (geoError) addToast('error', t('home.locationError'));
-  }, [geoError, addToast, t]);
+    if (geoError) {
+      addToast('error', t(geoPermissionDenied ? 'home.locationPermissionDenied' : 'home.locationError'));
+    }
+  }, [geoError, geoPermissionDenied, addToast, t]);
 
   const center = pickup ?? position ?? DEFAULT_CENTER;
 
@@ -301,7 +305,7 @@ export function PassengerHomeScreen() {
               // Permission was already denied — request() will fail the same way
               // again, so the error-driven toast (keyed on the message) won't
               // re-fire on its own. Tell the user now instead of doing nothing.
-              addToast('error', t('home.locationError'));
+              addToast('error', t(geoPermissionDenied ? 'home.locationPermissionDenied' : 'home.locationError'));
             }
             setFocusNonce((n) => n + 1);
           }}

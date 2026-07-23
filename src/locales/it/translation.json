@@ -67,6 +67,7 @@
     "noDrivers": "Nessun autista nelle vicinanze",
     "useMyLocation": "La mia posizione",
     "locationError": "Impossibile rilevare la posizione. Controlla il permesso di localizzazione.",
+    "locationPermissionDenied": "L'accesso alla posizione è disattivato. Apri le impostazioni dell'app sul telefono e consenti l'accesso alla posizione.",
     "chooseVehicle": "Scegli un veicolo",
     "estimatedFare": "Tariffa stimata",
     "now": "Ora",

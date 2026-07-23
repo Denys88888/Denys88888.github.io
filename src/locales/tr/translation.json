@@ -67,6 +67,7 @@
     "noDrivers": "Yakında sürücü yok",
     "useMyLocation": "Konumum",
     "locationError": "Konumunuz alınamadı. Konum iznini kontrol edin.",
+    "locationPermissionDenied": "Konum erişimi kapalı. Telefonunuzda uygulama ayarlarını açın ve konum erişimine izin verin.",
     "chooseVehicle": "Araç seçin",
     "estimatedFare": "Tahmini ücret",
     "now": "Şimdi",

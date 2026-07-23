@@ -67,6 +67,7 @@
     "noDrivers": "No drivers available nearby",
     "useMyLocation": "Use my location",
     "locationError": "Couldn't get your location. Check location permission for this site.",
+    "locationPermissionDenied": "Location access is off. Open your phone's app settings and allow location for this app.",
     "chooseVehicle": "Choose a vehicle",
     "estimatedFare": "Estimated fare",
     "now": "Now",

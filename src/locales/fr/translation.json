@@ -67,6 +67,7 @@
     "noDrivers": "Aucun chauffeur à proximité",
     "useMyLocation": "Ma position",
     "locationError": "Impossible d'obtenir votre position. Vérifiez l'autorisation de localisation.",
+    "locationPermissionDenied": "L'accès à la localisation est désactivé. Ouvrez les paramètres de l'application sur votre téléphone et autorisez l'accès à la position.",
     "chooseVehicle": "Choisissez un véhicule",
     "estimatedFare": "Tarif estimé",
     "now": "Maintenant",

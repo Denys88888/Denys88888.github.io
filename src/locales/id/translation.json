@@ -67,6 +67,7 @@
     "noDrivers": "Tidak ada pengemudi terdekat",
     "useMyLocation": "Lokasi saya",
     "locationError": "Tidak dapat menemukan lokasi Anda. Periksa izin lokasi.",
+    "locationPermissionDenied": "Akses lokasi sedang nonaktif. Buka pengaturan aplikasi di ponsel Anda dan izinkan akses lokasi.",
     "chooseVehicle": "Pilih kendaraan",
     "estimatedFare": "Perkiraan tarif",
     "now": "Sekarang",

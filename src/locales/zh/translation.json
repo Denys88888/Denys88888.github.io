@@ -67,6 +67,7 @@
     "noDrivers": "附近没有司机",
     "useMyLocation": "我的位置",
     "locationError": "无法获取您的位置。请检查位置权限设置。",
+    "locationPermissionDenied": "位置访问已关闭。请在手机的应用设置中开启位置权限。",
     "chooseVehicle": "选择车型",
     "estimatedFare": "预估费用",
     "now": "现在",

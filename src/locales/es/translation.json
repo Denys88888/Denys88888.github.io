@@ -67,6 +67,7 @@
     "noDrivers": "No hay conductores cerca",
     "useMyLocation": "Mi ubicación",
     "locationError": "No se pudo obtener tu ubicación. Comprueba el permiso de ubicación.",
+    "locationPermissionDenied": "El acceso a la ubicación está desactivado. Abre los ajustes de la app en tu teléfono y permite el acceso a la ubicación.",
     "chooseVehicle": "Elige un vehículo",
     "estimatedFare": "Tarifa estimada",
     "now": "Ahora",

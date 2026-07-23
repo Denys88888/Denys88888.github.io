@@ -67,6 +67,7 @@
     "noDrivers": "Brak kierowców w pobliżu",
     "useMyLocation": "Moja lokalizacja",
     "locationError": "Nie udało się ustalić lokalizacji. Sprawdź uprawnienia do lokalizacji.",
+    "locationPermissionDenied": "Dostęp do lokalizacji jest wyłączony. Otwórz ustawienia aplikacji na telefonie i zezwól na dostęp do lokalizacji.",
     "chooseVehicle": "Wybierz pojazd",
     "estimatedFare": "Szacowana cena",
     "now": "Teraz",

@@ -67,6 +67,7 @@
     "noDrivers": "Inga förare i närheten",
     "useMyLocation": "Min plats",
     "locationError": "Kunde inte hämta din plats. Kontrollera platsbehörigheten.",
+    "locationPermissionDenied": "Platsåtkomst är avstängd. Öppna appinställningarna på telefonen och tillåt platsåtkomst.",
     "chooseVehicle": "Välj fordon",
     "estimatedFare": "Uppskattat pris",
     "now": "Nu",

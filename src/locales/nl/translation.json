@@ -67,6 +67,7 @@
     "noDrivers": "Geen chauffeurs in de buurt",
     "useMyLocation": "Mijn locatie",
     "locationError": "Kon je locatie niet bepalen. Controleer de locatietoestemming.",
+    "locationPermissionDenied": "Locatietoegang staat uit. Open de app-instellingen op je telefoon en sta locatietoegang toe.",
     "chooseVehicle": "Kies een voertuig",
     "estimatedFare": "Geschatte prijs",
     "now": "Nu",

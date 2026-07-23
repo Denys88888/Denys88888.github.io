@@ -67,6 +67,7 @@
     "noDrivers": "Không có tài xế gần đây",
     "useMyLocation": "Vị trí của tôi",
     "locationError": "Không thể xác định vị trí của bạn. Vui lòng kiểm tra quyền truy cập vị trí.",
+    "locationPermissionDenied": "Quyền truy cập vị trí đang tắt. Mở cài đặt ứng dụng trên điện thoại và cho phép truy cập vị trí.",
     "chooseVehicle": "Chọn loại xe",
     "estimatedFare": "Giá ước tính",
     "now": "Bây giờ",

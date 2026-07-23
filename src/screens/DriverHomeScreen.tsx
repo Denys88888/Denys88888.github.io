@@ -19,7 +19,7 @@ import type { GeoPoint, Ride, HeatmapPoint } from '../types';
 // Driver home: online toggle, live map, and the queue of available ride requests.
 export function DriverHomeScreen() {
   const { t } = useTranslation();
-  const { position, error: geoError, request } = useGeolocation();
+  const { position, error: geoError, permissionDenied: geoPermissionDenied, request } = useGeolocation();
   const { addToast } = useToast();
   const navigate = useRouter((s) => s.navigate);
   const uid = useAppStore((s) => s.user?.uid ?? '');
@@ -55,9 +55,13 @@ export function DriverHomeScreen() {
 
   // Surface GPS failures (denied permission, timeout, unsupported) instead of
   // silently leaving the map centered on the default fallback with no marker.
+  // A denied permission needs a different message — telling the user to check
+  // their connection won't help when the fix is in the phone's app settings.
   useEffect(() => {
-    if (geoError) addToast('error', t('home.locationError'));
-  }, [geoError, addToast, t]);
+    if (geoError) {
+      addToast('error', t(geoPermissionDenied ? 'home.locationPermissionDenied' : 'home.locationError'));
+    }
+  }, [geoError, geoPermissionDenied, addToast, t]);
 
   // Demand heatmap: refresh every minute while online.
   useEffect(() => {
@@ -245,7 +249,7 @@ export function DriverHomeScreen() {
               // Permission was already denied — request() below will fail the
               // same way again, so the error-driven toast (keyed on the
               // message) won't re-fire on its own. Tell the user now.
-              addToast('error', t('home.locationError'));
+              addToast('error', t(geoPermissionDenied ? 'home.locationPermissionDenied' : 'home.locationError'));
             }
             request();
             setFocusNonce((n) => n + 1);

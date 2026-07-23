@@ -67,6 +67,7 @@
     "noDrivers": "Keine Fahrer in der Nähe",
     "useMyLocation": "Mein Standort",
     "locationError": "Standort konnte nicht ermittelt werden. Prüfe die Standortberechtigung.",
+    "locationPermissionDenied": "Standortzugriff ist deaktiviert. Öffne die App-Einstellungen auf deinem Telefon und erlaube den Standortzugriff.",
     "chooseVehicle": "Fahrzeug wählen",
     "estimatedFare": "Geschätzter Preis",
     "now": "Jetzt",

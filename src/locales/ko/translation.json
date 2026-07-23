@@ -67,6 +67,7 @@
     "noDrivers": "근처에 기사님이 없습니다",
     "useMyLocation": "내 위치",
     "locationError": "위치를 확인할 수 없습니다. 위치 권한을 확인해 주세요.",
+    "locationPermissionDenied": "위치 접근이 꺼져 있습니다. 휴대폰의 앱 설정을 열어 위치 접근을 허용해 주세요.",
     "chooseVehicle": "차량 선택",
     "estimatedFare": "예상 요금",
     "now": "지금",

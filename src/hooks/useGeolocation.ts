@@ -4,6 +4,10 @@ import type { GeoPoint } from '../types';
 interface GeoState {
   position: GeoPoint | null;
   error: string | null;
+  // Set when the browser reported PERMISSION_DENIED specifically, so callers
+  // can point the user at their device/app settings rather than a generic
+  // "something went wrong" message.
+  permissionDenied: boolean;
   loading: boolean;
 }
 
@@ -13,6 +17,7 @@ export function useGeolocation(auto = true) {
   const [state, setState] = useState<GeoState>({
     position: null,
     error: null,
+    permissionDenied: false,
     loading: false,
   });
   const watchId = useRef<number | null>(null);
@@ -26,7 +31,7 @@ export function useGeolocation(auto = true) {
 
   const request = useCallback(() => {
     if (!('geolocation' in navigator)) {
-      setState((s) => ({ ...s, error: 'Geolocation unsupported' }));
+      setState((s) => ({ ...s, error: 'Geolocation unsupported', permissionDenied: false }));
       return;
     }
     stop();
@@ -39,10 +44,16 @@ export function useGeolocation(auto = true) {
         setState((s) =>
           s.position && s.position.lat === lat && s.position.lng === lng && !s.error && !s.loading
             ? s
-            : { position: { lat, lng }, error: null, loading: false }
+            : { position: { lat, lng }, error: null, permissionDenied: false, loading: false }
         );
       },
-      (err) => setState((s) => ({ ...s, error: err.message, loading: false })),
+      (err) =>
+        setState((s) => ({
+          ...s,
+          error: err.message,
+          permissionDenied: err.code === err.PERMISSION_DENIED,
+          loading: false,
+        })),
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 }
     );
   }, [stop]);
