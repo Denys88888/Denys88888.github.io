@@ -149,6 +149,7 @@
     "searchingHint": "Duurt meestal 1-3 minuten",
     "paymentComplete": "Betaling voltooid",
     "paymentFailed": "Betaling mislukt. Probeer het opnieuw.",
+    "paymentRetry": "Betaling vastgelopen — opnieuw proberen",
     "surge": "Piektarief"
   },
   "vehicle": {

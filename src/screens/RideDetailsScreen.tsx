@@ -186,8 +186,12 @@ export function RideDetailsScreen() {
   };
 
   const pay = async (): Promise<void> => {
-    const txid = await payRide(ride.id);
-    if (txid) api.getRide(ride.id).then(setRide).catch((err) => console.error('[ride] refresh after pay:', err));
+    await payRide(ride.id);
+    // Refresh either way: even a failed attempt may have recovered a stale
+    // held payment server-side (found it already completed via Pi, or
+    // released it back to pending) — the ride's true state may have changed
+    // whether or not this specific call returned a txid.
+    api.getRide(ride.id).then(setRide).catch((err) => console.error('[ride] refresh after pay:', err));
   };
 
   // Tip the driver: a separate Pi payment (100% goes to the driver).
@@ -458,9 +462,11 @@ export function RideDetailsScreen() {
           </Card>
         )}
 
-        {ride.status === 'completed' && !ride.txid && !isDriver && ride.paymentStatus !== 'held' && (
+        {ride.status === 'completed' && !ride.txid && !isDriver && (
           <Button fullWidth loading={processing} onClick={pay}>
-            {t('ride.fare')}: {formatPi(ride.fare)} — π Pay
+            {ride.paymentStatus === 'held'
+              ? t('ride.paymentRetry')
+              : `${t('ride.fare')}: ${formatPi(ride.fare)} — π Pay`}
           </Button>
         )}
         {ride.status === 'completed' && !isDriver && !ride.driverRating && (

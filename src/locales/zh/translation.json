@@ -149,6 +149,7 @@
     "searchingHint": "通常需要1-3分钟",
     "paymentComplete": "支付完成",
     "paymentFailed": "支付失败,请重试。",
+    "paymentRetry": "支付卡住了 — 重试",
     "surge": "高峰溢价"
   },
   "vehicle": {

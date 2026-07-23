@@ -149,6 +149,7 @@
     "searchingHint": "عادة ما يستغرق 1-3 دقائق",
     "paymentComplete": "تم الدفع",
     "paymentFailed": "فشل الدفع. حاول مرة أخرى.",
+    "paymentRetry": "الدفع عالق — إعادة المحاولة",
     "surge": "تسعير الذروة"
   },
   "vehicle": {

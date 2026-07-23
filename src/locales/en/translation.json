@@ -149,6 +149,7 @@
     "searchingHint": "Usually takes 1–3 minutes",
     "paymentComplete": "Payment complete",
     "paymentFailed": "Payment failed. Please try again.",
+    "paymentRetry": "Payment stuck — retry",
     "surge": "Surge"
   },
   "vehicle": {

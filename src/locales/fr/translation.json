@@ -149,6 +149,7 @@
     "searchingHint": "Prend généralement 1 à 3 minutes",
     "paymentComplete": "Paiement effectué",
     "paymentFailed": "Le paiement a échoué. Veuillez réessayer.",
+    "paymentRetry": "Paiement bloqué — réessayer",
     "surge": "Tarif majoré"
   },
   "vehicle": {

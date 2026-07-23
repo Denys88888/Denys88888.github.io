@@ -19,11 +19,21 @@ export interface PiPaymentCallbacks {
   onError: (error: Error, payment?: unknown) => void;
 }
 
+// The DTO the SDK hands back for a payment left over from a previous session
+// (app killed / connection dropped mid-flow). `identifier` is Pi's own
+// payment id; `metadata` is whatever we passed to createPayment, which is how
+// we recover our own backend payment id for it.
+export interface PiIncompletePayment {
+  identifier: string;
+  metadata?: { paymentId?: string; rideId?: string; type?: string };
+  transaction?: { txid: string; verified: boolean } | null;
+}
+
 export interface PiSDK {
   init(config: { version: string; sandbox?: boolean }): void;
   authenticate(
     scopes: string[],
-    onIncompletePaymentFound: (payment: unknown) => void
+    onIncompletePaymentFound: (payment: PiIncompletePayment) => void
   ): Promise<PiAuthResult>;
   createPayment(data: PiPaymentData, callbacks: PiPaymentCallbacks): void;
 }

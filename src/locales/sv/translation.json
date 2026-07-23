@@ -149,6 +149,7 @@
     "searchingHint": "Tar vanligtvis 1–3 minuter",
     "paymentComplete": "Betalning klar",
     "paymentFailed": "Betalningen misslyckades. Försök igen.",
+    "paymentRetry": "Betalningen har fastnat — försök igen",
     "surge": "Rusningstaxa"
   },
   "vehicle": {

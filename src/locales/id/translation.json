@@ -149,6 +149,7 @@
     "searchingHint": "Biasanya memakan waktu 1-3 menit",
     "paymentComplete": "Pembayaran selesai",
     "paymentFailed": "Pembayaran gagal. Silakan coba lagi.",
+    "paymentRetry": "Pembayaran macet — coba lagi",
     "surge": "Tarif sibuk"
   },
   "vehicle": {
