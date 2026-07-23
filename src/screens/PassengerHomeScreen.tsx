@@ -29,7 +29,8 @@ async function findActiveRide() {
     try {
       const { rides } = await api.listRides({ status, limit: 1 });
       if (rides.length) return rides[0];
-    } catch {
+    } catch (err) {
+      console.error('[home] findActiveRide:', err);
       return null;
     }
   }

@@ -65,9 +65,15 @@ export const useAppStore = create<AppState>((set) => ({
   setNearbyDrivers: (nearbyDrivers) => set({ nearbyDrivers }),
 
   toasts: [],
+  // Skip exact {type, message} duplicates already on screen — several flows
+  // (e.g. a denied-geolocation effect firing on every Home mount, plus a
+  // manual retry button re-surfacing the same cached error) can otherwise
+  // stack the identical banner two or three times in a row.
   addToast: (type, message) =>
-    set((s) => ({
-      toasts: [...s.toasts, { id: `${Date.now()}_${Math.random()}`, type, message }],
-    })),
+    set((s) =>
+      s.toasts.some((t) => t.type === type && t.message === message)
+        ? s
+        : { toasts: [...s.toasts, { id: `${Date.now()}_${Math.random()}`, type, message }] }
+    ),
   removeToast: (id) => set((s) => ({ toasts: s.toasts.filter((t) => t.id !== id) })),
 }));

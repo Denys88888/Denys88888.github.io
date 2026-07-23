@@ -168,7 +168,8 @@ export function RideDetailsScreen() {
       addToast('info', t('ride.statusCancelled'));
       setShowCancel(false);
       back();
-    } catch {
+    } catch (err) {
+      console.error('[ride] cancel:', err);
       addToast('error', t('common.error'));
     }
   };
@@ -178,7 +179,8 @@ export function RideDetailsScreen() {
       await api.updateRide(ride.id, { driverRating: rating });
       addToast('success', t('common.success'));
       navigate('home');
-    } catch {
+    } catch (err) {
+      console.error('[ride] submitRating:', err);
       addToast('error', t('common.error'));
     }
   };
@@ -217,7 +219,8 @@ export function RideDetailsScreen() {
       addToast('success', t('ride.reportSent'));
       setShowReport(false);
       setReportText('');
-    } catch {
+    } catch (err) {
+      console.error('[ride] submitReport:', err);
       addToast('error', t('common.error'));
     }
   };
@@ -237,7 +240,8 @@ export function RideDetailsScreen() {
       // so the alert still reaches the admin with the ride + coordinates.
       await api.createReport(ride.id, reportedId || uid, 'SOS', detail);
       addToast('warning', t('ride.sosSent'));
-    } catch {
+    } catch (err) {
+      console.error('[ride] sendSos:', err);
       addToast('error', t('common.error'));
     } finally {
       setSosSending(false);
@@ -251,7 +255,8 @@ export function RideDetailsScreen() {
       const fresh = await api.getRide(ride.id);
       setRide(fresh);
       addToast('success', t('common.success'));
-    } catch {
+    } catch (err) {
+      console.error('[ride] acceptOffer:', err);
       addToast('error', t('common.error'));
     }
   };
@@ -557,7 +562,8 @@ export function RideDetailsScreen() {
                   } else {
                     window.prompt(t('ride.share'), url);
                   }
-                } catch {
+                } catch (err) {
+                  console.error('[ride] share:', err);
                   addToast('error', t('common.error'));
                 }
               }}

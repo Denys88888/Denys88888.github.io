@@ -73,7 +73,7 @@ export function AdminDashboardScreen() {
     if (!(DATA_TABS as readonly string[]).includes(tab)) return;
     setTabLoading(true);
     const done = () => { if (!cancelled) setTabLoading(false); };
-    const fail = () => { done(); addToast('error', t('common.error')); };
+    const fail = (err: unknown) => { console.error(`[admin] load ${tab}:`, err); done(); addToast('error', t('common.error')); };
     if (tab === 'users') api.adminUsers().then((u) => { if (!cancelled) setUsers(u); done(); }).catch(fail);
     if (tab === 'rides') api.adminRides().then((r) => { if (!cancelled) setRides(r); done(); }).catch(fail);
     if (tab === 'drivers') api.adminDrivers().then((d) => { if (!cancelled) setDrivers(d); done(); }).catch(fail);
@@ -88,7 +88,8 @@ export function AdminDashboardScreen() {
       const flip = (x: User) => (x.uid === u.uid ? { ...x, isBlocked: !x.isBlocked } : x);
       setUsers((prev) => prev.map(flip));
       setDrivers((prev) => prev.map(flip) as AdminDriver[]);
-    } catch {
+    } catch (err) {
+      console.error('[admin] toggleBlock:', err);
       addToast('error', t('common.error'));
     }
   };
@@ -102,7 +103,8 @@ export function AdminDashboardScreen() {
         )
       );
       addToast('success', approve ? t('admin.approve') : t('admin.reject'));
-    } catch {
+    } catch (err) {
+      console.error('[admin] verify:', err);
       addToast('error', t('common.error'));
     }
   };
@@ -112,7 +114,8 @@ export function AdminDashboardScreen() {
       await api.adminResolveReport(r.id, status);
       setReports((prev) => prev.map((x) => (x.id === r.id ? { ...x, status } : x)));
       setStats((prev) => (prev ? { ...prev, pendingReports: Math.max(0, prev.pendingReports - 1) } : prev));
-    } catch {
+    } catch (err) {
+      console.error('[admin] resolveReport:', err);
       addToast('error', t('common.error'));
     }
   };
@@ -126,7 +129,8 @@ export function AdminDashboardScreen() {
         surgeEnabled,
       });
       addToast('success', t('common.success'));
-    } catch {
+    } catch (err) {
+      console.error('[admin] saveSettings:', err);
       addToast('error', t('common.error'));
     }
   };

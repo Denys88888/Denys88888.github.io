@@ -51,7 +51,8 @@ export function ProfileScreen() {
       setAuth(updated, token);
       navigate('home');
       addToast('success', t(`profile.switchedTo${target === 'driver' ? 'Driver' : 'Passenger'}`));
-    } catch {
+    } catch (err) {
+      console.error('[profile] switchRole:', err);
       addToast('error', t('common.error'));
     } finally {
       setSwitching(false);
@@ -67,7 +68,8 @@ export function ProfileScreen() {
       const updated = await api.updateProfile({ avatar: dataUrl });
       updateUser({ avatar: updated.avatar });
       addToast('success', t('profile.saved'));
-    } catch {
+    } catch (err) {
+      console.error('[profile] uploadAvatar:', err);
       addToast('error', t('common.error'));
     }
   };
@@ -78,7 +80,8 @@ export function ProfileScreen() {
       const updated = await api.updateProfile({ phone });
       updateUser({ phone: updated.phone });
       addToast('success', t('profile.saved'));
-    } catch {
+    } catch (err) {
+      console.error('[profile] savePhone:', err);
       addToast('error', t('common.error'));
     } finally {
       setSavingPhone(false);

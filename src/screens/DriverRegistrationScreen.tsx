@@ -46,7 +46,8 @@ export function DriverRegistrationScreen() {
       const updated = await api.updateProfile({ avatar: dataUrl });
       updateUser({ avatar: updated.avatar });
       addToast('success', t('profile.saved'));
-    } catch {
+    } catch (err) {
+      console.error('[register] uploadAvatar:', err);
       addToast('error', t('common.error'));
     }
   };
@@ -56,7 +57,8 @@ export function DriverRegistrationScreen() {
       const dataUrl = await fileToAvatarDataUrl(file, 512);
       setForm((f) => ({ ...f, vehiclePhoto: dataUrl }));
       addToast('success', t('register.vehiclePhotoSaved'));
-    } catch {
+    } catch (err) {
+      console.error('[register] uploadVehiclePhoto:', err);
       addToast('error', t('common.error'));
     }
   };
@@ -66,7 +68,8 @@ export function DriverRegistrationScreen() {
       const dataUrl = await fileToAvatarDataUrl(file, 512);
       setForm((f) => ({ ...f, licensePhoto: dataUrl }));
       addToast('success', t('register.licensePhotoSaved'));
-    } catch {
+    } catch (err) {
+      console.error('[register] uploadLicensePhoto:', err);
       addToast('error', t('common.error'));
     }
   };
@@ -98,7 +101,8 @@ export function DriverRegistrationScreen() {
         licensePhoto: form.licensePhoto,
       });
       setSubmitted(true);
-    } catch {
+    } catch (err) {
+      console.error('[register] submit:', err);
       addToast('error', t('common.error'));
     } finally {
       setSubmitting(false);

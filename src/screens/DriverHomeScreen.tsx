@@ -116,7 +116,8 @@ export function DriverHomeScreen() {
             setActiveRide(mine);
             return;
           }
-        } catch {
+        } catch (err) {
+          console.error('[driver] findActiveRide:', err);
           return;
         }
       }
@@ -173,6 +174,7 @@ export function DriverHomeScreen() {
       if (isAxiosError(err) && err.response?.status === 403) {
         navigate('register');
       } else {
+        console.error('[driver] toggleOnline:', err);
         addToast('error', t('common.error'));
       }
     }
@@ -201,7 +203,8 @@ export function DriverHomeScreen() {
       await api.submitOffer(ride.id, amount, etaMin);
       setOffered((prev) => ({ ...prev, [ride.id]: true }));
       addToast('success', t('driver.offerSent'));
-    } catch {
+    } catch (err) {
+      console.error('[driver] sendOffer:', err);
       addToast('error', t('common.error'));
     }
   };
