@@ -12,7 +12,7 @@ import { Modal } from '../components/ui/Modal';
 import { useRouter } from '../store/useRouter';
 import { useAppStore } from '../store/useAppStore';
 import { useToast } from '../hooks/useToast';
-import { usePayments } from '../hooks/usePayments';
+import { usePayments, type PreparedPayment } from '../hooks/usePayments';
 import { useGeolocation } from '../hooks/useGeolocation';
 import { wsService } from '../services/wsService';
 import { api } from '../services/api';
@@ -32,7 +32,8 @@ export function RideDetailsScreen() {
   const navigate = useRouter((s) => s.navigate);
   const back = useRouter((s) => s.back);
   const { addToast } = useToast();
-  const { payRide, processing } = usePayments();
+  const { preparePayment, payRide, processing } = usePayments();
+  const [preparedPayment, setPreparedPayment] = useState<PreparedPayment | null>(null);
   const { position } = useGeolocation();
   const storeRide = useAppStore((s) => s.currentRide);
   const uid = useAppStore((s) => s.user?.uid ?? '');
@@ -157,6 +158,29 @@ export function RideDetailsScreen() {
     return () => clearInterval(id);
   }, [etaActive]);
 
+  // Fetch the payment record (amount/memo/metadata) as soon as the ride
+  // becomes payable, well before the user taps the button — see
+  // usePayments.preparePayment for why this can't happen inside the click
+  // handler itself (iOS/WebKit drops the click's "user activation" across an
+  // awaited network call, and the Pi payment sheet silently fails to open).
+  const rideIsPayable = !!ride && ride.status === 'completed' && !ride.txid && ride.driverId !== uid;
+  useEffect(() => {
+    if (!rideIsPayable || !ride) {
+      setPreparedPayment(null);
+      return;
+    }
+    let cancelled = false;
+    preparePayment(ride.id).then((p) => {
+      if (!cancelled) setPreparedPayment(p);
+    });
+    return () => {
+      cancelled = true;
+    };
+    // Re-prepare whenever paymentStatus changes (e.g. a stale 'held' payment
+    // just got recovered server-side into a fresh payment id).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rideIsPayable, ride?.paymentStatus]);
+
   if (!ride) {
     return <div className="flex h-full items-center justify-center opacity-60">{t('common.loading')}</div>;
   }
@@ -194,7 +218,20 @@ export function RideDetailsScreen() {
   };
 
   const pay = async (): Promise<void> => {
-    await payRide(ride.id);
+    if (!preparedPayment) {
+      // Not ready yet (still fetching, or it failed) — this call unavoidably
+      // has an await before it, so it risks the same lost-activation issue
+      // the prepared-payment path exists to avoid, but it's the only option
+      // left when nothing was pre-fetched in time.
+      const fallback = await preparePayment(ride.id);
+      if (!fallback) {
+        addToast('error', t('ride.paymentFailed'));
+        return;
+      }
+      await payRide(fallback);
+    } else {
+      await payRide(preparedPayment);
+    }
     // Refresh either way: even a failed attempt may have recovered a stale
     // held payment server-side (found it already completed via Pi, or
     // released it back to pending) — the ride's true state may have changed
