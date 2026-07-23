@@ -131,11 +131,14 @@ export function RideDetailsScreen() {
 
   // Live ETA: recompute from the driver's position to the current target
   // (pickup before start, destination after) whenever the driver moves, then
-  // tick the displayed countdown down every second.
+  // tick the displayed countdown down every second. `driverPos` only ever
+  // arrives via the WS broadcast the *passenger* receives — on the driver's
+  // own screen that never fires, so use their own live GPS (`position`) there.
   const targetPoint =
     ride && (ride.status === 'in_progress' ? ride.destination : ride.pickup);
+  const etaSourcePos = iAmDriver ? position : driverPos;
   useEffect(() => {
-    if (!driverPos || !targetPoint || !ride) {
+    if (!etaSourcePos || !targetPoint || !ride) {
       setEtaSeconds(null);
       return;
     }
@@ -143,9 +146,9 @@ export function RideDetailsScreen() {
       setEtaSeconds(null);
       return;
     }
-    const km = haversineKm(driverPos.lat, driverPos.lng, targetPoint.lat, targetPoint.lng);
+    const km = haversineKm(etaSourcePos.lat, etaSourcePos.lng, targetPoint.lat, targetPoint.lng);
     setEtaSeconds(Math.max(0, Math.round((km / AVG_SPEED_KMH) * 3600)));
-  }, [driverPos, targetPoint?.lat, targetPoint?.lng, ride?.status]);
+  }, [etaSourcePos, targetPoint?.lat, targetPoint?.lng, ride?.status]);
 
   const etaActive = etaSeconds !== null;
   useEffect(() => {
@@ -161,6 +164,11 @@ export function RideDetailsScreen() {
   const isDriver = ride.driverId === uid;
   const counterpart: RideParty | null | undefined = isDriver ? ride.passenger : ride.driver;
   const feeApplies = ride.status === 'arrived' || ride.status === 'in_progress';
+  // driverPos only ever arrives via the 'driver_location_update' broadcast,
+  // which the server sends to the passenger — the driver never gets an echo
+  // of their own position back. On the driver's own screen, their live GPS
+  // (`position`, from useGeolocation) is the one that's actually populated.
+  const liveDriverPos = isDriver ? position : driverPos;
 
   const doCancel = async (): Promise<void> => {
     try {
@@ -269,11 +277,17 @@ export function RideDetailsScreen() {
     <div className="flex h-full flex-col">
       <div className="relative h-[48%]">
         <MapView
-          center={driverPos ?? ride.pickup}
+          center={liveDriverPos ?? ride.pickup}
+          // Before the ride starts, the relevant route is the driver's own
+          // live position -> the passenger's pickup point (routeFrom draws
+          // that leg without adding a redundant pin on top of the driver car
+          // icon). Once the ride is under way, show the actual trip route
+          // (pickup -> stops -> destination) instead.
+          routeFrom={ride.status === 'in_progress' ? undefined : liveDriverPos}
           pickup={ride.pickup}
-          destination={ride.destination}
-          stops={ride.stops}
-          driver={driverPos}
+          destination={ride.status === 'in_progress' ? ride.destination : undefined}
+          stops={ride.status === 'in_progress' ? ride.stops : undefined}
+          driver={liveDriverPos}
           me={position}
           className="h-full w-full"
         />
@@ -287,9 +301,9 @@ export function RideDetailsScreen() {
         {showNav && isDriver && targetPoint && (
           <div className="absolute inset-x-3 bottom-3 z-[1000]">
             <NavigationPanel
-              from={driverPos ?? ride.pickup}
+              from={liveDriverPos ?? ride.pickup}
               to={targetPoint}
-              position={driverPos}
+              position={liveDriverPos}
               onClose={() => setShowNav(false)}
             />
           </div>

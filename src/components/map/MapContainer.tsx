@@ -100,6 +100,11 @@ interface Props {
   pickup?: GeoPoint | null;
   destination?: GeoPoint | null;
   driver?: GeoPoint | null;
+  // Route start when it isn't the pickup point (e.g. the driver's own live
+  // position while en route to collect the passenger) — feeds the polyline
+  // like `pickup` does, but never draws its own pin (the `driver` car icon,
+  // or nothing, already marks that spot).
+  routeFrom?: GeoPoint | null;
   // The user's own live GPS position — rendered as a pulsing blue dot.
   me?: GeoPoint | null;
   // One-off recenter target (e.g. the "my location" button); bump focusNonce
@@ -125,6 +130,7 @@ export function MapView({
   destination,
   driver,
   me,
+  routeFrom,
   focus,
   focusNonce,
   heatmap = [],
@@ -135,6 +141,7 @@ export function MapView({
   className,
 }: Props) {
   const waypoints: GeoPoint[] = [];
+  if (routeFrom) waypoints.push(routeFrom);
   if (pickup) waypoints.push(pickup);
   waypoints.push(...stops);
   if (destination) waypoints.push(destination);
