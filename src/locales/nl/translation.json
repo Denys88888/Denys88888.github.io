@@ -151,7 +151,10 @@
     "paymentFailed": "Betaling mislukt. Probeer het opnieuw.",
     "paymentRetry": "Betaling vastgelopen — opnieuw proberen",
     "surge": "Piektarief",
-    "paymentPreparing": "Betaling voorbereiden…"
+    "paymentPreparing": "Betaling voorbereiden…",
+    "sosCall": "Bel 112",
+    "sosConfirm": "Dit belt de hulpdiensten (112) en deelt je locatie met support.",
+    "sosAlertOnly": "Geen noodgeval — alleen support waarschuwen"
   },
   "vehicle": {
     "economy": "Economy",

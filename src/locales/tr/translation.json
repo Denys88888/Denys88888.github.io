@@ -151,7 +151,10 @@
     "paymentFailed": "Ödeme başarısız oldu. Lütfen tekrar deneyin.",
     "paymentRetry": "Ödeme takıldı — tekrar dene",
     "surge": "Yoğunluk çarpanı",
-    "paymentPreparing": "Ödeme hazırlanıyor…"
+    "paymentPreparing": "Ödeme hazırlanıyor…",
+    "sosCall": "112'yi Ara",
+    "sosConfirm": "Bu, acil servisleri (112) arayacak ve konumunuzu destek ekibiyle paylaşacaktır.",
+    "sosAlertOnly": "Acil değil — sadece destek ekibini bilgilendir"
   },
   "vehicle": {
     "economy": "Ekonomi",

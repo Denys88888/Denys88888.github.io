@@ -151,7 +151,10 @@
     "paymentFailed": "결제에 실패했습니다. 다시 시도해 주세요.",
     "paymentRetry": "결제가 멈췄습니다 — 다시 시도",
     "surge": "할증 요금",
-    "paymentPreparing": "결제 준비 중…"
+    "paymentPreparing": "결제 준비 중…",
+    "sosCall": "112에 전화",
+    "sosConfirm": "긴급 서비스(112)에 전화가 연결되고 위치가 지원팀과 공유됩니다.",
+    "sosAlertOnly": "긴급 상황 아님 — 지원팀에만 알리기"
   },
   "vehicle": {
     "economy": "이코노미",

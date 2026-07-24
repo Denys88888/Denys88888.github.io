@@ -151,7 +151,10 @@
     "paymentFailed": "Pagamento non riuscito. Riprova.",
     "paymentRetry": "Pagamento bloccato — riprova",
     "surge": "Tariffa maggiorata",
-    "paymentPreparing": "Preparazione del pagamento…"
+    "paymentPreparing": "Preparazione del pagamento…",
+    "sosCall": "Chiama il 112",
+    "sosConfirm": "Verrà chiamato il servizio di emergenza (112) e la tua posizione sarà condivisa con il supporto.",
+    "sosAlertOnly": "Non è un'emergenza — avvisa solo il supporto"
   },
   "vehicle": {
     "economy": "Economy",

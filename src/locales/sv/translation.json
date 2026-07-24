@@ -151,7 +151,10 @@
     "paymentFailed": "Betalningen misslyckades. Försök igen.",
     "paymentRetry": "Betalningen har fastnat — försök igen",
     "surge": "Rusningstaxa",
-    "paymentPreparing": "Förbereder betalning…"
+    "paymentPreparing": "Förbereder betalning…",
+    "sosCall": "Ring 112",
+    "sosConfirm": "Detta ringer larmnumret (112) och delar din plats med supporten.",
+    "sosAlertOnly": "Inget nödläge — meddela bara supporten"
   },
   "vehicle": {
     "economy": "Economy",

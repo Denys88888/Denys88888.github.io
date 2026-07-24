@@ -151,7 +151,10 @@
     "paymentFailed": "Le paiement a échoué. Veuillez réessayer.",
     "paymentRetry": "Paiement bloqué — réessayer",
     "surge": "Tarif majoré",
-    "paymentPreparing": "Préparation du paiement…"
+    "paymentPreparing": "Préparation du paiement…",
+    "sosCall": "Appeler le 112",
+    "sosConfirm": "Cela appellera les services d'urgence (112) et partagera votre position avec le support.",
+    "sosAlertOnly": "Pas une urgence — juste alerter le support"
   },
   "vehicle": {
     "economy": "Économique",

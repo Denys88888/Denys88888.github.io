@@ -151,7 +151,10 @@
     "paymentFailed": "Payment failed. Please try again.",
     "paymentRetry": "Payment stuck — retry",
     "surge": "Surge",
-    "paymentPreparing": "Preparing payment…"
+    "paymentPreparing": "Preparing payment…",
+    "sosCall": "Call 112",
+    "sosConfirm": "This will call the emergency services (112) and share your location with support.",
+    "sosAlertOnly": "Not an emergency — just alert support"
   },
   "vehicle": {
     "economy": "Economy",

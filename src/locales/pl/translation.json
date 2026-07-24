@@ -151,7 +151,10 @@
     "paymentFailed": "Płatność nie powiodła się. Spróbuj ponownie.",
     "paymentRetry": "Płatność utknęła — spróbuj ponownie",
     "surge": "Zwiększony popyt",
-    "paymentPreparing": "Przygotowywanie płatności…"
+    "paymentPreparing": "Przygotowywanie płatności…",
+    "sosCall": "Zadzwoń pod 112",
+    "sosConfirm": "Zostanie wykonane połączenie z numerem alarmowym (112), a Twoja lokalizacja trafi do wsparcia.",
+    "sosAlertOnly": "To nie nagły wypadek — po prostu powiadom wsparcie"
   },
   "vehicle": {
     "economy": "Ekonomiczny",

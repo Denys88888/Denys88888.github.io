@@ -151,7 +151,10 @@
     "paymentFailed": "Pembayaran gagal. Silakan coba lagi.",
     "paymentRetry": "Pembayaran macet — coba lagi",
     "surge": "Tarif sibuk",
-    "paymentPreparing": "Menyiapkan pembayaran…"
+    "paymentPreparing": "Menyiapkan pembayaran…",
+    "sosCall": "Panggil 112",
+    "sosConfirm": "Ini akan menelepon layanan darurat (112) dan membagikan lokasi Anda ke dukungan.",
+    "sosAlertOnly": "Bukan darurat — cukup beri tahu dukungan"
   },
   "vehicle": {
     "economy": "Ekonomi",

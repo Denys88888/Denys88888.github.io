@@ -49,6 +49,7 @@ export function RideDetailsScreen() {
   const [tipBusy, setTipBusy] = useState(false);
   const [tipCustom, setTipCustom] = useState('');
   const [sosSending, setSosSending] = useState(false);
+  const [showSos, setShowSos] = useState(false);
 
   const rideId = params.id ?? storeRide?.id ?? '';
 
@@ -291,26 +292,42 @@ export function RideDetailsScreen() {
     }
   };
 
-  // SOS: file a high-priority report to the admin queue with the sender's live
-  // GPS coordinates and a timestamp, so support/admin can act immediately.
-  const sendSos = async (): Promise<void> => {
+  // SOS: previously only filed a report to the admin queue — silent from the
+  // user's point of view, and the admin might not see it for hours. A real
+  // emergency needs an actual call right now, not a ticket. Confirming in the
+  // modal dials 112 (the universal emergency number across the EU and most
+  // of the world, incl. Poland where this app currently operates) via a
+  // tel: link, while still filing the report in the background so
+  // support/admin has the ride + coordinates on record afterward.
+  const fileSosReport = async (): Promise<void> => {
     const reportedId = isDriver ? ride.passengerId : ride.driverId;
     const where = position
       ? `${position.lat.toFixed(5)},${position.lng.toFixed(5)}`
       : 'location unavailable';
     const when = new Date().toISOString();
     const detail = `SOS from ${isDriver ? 'driver' : 'passenger'} at ${where} (${when})`;
+    // reportedId may be missing if no driver is assigned yet — fall back to
+    // self so the alert still reaches the admin with the ride + coordinates.
+    await api.createReport(ride.id, reportedId || uid, 'SOS', detail);
+  };
+
+  const callEmergency = (): void => {
+    setShowSos(false);
+    window.location.href = 'tel:112';
+    void fileSosReport().catch((err) => console.error('[ride] sos report after call:', err));
+  };
+
+  const sendSosAlertOnly = async (): Promise<void> => {
     setSosSending(true);
     try {
-      // reportedId may be missing if no driver is assigned yet — fall back to self
-      // so the alert still reaches the admin with the ride + coordinates.
-      await api.createReport(ride.id, reportedId || uid, 'SOS', detail);
+      await fileSosReport();
       addToast('warning', t('ride.sosSent'));
     } catch (err) {
       console.error('[ride] sendSos:', err);
       addToast('error', t('common.error'));
     } finally {
       setSosSending(false);
+      setShowSos(false);
     }
   };
 
@@ -651,7 +668,7 @@ export function RideDetailsScreen() {
             >
               <Share2 size={16} /> {t('ride.share')}
             </Button>
-            <Button variant="danger" loading={sosSending} onClick={sendSos}>
+            <Button variant="danger" loading={sosSending} onClick={() => setShowSos(true)}>
               <Siren size={16} /> {t('ride.sos')}
             </Button>
             <Button variant="ghost" className="col-span-2 !text-danger" onClick={() => setShowCancel(true)}>
@@ -689,6 +706,26 @@ export function RideDetailsScreen() {
           rows={3}
           className="w-full rounded-lg border border-[#E0E0E0] dark:border-white/15 bg-transparent px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/40"
         />
+      </Modal>
+
+      <Modal
+        open={showSos}
+        title={t('ride.sos')}
+        onClose={() => setShowSos(false)}
+        onConfirm={callEmergency}
+        confirmLabel={t('ride.sosCall')}
+        confirmVariant="danger"
+        cancelLabel={t('common.cancel')}
+      >
+        <p>{t('ride.sosConfirm')}</p>
+        <button
+          type="button"
+          onClick={sendSosAlertOnly}
+          disabled={sosSending}
+          className="mt-3 text-sm font-medium text-primary underline underline-offset-2 disabled:opacity-50"
+        >
+          {t('ride.sosAlertOnly')}
+        </button>
       </Modal>
     </div>
   );

@@ -151,7 +151,10 @@
     "paymentFailed": "El pago falló. Inténtalo de nuevo.",
     "paymentRetry": "Pago atascado — reintentar",
     "surge": "Tarifa dinámica",
-    "paymentPreparing": "Preparando el pago…"
+    "paymentPreparing": "Preparando el pago…",
+    "sosCall": "Llamar al 112",
+    "sosConfirm": "Esto llamará a los servicios de emergencia (112) y compartirá tu ubicación con soporte.",
+    "sosAlertOnly": "No es una emergencia — solo avisar al soporte"
   },
   "vehicle": {
     "economy": "Económico",
