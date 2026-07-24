@@ -17,7 +17,7 @@ import { fetchRoute } from '../../services/mapService';
 function carIcon(small = false): L.DivIcon {
   const size = small ? 28 : 36;
   const svg = small ? 14 : 18;
-  const bg = small ? '#7B61FF' : '#00C853';
+  const bg = small ? '#0F6E56' : '#00C853';
   return L.divIcon({
     className: '',
     html: `<div style="display:flex;align-items:center;justify-content:center;width:${size}px;height:${size}px;border-radius:50%;background:${bg};border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35)">
@@ -250,13 +250,15 @@ export function MapView({
           />
         ))}
         {approachRoute.length >= 2 && (
-          <Polyline positions={approachRoute} pathOptions={{ color: '#7B3FE4', weight: 4 }} />
+          <Polyline positions={approachRoute} pathOptions={{ color: '#0F6E56', weight: 4 }} />
         )}
         {tripRoute.length >= 2 && (
           <Polyline
             positions={tripRoute}
             pathOptions={{
-              color: '#00BFA5',
+              // Distinct from the emerald approach leg and from the emerald
+              // primary color used elsewhere in the UI.
+              color: '#00B8D4',
               weight: 4,
               // Dashed when shown alongside the approach leg, so the two
               // colors read as distinct legs even for red-green colorblind

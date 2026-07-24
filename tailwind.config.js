@@ -5,15 +5,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#7B3FE4',
+        primary: '#0F6E56',
         success: '#00C853',
         danger: '#FF1744',
         warning: '#FFAB00',
         info: '#2979FF',
         'bg-light': '#F8F9FA',
-        'bg-dark': '#121212',
+        'bg-dark': '#03110D',
         'surface-light': '#FFFFFF',
-        'surface-dark': '#1E1E1E',
+        'surface-dark': '#062017',
         'text-light': '#1A1A2E',
         'text-dark': '#E8E8E8',
       },
@@ -27,7 +27,7 @@ export default {
       },
       boxShadow: {
         card: '0 4px 20px rgba(0,0,0,0.08)',
-        fab: '0 6px 20px rgba(123,63,228,0.4)',
+        fab: '0 6px 20px rgba(15,110,86,0.4)',
       },
       keyframes: {
         'slide-up': {
