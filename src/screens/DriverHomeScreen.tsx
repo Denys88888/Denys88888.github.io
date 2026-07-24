@@ -24,6 +24,7 @@ export function DriverHomeScreen() {
   const { addToast } = useToast();
   const navigate = useRouter((s) => s.navigate);
   const uid = useAppStore((s) => s.user?.uid ?? '');
+  const myVehicleType = useAppStore((s) => s.user?.driverInfo?.vehicleType ?? 'economy');
 
   const [online, setOnline] = useState(false);
   const [requests, setRequests] = useState<Ride[]>([]);
@@ -167,7 +168,12 @@ export function DriverHomeScreen() {
         wsService.send('driver_online', {
           lat: center.lat,
           lng: center.lng,
-          vehicleType: 'economy',
+          // Was hardcoded to 'economy' regardless of what the driver actually
+          // registered as — silently reverting a comfort/business/xl driver's
+          // vehicle class every time they went online, and (combined with the
+          // dispatch not filtering by it either) letting economy drivers pick
+          // up business requests.
+          vehicleType: myVehicleType,
         });
         setOnline(true);
         addToast('success', t('driver.online'));
