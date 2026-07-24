@@ -333,7 +333,8 @@
     "driverArrived": "Ваш водій прибув!",
     "rideStarted": "Поїздка розпочалась",
     "rideCompleted": "Поїздка завершена",
-    "rideCancelled": "Вашу поїздку скасовано"
+    "rideCancelled": "Вашу поїздку скасовано",
+    "paymentReceived": "Пасажир оплатив — ви заробили {{amount}}"
   },
   "onboarding": {
     "slide1Title": "Поїздки за Pi",

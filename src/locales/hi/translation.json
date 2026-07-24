@@ -333,7 +333,8 @@
     "driverArrived": "आपका ड्राइवर आ गया है!",
     "rideStarted": "आपकी सवारी शुरू हो गई है",
     "rideCompleted": "सवारी पूरी हुई",
-    "rideCancelled": "आपकी सवारी रद्द कर दी गई"
+    "rideCancelled": "आपकी सवारी रद्द कर दी गई",
+    "paymentReceived": "यात्री ने भुगतान किया — आपने {{amount}} कमाए"
   },
   "onboarding": {
     "slide1Title": "Pi से राइड बुक करें",

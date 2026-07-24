@@ -333,7 +333,8 @@
     "driverArrived": "Votre chauffeur est arrivé !",
     "rideStarted": "Votre trajet a commencé",
     "rideCompleted": "Trajet terminé",
-    "rideCancelled": "Votre trajet a été annulé"
+    "rideCancelled": "Votre trajet a été annulé",
+    "paymentReceived": "Le passager a payé — vous avez gagné {{amount}}"
   },
   "onboarding": {
     "slide1Title": "Réservez avec Pi",

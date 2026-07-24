@@ -333,7 +333,8 @@
     "driverArrived": "Uw chauffeur is gearriveerd!",
     "rideStarted": "Uw rit is begonnen",
     "rideCompleted": "Rit voltooid",
-    "rideCancelled": "Uw rit is geannuleerd"
+    "rideCancelled": "Uw rit is geannuleerd",
+    "paymentReceived": "Passagier heeft betaald — je hebt {{amount}} verdiend"
   },
   "onboarding": {
     "slide1Title": "Boek ritten met Pi",

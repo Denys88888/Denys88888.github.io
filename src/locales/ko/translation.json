@@ -333,7 +333,8 @@
     "driverArrived": "드라이버가 도착했습니다!",
     "rideStarted": "탑승이 시작되었습니다",
     "rideCompleted": "탑승 완료",
-    "rideCancelled": "탑승이 취소되었습니다"
+    "rideCancelled": "탑승이 취소되었습니다",
+    "paymentReceived": "승객이 결제했습니다 — {{amount}}를 벌었습니다"
   },
   "onboarding": {
     "slide1Title": "Pi로 라이드 예약",

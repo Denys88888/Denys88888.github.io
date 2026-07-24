@@ -333,7 +333,8 @@
     "driverArrived": "คนขับของคุณมาถึงแล้ว!",
     "rideStarted": "การเดินทางของคุณเริ่มต้นแล้ว",
     "rideCompleted": "การเดินทางเสร็จสิ้น",
-    "rideCancelled": "การเดินทางของคุณถูกยกเลิก"
+    "rideCancelled": "การเดินทางของคุณถูกยกเลิก",
+    "paymentReceived": "ผู้โดยสารชำระเงินแล้ว — คุณได้รับ {{amount}}"
   },
   "onboarding": {
     "slide1Title": "จองรถด้วย Pi",

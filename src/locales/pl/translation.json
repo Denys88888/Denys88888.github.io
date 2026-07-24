@@ -333,7 +333,8 @@
     "driverArrived": "Twój kierowca przyjechał!",
     "rideStarted": "Twój przejazd się rozpoczął",
     "rideCompleted": "Przejazd zakończony",
-    "rideCancelled": "Twój przejazd został anulowany"
+    "rideCancelled": "Twój przejazd został anulowany",
+    "paymentReceived": "Pasażer zapłacił — zarobiłeś {{amount}}"
   },
   "onboarding": {
     "slide1Title": "Przejazdy za Pi",

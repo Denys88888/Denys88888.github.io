@@ -333,7 +333,8 @@
     "driverArrived": "ドライバーが到着しました！",
     "rideStarted": "乗車が開始されました",
     "rideCompleted": "乗車完了",
-    "rideCancelled": "乗車がキャンセルされました"
+    "rideCancelled": "乗車がキャンセルされました",
+    "paymentReceived": "乗客が支払いました — {{amount}}を獲得しました"
   },
   "onboarding": {
     "slide1Title": "Piで乗車予約",

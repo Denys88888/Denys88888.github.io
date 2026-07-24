@@ -333,7 +333,8 @@
     "driverArrived": "Din förare har anlänt!",
     "rideStarted": "Din resa har börjat",
     "rideCompleted": "Resa slutförd",
-    "rideCancelled": "Din resa avbokades"
+    "rideCancelled": "Din resa avbokades",
+    "paymentReceived": "Passageraren har betalat — du tjänade {{amount}}"
   },
   "onboarding": {
     "slide1Title": "Boka resor med Pi",

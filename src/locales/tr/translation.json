@@ -333,7 +333,8 @@
     "driverArrived": "Sürücünüz geldi!",
     "rideStarted": "Yolculuğunuz başladı",
     "rideCompleted": "Yolculuk tamamlandı",
-    "rideCancelled": "Yolculuğunuz iptal edildi"
+    "rideCancelled": "Yolculuğunuz iptal edildi",
+    "paymentReceived": "Yolcu ödeme yaptı — {{amount}} kazandınız"
   },
   "onboarding": {
     "slide1Title": "Pi ile yolculuk rezervasyonu",

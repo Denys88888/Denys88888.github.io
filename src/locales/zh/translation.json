@@ -333,7 +333,8 @@
     "driverArrived": "您的司机已到达！",
     "rideStarted": "您的行程已开始",
     "rideCompleted": "行程已完成",
-    "rideCancelled": "您的行程已取消"
+    "rideCancelled": "您的行程已取消",
+    "paymentReceived": "乘客已付款 — 您赚了 {{amount}}"
   },
   "onboarding": {
     "slide1Title": "用Pi预约行程",

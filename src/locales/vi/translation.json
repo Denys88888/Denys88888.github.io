@@ -333,7 +333,8 @@
     "driverArrived": "Tài xế của bạn đã đến!",
     "rideStarted": "Chuyến đi của bạn đã bắt đầu",
     "rideCompleted": "Chuyến đi hoàn thành",
-    "rideCancelled": "Chuyến đi của bạn đã bị hủy"
+    "rideCancelled": "Chuyến đi của bạn đã bị hủy",
+    "paymentReceived": "Hành khách đã thanh toán — bạn kiếm được {{amount}}"
   },
   "onboarding": {
     "slide1Title": "Đặt chuyến với Pi",

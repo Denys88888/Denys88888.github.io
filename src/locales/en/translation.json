@@ -333,7 +333,8 @@
     "driverArrived": "Your driver has arrived!",
     "rideStarted": "Your ride has started",
     "rideCompleted": "Ride completed",
-    "rideCancelled": "Your ride was cancelled"
+    "rideCancelled": "Your ride was cancelled",
+    "paymentReceived": "Passenger paid — you earned {{amount}}"
   },
   "onboarding": {
     "slide1Title": "Book rides with Pi",

@@ -333,7 +333,8 @@
     "driverArrived": "Il tuo autista è arrivato!",
     "rideStarted": "La tua corsa è iniziata",
     "rideCompleted": "Corsa completata",
-    "rideCancelled": "La tua corsa è stata annullata"
+    "rideCancelled": "La tua corsa è stata annullata",
+    "paymentReceived": "Il passeggero ha pagato — hai guadagnato {{amount}}"
   },
   "onboarding": {
     "slide1Title": "Prenota corse con Pi",

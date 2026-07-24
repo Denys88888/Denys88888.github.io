@@ -333,7 +333,8 @@
     "driverArrived": "Ihr Fahrer ist da!",
     "rideStarted": "Ihre Fahrt hat begonnen",
     "rideCompleted": "Fahrt abgeschlossen",
-    "rideCancelled": "Ihre Fahrt wurde storniert"
+    "rideCancelled": "Ihre Fahrt wurde storniert",
+    "paymentReceived": "Der Fahrgast hat bezahlt — du hast {{amount}} verdient"
   },
   "onboarding": {
     "slide1Title": "Fahrten mit Pi buchen",
