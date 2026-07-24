@@ -44,7 +44,12 @@ export async function authenticateWithPi(): Promise<PiAuthResult> {
     }
   };
   logger.info('[Pi] calling authenticate…');
-  return window.Pi!.authenticate(['username', 'payments'], onIncompletePaymentFound);
+  // 'wallet_address' is required for the server to look up this user's Stellar
+  // public key when paying them out (App-to-User) — without it Pi's payment
+  // API rejects A2U payment creation with error "missing_scope". Drivers who
+  // logged in before this scope was added must log out and back in once to
+  // grant it (Pi will prompt for the new permission on next authenticate).
+  return window.Pi!.authenticate(['username', 'payments', 'wallet_address'], onIncompletePaymentFound);
 }
 
 // Run the full Pi payment lifecycle for a ride, wiring the SDK callbacks to our
