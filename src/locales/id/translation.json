@@ -150,7 +150,8 @@
     "paymentComplete": "Pembayaran selesai",
     "paymentFailed": "Pembayaran gagal. Silakan coba lagi.",
     "paymentRetry": "Pembayaran macet — coba lagi",
-    "surge": "Tarif sibuk"
+    "surge": "Tarif sibuk",
+    "paymentPreparing": "Menyiapkan pembayaran…"
   },
   "vehicle": {
     "economy": "Ekonomi",

@@ -150,7 +150,8 @@
     "paymentComplete": "Thanh toán hoàn tất",
     "paymentFailed": "Thanh toán thất bại. Vui lòng thử lại.",
     "paymentRetry": "Thanh toán bị kẹt — thử lại",
-    "surge": "Giá giờ cao điểm"
+    "surge": "Giá giờ cao điểm",
+    "paymentPreparing": "Đang chuẩn bị thanh toán…"
   },
   "vehicle": {
     "economy": "Economy",

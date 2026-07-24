@@ -35,10 +35,35 @@ export async function requestNotificationPermission(): Promise<boolean> {
 // Short two-tone "ding" via Web Audio — no asset file needed (nothing to
 // fail to load), and works whether or not the tab is focused, unlike relying
 // on a <audio> element autoplay policy.
+//
+// Autoplay policies (Chrome/WebView, which the Pi Browser is built on) keep a
+// freshly-created AudioContext 'suspended' until it's resumed inside a user
+// gesture. The 'arrived' event arrives over the WebSocket with no gesture
+// attached, so creating/resuming the context for the first time right there
+// would silently produce no sound. Instead, unlock it eagerly on the very
+// first tap anywhere in the app — by the time a real notification needs it,
+// it's already 'running'.
 let audioCtx: AudioContext | null = null;
+function getAudioCtxCtor(): typeof AudioContext | undefined {
+  return window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+}
+
+export function unlockAudioOnFirstGesture(): void {
+  if (typeof window === 'undefined') return;
+  const events: Array<keyof WindowEventMap> = ['pointerdown', 'touchstart', 'click', 'keydown'];
+  const unlock = (): void => {
+    events.forEach((ev) => window.removeEventListener(ev, unlock));
+    const Ctx = getAudioCtxCtor();
+    if (!Ctx) return;
+    if (!audioCtx) audioCtx = new Ctx();
+    if (audioCtx.state === 'suspended') void audioCtx.resume();
+  };
+  events.forEach((ev) => window.addEventListener(ev, unlock, { once: true, passive: true }));
+}
+
 function playChime(): void {
   try {
-    const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    const Ctx = getAudioCtxCtor();
     if (!Ctx) return;
     if (!audioCtx) audioCtx = new Ctx();
     if (audioCtx.state === 'suspended') void audioCtx.resume();
@@ -84,6 +109,7 @@ function notify(message: string, opts?: { sound?: boolean }): void {
 export function initNotifications(): void {
   if (initialized) return;
   initialized = true;
+  unlockAudioOnFirstGesture();
 
   // Drivers: a new ride request is available.
   wsService.on('ride_available', (msg) => {

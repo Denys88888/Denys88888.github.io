@@ -150,7 +150,8 @@
     "paymentComplete": "支払い完了",
     "paymentFailed": "支払いに失敗しました。もう一度お試しください。",
     "paymentRetry": "支払いが止まっています — 再試行",
-    "surge": "サージ料金"
+    "surge": "サージ料金",
+    "paymentPreparing": "支払いを準備中…"
   },
   "vehicle": {
     "economy": "エコノミー",

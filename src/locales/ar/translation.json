@@ -150,7 +150,8 @@
     "paymentComplete": "تم الدفع",
     "paymentFailed": "فشل الدفع. حاول مرة أخرى.",
     "paymentRetry": "الدفع عالق — إعادة المحاولة",
-    "surge": "تسعير الذروة"
+    "surge": "تسعير الذروة",
+    "paymentPreparing": "جارٍ تجهيز الدفع…"
   },
   "vehicle": {
     "economy": "اقتصادي",

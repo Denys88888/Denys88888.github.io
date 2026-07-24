@@ -150,7 +150,8 @@
     "paymentComplete": "Zahlung abgeschlossen",
     "paymentFailed": "Zahlung fehlgeschlagen. Bitte erneut versuchen.",
     "paymentRetry": "Zahlung hängt — erneut versuchen",
-    "surge": "Erhöhte Nachfrage"
+    "surge": "Erhöhte Nachfrage",
+    "paymentPreparing": "Zahlung wird vorbereitet…"
   },
   "vehicle": {
     "economy": "Economy",

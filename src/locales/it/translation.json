@@ -150,7 +150,8 @@
     "paymentComplete": "Pagamento completato",
     "paymentFailed": "Pagamento non riuscito. Riprova.",
     "paymentRetry": "Pagamento bloccato — riprova",
-    "surge": "Tariffa maggiorata"
+    "surge": "Tariffa maggiorata",
+    "paymentPreparing": "Preparazione del pagamento…"
   },
   "vehicle": {
     "economy": "Economy",

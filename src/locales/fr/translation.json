@@ -150,7 +150,8 @@
     "paymentComplete": "Paiement effectué",
     "paymentFailed": "Le paiement a échoué. Veuillez réessayer.",
     "paymentRetry": "Paiement bloqué — réessayer",
-    "surge": "Tarif majoré"
+    "surge": "Tarif majoré",
+    "paymentPreparing": "Préparation du paiement…"
   },
   "vehicle": {
     "economy": "Économique",

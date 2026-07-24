@@ -150,7 +150,8 @@
     "paymentComplete": "Ödeme tamamlandı",
     "paymentFailed": "Ödeme başarısız oldu. Lütfen tekrar deneyin.",
     "paymentRetry": "Ödeme takıldı — tekrar dene",
-    "surge": "Yoğunluk çarpanı"
+    "surge": "Yoğunluk çarpanı",
+    "paymentPreparing": "Ödeme hazırlanıyor…"
   },
   "vehicle": {
     "economy": "Ekonomi",

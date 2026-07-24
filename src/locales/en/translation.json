@@ -150,7 +150,8 @@
     "paymentComplete": "Payment complete",
     "paymentFailed": "Payment failed. Please try again.",
     "paymentRetry": "Payment stuck — retry",
-    "surge": "Surge"
+    "surge": "Surge",
+    "paymentPreparing": "Preparing payment…"
   },
   "vehicle": {
     "economy": "Economy",

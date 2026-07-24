@@ -150,7 +150,8 @@
     "paymentComplete": "Płatność zakończona",
     "paymentFailed": "Płatność nie powiodła się. Spróbuj ponownie.",
     "paymentRetry": "Płatność utknęła — spróbuj ponownie",
-    "surge": "Zwiększony popyt"
+    "surge": "Zwiększony popyt",
+    "paymentPreparing": "Przygotowywanie płatności…"
   },
   "vehicle": {
     "economy": "Ekonomiczny",

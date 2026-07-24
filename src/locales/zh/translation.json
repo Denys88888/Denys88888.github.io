@@ -150,7 +150,8 @@
     "paymentComplete": "支付完成",
     "paymentFailed": "支付失败,请重试。",
     "paymentRetry": "支付卡住了 — 重试",
-    "surge": "高峰溢价"
+    "surge": "高峰溢价",
+    "paymentPreparing": "正在准备付款…"
   },
   "vehicle": {
     "economy": "经济型",

@@ -150,7 +150,8 @@
     "paymentComplete": "Betalning klar",
     "paymentFailed": "Betalningen misslyckades. Försök igen.",
     "paymentRetry": "Betalningen har fastnat — försök igen",
-    "surge": "Rusningstaxa"
+    "surge": "Rusningstaxa",
+    "paymentPreparing": "Förbereder betalning…"
   },
   "vehicle": {
     "economy": "Economy",

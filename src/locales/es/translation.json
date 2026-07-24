@@ -150,7 +150,8 @@
     "paymentComplete": "Pago completado",
     "paymentFailed": "El pago falló. Inténtalo de nuevo.",
     "paymentRetry": "Pago atascado — reintentar",
-    "surge": "Tarifa dinámica"
+    "surge": "Tarifa dinámica",
+    "paymentPreparing": "Preparando el pago…"
   },
   "vehicle": {
     "economy": "Económico",

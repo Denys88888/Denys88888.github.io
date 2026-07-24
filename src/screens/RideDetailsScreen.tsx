@@ -170,9 +170,24 @@ export function RideDetailsScreen() {
       return;
     }
     let cancelled = false;
-    preparePayment(ride.id).then((p) => {
-      if (!cancelled) setPreparedPayment(p);
-    });
+    let attempt = 0;
+    // Retry with backoff: the very first request after the backend (Render
+    // free tier) has been idle can take up to ~50s to wake and may time out,
+    // or the ride can become payable before the server has finished spinning
+    // up. Without a retry the pay button would be stuck on "Preparing…"
+    // forever with nothing to prompt a second try.
+    const tryPrepare = (): void => {
+      preparePayment(ride.id).then((p) => {
+        if (cancelled) return;
+        if (p) {
+          setPreparedPayment(p);
+        } else if (attempt < 5) {
+          attempt += 1;
+          setTimeout(tryPrepare, 4000);
+        }
+      });
+    };
+    tryPrepare();
     return () => {
       cancelled = true;
     };
@@ -514,10 +529,17 @@ export function RideDetailsScreen() {
         )}
 
         {ride.status === 'completed' && !ride.txid && !isDriver && (
-          <Button fullWidth loading={processing} onClick={pay}>
-            {ride.paymentStatus === 'held'
-              ? t('ride.paymentRetry')
-              : `${t('ride.fare')}: ${formatPi(ride.fare)} — π Pay`}
+          <Button
+            fullWidth
+            loading={processing}
+            disabled={!preparedPayment}
+            onClick={pay}
+          >
+            {!preparedPayment
+              ? t('ride.paymentPreparing', 'Preparing payment…')
+              : ride.paymentStatus === 'held'
+                ? t('ride.paymentRetry')
+                : `${t('ride.fare')}: ${formatPi(ride.fare)} — π Pay`}
           </Button>
         )}
         {ride.status === 'completed' && !isDriver && !ride.driverRating && (

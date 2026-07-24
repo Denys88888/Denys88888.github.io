@@ -150,7 +150,8 @@
     "paymentComplete": "Pagamento concluído",
     "paymentFailed": "O pagamento falhou. Tente novamente.",
     "paymentRetry": "Pagamento travado — tentar novamente",
-    "surge": "Tarifa dinâmica"
+    "surge": "Tarifa dinâmica",
+    "paymentPreparing": "Preparando pagamento…"
   },
   "vehicle": {
     "economy": "Econômico",

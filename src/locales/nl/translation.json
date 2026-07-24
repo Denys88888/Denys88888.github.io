@@ -150,7 +150,8 @@
     "paymentComplete": "Betaling voltooid",
     "paymentFailed": "Betaling mislukt. Probeer het opnieuw.",
     "paymentRetry": "Betaling vastgelopen — opnieuw proberen",
-    "surge": "Piektarief"
+    "surge": "Piektarief",
+    "paymentPreparing": "Betaling voorbereiden…"
   },
   "vehicle": {
     "economy": "Economy",
