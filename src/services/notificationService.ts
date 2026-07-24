@@ -140,13 +140,19 @@ function playChime(): void {
 
 function notify(message: string, opts?: { sound?: boolean }): void {
   if (opts?.sound) playChime();
-  // Background tab / minimized PWA → system notification when available.
+  // Background tab / minimized PWA → also try a system notification, best
+  // effort. This used to `return` here and skip the in-app toast entirely —
+  // but some Android WebView builds (the Pi Browser included) expose a
+  // non-functional `Notification` stub: `'Notification' in window` is true
+  // and `Notification.permission` reads 'granted', yet `new Notification(...)`
+  // neither throws nor displays anything. That silently swallowed every
+  // toast (reported: chime played, no popup ever appeared). The toast is now
+  // unconditional — a redundant system notification alongside it is harmless.
   if (document.hidden && systemNotificationsEnabled()) {
     try {
       new Notification('Taxi Pro', { body: message, icon: '/icons/icon-192.png' });
-      return;
     } catch {
-      /* fall through to the in-app toast */
+      /* ignored — the in-app toast below still covers it */
     }
   }
   useAppStore.getState().addToast('info', message);
