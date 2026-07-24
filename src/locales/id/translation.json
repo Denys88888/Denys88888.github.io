@@ -335,7 +335,11 @@
     "perKmRate": "Tarif per km (ekonomi)",
     "surgeToggle": "Harga dinamis",
     "blocked": "Diblokir",
-    "driverPhoto": "Foto SIM"
+    "driverPhoto": "Foto SIM",
+    "filter_scheduled": "Terjadwal",
+    "payoutFailed": "Pembayaran ke pengemudi gagal",
+    "retryPayout": "Coba lagi pembayaran",
+    "payoutRetried": "Pembayaran selesai"
   },
   "notify": {
     "newRide": "Permintaan perjalanan baru: {{fare}}",

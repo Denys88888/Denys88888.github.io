@@ -335,7 +335,11 @@
     "perKmRate": "Stawka za km (ekonomiczna)",
     "surgeToggle": "Ceny dynamiczne (surge)",
     "blocked": "Zablokowany",
-    "driverPhoto": "Zdjęcie prawa jazdy"
+    "driverPhoto": "Zdjęcie prawa jazdy",
+    "filter_scheduled": "Zaplanowane",
+    "payoutFailed": "Wypłata dla kierowcy nie powiodła się",
+    "retryPayout": "Ponów wypłatę",
+    "payoutRetried": "Wypłata zakończona"
   },
   "notify": {
     "newRide": "Nowe zlecenie: {{fare}}",

@@ -335,7 +335,11 @@
     "perKmRate": "km당 요금(이코노미)",
     "surgeToggle": "탄력 요금제(급증)",
     "blocked": "차단됨",
-    "driverPhoto": "운전면허증 사진"
+    "driverPhoto": "운전면허증 사진",
+    "filter_scheduled": "예약됨",
+    "payoutFailed": "기사 정산 실패",
+    "retryPayout": "정산 재시도",
+    "payoutRetried": "정산 완료"
   },
   "notify": {
     "newRide": "새 운행 요청: {{fare}}",

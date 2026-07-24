@@ -335,7 +335,11 @@
     "perKmRate": "Tariffa al km (economy)",
     "surgeToggle": "Prezzi dinamici",
     "blocked": "Bloccato",
-    "driverPhoto": "Foto della patente di guida"
+    "driverPhoto": "Foto della patente di guida",
+    "filter_scheduled": "Pianificati",
+    "payoutFailed": "Pagamento al conducente non riuscito",
+    "retryPayout": "Riprova pagamento",
+    "payoutRetried": "Pagamento completato"
   },
   "notify": {
     "newRide": "Nuova richiesta di corsa: {{fare}}",

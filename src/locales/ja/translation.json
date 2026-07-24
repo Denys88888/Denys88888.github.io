@@ -335,7 +335,11 @@
     "perKmRate": "1kmあたり料金（エコノミー）",
     "surgeToggle": "ダイナミック料金（サージ）",
     "blocked": "ブロック済み",
-    "driverPhoto": "運転免許証の写真"
+    "driverPhoto": "運転免許証の写真",
+    "filter_scheduled": "予約済み",
+    "payoutFailed": "ドライバーへの支払いに失敗しました",
+    "retryPayout": "支払いを再試行",
+    "payoutRetried": "支払いが完了しました"
   },
   "notify": {
     "newRide": "新しい配車リクエスト：{{fare}}",

@@ -335,7 +335,11 @@
     "perKmRate": "Тариф за км (эконом)",
     "surgeToggle": "Динамическое ценообразование (surge)",
     "blocked": "Заблокирован",
-    "driverPhoto": "Фото водительских прав"
+    "driverPhoto": "Фото водительских прав",
+    "filter_scheduled": "Запланированные",
+    "payoutFailed": "Выплата водителю не удалась",
+    "retryPayout": "Повторить выплату",
+    "payoutRetried": "Выплата прошла успешно"
   },
   "notify": {
     "newRide": "Новый заказ: {{fare}}",

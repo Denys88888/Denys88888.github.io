@@ -335,7 +335,11 @@
     "perKmRate": "प्रति किमी दर (इकॉनमी)",
     "surgeToggle": "गतिशील मूल्य निर्धारण",
     "blocked": "अवरुद्ध",
-    "driverPhoto": "ड्राइविंग लाइसेंस फोटो"
+    "driverPhoto": "ड्राइविंग लाइसेंस फोटो",
+    "filter_scheduled": "अनुसूचित",
+    "payoutFailed": "ड्राइवर भुगतान विफल",
+    "retryPayout": "भुगतान पुनः प्रयास करें",
+    "payoutRetried": "भुगतान पूरा हुआ"
   },
   "notify": {
     "newRide": "नई राइड अनुरोध: {{fare}}",

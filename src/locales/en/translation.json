@@ -335,7 +335,11 @@
     "perKmRate": "Rate per km (economy)",
     "surgeToggle": "Dynamic pricing (surge)",
     "blocked": "Blocked",
-    "driverPhoto": "Driver license photo"
+    "driverPhoto": "Driver license photo",
+    "filter_scheduled": "Scheduled",
+    "payoutFailed": "Driver payout failed",
+    "retryPayout": "Retry payout",
+    "payoutRetried": "Payout completed"
   },
   "notify": {
     "newRide": "New ride request: {{fare}}",

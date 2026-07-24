@@ -335,7 +335,11 @@
     "perKmRate": "Тариф за км (економ)",
     "surgeToggle": "Динамічне ціноутворення (surge)",
     "blocked": "Заблокований",
-    "driverPhoto": "Фото водійського посвідчення"
+    "driverPhoto": "Фото водійського посвідчення",
+    "filter_scheduled": "Заплановані",
+    "payoutFailed": "Виплата водію не вдалася",
+    "retryPayout": "Повторити виплату",
+    "payoutRetried": "Виплату здійснено"
   },
   "notify": {
     "newRide": "Нове замовлення: {{fare}}",

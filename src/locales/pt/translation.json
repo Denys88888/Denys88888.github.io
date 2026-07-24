@@ -335,7 +335,11 @@
     "perKmRate": "Tarifa por km (econômico)",
     "surgeToggle": "Preços dinâmicos",
     "blocked": "Bloqueado",
-    "driverPhoto": "Foto da carteira de habilitação"
+    "driverPhoto": "Foto da carteira de habilitação",
+    "filter_scheduled": "Agendados",
+    "payoutFailed": "O pagamento ao motorista falhou",
+    "retryPayout": "Repetir pagamento",
+    "payoutRetried": "Pagamento concluído"
   },
   "notify": {
     "newRide": "Nova solicitação de corrida: {{fare}}",

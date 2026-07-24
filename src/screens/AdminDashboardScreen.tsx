@@ -19,7 +19,7 @@ interface Stats {
   pendingReports: number;
 }
 type Tab = 'stats' | 'rides' | 'users' | 'drivers' | 'analytics' | 'reports' | 'settings';
-type RideFilter = 'all' | 'active' | 'completed' | 'cancelled';
+type RideFilter = 'all' | 'active' | 'scheduled' | 'completed' | 'cancelled';
 type DriverFilter = 'all' | 'pending' | 'approved' | 'rejected';
 type ReportFilter = 'open' | 'resolved' | 'dismissed' | 'all';
 
@@ -109,6 +109,42 @@ export function AdminDashboardScreen() {
     }
   };
 
+  const [retryingRideId, setRetryingRideId] = useState<string | null>(null);
+  const retryPayout = async (r: AdminRide): Promise<void> => {
+    setRetryingRideId(r.id);
+    try {
+      // A payment stuck 'approved' on Pi's side (from a prior failed attempt)
+      // blocks a fresh A2U payment to the same driver with
+      // "ongoing_payment_found" — cancel it first when we know its id.
+      if (r.driverPayoutPiId) {
+        await api.adminCancelPiPayment(r.driverPayoutPiId).catch(() => undefined);
+      }
+      const result = await api.adminRetryPayout(r.id);
+      setRides((prev) =>
+        prev.map((x) =>
+          x.id === r.id
+            ? {
+                ...x,
+                driverPayoutStatus: result.driverPayoutStatus as AdminRide['driverPayoutStatus'],
+                driverPayoutTxid: result.driverPayoutTxid,
+                driverPayoutError: result.driverPayoutError,
+              }
+            : x
+        )
+      );
+      if (result.driverPayoutStatus === 'completed') {
+        addToast('success', t('admin.payoutRetried'));
+      } else {
+        addToast('error', result.driverPayoutError ?? t('common.error'));
+      }
+    } catch (err) {
+      console.error('[admin] retryPayout:', err);
+      addToast('error', t('common.error'));
+    } finally {
+      setRetryingRideId(null);
+    }
+  };
+
   const resolveReport = async (r: Report, status: 'resolved' | 'dismissed'): Promise<void> => {
     try {
       await api.adminResolveReport(r.id, status);
@@ -138,6 +174,7 @@ export function AdminDashboardScreen() {
   const filteredRides = rides.filter((r) => {
     if (rideFilter === 'all') return true;
     if (rideFilter === 'active') return ACTIVE_STATUSES.includes(r.status);
+    if (rideFilter === 'scheduled') return r.status === 'scheduled';
     return r.status === rideFilter;
   });
   const filteredDrivers = drivers.filter(
@@ -218,7 +255,7 @@ export function AdminDashboardScreen() {
         {tab === 'rides' && (
           <>
             <div className="no-scrollbar flex gap-2 overflow-x-auto">
-              {(['all', 'active', 'completed', 'cancelled'] as const).map((f) => (
+              {(['all', 'active', 'scheduled', 'completed', 'cancelled'] as const).map((f) => (
                 <button
                   key={f}
                   onClick={() => setRideFilter(f)}
@@ -257,6 +294,24 @@ export function AdminDashboardScreen() {
                     {!!r.surgeMultiplier && r.surgeMultiplier > 1 ? ` ⚡×${r.surgeMultiplier}` : ''}
                   </b>
                 </div>
+                {/* A failed driver payout was previously invisible/unrecoverable
+                    from the admin UI — retrying meant calling the API by hand. */}
+                {r.driverPayoutStatus === 'failed' && (
+                  <div className="rounded-lg bg-danger/10 p-2 text-xs">
+                    <p className="mb-1.5 text-danger">
+                      {t('admin.payoutFailed')}
+                      {r.driverPayoutError ? `: ${r.driverPayoutError.slice(0, 120)}` : ''}
+                    </p>
+                    <Button
+                      variant="danger"
+                      loading={retryingRideId === r.id}
+                      onClick={() => retryPayout(r)}
+                      className="px-3 py-1.5 text-xs"
+                    >
+                      {t('admin.retryPayout')}
+                    </Button>
+                  </div>
+                )}
               </Card>
             ))}
           </>

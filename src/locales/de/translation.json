@@ -335,7 +335,11 @@
     "perKmRate": "Preis pro km (Economy)",
     "surgeToggle": "Dynamische Preise",
     "blocked": "Gesperrt",
-    "driverPhoto": "Führerschein-Foto"
+    "driverPhoto": "Führerschein-Foto",
+    "filter_scheduled": "Geplant",
+    "payoutFailed": "Fahrerauszahlung fehlgeschlagen",
+    "retryPayout": "Auszahlung wiederholen",
+    "payoutRetried": "Auszahlung abgeschlossen"
   },
   "notify": {
     "newRide": "Neue Fahrtanfrage: {{fare}}",

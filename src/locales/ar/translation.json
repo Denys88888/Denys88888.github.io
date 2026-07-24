@@ -335,7 +335,11 @@
     "perKmRate": "السعر لكل كم (اقتصادي)",
     "surgeToggle": "التسعير الديناميكي",
     "blocked": "محظور",
-    "driverPhoto": "صورة رخصة القيادة"
+    "driverPhoto": "صورة رخصة القيادة",
+    "filter_scheduled": "مجدولة",
+    "payoutFailed": "فشل الدفع للسائق",
+    "retryPayout": "إعادة محاولة الدفع",
+    "payoutRetried": "تم الدفع بنجاح"
   },
   "notify": {
     "newRide": "طلب رحلة جديد: {{fare}}",

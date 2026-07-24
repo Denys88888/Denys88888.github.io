@@ -335,7 +335,11 @@
     "perKmRate": "每公里费率（经济型）",
     "surgeToggle": "动态定价（高峰加价）",
     "blocked": "已封锁",
-    "driverPhoto": "驾照照片"
+    "driverPhoto": "驾照照片",
+    "filter_scheduled": "已预约",
+    "payoutFailed": "司机打款失败",
+    "retryPayout": "重试打款",
+    "payoutRetried": "打款成功"
   },
   "notify": {
     "newRide": "新订单请求：{{fare}}",

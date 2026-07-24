@@ -335,7 +335,11 @@
     "perKmRate": "Tarifa por km (económico)",
     "surgeToggle": "Precios dinámicos",
     "blocked": "Bloqueado",
-    "driverPhoto": "Foto del carnet de conducir"
+    "driverPhoto": "Foto del carnet de conducir",
+    "filter_scheduled": "Programados",
+    "payoutFailed": "El pago al conductor falló",
+    "retryPayout": "Reintentar pago",
+    "payoutRetried": "Pago completado"
   },
   "notify": {
     "newRide": "Nueva solicitud de viaje: {{fare}}",

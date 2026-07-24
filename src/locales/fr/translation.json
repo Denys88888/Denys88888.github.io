@@ -335,7 +335,11 @@
     "perKmRate": "Tarif au km (économique)",
     "surgeToggle": "Tarification dynamique",
     "blocked": "Bloqué",
-    "driverPhoto": "Photo du permis de conduire"
+    "driverPhoto": "Photo du permis de conduire",
+    "filter_scheduled": "Planifiées",
+    "payoutFailed": "Le paiement au chauffeur a échoué",
+    "retryPayout": "Réessayer le paiement",
+    "payoutRetried": "Paiement effectué"
   },
   "notify": {
     "newRide": "Nouvelle demande de course : {{fare}}",

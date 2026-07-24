@@ -335,7 +335,11 @@
     "perKmRate": "Giá mỗi km (tiết kiệm)",
     "surgeToggle": "Định giá linh hoạt",
     "blocked": "Đã chặn",
-    "driverPhoto": "Ảnh bằng lái xe"
+    "driverPhoto": "Ảnh bằng lái xe",
+    "filter_scheduled": "Đã lên lịch",
+    "payoutFailed": "Thanh toán cho tài xế thất bại",
+    "retryPayout": "Thử lại thanh toán",
+    "payoutRetried": "Thanh toán hoàn tất"
   },
   "notify": {
     "newRide": "Yêu cầu chuyến mới: {{fare}}",

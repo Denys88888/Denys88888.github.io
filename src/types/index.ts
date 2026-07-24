@@ -123,6 +123,15 @@ export interface Ride {
   tipAmount?: number;
   tipTxid?: string;
   paymentStatus?: RidePaymentStatus;
+  // A2U driver payout tracking (admin-only visibility/recovery).
+  driverPayoutStatus?: 'pending' | 'completed' | 'failed';
+  driverPayoutTxid?: string;
+  driverPayoutError?: string;
+  driverPayoutPiId?: string;
+  tipPayoutStatus?: 'pending' | 'completed' | 'failed';
+  tipPayoutTxid?: string;
+  tipPayoutError?: string;
+  tipPayoutPiId?: string;
   status: RideStatus;
   scheduledAt?: string;
   negotiable?: boolean;

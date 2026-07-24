@@ -208,6 +208,14 @@ export const api = {
       .get<{ drivers: AdminDriver[] }>('/api/admin/drivers', { params: { status } })
       .then((r) => r.data.drivers),
   adminAnalytics: () => client.get<AdminAnalytics>('/api/admin/analytics').then((r) => r.data),
+  adminRetryPayout: (rideId: string) =>
+    client
+      .post<{ driverPayoutStatus?: string; driverPayoutTxid?: string; driverPayoutError?: string }>(
+        `/api/admin/rides/${rideId}/retry-payout`
+      )
+      .then((r) => r.data),
+  adminCancelPiPayment: (identifier: string) =>
+    client.post(`/api/admin/pi-payments/${identifier}/cancel`).then((r) => r.data),
   adminReports: (status?: 'open' | 'resolved' | 'dismissed') =>
     client
       .get<{ reports: Report[] }>('/api/admin/reports', { params: { status } })

@@ -335,7 +335,11 @@
     "perKmRate": "Tarief per km (economy)",
     "surgeToggle": "Dynamische prijzen",
     "blocked": "Geblokkeerd",
-    "driverPhoto": "Foto rijbewijs"
+    "driverPhoto": "Foto rijbewijs",
+    "filter_scheduled": "Gepland",
+    "payoutFailed": "Uitbetaling aan chauffeur mislukt",
+    "retryPayout": "Uitbetaling opnieuw proberen",
+    "payoutRetried": "Uitbetaling voltooid"
   },
   "notify": {
     "newRide": "Nieuwe ritaanvraag: {{fare}}",

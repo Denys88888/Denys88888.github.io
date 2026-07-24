@@ -335,7 +335,11 @@
     "perKmRate": "Pris per km (economy)",
     "surgeToggle": "Dynamisk prissättning",
     "blocked": "Blockerad",
-    "driverPhoto": "Foto på körkort"
+    "driverPhoto": "Foto på körkort",
+    "filter_scheduled": "Schemalagda",
+    "payoutFailed": "Utbetalning till förare misslyckades",
+    "retryPayout": "Försök betala igen",
+    "payoutRetried": "Utbetalning slutförd"
   },
   "notify": {
     "newRide": "Ny reseförfrågan: {{fare}}",

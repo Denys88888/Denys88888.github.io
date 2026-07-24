@@ -335,7 +335,11 @@
     "perKmRate": "อัตราต่อกม. (อีโคโนมี)",
     "surgeToggle": "การกำหนดราคาแบบไดนามิก",
     "blocked": "ถูกบล็อก",
-    "driverPhoto": "รูปถ่ายใบขับขี่"
+    "driverPhoto": "รูปถ่ายใบขับขี่",
+    "filter_scheduled": "ที่จองไว้",
+    "payoutFailed": "การจ่ายเงินให้คนขับล้มเหลว",
+    "retryPayout": "ลองจ่ายเงินอีกครั้ง",
+    "payoutRetried": "จ่ายเงินสำเร็จ"
   },
   "notify": {
     "newRide": "คำขอเดินทางใหม่: {{fare}}",

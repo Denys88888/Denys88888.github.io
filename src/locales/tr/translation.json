@@ -335,7 +335,11 @@
     "perKmRate": "Km başına ücret (ekonomi)",
     "surgeToggle": "Dinamik fiyatlandırma",
     "blocked": "Engellendi",
-    "driverPhoto": "Ehliyet fotoğrafı"
+    "driverPhoto": "Ehliyet fotoğrafı",
+    "filter_scheduled": "Planlanan",
+    "payoutFailed": "Sürücü ödemesi başarısız oldu",
+    "retryPayout": "Ödemeyi yeniden dene",
+    "payoutRetried": "Ödeme tamamlandı"
   },
   "notify": {
     "newRide": "Yeni yolculuk isteği: {{fare}}",
