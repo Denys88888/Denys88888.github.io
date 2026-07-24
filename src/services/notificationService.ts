@@ -145,7 +145,7 @@ export function initNotifications(): void {
     if (useAppStore.getState().user?.role !== 'driver') return;
     const ride = msg.ride as Ride | undefined;
     if (!ride) return;
-    notify(i18n.t('notify.newRide', { fare: formatPi(ride.fare) }));
+    notify(i18n.t('notify.newRide', { fare: formatPi(ride.fare) }), { sound: true });
   });
 
   // Passengers: a driver took the ride.
