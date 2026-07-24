@@ -74,6 +74,8 @@ export interface DriverInfo {
   model: string;
   color: string;
   number: string;
+  vehicleYear: number;
+  seats?: number;
   vehiclePhoto?: string;
   licensePhoto?: string;
   licenseVerified: boolean;

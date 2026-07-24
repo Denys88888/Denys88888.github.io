@@ -235,7 +235,14 @@
     "pending": "Ожидает одобрения",
     "pendingDesc": "Мы уведомим вас после проверки документов.",
     "vehiclePhotoSaved": "Фото авто сохранено",
-    "licensePhotoSaved": "Фото прав сохранено"
+    "licensePhotoSaved": "Фото прав сохранено",
+    "vehicleClass": "Класс автомобиля",
+    "vehicleYear": "Год выпуска авто",
+    "seats": "Мест для пассажиров",
+    "classRequirement": "Требуется авто {{year}} года выпуска или новее",
+    "yearTooOld": "Для этого класса нужен автомобиль {{year}} года или новее",
+    "seatsTooFew": "Для этого класса нужно минимум {{seats}} мест",
+    "classRequirementSeats": ", минимум {{seats}} мест"
   },
   "profile": {
     "title": "Профиль",

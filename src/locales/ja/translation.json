@@ -235,7 +235,14 @@
     "pending": "管理者の承認待ち",
     "pendingDesc": "書類の確認が完了しましたらお知らせします。",
     "vehiclePhotoSaved": "車両の写真を保存しました",
-    "licensePhotoSaved": "免許証の写真を保存しました"
+    "licensePhotoSaved": "免許証の写真を保存しました",
+    "vehicleClass": "車両クラス",
+    "vehicleYear": "車両年式",
+    "seats": "乗客座席数",
+    "classRequirement": "{{year}}年以降の車両が必要です",
+    "yearTooOld": "このクラスには{{year}}年以降が必要です",
+    "seatsTooFew": "このクラスには少なくとも{{seats}}席が必要です",
+    "classRequirementSeats": "、少なくとも{{seats}}席"
   },
   "profile": {
     "title": "プロフィール",

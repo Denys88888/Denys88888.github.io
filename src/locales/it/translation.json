@@ -235,7 +235,14 @@
     "pending": "In attesa di approvazione",
     "pendingDesc": "Ti avviseremo dopo la verifica dei documenti.",
     "vehiclePhotoSaved": "Foto del veicolo salvata",
-    "licensePhotoSaved": "Foto della patente salvata"
+    "licensePhotoSaved": "Foto della patente salvata",
+    "vehicleClass": "Classe del veicolo",
+    "vehicleYear": "Anno del veicolo",
+    "seats": "Posti passeggeri",
+    "classRequirement": "Richiede un veicolo del {{year}} o più recente",
+    "yearTooOld": "Questa classe richiede il {{year}} o più recente",
+    "seatsTooFew": "Questa classe richiede almeno {{seats}} posti",
+    "classRequirementSeats": ", almeno {{seats}} posti"
   },
   "profile": {
     "title": "Profilo",

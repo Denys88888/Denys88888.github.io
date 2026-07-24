@@ -235,7 +235,14 @@
     "pending": "Väntar på godkännande",
     "pendingDesc": "Vi meddelar dig när dina dokument har verifierats.",
     "vehiclePhotoSaved": "Fordonsfoto sparat",
-    "licensePhotoSaved": "Körkortsfoto sparat"
+    "licensePhotoSaved": "Körkortsfoto sparat",
+    "vehicleClass": "Fordonsklass",
+    "vehicleYear": "Fordonets årsmodell",
+    "seats": "Passagerarsäten",
+    "classRequirement": "Kräver ett fordon från {{year}} eller nyare",
+    "yearTooOld": "Denna klass kräver {{year}} eller nyare",
+    "seatsTooFew": "Denna klass kräver minst {{seats}} säten",
+    "classRequirementSeats": ", minst {{seats}} säten"
   },
   "profile": {
     "title": "Profil",

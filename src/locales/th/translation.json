@@ -235,7 +235,14 @@
     "pending": "รอการอนุมัติ",
     "pendingDesc": "เราจะแจ้งให้ทราบเมื่อตรวจสอบเอกสารเสร็จ",
     "vehiclePhotoSaved": "บันทึกรูปรถแล้ว",
-    "licensePhotoSaved": "บันทึกรูปใบขับขี่แล้ว"
+    "licensePhotoSaved": "บันทึกรูปใบขับขี่แล้ว",
+    "vehicleClass": "ระดับรถ",
+    "vehicleYear": "ปีรถ",
+    "seats": "ที่นั่งผู้โดยสาร",
+    "classRequirement": "ต้องการรถปี {{year}} ขึ้นไป",
+    "yearTooOld": "ระดับนี้ต้องการรถปี {{year}} ขึ้นไป",
+    "seatsTooFew": "ระดับนี้ต้องการที่นั่งอย่างน้อย {{seats}} ที่",
+    "classRequirementSeats": ", อย่างน้อย {{seats}} ที่นั่ง"
   },
   "profile": {
     "title": "โปรไฟล์",

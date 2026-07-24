@@ -235,7 +235,14 @@
     "pending": "एडमिन स्वीकृति लंबित",
     "pendingDesc": "दस्तावेज़ सत्यापित होने पर हम आपको सूचित करेंगे।",
     "vehiclePhotoSaved": "वाहन फ़ोटो सहेजा गया",
-    "licensePhotoSaved": "लाइसेंस फ़ोटो सहेजा गया"
+    "licensePhotoSaved": "लाइसेंस फ़ोटो सहेजा गया",
+    "vehicleClass": "वाहन श्रेणी",
+    "vehicleYear": "वाहन का वर्ष",
+    "seats": "यात्री सीटें",
+    "classRequirement": "{{year}} या उसके बाद का वाहन आवश्यक है",
+    "yearTooOld": "इस श्रेणी के लिए {{year}} या नया वाहन चाहिए",
+    "seatsTooFew": "इस श्रेणी के लिए कम से कम {{seats}} सीटें चाहिए",
+    "classRequirementSeats": ", कम से कम {{seats}} सीटें"
   },
   "profile": {
     "title": "प्रोफ़ाइल",

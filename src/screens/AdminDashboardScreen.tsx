@@ -321,20 +321,40 @@ export function AdminDashboardScreen() {
                   </Badge>
                 </div>
                 <p className="text-sm opacity-70">
-                  {u.driverInfo?.brand} {u.driverInfo?.model} · {u.driverInfo?.number}
+                  {u.driverInfo?.brand} {u.driverInfo?.model} ({u.driverInfo?.vehicleYear}) · {u.driverInfo?.number}
                 </p>
-                {u.driverInfo?.licensePhoto && (
-                  <button
-                    onClick={() => setDocPhoto(u.driverInfo!.licensePhoto!)}
-                    className="block"
-                  >
-                    <img
-                      src={u.driverInfo.licensePhoto}
-                      alt={t('register.licensePhoto')}
-                      className="h-16 rounded-lg object-cover"
-                    />
-                  </button>
-                )}
+                {/* Claimed class + seats, front and center — this is what the
+                    admin needs to actually catch a mismatch (e.g. an old
+                    economy-grade car registered as "business") before
+                    approving, since the wizard only checks the numbers the
+                    driver typed in, not whether the car really is that class. */}
+                <p className="text-sm">
+                  <Badge tone="info">{t(`vehicle.${u.driverInfo?.vehicleType}`)}</Badge>
+                  {u.driverInfo?.seats ? ` · ${u.driverInfo.seats} ${t('register.seats').toLowerCase()}` : ''}
+                </p>
+                <div className="flex gap-2">
+                  {u.driverInfo?.vehiclePhoto && (
+                    <button onClick={() => setDocPhoto(u.driverInfo!.vehiclePhoto!)} className="block">
+                      <img
+                        src={u.driverInfo.vehiclePhoto}
+                        alt={t('register.vehiclePhoto')}
+                        className="h-16 w-24 rounded-lg object-cover"
+                      />
+                    </button>
+                  )}
+                  {u.driverInfo?.licensePhoto && (
+                    <button
+                      onClick={() => setDocPhoto(u.driverInfo!.licensePhoto!)}
+                      className="block"
+                    >
+                      <img
+                        src={u.driverInfo.licensePhoto}
+                        alt={t('register.licensePhoto')}
+                        className="h-16 w-24 rounded-lg object-cover"
+                      />
+                    </button>
+                  )}
+                </div>
                 <div className="flex gap-2">
                   {u.applicationStatus !== 'approved' && (
                     <Button variant="success" fullWidth onClick={() => verify(u, true)}>

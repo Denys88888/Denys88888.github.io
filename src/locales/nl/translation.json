@@ -235,7 +235,14 @@
     "pending": "Wacht op goedkeuring",
     "pendingDesc": "We laten het weten zodra je documenten zijn geverifieerd.",
     "vehiclePhotoSaved": "Voertuigfoto opgeslagen",
-    "licensePhotoSaved": "Rijbewijsfoto opgeslagen"
+    "licensePhotoSaved": "Rijbewijsfoto opgeslagen",
+    "vehicleClass": "Voertuigklasse",
+    "vehicleYear": "Bouwjaar voertuig",
+    "seats": "Passagiersstoelen",
+    "classRequirement": "Vereist een voertuig uit {{year}} of nieuwer",
+    "yearTooOld": "Deze klasse vereist {{year}} of nieuwer",
+    "seatsTooFew": "Deze klasse vereist minstens {{seats}} zitplaatsen",
+    "classRequirementSeats": ", minstens {{seats}} zitplaatsen"
   },
   "profile": {
     "title": "Profiel",

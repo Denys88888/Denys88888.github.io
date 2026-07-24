@@ -235,7 +235,14 @@
     "pending": "Pending admin approval",
     "pendingDesc": "We'll notify you once your documents are verified.",
     "vehiclePhotoSaved": "Vehicle photo saved",
-    "licensePhotoSaved": "License photo saved"
+    "licensePhotoSaved": "License photo saved",
+    "vehicleClass": "Vehicle class",
+    "vehicleYear": "Vehicle year",
+    "seats": "Passenger seats",
+    "classRequirement": "Requires a {{year}}+ vehicle",
+    "yearTooOld": "This vehicle class requires {{year}} or newer",
+    "seatsTooFew": "This vehicle class requires at least {{seats}} seats",
+    "classRequirementSeats": ", at least {{seats}} seats"
   },
   "profile": {
     "title": "Profile",

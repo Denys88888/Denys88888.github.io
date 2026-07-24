@@ -235,7 +235,14 @@
     "pending": "Oczekuje na akceptację",
     "pendingDesc": "Powiadomimy Cię po weryfikacji dokumentów.",
     "vehiclePhotoSaved": "Zdjęcie pojazdu zapisane",
-    "licensePhotoSaved": "Zdjęcie prawa jazdy zapisane"
+    "licensePhotoSaved": "Zdjęcie prawa jazdy zapisane",
+    "vehicleClass": "Klasa pojazdu",
+    "vehicleYear": "Rok produkcji pojazdu",
+    "seats": "Miejsca dla pasażerów",
+    "classRequirement": "Wymagany pojazd z {{year}} roku lub nowszy",
+    "yearTooOld": "Ta klasa wymaga pojazdu z {{year}} roku lub nowszego",
+    "seatsTooFew": "Ta klasa wymaga co najmniej {{seats}} miejsc",
+    "classRequirementSeats": ", co najmniej {{seats}} miejsc"
   },
   "profile": {
     "title": "Profil",

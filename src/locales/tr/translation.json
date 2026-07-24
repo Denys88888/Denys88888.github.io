@@ -235,7 +235,14 @@
     "pending": "Onay bekliyor",
     "pendingDesc": "Belgeleriniz doğrulanınca sizi bilgilendireceğiz.",
     "vehiclePhotoSaved": "Araç fotoğrafı kaydedildi",
-    "licensePhotoSaved": "Ehliyet fotoğrafı kaydedildi"
+    "licensePhotoSaved": "Ehliyet fotoğrafı kaydedildi",
+    "vehicleClass": "Araç sınıfı",
+    "vehicleYear": "Araç yılı",
+    "seats": "Yolcu koltuğu",
+    "classRequirement": "{{year}} veya daha yeni bir araç gerekir",
+    "yearTooOld": "Bu sınıf {{year}} veya daha yeni gerektirir",
+    "seatsTooFew": "Bu sınıf en az {{seats}} koltuk gerektirir",
+    "classRequirementSeats": ", en az {{seats}} koltuk"
   },
   "profile": {
     "title": "Profil",

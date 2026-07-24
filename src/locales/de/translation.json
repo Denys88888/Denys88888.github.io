@@ -235,7 +235,14 @@
     "pending": "Warten auf Freigabe",
     "pendingDesc": "Wir benachrichtigen dich, sobald deine Dokumente geprüft sind.",
     "vehiclePhotoSaved": "Fahrzeugfoto gespeichert",
-    "licensePhotoSaved": "Führerscheinfoto gespeichert"
+    "licensePhotoSaved": "Führerscheinfoto gespeichert",
+    "vehicleClass": "Fahrzeugklasse",
+    "vehicleYear": "Baujahr",
+    "seats": "Sitzplätze",
+    "classRequirement": "Erfordert ein Fahrzeug ab Baujahr {{year}}",
+    "yearTooOld": "Diese Klasse erfordert Baujahr {{year}} oder neuer",
+    "seatsTooFew": "Diese Klasse erfordert mindestens {{seats}} Sitzplätze",
+    "classRequirementSeats": ", mindestens {{seats}} Sitzplätze"
   },
   "profile": {
     "title": "Profil",

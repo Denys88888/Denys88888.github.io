@@ -235,7 +235,14 @@
     "pending": "En attente d’approbation",
     "pendingDesc": "Nous vous préviendrons une fois vos documents vérifiés.",
     "vehiclePhotoSaved": "Photo du véhicule enregistrée",
-    "licensePhotoSaved": "Photo du permis enregistrée"
+    "licensePhotoSaved": "Photo du permis enregistrée",
+    "vehicleClass": "Catégorie de véhicule",
+    "vehicleYear": "Année du véhicule",
+    "seats": "Places passagers",
+    "classRequirement": "Véhicule de {{year}} ou plus récent requis",
+    "yearTooOld": "Cette catégorie nécessite {{year}} ou plus récent",
+    "seatsTooFew": "Cette catégorie nécessite au moins {{seats}} places",
+    "classRequirementSeats": ", au moins {{seats}} places"
   },
   "profile": {
     "title": "Profil",

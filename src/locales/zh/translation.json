@@ -235,7 +235,14 @@
     "pending": "等待管理员审批",
     "pendingDesc": "证件审核通过后我们会通知你。",
     "vehiclePhotoSaved": "车辆照片已保存",
-    "licensePhotoSaved": "驾照照片已保存"
+    "licensePhotoSaved": "驾照照片已保存",
+    "vehicleClass": "车辆等级",
+    "vehicleYear": "车辆年份",
+    "seats": "乘客座位数",
+    "classRequirement": "需要 {{year}} 年及以后的车辆",
+    "yearTooOld": "此车型需要 {{year}} 年及以后",
+    "seatsTooFew": "此车型至少需要 {{seats}} 个座位",
+    "classRequirementSeats": "，至少 {{seats}} 个座位"
   },
   "profile": {
     "title": "我的",

@@ -12,6 +12,7 @@ import { api } from '../services/api';
 import { isNonEmpty, isValidPlate } from '../utils/validators';
 import { fileToAvatarDataUrl } from '../utils/image';
 import { cn } from '../utils/helpers';
+import { VEHICLE_OPTIONS, VEHICLE_CLASS_REQUIREMENTS } from '../utils/constants';
 import type { VehicleType } from '../types';
 
 const STEP_KEYS = ['register.step1', 'register.step2', 'register.step3', 'register.step4'];
@@ -34,11 +35,22 @@ export function DriverRegistrationScreen() {
     color: '',
     number: '',
     vehicleType: 'economy' as VehicleType,
+    vehicleYear: '',
+    seats: '',
     vehiclePhoto: '',
     licensePhoto: '',
   });
 
   const set = (k: keyof typeof form, v: string) => setForm((f) => ({ ...f, [k]: v }));
+
+  // Requirement check for the currently-selected class — same rule the
+  // server enforces (VEHICLE_CLASS_REQUIREMENTS), so the wizard can block
+  // "Next" with a clear reason instead of letting the submit fail later.
+  const classReq = VEHICLE_CLASS_REQUIREMENTS[form.vehicleType];
+  const yearNum = Number(form.vehicleYear);
+  const seatsNum = Number(form.seats);
+  const yearMeetsClass = isNonEmpty(form.vehicleYear) && yearNum >= classReq.minYear;
+  const seatsMeetClass = !classReq.minSeats || (isNonEmpty(form.seats) && seatsNum >= classReq.minSeats);
 
   const uploadAvatar = async (file: File): Promise<void> => {
     try {
@@ -79,7 +91,11 @@ export function DriverRegistrationScreen() {
     step === 0
       ? isNonEmpty(form.name) && isNonEmpty(form.phone)
       : step === 1
-        ? isNonEmpty(form.brand) && isNonEmpty(form.model) && isValidPlate(form.number)
+        ? isNonEmpty(form.brand) &&
+          isNonEmpty(form.model) &&
+          isValidPlate(form.number) &&
+          yearMeetsClass &&
+          seatsMeetClass
         : step === 2
           ? !!user?.avatar && !!form.vehiclePhoto && !!form.licensePhoto
           : true;
@@ -97,6 +113,8 @@ export function DriverRegistrationScreen() {
         model: form.model,
         color: form.color || 'N/A',
         number: form.number,
+        vehicleYear: yearNum,
+        ...(classReq.minSeats ? { seats: seatsNum } : {}),
         vehiclePhoto: form.vehiclePhoto,
         licensePhoto: form.licensePhoto,
       });
@@ -144,10 +162,63 @@ export function DriverRegistrationScreen() {
         )}
         {step === 1 && (
           <Card className="space-y-3">
+            <div>
+              <p className="mb-1.5 text-sm font-medium opacity-70">{t('register.vehicleClass')}</p>
+              <div className="grid grid-cols-2 gap-2">
+                {VEHICLE_OPTIONS.map((opt) => (
+                  <button
+                    key={opt.type}
+                    type="button"
+                    onClick={() => set('vehicleType', opt.type)}
+                    className={cn(
+                      'flex items-center gap-2 rounded-btn border px-3 py-2 text-sm font-medium transition-colors',
+                      form.vehicleType === opt.type
+                        ? 'border-primary bg-primary/10 text-primary'
+                        : 'border-black/10 dark:border-white/10 opacity-70'
+                    )}
+                  >
+                    <opt.icon size={18} />
+                    {t(opt.labelKey)}
+                  </button>
+                ))}
+              </div>
+              <p className="mt-1.5 text-xs opacity-60">
+                {t('register.classRequirement', { year: classReq.minYear })}
+                {classReq.minSeats
+                  ? t('register.classRequirementSeats', { seats: classReq.minSeats })
+                  : ''}
+              </p>
+            </div>
             <Input label={t('register.brand')} value={form.brand} onChange={(e) => set('brand', e.target.value)} />
             <Input label={t('register.model')} value={form.model} onChange={(e) => set('model', e.target.value)} />
             <Input label={t('register.color')} value={form.color} onChange={(e) => set('color', e.target.value)} />
             <Input label={t('register.plate')} value={form.number} onChange={(e) => set('number', e.target.value)} />
+            <Input
+              label={t('register.vehicleYear')}
+              type="number"
+              value={form.vehicleYear}
+              onChange={(e) => set('vehicleYear', e.target.value)}
+            />
+            {!yearMeetsClass && isNonEmpty(form.vehicleYear) && (
+              <p className="text-xs text-danger">
+                {t('register.yearTooOld', { year: classReq.minYear })}
+              </p>
+            )}
+            {classReq.minSeats && (
+              <>
+                <Input
+                  label={t('register.seats')}
+                  type="number"
+                  value={form.seats}
+                  onChange={(e) => set('seats', e.target.value)}
+                />
+                {!seatsMeetClass && isNonEmpty(form.seats) && (
+                  <p className="text-xs text-danger">
+                    {t('register.seatsTooFew', { seats: classReq.minSeats })}
+                  </p>
+                )}
+              </>
+            )}
           </Card>
         )}
         {step === 2 && (
@@ -215,7 +286,8 @@ export function DriverRegistrationScreen() {
           <Card className="space-y-2 text-sm">
             <p><b>{t('register.name')}:</b> {form.name}</p>
             <p><b>{t('register.phone')}:</b> {form.phone}</p>
-            <p><b>{t('register.brand')}:</b> {form.brand} {form.model}</p>
+            <p><b>{t('register.vehicleClass')}:</b> {t(VEHICLE_OPTIONS.find((o) => o.type === form.vehicleType)?.labelKey ?? '')}</p>
+            <p><b>{t('register.brand')}:</b> {form.brand} {form.model} ({form.vehicleYear})</p>
             <p><b>{t('register.plate')}:</b> {form.number}</p>
             {form.vehiclePhoto && (
               <div>

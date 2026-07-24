@@ -26,6 +26,18 @@ export const VEHICLE_OPTIONS: VehicleOption[] = [
   { type: 'xl', labelKey: 'vehicle.xl', icon: Bus, basePrice: 2.0 },
 ];
 
+// Minimum requirements to register for each vehicle class — mirrors the
+// server's VEHICLE_CLASS_REQUIREMENTS (taxi-pro-server/src/config/constants.ts).
+// Client-side check is UX only (fast feedback before submit); the server
+// enforces the real gate.
+const CURRENT_YEAR = new Date().getFullYear();
+export const VEHICLE_CLASS_REQUIREMENTS: Record<VehicleType, { minYear: number; minSeats?: number }> = {
+  economy: { minYear: 2000 },
+  comfort: { minYear: CURRENT_YEAR - 10 },
+  xl: { minYear: CURRENT_YEAR - 12, minSeats: 6 },
+  business: { minYear: CURRENT_YEAR - 6 },
+};
+
 // Language codes + display labels (native names). Flags removed per design.
 export const SUPPORTED_LANGUAGES = [
   { code: 'en', label: 'English' },

@@ -235,7 +235,14 @@
     "pending": "Menunggu persetujuan",
     "pendingDesc": "Kami akan memberi tahu setelah dokumen diverifikasi.",
     "vehiclePhotoSaved": "Foto kendaraan disimpan",
-    "licensePhotoSaved": "Foto SIM disimpan"
+    "licensePhotoSaved": "Foto SIM disimpan",
+    "vehicleClass": "Kelas kendaraan",
+    "vehicleYear": "Tahun kendaraan",
+    "seats": "Kursi penumpang",
+    "classRequirement": "Membutuhkan kendaraan tahun {{year}} atau lebih baru",
+    "yearTooOld": "Kelas ini membutuhkan tahun {{year}} atau lebih baru",
+    "seatsTooFew": "Kelas ini membutuhkan setidaknya {{seats}} kursi",
+    "classRequirementSeats": ", setidaknya {{seats}} kursi"
   },
   "profile": {
     "title": "Profil",

@@ -235,7 +235,14 @@
     "pending": "Chờ duyệt",
     "pendingDesc": "Chúng tôi sẽ thông báo khi giấy tờ được xác minh.",
     "vehiclePhotoSaved": "Đã lưu ảnh xe",
-    "licensePhotoSaved": "Đã lưu ảnh bằng lái"
+    "licensePhotoSaved": "Đã lưu ảnh bằng lái",
+    "vehicleClass": "Hạng xe",
+    "vehicleYear": "Năm sản xuất xe",
+    "seats": "Số ghế hành khách",
+    "classRequirement": "Yêu cầu xe sản xuất từ {{year}} trở lên",
+    "yearTooOld": "Hạng này yêu cầu xe từ {{year}} trở lên",
+    "seatsTooFew": "Hạng này yêu cầu ít nhất {{seats}} ghế",
+    "classRequirementSeats": ", ít nhất {{seats}} ghế"
   },
   "profile": {
     "title": "Hồ sơ",

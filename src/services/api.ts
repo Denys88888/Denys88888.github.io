@@ -130,6 +130,8 @@ export const api = {
     model: string;
     color: string;
     number: string;
+    vehicleYear: number;
+    seats?: number;
     vehiclePhoto?: string;
     licensePhoto?: string;
   }) => client.post('/api/drivers/register', payload).then((r) => r.data),

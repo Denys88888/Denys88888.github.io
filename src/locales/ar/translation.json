@@ -235,7 +235,14 @@
     "pending": "في انتظار الموافقة",
     "pendingDesc": "سنعلمك بمجرد التحقق من مستنداتك.",
     "vehiclePhotoSaved": "تم حفظ صورة المركبة",
-    "licensePhotoSaved": "تم حفظ صورة الرخصة"
+    "licensePhotoSaved": "تم حفظ صورة الرخصة",
+    "vehicleClass": "فئة المركبة",
+    "vehicleYear": "سنة صنع المركبة",
+    "seats": "مقاعد الركاب",
+    "classRequirement": "يتطلب مركبة من عام {{year}} أو أحدث",
+    "yearTooOld": "تتطلب هذه الفئة عام {{year}} أو أحدث",
+    "seatsTooFew": "تتطلب هذه الفئة {{seats}} مقاعد على الأقل",
+    "classRequirementSeats": "، بحد أدنى {{seats}} مقاعد"
   },
   "profile": {
     "title": "الملف الشخصي",

@@ -235,7 +235,14 @@
     "pending": "관리자 승인 대기 중",
     "pendingDesc": "서류가 확인되면 알려드리겠습니다.",
     "vehiclePhotoSaved": "차량 사진 저장됨",
-    "licensePhotoSaved": "면허증 사진 저장됨"
+    "licensePhotoSaved": "면허증 사진 저장됨",
+    "vehicleClass": "차량 등급",
+    "vehicleYear": "차량 연식",
+    "seats": "승객 좌석 수",
+    "classRequirement": "{{year}}년 이후 차량이 필요합니다",
+    "yearTooOld": "이 등급은 {{year}}년 이후가 필요합니다",
+    "seatsTooFew": "이 등급은 최소 {{seats}}석이 필요합니다",
+    "classRequirementSeats": ", 최소 {{seats}}석"
   },
   "profile": {
     "title": "프로필",
