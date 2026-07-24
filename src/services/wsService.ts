@@ -91,7 +91,19 @@ class WsService {
   }
 
   private emit(type: string, payload: Record<string, unknown>): void {
-    this.listeners.get(type)?.forEach((l) => l(payload));
+    // Multiple independent parts of the app subscribe to the same event type
+    // (e.g. both notificationService's chime/toast and a screen's own UI
+    // update listen to 'ride_available'). forEach aborts entirely the moment
+    // one listener throws, silently skipping every listener registered after
+    // it for this emit — one broken handler could starve a sibling handler
+    // with no error ever surfacing. Isolate each listener's call instead.
+    this.listeners.get(type)?.forEach((l) => {
+      try {
+        l(payload);
+      } catch (err) {
+        console.error(`[ws] listener for "${type}" threw:`, err);
+      }
+    });
   }
 
   disconnect(): void {
