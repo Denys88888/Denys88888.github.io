@@ -174,16 +174,18 @@ export function RideDetailsScreen() {
     // Retry with backoff: the very first request after the backend (Render
     // free tier) has been idle can take up to ~50s to wake and may time out,
     // or the ride can become payable before the server has finished spinning
-    // up. Without a retry the pay button would be stuck on "Preparing…"
-    // forever with nothing to prompt a second try.
+    // up. Cap was previously 5 tries * 4s (~20s total) — too short to cover
+    // a full cold start, so the button could get stuck on "Preparing…"
+    // forever even though the backend would have come up fine given more
+    // time. 20 tries * 5s covers a ~100s worst case with room to spare.
     const tryPrepare = (): void => {
       preparePayment(ride.id).then((p) => {
         if (cancelled) return;
         if (p) {
           setPreparedPayment(p);
-        } else if (attempt < 5) {
+        } else if (attempt < 20) {
           attempt += 1;
-          setTimeout(tryPrepare, 4000);
+          setTimeout(tryPrepare, 5000);
         }
       });
     };
