@@ -11,6 +11,7 @@ import { useRouter } from '../store/useRouter';
 import { useAppStore } from '../store/useAppStore';
 import { wsService } from '../services/wsService';
 import { api } from '../services/api';
+import { primeChime } from '../services/notificationService';
 import { formatPi, formatDistance, formatDuration } from '../utils/formatters';
 import { haversineKm, cn } from '../utils/helpers';
 import { isToday } from 'date-fns';
@@ -158,6 +159,10 @@ export function DriverHomeScreen() {
   const toggleOnline = async (): Promise<void> => {
     try {
       if (!online) {
+        // Re-prime the chime right here, synchronously in this click, before
+        // the driver settles in to wait (possibly minutes) for an offer with
+        // no further taps — the most reliable gesture available for this.
+        primeChime();
         await api.goOnline(position?.lat, position?.lng);
         wsService.send('driver_online', {
           lat: center.lat,

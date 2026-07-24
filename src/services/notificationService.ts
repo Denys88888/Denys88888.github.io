@@ -1,4 +1,5 @@
 import i18n from '../i18n';
+import { logger } from '../utils/logger';
 import { wsService } from './wsService';
 import { api } from './api';
 import { useAppStore } from '../store/useAppStore';
@@ -60,26 +61,37 @@ function getAudioCtxCtor(): typeof AudioContext | undefined {
   return window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
 }
 
+// Muted play+pause to satisfy the browser's "played from a user gesture"
+// requirement. Safe to call repeatedly/redundantly — re-priming from a
+// reliable, recent gesture (e.g. right before "Go online", when the driver
+// is about to sit and wait for offers with no further taps) costs nothing
+// and only ever helps if the very first page-load unlock somehow didn't
+// stick.
+export function primeChime(): void {
+  if (typeof window === 'undefined') return;
+  const el = getChimeEl();
+  el.volume = 0;
+  el.play()
+    .then(() => {
+      el.pause();
+      el.currentTime = 0;
+      el.volume = 1;
+    })
+    .catch(() => {
+      el.volume = 1;
+    });
+  const Ctx = getAudioCtxCtor();
+  if (!Ctx) return;
+  if (!audioCtx) audioCtx = new Ctx();
+  if (audioCtx.state === 'suspended') void audioCtx.resume();
+}
+
 export function unlockAudioOnFirstGesture(): void {
   if (typeof window === 'undefined') return;
   const events: Array<keyof WindowEventMap> = ['pointerdown', 'touchstart', 'click', 'keydown'];
   const unlock = (): void => {
     events.forEach((ev) => window.removeEventListener(ev, unlock));
-    const el = getChimeEl();
-    el.volume = 0;
-    el.play()
-      .then(() => {
-        el.pause();
-        el.currentTime = 0;
-        el.volume = 1;
-      })
-      .catch(() => {
-        el.volume = 1;
-      });
-    const Ctx = getAudioCtxCtor();
-    if (!Ctx) return;
-    if (!audioCtx) audioCtx = new Ctx();
-    if (audioCtx.state === 'suspended') void audioCtx.resume();
+    primeChime();
   };
   events.forEach((ev) => window.addEventListener(ev, unlock, { once: true, passive: true }));
 }
@@ -111,8 +123,19 @@ function playChimeOscillatorFallback(): void {
 
 function playChime(): void {
   const el = getChimeEl();
-  el.currentTime = 0;
-  el.play().catch(() => playChimeOscillatorFallback());
+  // Defensive: always force full volume right before playing, regardless of
+  // whatever state the unlock flow left it in — a chime that plays silently
+  // (volume stuck at 0) is worse than one that's a beat late.
+  el.volume = 1;
+  try {
+    el.currentTime = 0;
+  } catch {
+    /* not seekable yet on some engines — play() below still starts from 0 */
+  }
+  el.play().catch((err) => {
+    logger.warn('[Chime] <audio> play failed, falling back to oscillator', err);
+    playChimeOscillatorFallback();
+  });
 }
 
 function notify(message: string, opts?: { sound?: boolean }): void {
