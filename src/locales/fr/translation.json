@@ -96,7 +96,9 @@
     "needDestination": "Indiquez la destination — touchez la carte ou remplissez « Vers »",
     "activeRideExists": "Vous avez déjà une course active — terminez-la ou annulez-la d'abord",
     "activeRideBanner": "Vous avez une course active — appuyez pour l'ouvrir",
-    "noteToDriver": "Note pour le chauffeur (ex. grand coffre, siège enfant)"
+    "noteToDriver": "Note pour le chauffeur (ex. grand coffre, siège enfant)",
+    "addressUpdate": "Mettre à jour vers la destination actuelle",
+    "addressDelete": "Supprimer l'adresse enregistrée"
   },
   "ride": {
     "statusScheduled": "Planifiée",

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { isAxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
 import { LocateFixed, Circle, X, Calendar, Coins, Zap, Home, Briefcase, Users } from 'lucide-react';
@@ -13,7 +13,7 @@ import { useAppStore } from '../store/useAppStore';
 import { useRouter } from '../store/useRouter';
 import { api } from '../services/api';
 import { reverseGeocode, countryCodeAt, fetchRoute } from '../services/mapService';
-import { loadSavedAddresses, saveAddress } from '../services/savedAddresses';
+import { loadSavedAddresses, saveAddress, removeAddress } from '../services/savedAddresses';
 import { formatPi, formatDistance, formatDuration } from '../utils/formatters';
 import { isValidCoord } from '../utils/validators';
 import { cn, estimateFare, routeDistanceKm } from '../utils/helpers';
@@ -133,6 +133,44 @@ export function PassengerHomeScreen() {
     } else {
       addToast('info', t('home.addressSaveHint'));
     }
+  };
+
+  // Long-press on a SAVED chip opens an update/delete menu instead of
+  // navigating to it — there was previously no way to change or clear a
+  // slot once set. A plain click still short-circuits to "set destination".
+  const [addressMenuLabel, setAddressMenuLabel] = useState<string | null>(null);
+  const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const longPressFired = useRef(false);
+  const startLongPress = (label: string): void => {
+    if (!savedAddrs.find((a) => a.label === label)) return; // nothing to manage yet
+    longPressFired.current = false;
+    longPressTimer.current = setTimeout(() => {
+      longPressFired.current = true;
+      setAddressMenuLabel(label);
+    }, 500);
+  };
+  const cancelLongPress = (): void => {
+    if (longPressTimer.current) clearTimeout(longPressTimer.current);
+    longPressTimer.current = null;
+  };
+  const menuAddress = addressMenuLabel ? savedAddrs.find((a) => a.label === addressMenuLabel) : undefined;
+  const updateAddressToCurrent = async (): Promise<void> => {
+    if (!addressMenuLabel || !destination) return;
+    const list = await saveAddress({
+      label: addressMenuLabel,
+      lat: destination.lat,
+      lng: destination.lng,
+      address: destination.address,
+    });
+    setSavedAddrs(list);
+    addToast('success', t('home.addressSaved', { label: t(`home.${addressMenuLabel}`) }));
+    setAddressMenuLabel(null);
+  };
+  const deleteAddress = async (): Promise<void> => {
+    if (!addressMenuLabel) return;
+    const list = await removeAddress(addressMenuLabel);
+    setSavedAddrs(list);
+    setAddressMenuLabel(null);
   };
 
   // "My location" button: recenter the map on the GPS position.
@@ -378,14 +416,24 @@ export function PassengerHomeScreen() {
           />
 
           {/* Saved quick addresses: one tap to set the destination; tapping an
-              empty slot saves the currently selected destination. */}
+              empty slot saves the currently selected destination. Long-press
+              a saved chip to update or delete it. */}
           <div className="flex gap-2">
             {QUICK_SLOTS.map(({ label, icon: Icon }) => {
               const saved = savedAddrs.find((a) => a.label === label);
               return (
                 <button
                   key={label}
-                  onClick={() => quickTap(label)}
+                  onClick={() => {
+                    if (longPressFired.current) {
+                      longPressFired.current = false;
+                      return;
+                    }
+                    quickTap(label);
+                  }}
+                  onPointerDown={() => startLongPress(label)}
+                  onPointerUp={cancelLongPress}
+                  onPointerLeave={cancelLongPress}
                   className={cn(
                     'inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl px-2 py-2 text-xs font-medium',
                     saved
@@ -527,6 +575,29 @@ export function PassengerHomeScreen() {
         cancelLabel={t('common.cancel')}
       >
         {pendingTap?.address ?? `${pendingTap?.lat.toFixed(4)}, ${pendingTap?.lng.toFixed(4)}`}
+      </Modal>
+
+      {/* Long-press menu on a saved quick-address chip: update or delete it. */}
+      <Modal
+        open={!!addressMenuLabel}
+        title={addressMenuLabel ? t(`home.${addressMenuLabel}`) : ''}
+        onClose={() => setAddressMenuLabel(null)}
+        cancelLabel={t('common.close')}
+      >
+        <div className="space-y-3">
+          <p className="opacity-70">{menuAddress?.address}</p>
+          <Button
+            fullWidth
+            variant="ghost"
+            disabled={!destination}
+            onClick={updateAddressToCurrent}
+          >
+            {t('home.addressUpdate')}
+          </Button>
+          <Button fullWidth variant="danger" onClick={deleteAddress}>
+            {t('home.addressDelete')}
+          </Button>
+        </div>
       </Modal>
     </div>
   );

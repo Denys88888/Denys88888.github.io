@@ -37,3 +37,15 @@ export async function saveAddress(entry: SavedAddress): Promise<SavedAddress[]> 
   }
   return list;
 }
+
+// Drop the entry for a label (long-press "delete" on a quick-address chip).
+export async function removeAddress(label: string): Promise<SavedAddress[]> {
+  const list = readLocal().filter((a) => a.label !== label);
+  writeLocal(list);
+  try {
+    await api.putSavedAddresses(list);
+  } catch {
+    /* offline — the local mirror will be pushed on the next successful save */
+  }
+  return list;
+}

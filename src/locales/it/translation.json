@@ -96,7 +96,9 @@
     "needDestination": "Indica la destinazione: tocca la mappa o compila «A»",
     "activeRideExists": "Hai già una corsa attiva — prima terminala o annullala",
     "activeRideBanner": "Hai una corsa attiva — tocca per aprirla",
-    "noteToDriver": "Nota per l'autista (es. bagagliaio grande, seggiolino)"
+    "noteToDriver": "Nota per l'autista (es. bagagliaio grande, seggiolino)",
+    "addressUpdate": "Aggiorna alla destinazione attuale",
+    "addressDelete": "Elimina indirizzo salvato"
   },
   "ride": {
     "statusScheduled": "Programmata",

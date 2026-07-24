@@ -96,7 +96,9 @@
     "needDestination": "Ziel angeben — auf die Karte tippen oder „Nach“ ausfüllen",
     "activeRideExists": "Sie haben bereits eine aktive Fahrt — beenden oder stornieren Sie sie zuerst",
     "activeRideBanner": "Sie haben eine aktive Fahrt — zum Öffnen tippen",
-    "noteToDriver": "Hinweis für den Fahrer (z. B. großer Kofferraum, Kindersitz)"
+    "noteToDriver": "Hinweis für den Fahrer (z. B. großer Kofferraum, Kindersitz)",
+    "addressUpdate": "Auf aktuelles Ziel aktualisieren",
+    "addressDelete": "Gespeicherte Adresse löschen"
   },
   "ride": {
     "statusScheduled": "Geplant",

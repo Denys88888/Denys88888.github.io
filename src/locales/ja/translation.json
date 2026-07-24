@@ -96,7 +96,9 @@
     "needDestination": "目的地を指定してください — 地図をタップするか「目的地」を入力",
     "activeRideExists": "すでに進行中の配車があります — まず完了またはキャンセルしてください",
     "activeRideBanner": "進行中の配車があります — タップして開く",
-    "noteToDriver": "ドライバーへのメモ（例：大きなトランク、チャイルドシート）"
+    "noteToDriver": "ドライバーへのメモ（例：大きなトランク、チャイルドシート）",
+    "addressUpdate": "現在の目的地に更新",
+    "addressDelete": "保存済みの住所を削除"
   },
   "ride": {
     "statusScheduled": "予約済み",

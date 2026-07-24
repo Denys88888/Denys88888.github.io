@@ -96,7 +96,9 @@
     "needDestination": "Tentukan tujuan — ketuk peta atau isi “Ke”",
     "activeRideExists": "Anda sudah memiliki perjalanan aktif — selesaikan atau batalkan dulu",
     "activeRideBanner": "Anda punya perjalanan aktif — ketuk untuk membuka",
-    "noteToDriver": "Catatan untuk pengemudi (mis. bagasi besar, kursi anak)"
+    "noteToDriver": "Catatan untuk pengemudi (mis. bagasi besar, kursi anak)",
+    "addressUpdate": "Perbarui ke tujuan saat ini",
+    "addressDelete": "Hapus alamat tersimpan"
   },
   "ride": {
     "statusScheduled": "Terjadwal",

@@ -96,7 +96,9 @@
     "needDestination": "Kies een bestemming — tik op de kaart of vul “Naar” in",
     "activeRideExists": "Je hebt al een actieve rit — rond deze eerst af of annuleer hem",
     "activeRideBanner": "Je hebt een actieve rit — tik om te openen",
-    "noteToDriver": "Notitie voor de chauffeur (bijv. grote kofferbak, kinderzitje)"
+    "noteToDriver": "Notitie voor de chauffeur (bijv. grote kofferbak, kinderzitje)",
+    "addressUpdate": "Bijwerken naar huidige bestemming",
+    "addressDelete": "Opgeslagen adres verwijderen"
   },
   "ride": {
     "statusScheduled": "Gepland",

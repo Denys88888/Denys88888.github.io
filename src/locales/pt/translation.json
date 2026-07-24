@@ -96,7 +96,9 @@
     "needDestination": "Informe o destino — toque no mapa ou preencha “Para”",
     "activeRideExists": "Você já tem uma corrida ativa — finalize ou cancele primeiro",
     "activeRideBanner": "Você tem uma corrida ativa — toque para abrir",
-    "noteToDriver": "Nota para o motorista (ex. porta-malas grande, cadeirinha infantil)"
+    "noteToDriver": "Nota para o motorista (ex. porta-malas grande, cadeirinha infantil)",
+    "addressUpdate": "Atualizar para o destino atual",
+    "addressDelete": "Excluir endereço salvo"
   },
   "ride": {
     "statusScheduled": "Agendada",

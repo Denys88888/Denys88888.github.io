@@ -96,7 +96,9 @@
     "needDestination": "Ange destination — tryck på kartan eller fyll i ”Till”",
     "activeRideExists": "Du har redan en aktiv resa — avsluta eller avboka den först",
     "activeRideBanner": "Du har en aktiv resa — tryck för att öppna",
-    "noteToDriver": "Anteckning till föraren (t.ex. stort bagageutrymme, barnstol)"
+    "noteToDriver": "Anteckning till föraren (t.ex. stort bagageutrymme, barnstol)",
+    "addressUpdate": "Uppdatera till aktuell destination",
+    "addressDelete": "Ta bort sparad adress"
   },
   "ride": {
     "statusScheduled": "Schemalagd",

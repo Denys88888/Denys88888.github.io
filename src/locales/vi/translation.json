@@ -96,7 +96,9 @@
     "needDestination": "Nhập điểm đến — chạm bản đồ hoặc điền “Đến”",
     "activeRideExists": "Bạn đã có một chuyến đi đang hoạt động — hãy hoàn tất hoặc hủy trước",
     "activeRideBanner": "Bạn có chuyến đi đang hoạt động — chạm để mở",
-    "noteToDriver": "Ghi chú cho tài xế (VD: cốp lớn, ghế trẻ em)"
+    "noteToDriver": "Ghi chú cho tài xế (VD: cốp lớn, ghế trẻ em)",
+    "addressUpdate": "Cập nhật theo điểm đến hiện tại",
+    "addressDelete": "Xóa địa chỉ đã lưu"
   },
   "ride": {
     "statusScheduled": "Đã đặt lịch",

@@ -96,7 +96,9 @@
     "needDestination": "Varış noktası girin — haritaya dokunun veya “Nereye” alanını doldurun",
     "activeRideExists": "Zaten aktif bir yolculuğunuz var — önce onu bitirin veya iptal edin",
     "activeRideBanner": "Aktif bir yolculuğunuz var — açmak için dokunun",
-    "noteToDriver": "Sürücü için not (örn. büyük bagaj, çocuk koltuğu)"
+    "noteToDriver": "Sürücü için not (örn. büyük bagaj, çocuk koltuğu)",
+    "addressUpdate": "Mevcut hedefe güncelle",
+    "addressDelete": "Kayıtlı adresi sil"
   },
   "ride": {
     "statusScheduled": "Planlandı",
