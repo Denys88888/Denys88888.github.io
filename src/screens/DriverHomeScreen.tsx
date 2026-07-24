@@ -237,8 +237,16 @@ export function DriverHomeScreen() {
         <MapView
           center={center}
           driver={position}
-          pickup={previewRide ? position ?? undefined : undefined}
-          destination={previewRide?.pickup}
+          // Two legs while previewing a request: purple = me → pickup (how
+          // far to go collect them), teal = pickup → destination (where the
+          // trip actually goes) — was previously mislabeling the driver's
+          // own position as `pickup` and never showing the real destination
+          // at all, so a driver deciding whether to take a negotiable ride
+          // couldn't see where it was headed.
+          routeFrom={previewRide ? position ?? undefined : undefined}
+          pickup={previewRide?.pickup}
+          destination={previewRide?.destination}
+          stops={previewRide?.stops}
           heatmap={heatmap}
           focus={previewRide ? previewRide.pickup : focusNonce > 0 ? position : undefined}
           focusNonce={focusNonce}

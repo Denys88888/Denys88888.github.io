@@ -140,32 +140,59 @@ export function MapView({
   onDestinationDrag,
   className,
 }: Props) {
-  const waypoints: GeoPoint[] = [];
-  if (routeFrom) waypoints.push(routeFrom);
-  if (pickup) waypoints.push(pickup);
-  waypoints.push(...stops);
-  if (destination) waypoints.push(destination);
-  const waypointKey = waypoints.map((p) => `${p.lat.toFixed(5)},${p.lng.toFixed(5)}`).join(';');
+  // Two distinct legs, each its own color: the approach (routeFrom → pickup —
+  // e.g. the driver's own live position while heading to collect the
+  // passenger) and the trip itself (pickup → stops → destination — where the
+  // passenger is actually going). Split so a driver deciding whether to take
+  // a ride can see both "how far to get there" and "where it actually goes"
+  // at a glance, instead of one same-colored line blurring the two together.
+  const approachWaypoints: GeoPoint[] = [];
+  if (routeFrom) approachWaypoints.push(routeFrom);
+  if (pickup) approachWaypoints.push(pickup);
+  const approachKey = approachWaypoints.map((p) => `${p.lat.toFixed(5)},${p.lng.toFixed(5)}`).join(';');
+
+  const tripWaypoints: GeoPoint[] = [];
+  if (pickup) tripWaypoints.push(pickup);
+  tripWaypoints.push(...stops);
+  if (destination) tripWaypoints.push(destination);
+  const tripKey = tripWaypoints.map((p) => `${p.lat.toFixed(5)},${p.lng.toFixed(5)}`).join(';');
 
   // Road-following geometry from OSRM; until it arrives (or if it fails) the
   // straight waypoint line keeps the route visible.
-  const [roadRoute, setRoadRoute] = useState<[number, number][] | null>(null);
+  const [approachRoad, setApproachRoad] = useState<[number, number][] | null>(null);
   useEffect(() => {
     let stale = false;
-    setRoadRoute(null);
-    if (waypoints.length >= 2) {
-      fetchRoute(waypoints).then((r) => {
-        if (!stale && r) setRoadRoute(r.points);
+    setApproachRoad(null);
+    if (approachWaypoints.length >= 2) {
+      fetchRoute(approachWaypoints).then((r) => {
+        if (!stale && r) setApproachRoad(r.points);
       });
     }
     return () => {
       stale = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [waypointKey]);
+  }, [approachKey]);
 
-  const route: [number, number][] =
-    roadRoute ?? waypoints.map((p) => [p.lat, p.lng] as [number, number]);
+  const [tripRoad, setTripRoad] = useState<[number, number][] | null>(null);
+  useEffect(() => {
+    let stale = false;
+    setTripRoad(null);
+    if (tripWaypoints.length >= 2) {
+      fetchRoute(tripWaypoints).then((r) => {
+        if (!stale && r) setTripRoad(r.points);
+      });
+    }
+    return () => {
+      stale = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tripKey]);
+
+  const approachRoute: [number, number][] =
+    approachRoad ?? approachWaypoints.map((p) => [p.lat, p.lng] as [number, number]);
+  const tripRoute: [number, number][] =
+    tripRoad ?? tripWaypoints.map((p) => [p.lat, p.lng] as [number, number]);
 
   return (
     <div className={className ?? 'h-full w-full overflow-hidden rounded-card'}>
@@ -222,8 +249,22 @@ export function MapView({
             }}
           />
         ))}
-        {route.length >= 2 && (
-          <Polyline positions={route} pathOptions={{ color: '#7B3FE4', weight: 4 }} />
+        {approachRoute.length >= 2 && (
+          <Polyline positions={approachRoute} pathOptions={{ color: '#7B3FE4', weight: 4 }} />
+        )}
+        {tripRoute.length >= 2 && (
+          <Polyline
+            positions={tripRoute}
+            pathOptions={{
+              color: '#00BFA5',
+              weight: 4,
+              // Dashed when shown alongside the approach leg, so the two
+              // colors read as distinct legs even for red-green colorblind
+              // users, not just via hue.
+              dashArray: approachRoute.length >= 2 ? '1 10' : undefined,
+              lineCap: 'round',
+            }}
+          />
         )}
       </LeafletMap>
     </div>
