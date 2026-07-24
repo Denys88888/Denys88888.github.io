@@ -32,7 +32,37 @@ export async function requestNotificationPermission(): Promise<boolean> {
   }
 }
 
-function notify(message: string): void {
+// Short two-tone "ding" via Web Audio — no asset file needed (nothing to
+// fail to load), and works whether or not the tab is focused, unlike relying
+// on a <audio> element autoplay policy.
+let audioCtx: AudioContext | null = null;
+function playChime(): void {
+  try {
+    const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!Ctx) return;
+    if (!audioCtx) audioCtx = new Ctx();
+    if (audioCtx.state === 'suspended') void audioCtx.resume();
+    const now = audioCtx.currentTime;
+    [880, 1175].forEach((freq, i) => {
+      const osc = audioCtx!.createOscillator();
+      const gain = audioCtx!.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      const start = now + i * 0.18;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.35, start + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.35);
+      osc.connect(gain).connect(audioCtx!.destination);
+      osc.start(start);
+      osc.stop(start + 0.4);
+    });
+  } catch {
+    /* Web Audio unsupported / blocked — the vibration + toast still fire */
+  }
+}
+
+function notify(message: string, opts?: { sound?: boolean }): void {
+  if (opts?.sound) playChime();
   // Background tab / minimized PWA → system notification when available.
   if (document.hidden && systemNotificationsEnabled()) {
     try {
@@ -110,7 +140,7 @@ export function initNotifications(): void {
     }
     const isPassenger = useAppStore.getState().user?.role !== 'driver';
     if (isPassenger && msg.status === 'arrived') {
-      notify(i18n.t('notify.driverArrived', 'Your driver has arrived!'));
+      notify(i18n.t('notify.driverArrived', 'Your driver has arrived!'), { sound: true });
     } else if (isPassenger && msg.status === 'in_progress') {
       notify(i18n.t('notify.rideStarted', 'Your ride has started'));
     } else if (msg.status === 'completed') {
