@@ -109,6 +109,9 @@ export interface Ride {
   pickup: GeoPoint;
   destination: GeoPoint;
   stops?: GeoPoint[];
+  // Free-text note from the passenger for the driver (e.g. "large trunk
+  // needed", "child seat required").
+  note?: string;
   vehicleType: VehicleType;
   distanceKm: number;
   estimatedDurationMin: number;

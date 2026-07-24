@@ -479,6 +479,13 @@ export function RideDetailsScreen() {
           </Card>
         )}
 
+        {ride.note && (
+          <Card className="flex items-start gap-2 bg-warning/10">
+            <MessageCircle size={16} className="mt-0.5 shrink-0 text-warning" />
+            <p className="text-sm">{ride.note}</p>
+          </Card>
+        )}
+
         {/* Negotiable ride: incoming driver offers (passenger picks one). */}
         {ride.negotiable && ride.status === 'searching' && !isDriver && (
           <div className="space-y-2">

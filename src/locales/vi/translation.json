@@ -95,7 +95,8 @@
     "needPickup": "Nhập điểm đón — cho phép vị trí hoặc điền “Từ”",
     "needDestination": "Nhập điểm đến — chạm bản đồ hoặc điền “Đến”",
     "activeRideExists": "Bạn đã có một chuyến đi đang hoạt động — hãy hoàn tất hoặc hủy trước",
-    "activeRideBanner": "Bạn có chuyến đi đang hoạt động — chạm để mở"
+    "activeRideBanner": "Bạn có chuyến đi đang hoạt động — chạm để mở",
+    "noteToDriver": "Ghi chú cho tài xế (VD: cốp lớn, ghế trẻ em)"
   },
   "ride": {
     "statusScheduled": "Đã đặt lịch",

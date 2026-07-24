@@ -95,7 +95,8 @@
     "needPickup": "乗車地点を指定してください — 位置情報を許可するか「出発地」を入力",
     "needDestination": "目的地を指定してください — 地図をタップするか「目的地」を入力",
     "activeRideExists": "すでに進行中の配車があります — まず完了またはキャンセルしてください",
-    "activeRideBanner": "進行中の配車があります — タップして開く"
+    "activeRideBanner": "進行中の配車があります — タップして開く",
+    "noteToDriver": "ドライバーへのメモ（例：大きなトランク、チャイルドシート）"
   },
   "ride": {
     "statusScheduled": "予約済み",

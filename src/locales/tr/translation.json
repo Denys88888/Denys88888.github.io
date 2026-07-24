@@ -95,7 +95,8 @@
     "needPickup": "Alınma noktası girin — konuma izin verin veya “Nereden” alanını doldurun",
     "needDestination": "Varış noktası girin — haritaya dokunun veya “Nereye” alanını doldurun",
     "activeRideExists": "Zaten aktif bir yolculuğunuz var — önce onu bitirin veya iptal edin",
-    "activeRideBanner": "Aktif bir yolculuğunuz var — açmak için dokunun"
+    "activeRideBanner": "Aktif bir yolculuğunuz var — açmak için dokunun",
+    "noteToDriver": "Sürücü için not (örn. büyük bagaj, çocuk koltuğu)"
   },
   "ride": {
     "statusScheduled": "Planlandı",

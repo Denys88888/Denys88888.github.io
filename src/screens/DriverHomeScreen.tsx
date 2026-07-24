@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { isAxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
-import { Circle, Check, LocateFixed, Navigation, TrendingUp, Route } from 'lucide-react';
+import { Circle, Check, LocateFixed, Navigation, TrendingUp, Route, MessageSquare } from 'lucide-react';
 import { MapView } from '../components/map/MapContainer';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -347,6 +347,12 @@ export function DriverHomeScreen() {
                   <Circle size={10} className="shrink-0 fill-danger text-danger" />
                   {ride.destination.address ?? 'Destination'}
                 </p>
+                {ride.note && (
+                  <p className="mt-1 flex items-center gap-1 truncate rounded bg-warning/15 px-2 py-1 text-xs text-warning">
+                    <MessageSquare size={12} className="shrink-0" />
+                    {ride.note}
+                  </p>
+                )}
               </div>
               <span className="ml-2 text-right">
                 <span className="block font-bold">{formatPi(ride.fare)}</span>

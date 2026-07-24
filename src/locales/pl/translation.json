@@ -95,7 +95,8 @@
     "needPickup": "Podaj miejsce odbioru — zezwól na lokalizację lub wypełnij „Skąd”",
     "needDestination": "Podaj cel podróży — dotknij mapy lub wypełnij „Dokąd”",
     "activeRideExists": "Masz już aktywny przejazd — najpierw go zakończ lub anuluj",
-    "activeRideBanner": "Masz aktywny przejazd — dotknij, aby otworzyć"
+    "activeRideBanner": "Masz aktywny przejazd — dotknij, aby otworzyć",
+    "noteToDriver": "Uwaga dla kierowcy (np. duży bagażnik, fotelik dziecięcy)"
   },
   "ride": {
     "statusScheduled": "Zaplanowany",

@@ -70,6 +70,7 @@ export function PassengerHomeScreen() {
   const [scheduledAt, setScheduledAt] = useState('');
   const [negotiate, setNegotiate] = useState(false);
   const [offeredFare, setOfferedFare] = useState('');
+  const [note, setNote] = useState('');
 
   // Nearby available drivers shown on map before booking.
   const [nearbyDrivers, setNearbyDrivers] = useState<Array<{ uid: string; location: GeoPoint }>>([]);
@@ -244,6 +245,7 @@ export function PassengerHomeScreen() {
         scheduledAt: schedule && scheduledAt ? new Date(scheduledAt).toISOString() : undefined,
         negotiable: negotiate || undefined,
         offeredFare: negotiate ? Number(offeredFare) : undefined,
+        note: note.trim() || undefined,
       });
       setCurrentRide(ride);
       addToast('success', schedule ? t('home.scheduleRide') : t('home.searching'));
@@ -468,6 +470,15 @@ export function PassengerHomeScreen() {
               <p className="mt-1 text-xs opacity-50">{t('home.yourPriceHint')}</p>
             </div>
           )}
+
+          {/* Free-text note for the driver — large trunk, child seat, etc. */}
+          <textarea
+            value={note}
+            onChange={(e) => setNote(e.target.value.slice(0, 200))}
+            placeholder={t('home.noteToDriver')}
+            rows={2}
+            className="w-full rounded-card border border-black/10 dark:border-white/15 bg-transparent px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/40"
+          />
 
           {/* Surge banner: visible whenever dynamic pricing is active. */}
           {surgeX > 1 && (

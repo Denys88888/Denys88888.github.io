@@ -95,7 +95,8 @@
     "needPickup": "Indica el punto de recogida: permite la ubicación o completa «Desde»",
     "needDestination": "Indica el destino: toca el mapa o completa «Hasta»",
     "activeRideExists": "Ya tienes un viaje activo — termínalo o cancélalo primero",
-    "activeRideBanner": "Tienes un viaje activo — toca para abrirlo"
+    "activeRideBanner": "Tienes un viaje activo — toca para abrirlo",
+    "noteToDriver": "Nota para el conductor (ej. maletero grande, silla infantil)"
   },
   "ride": {
     "statusScheduled": "Programado",

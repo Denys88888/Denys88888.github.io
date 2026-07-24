@@ -88,6 +88,7 @@ export const api = {
     scheduledAt?: string;
     negotiable?: boolean;
     offeredFare?: number;
+    note?: string;
   }) => client.post<Ride>('/api/rides', payload).then((r) => r.data),
   submitOffer: (rideId: string, amount: number, etaMin?: number) =>
     client.post<Ride>(`/api/rides/${rideId}/offers`, { amount, etaMin }).then((r) => r.data),

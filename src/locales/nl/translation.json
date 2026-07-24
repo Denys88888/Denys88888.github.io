@@ -95,7 +95,8 @@
     "needPickup": "Geef een ophaalpunt op — sta locatie toe of vul “Van” in",
     "needDestination": "Kies een bestemming — tik op de kaart of vul “Naar” in",
     "activeRideExists": "Je hebt al een actieve rit — rond deze eerst af of annuleer hem",
-    "activeRideBanner": "Je hebt een actieve rit — tik om te openen"
+    "activeRideBanner": "Je hebt een actieve rit — tik om te openen",
+    "noteToDriver": "Notitie voor de chauffeur (bijv. grote kofferbak, kinderzitje)"
   },
   "ride": {
     "statusScheduled": "Gepland",

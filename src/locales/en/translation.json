@@ -95,7 +95,8 @@
     "needPickup": "Enter a pickup point — allow location access or fill in “From”",
     "needDestination": "Choose a destination — tap the map or fill in “To”",
     "activeRideExists": "You already have an active ride — finish or cancel it first",
-    "activeRideBanner": "You have an active ride — tap to open it"
+    "activeRideBanner": "You have an active ride — tap to open it",
+    "noteToDriver": "Note for the driver (e.g. large trunk, child seat)"
   },
   "ride": {
     "statusScheduled": "Scheduled",

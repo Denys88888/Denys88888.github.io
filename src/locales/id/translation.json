@@ -95,7 +95,8 @@
     "needPickup": "Tentukan titik jemput — izinkan lokasi atau isi “Dari”",
     "needDestination": "Tentukan tujuan — ketuk peta atau isi “Ke”",
     "activeRideExists": "Anda sudah memiliki perjalanan aktif — selesaikan atau batalkan dulu",
-    "activeRideBanner": "Anda punya perjalanan aktif — ketuk untuk membuka"
+    "activeRideBanner": "Anda punya perjalanan aktif — ketuk untuk membuka",
+    "noteToDriver": "Catatan untuk pengemudi (mis. bagasi besar, kursi anak)"
   },
   "ride": {
     "statusScheduled": "Terjadwal",
