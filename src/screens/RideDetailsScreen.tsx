@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Calendar, Star, Phone, MessageCircle, Flag, Share2, Siren, Navigation, Zap } from 'lucide-react';
 import { MapView } from '../components/map/MapContainer';
@@ -17,6 +17,7 @@ import { useGeolocation } from '../hooks/useGeolocation';
 import { wsService } from '../services/wsService';
 import { api } from '../services/api';
 import { payForRide } from '../services/piSdk';
+import { notify } from '../services/notificationService';
 import { NavigationPanel } from '../components/ride/NavigationPanel';
 import { chatIdForRide, haversineKm } from '../utils/helpers';
 import { formatPi, formatDistance, formatDuration, formatDate, maskPhone } from '../utils/formatters';
@@ -110,6 +111,35 @@ export function RideDetailsScreen() {
   // the passenger's map tracks the driver in real time (spec: every 5s).
   const activeStatus = ride?.status;
   const iAmDriver = !!ride && ride.driverId === uid;
+
+  // Catch-up toast+chime for the driver: the live WS 'payment_received' /
+  // 'tip_received' push can be missed entirely (phone locked, app
+  // backgrounded — the Pi Browser has no real push notifications to fall
+  // back on), but the periodic/visibility-triggered refresh above still
+  // picks up the new paymentStatus/tipAmount. Fire the same notification
+  // here whenever this screen itself observes that transition, so the
+  // driver isn't left with only the quiet "Оплачено" label on the receipt.
+  const prevPaymentStatusRef = useRef<string | undefined>(undefined);
+  const prevTipAmountRef = useRef<number | undefined>(undefined);
+  const seenRideRef = useRef<string | undefined>(undefined);
+  useEffect(() => {
+    if (!ride || !iAmDriver) return;
+    const isNewRide = seenRideRef.current !== ride.id;
+    if (!isNewRide) {
+      if (prevPaymentStatusRef.current !== 'completed' && ride.paymentStatus === 'completed') {
+        notify(t('notify.paymentReceived', { amount: formatPi(ride.driverEarnings) }), { sound: true });
+      }
+      const prevTip = prevTipAmountRef.current ?? 0;
+      const curTip = ride.tipAmount ?? 0;
+      if (curTip > prevTip) {
+        notify(t('notify.tip', { amount: formatPi(curTip - prevTip) }), { sound: true });
+      }
+    }
+    seenRideRef.current = ride.id;
+    prevPaymentStatusRef.current = ride.paymentStatus;
+    prevTipAmountRef.current = ride.tipAmount;
+  }, [ride, iAmDriver, t]);
+
   useEffect(() => {
     if (!iAmDriver || !rideId) return;
     if (!activeStatus || ['completed', 'cancelled'].includes(activeStatus)) return;

@@ -138,7 +138,11 @@ function playChime(): void {
   });
 }
 
-function notify(message: string, opts?: { sound?: boolean }): void {
+// Exported so screens can trigger the same toast+sound for a state change
+// they detect themselves (e.g. a poll/refresh catching a payment that
+// completed while the WS event was missed — phone locked, app backgrounded,
+// no real push notifications in the Pi Browser to fall back on).
+export function notify(message: string, opts?: { sound?: boolean }): void {
   if (opts?.sound) playChime();
   // Background tab / minimized PWA → also try a system notification, best
   // effort. This used to `return` here and skip the in-app toast entirely —
