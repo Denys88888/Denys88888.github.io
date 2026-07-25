@@ -341,7 +341,12 @@
     "filter_scheduled": "予約済み",
     "payoutFailed": "ドライバーへの支払いに失敗しました",
     "retryPayout": "支払いを再試行",
-    "payoutRetried": "支払いが完了しました"
+    "payoutRetried": "支払いが完了しました",
+    "maintenanceMode": "メンテナンスモード（新規注文を停止）",
+    "minDriverRating": "ドライバー最低評価",
+    "autoBlockThreshold": "N件の解決済み苦情で自動ブロック",
+    "appName": "アプリ名",
+    "contactEmail": "サポートメール"
   },
   "notify": {
     "newRide": "新しい配車リクエスト：{{fare}}",

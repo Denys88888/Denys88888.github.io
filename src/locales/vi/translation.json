@@ -341,7 +341,12 @@
     "filter_scheduled": "Đã lên lịch",
     "payoutFailed": "Thanh toán cho tài xế thất bại",
     "retryPayout": "Thử lại thanh toán",
-    "payoutRetried": "Thanh toán hoàn tất"
+    "payoutRetried": "Thanh toán hoàn tất",
+    "maintenanceMode": "Chế độ bảo trì (chặn đơn hàng mới)",
+    "minDriverRating": "Điểm tối thiểu của tài xế",
+    "autoBlockThreshold": "Tự động chặn sau N khiếu nại được xử lý",
+    "appName": "Tên ứng dụng",
+    "contactEmail": "Email hỗ trợ"
   },
   "notify": {
     "newRide": "Yêu cầu chuyến mới: {{fare}}",

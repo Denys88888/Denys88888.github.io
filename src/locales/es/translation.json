@@ -341,7 +341,12 @@
     "filter_scheduled": "Programados",
     "payoutFailed": "El pago al conductor falló",
     "retryPayout": "Reintentar pago",
-    "payoutRetried": "Pago completado"
+    "payoutRetried": "Pago completado",
+    "maintenanceMode": "Modo mantenimiento (bloquear nuevos pedidos)",
+    "minDriverRating": "Calificación mín. del conductor",
+    "autoBlockThreshold": "Autobloquear tras N quejas confirmadas",
+    "appName": "Nombre de la app",
+    "contactEmail": "Email de soporte"
   },
   "notify": {
     "newRide": "Nueva solicitud de viaje: {{fare}}",

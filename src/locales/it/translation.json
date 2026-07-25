@@ -341,7 +341,12 @@
     "filter_scheduled": "Pianificati",
     "payoutFailed": "Pagamento al conducente non riuscito",
     "retryPayout": "Riprova pagamento",
-    "payoutRetried": "Pagamento completato"
+    "payoutRetried": "Pagamento completato",
+    "maintenanceMode": "Modalità manutenzione (blocca nuovi ordini)",
+    "minDriverRating": "Valutazione min. autista",
+    "autoBlockThreshold": "Blocco auto dopo N reclami confermati",
+    "appName": "Nome dell'app",
+    "contactEmail": "Email di supporto"
   },
   "notify": {
     "newRide": "Nuova richiesta di corsa: {{fare}}",

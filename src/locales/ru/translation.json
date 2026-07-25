@@ -341,7 +341,12 @@
     "filter_scheduled": "Запланированные",
     "payoutFailed": "Выплата водителю не удалась",
     "retryPayout": "Повторить выплату",
-    "payoutRetried": "Выплата прошла успешно"
+    "payoutRetried": "Выплата прошла успешно",
+    "maintenanceMode": "Режим обслуживания (блокировать новые заказы)",
+    "minDriverRating": "Мин. рейтинг водителя",
+    "autoBlockThreshold": "Автоблок после N подтв. жалоб",
+    "appName": "Название приложения",
+    "contactEmail": "Email поддержки"
   },
   "notify": {
     "newRide": "Новый заказ: {{fare}}",

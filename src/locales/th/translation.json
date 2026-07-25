@@ -341,7 +341,12 @@
     "filter_scheduled": "ที่จองไว้",
     "payoutFailed": "การจ่ายเงินให้คนขับล้มเหลว",
     "retryPayout": "ลองจ่ายเงินอีกครั้ง",
-    "payoutRetried": "จ่ายเงินสำเร็จ"
+    "payoutRetried": "จ่ายเงินสำเร็จ",
+    "maintenanceMode": "โหมดบำรุงรักษา (ระงับคำสั่งใหม่)",
+    "minDriverRating": "คะแนนคนขับขั้นต่ำ",
+    "autoBlockThreshold": "บล็อกอัตโนมัติหลัง N ข้อร้องเรียนที่แก้ไข",
+    "appName": "ชื่อแอป",
+    "contactEmail": "อีเมลฝ่ายสนับสนุน"
   },
   "notify": {
     "newRide": "คำขอเดินทางใหม่: {{fare}}",

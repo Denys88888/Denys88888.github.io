@@ -341,7 +341,12 @@
     "filter_scheduled": "Scheduled",
     "payoutFailed": "Driver payout failed",
     "retryPayout": "Retry payout",
-    "payoutRetried": "Payout completed"
+    "payoutRetried": "Payout completed",
+    "maintenanceMode": "Maintenance mode (block new orders)",
+    "minDriverRating": "Minimum driver rating",
+    "autoBlockThreshold": "Auto-block after N resolved reports",
+    "appName": "App name",
+    "contactEmail": "Support email"
   },
   "notify": {
     "newRide": "New ride request: {{fare}}",

@@ -341,7 +341,12 @@
     "filter_scheduled": "Zaplanowane",
     "payoutFailed": "Wypłata dla kierowcy nie powiodła się",
     "retryPayout": "Ponów wypłatę",
-    "payoutRetried": "Wypłata zakończona"
+    "payoutRetried": "Wypłata zakończona",
+    "maintenanceMode": "Tryb konserwacji (blokuj nowe zamówienia)",
+    "minDriverRating": "Min. ocena kierowcy",
+    "autoBlockThreshold": "Autoblokada po N potwierdzonych skargach",
+    "appName": "Nazwa aplikacji",
+    "contactEmail": "Email wsparcia"
   },
   "notify": {
     "newRide": "Nowe zlecenie: {{fare}}",

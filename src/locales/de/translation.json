@@ -341,7 +341,12 @@
     "filter_scheduled": "Geplant",
     "payoutFailed": "Fahrerauszahlung fehlgeschlagen",
     "retryPayout": "Auszahlung wiederholen",
-    "payoutRetried": "Auszahlung abgeschlossen"
+    "payoutRetried": "Auszahlung abgeschlossen",
+    "maintenanceMode": "Wartungsmodus (neue Bestellungen sperren)",
+    "minDriverRating": "Min. Fahrerbewertung",
+    "autoBlockThreshold": "Auto-Sperre nach N bestätigten Beschwerden",
+    "appName": "App-Name",
+    "contactEmail": "Support-E-Mail"
   },
   "notify": {
     "newRide": "Neue Fahrtanfrage: {{fare}}",

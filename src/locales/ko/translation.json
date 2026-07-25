@@ -341,7 +341,12 @@
     "filter_scheduled": "예약됨",
     "payoutFailed": "기사 정산 실패",
     "retryPayout": "정산 재시도",
-    "payoutRetried": "정산 완료"
+    "payoutRetried": "정산 완료",
+    "maintenanceMode": "정비 모드 (신규 주문 차단)",
+    "minDriverRating": "기사 최소 평점",
+    "autoBlockThreshold": "N건 처리 신고 시 자동 차단",
+    "appName": "앱 이름",
+    "contactEmail": "지원 이메일"
   },
   "notify": {
     "newRide": "새 운행 요청: {{fare}}",

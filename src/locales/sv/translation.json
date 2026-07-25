@@ -341,7 +341,12 @@
     "filter_scheduled": "Schemalagda",
     "payoutFailed": "Utbetalning till förare misslyckades",
     "retryPayout": "Försök betala igen",
-    "payoutRetried": "Utbetalning slutförd"
+    "payoutRetried": "Utbetalning slutförd",
+    "maintenanceMode": "Underhållsläge (blockera nya beställningar)",
+    "minDriverRating": "Min. förarbetyg",
+    "autoBlockThreshold": "Autoblockera efter N åtgärdade anmälningar",
+    "appName": "Appnamn",
+    "contactEmail": "Support-e-post"
   },
   "notify": {
     "newRide": "Ny reseförfrågan: {{fare}}",

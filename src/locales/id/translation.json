@@ -341,7 +341,12 @@
     "filter_scheduled": "Terjadwal",
     "payoutFailed": "Pembayaran ke pengemudi gagal",
     "retryPayout": "Coba lagi pembayaran",
-    "payoutRetried": "Pembayaran selesai"
+    "payoutRetried": "Pembayaran selesai",
+    "maintenanceMode": "Mode pemeliharaan (blokir pesanan baru)",
+    "minDriverRating": "Rating min. pengemudi",
+    "autoBlockThreshold": "Blokir otomatis setelah N laporan diselesaikan",
+    "appName": "Nama aplikasi",
+    "contactEmail": "Email dukungan"
   },
   "notify": {
     "newRide": "Permintaan perjalanan baru: {{fare}}",

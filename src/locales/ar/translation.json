@@ -341,7 +341,12 @@
     "filter_scheduled": "مجدولة",
     "payoutFailed": "فشل الدفع للسائق",
     "retryPayout": "إعادة محاولة الدفع",
-    "payoutRetried": "تم الدفع بنجاح"
+    "payoutRetried": "تم الدفع بنجاح",
+    "maintenanceMode": "وضع الصيانة (إيقاف الطلبات الجديدة)",
+    "minDriverRating": "الحد الأدنى لتقييم السائق",
+    "autoBlockThreshold": "حظر تلقائي بعد N شكوى مؤكدة",
+    "appName": "اسم التطبيق",
+    "contactEmail": "بريد الدعم"
   },
   "notify": {
     "newRide": "طلب رحلة جديد: {{fare}}",

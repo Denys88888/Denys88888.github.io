@@ -341,7 +341,12 @@
     "filter_scheduled": "अनुसूचित",
     "payoutFailed": "ड्राइवर भुगतान विफल",
     "retryPayout": "भुगतान पुनः प्रयास करें",
-    "payoutRetried": "भुगतान पूरा हुआ"
+    "payoutRetried": "भुगतान पूरा हुआ",
+    "maintenanceMode": "रखरखाव मोड (नए ऑर्डर रोकें)",
+    "minDriverRating": "न्यूनतम ड्राइवर रेटिंग",
+    "autoBlockThreshold": "N समाधानित शिकायतों के बाद ऑटो-ब्लॉक",
+    "appName": "ऐप का नाम",
+    "contactEmail": "सहायता ईमेल"
   },
   "notify": {
     "newRide": "नई राइड अनुरोध: {{fare}}",

@@ -341,7 +341,12 @@
     "filter_scheduled": "Agendados",
     "payoutFailed": "O pagamento ao motorista falhou",
     "retryPayout": "Repetir pagamento",
-    "payoutRetried": "Pagamento concluído"
+    "payoutRetried": "Pagamento concluído",
+    "maintenanceMode": "Modo manutenção (bloquear novos pedidos)",
+    "minDriverRating": "Avaliação mín. do motorista",
+    "autoBlockThreshold": "Autobloquear após N reclamações confirmadas",
+    "appName": "Nome do app",
+    "contactEmail": "Email de suporte"
   },
   "notify": {
     "newRide": "Nova solicitação de corrida: {{fare}}",

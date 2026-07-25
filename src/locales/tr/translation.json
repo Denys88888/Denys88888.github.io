@@ -341,7 +341,12 @@
     "filter_scheduled": "Planlanan",
     "payoutFailed": "Sürücü ödemesi başarısız oldu",
     "retryPayout": "Ödemeyi yeniden dene",
-    "payoutRetried": "Ödeme tamamlandı"
+    "payoutRetried": "Ödeme tamamlandı",
+    "maintenanceMode": "Bakım modu (yeni siparişleri engelle)",
+    "minDriverRating": "Min. sürücü puanı",
+    "autoBlockThreshold": "N doğrulanan şikayet sonrası otomatik blok",
+    "appName": "Uygulama adı",
+    "contactEmail": "Destek e-postası"
   },
   "notify": {
     "newRide": "Yeni yolculuk isteği: {{fare}}",

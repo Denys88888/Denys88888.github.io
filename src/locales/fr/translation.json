@@ -341,7 +341,12 @@
     "filter_scheduled": "Planifiées",
     "payoutFailed": "Le paiement au chauffeur a échoué",
     "retryPayout": "Réessayer le paiement",
-    "payoutRetried": "Paiement effectué"
+    "payoutRetried": "Paiement effectué",
+    "maintenanceMode": "Mode maintenance (bloquer les nouvelles commandes)",
+    "minDriverRating": "Note min. chauffeur",
+    "autoBlockThreshold": "Blocage auto après N plaintes confirmées",
+    "appName": "Nom de l'app",
+    "contactEmail": "Email de support"
   },
   "notify": {
     "newRide": "Nouvelle demande de course : {{fare}}",

@@ -341,7 +341,12 @@
     "filter_scheduled": "Gepland",
     "payoutFailed": "Uitbetaling aan chauffeur mislukt",
     "retryPayout": "Uitbetaling opnieuw proberen",
-    "payoutRetried": "Uitbetaling voltooid"
+    "payoutRetried": "Uitbetaling voltooid",
+    "maintenanceMode": "Onderhoudsmodus (nieuwe orders blokkeren)",
+    "minDriverRating": "Min. chauffeursscore",
+    "autoBlockThreshold": "Autoblokkering na N opgeloste meldingen",
+    "appName": "Appnaam",
+    "contactEmail": "Ondersteunings-e-mail"
   },
   "notify": {
     "newRide": "Nieuwe ritaanvraag: {{fare}}",

@@ -48,6 +48,11 @@ export function AdminDashboardScreen() {
   const [minFare, setMinFare] = useState(1.5);
   const [perKm, setPerKm] = useState(0.5);
   const [surgeEnabled, setSurgeEnabled] = useState(true);
+  const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const [minDriverRating, setMinDriverRating] = useState(3);
+  const [autoBlockThreshold, setAutoBlockThreshold] = useState(5);
+  const [contactEmail, setContactEmail] = useState('');
+  const [appName, setAppName] = useState('Taxi Pro');
 
   useEffect(() => {
     let cancelled = false;
@@ -61,6 +66,11 @@ export function AdminDashboardScreen() {
           setMinFare(s.minFare ?? 1.5);
           setPerKm(s.baseFarePerKm ?? 0.5);
           setSurgeEnabled(s.surgeEnabled !== false);
+          setMaintenanceMode(!!s.maintenanceMode);
+          setMinDriverRating(s.minDriverRating ?? 3);
+          setAutoBlockThreshold(s.autoBlockThreshold ?? 5);
+          setContactEmail(s.contactEmail ?? '');
+          setAppName(s.appName ?? 'Taxi Pro');
         }
       })
       .catch((err) => console.error('[admin] settings:', err));
@@ -163,6 +173,11 @@ export function AdminDashboardScreen() {
         minFare,
         baseFarePerKm: perKm,
         surgeEnabled,
+        maintenanceMode,
+        minDriverRating,
+        autoBlockThreshold,
+        contactEmail: contactEmail || undefined,
+        appName: appName || undefined,
       });
       addToast('success', t('common.success'));
     } catch (err) {
@@ -606,6 +621,62 @@ export function AdminDashboardScreen() {
                 className="h-5 w-5 accent-primary"
               />
             </label>
+            <label className="flex items-center justify-between rounded-lg bg-warning/10 px-3 py-2">
+              <span className="text-sm font-medium">{t('admin.maintenanceMode')}</span>
+              <input
+                type="checkbox"
+                checked={maintenanceMode}
+                onChange={(e) => setMaintenanceMode(e.target.checked)}
+                className="h-5 w-5 accent-warning"
+              />
+            </label>
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-sm font-medium">{t('admin.minDriverRating')}</span>
+              <div className="w-28 rounded-lg border border-[#E0E0E0] dark:border-white/15 px-3 py-2">
+                <input
+                  type="number"
+                  min={0}
+                  max={5}
+                  step="0.1"
+                  value={minDriverRating}
+                  onChange={(e) => setMinDriverRating(Number(e.target.value))}
+                  className="w-full bg-transparent text-sm outline-none"
+                />
+              </div>
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-sm font-medium">{t('admin.autoBlockThreshold')}</span>
+              <div className="w-28 rounded-lg border border-[#E0E0E0] dark:border-white/15 px-3 py-2">
+                <input
+                  type="number"
+                  min={1}
+                  max={100}
+                  step="1"
+                  value={autoBlockThreshold}
+                  onChange={(e) => setAutoBlockThreshold(Number(e.target.value))}
+                  className="w-full bg-transparent text-sm outline-none"
+                />
+              </div>
+            </div>
+            <div>
+              <p className="mb-1 text-sm font-medium">{t('admin.appName')}</p>
+              <input
+                type="text"
+                value={appName}
+                maxLength={60}
+                onChange={(e) => setAppName(e.target.value)}
+                className="w-full rounded-lg border border-[#E0E0E0] dark:border-white/15 bg-transparent px-3 py-2 text-sm outline-none"
+              />
+            </div>
+            <div>
+              <p className="mb-1 text-sm font-medium">{t('admin.contactEmail')}</p>
+              <input
+                type="email"
+                value={contactEmail}
+                onChange={(e) => setContactEmail(e.target.value)}
+                className="w-full rounded-lg border border-[#E0E0E0] dark:border-white/15 bg-transparent px-3 py-2 text-sm outline-none"
+              />
+            </div>
             <Button fullWidth onClick={saveSettings}>
               {t('common.save')}
             </Button>

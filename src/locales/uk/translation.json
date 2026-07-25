@@ -341,7 +341,12 @@
     "filter_scheduled": "Заплановані",
     "payoutFailed": "Виплата водію не вдалася",
     "retryPayout": "Повторити виплату",
-    "payoutRetried": "Виплату здійснено"
+    "payoutRetried": "Виплату здійснено",
+    "maintenanceMode": "Режим обслуговування (блокувати нові замовлення)",
+    "minDriverRating": "Мін. рейтинг водія",
+    "autoBlockThreshold": "Автоблок після N підтв. скарг",
+    "appName": "Назва застосунку",
+    "contactEmail": "Email підтримки"
   },
   "notify": {
     "newRide": "Нове замовлення: {{fare}}",
