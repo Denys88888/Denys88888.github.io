@@ -17,7 +17,8 @@
     "offline": "İnternet bağlantısı yok",
     "somethingWentWrong": "Bir şeyler ters gitti",
     "reload": "Yeniden yükle",
-    "language": "Dil"
+    "language": "Dil",
+    "maintenanceMode": "Sipariş geçici olarak bakım için devre dışı bırakıldı"
   },
   "splash": {
     "poweredBy": "Pi Network tarafından desteklenmektedir"
@@ -278,7 +279,8 @@
     "switchedToDriver": "Sürücü modu",
     "switchedToPassenger": "Yolcu modu",
     "testnet": "Test ağı",
-    "mainnet": "Ana ağ"
+    "mainnet": "Ana ağ",
+    "support": "Destek"
   },
   "history": {
     "title": "Yolculuk geçmişi",

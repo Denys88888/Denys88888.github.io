@@ -17,7 +17,8 @@
     "offline": "ไม่มีการเชื่อมต่ออินเทอร์เน็ต",
     "somethingWentWrong": "เกิดข้อผิดพลาด",
     "reload": "โหลดใหม่",
-    "language": "ภาษา"
+    "language": "ภาษา",
+    "maintenanceMode": "การสั่งซื้อถูกปิดชั่วคราวเพื่อบำรุงรักษา"
   },
   "splash": {
     "poweredBy": "ขับเคลื่อนโดย Pi Network"
@@ -278,7 +279,8 @@
     "switchedToDriver": "โหมดคนขับ",
     "switchedToPassenger": "โหมดผู้โดยสาร",
     "testnet": "เครือข่ายทดสอบ",
-    "mainnet": "เครือข่ายหลัก"
+    "mainnet": "เครือข่ายหลัก",
+    "support": "ฝ่ายสนับสนุน"
   },
   "history": {
     "title": "ประวัติการเดินทาง",

@@ -17,7 +17,8 @@
     "offline": "Brak połączenia z internetem",
     "somethingWentWrong": "Coś poszło nie tak",
     "reload": "Przeładuj",
-    "language": "Język"
+    "language": "Język",
+    "maintenanceMode": "Zamawianie przejazdów jest tymczasowo wyłączone (prace serwisowe)"
   },
   "splash": {
     "poweredBy": "Wspierane przez Pi Network"
@@ -278,7 +279,8 @@
     "switchedToDriver": "Tryb kierowcy",
     "switchedToPassenger": "Tryb pasażera",
     "testnet": "Testnet",
-    "mainnet": "Mainnet"
+    "mainnet": "Mainnet",
+    "support": "Wsparcie"
   },
   "history": {
     "title": "Historia przejazdów",

@@ -61,6 +61,14 @@ export interface PaginatedRides {
 export const api = {
   // ── Health ──
   health: () => client.get<HealthInfo>('/api/health').then((r) => r.data),
+  // Public branding/contact/maintenance subset — no auth required, safe to
+  // call before login (see also adminSettings for the full admin-only record).
+  publicSettings: () =>
+    client
+      .get<{ appName: string; appLogo: string; contactEmail: string; maintenanceMode: boolean }>(
+        '/api/settings'
+      )
+      .then((r) => r.data),
 
   // ── Auth ──
   piAuth: (accessToken: string) =>

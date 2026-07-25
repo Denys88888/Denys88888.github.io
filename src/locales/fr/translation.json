@@ -17,7 +17,8 @@
     "offline": "Pas de connexion internet",
     "somethingWentWrong": "Une erreur est survenue",
     "reload": "Recharger",
-    "language": "Langue"
+    "language": "Langue",
+    "maintenanceMode": "Les commandes sont temporairement désactivées pour maintenance"
   },
   "splash": {
     "poweredBy": "Propulsé par Pi Network"
@@ -278,7 +279,8 @@
     "switchedToDriver": "Mode chauffeur",
     "switchedToPassenger": "Mode passager",
     "testnet": "Réseau test",
-    "mainnet": "Réseau principal"
+    "mainnet": "Réseau principal",
+    "support": "Assistance"
   },
   "history": {
     "title": "Historique des courses",

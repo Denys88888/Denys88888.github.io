@@ -17,7 +17,8 @@
     "offline": "لا يوجد اتصال بالإنترنت",
     "somethingWentWrong": "حدث خطأ ما",
     "reload": "إعادة تحميل",
-    "language": "اللغة"
+    "language": "اللغة",
+    "maintenanceMode": "الطلبات معطلة مؤقتاً للصيانة"
   },
   "splash": {
     "poweredBy": "مدعوم من Pi Network"
@@ -278,7 +279,8 @@
     "switchedToDriver": "وضع السائق",
     "switchedToPassenger": "وضع الراكب",
     "testnet": "شبكة اختبار",
-    "mainnet": "الشبكة الرئيسية"
+    "mainnet": "الشبكة الرئيسية",
+    "support": "الدعم"
   },
   "history": {
     "title": "سجل الرحلات",

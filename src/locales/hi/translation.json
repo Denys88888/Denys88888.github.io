@@ -17,7 +17,8 @@
     "offline": "इंटरनेट कनेक्शन नहीं है",
     "somethingWentWrong": "कुछ गड़बड़ हुई",
     "reload": "पुनः लोड करें",
-    "language": "भाषा"
+    "language": "भाषा",
+    "maintenanceMode": "रखरखाव के लिए ऑर्डर अस्थायी रूप से बंद हैं"
   },
   "splash": {
     "poweredBy": "Pi Network द्वारा संचालित"
@@ -278,7 +279,8 @@
     "switchedToDriver": "ड्राइवर मोड",
     "switchedToPassenger": "यात्री मोड",
     "testnet": "टेस्टनेट",
-    "mainnet": "मेननेट"
+    "mainnet": "मेननेट",
+    "support": "सहायता"
   },
   "history": {
     "title": "यात्रा इतिहास",

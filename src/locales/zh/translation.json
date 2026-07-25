@@ -17,7 +17,8 @@
     "offline": "无网络连接",
     "somethingWentWrong": "出了点问题",
     "reload": "重新加载",
-    "language": "语言"
+    "language": "语言",
+    "maintenanceMode": "服务因维护暂时不可用"
   },
   "splash": {
     "poweredBy": "由 Pi Network 提供支持"
@@ -278,7 +279,8 @@
     "switchedToDriver": "司机模式",
     "switchedToPassenger": "乘客模式",
     "testnet": "测试网",
-    "mainnet": "主网"
+    "mainnet": "主网",
+    "support": "客服"
   },
   "history": {
     "title": "行程记录",

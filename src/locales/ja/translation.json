@@ -17,7 +17,8 @@
     "offline": "インターネット接続がありません",
     "somethingWentWrong": "問題が発生しました",
     "reload": "再読み込み",
-    "language": "言語"
+    "language": "言語",
+    "maintenanceMode": "メンテナンスのため注文を一時停止しています"
   },
   "splash": {
     "poweredBy": "Pi Network 提供"
@@ -278,7 +279,8 @@
     "switchedToDriver": "ドライバーモード",
     "switchedToPassenger": "乗客モード",
     "testnet": "テストネット",
-    "mainnet": "メインネット"
+    "mainnet": "メインネット",
+    "support": "サポート"
   },
   "history": {
     "title": "乗車履歴",

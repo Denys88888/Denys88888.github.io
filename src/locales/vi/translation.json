@@ -17,7 +17,8 @@
     "offline": "Không có kết nối internet",
     "somethingWentWrong": "Đã xảy ra lỗi",
     "reload": "Tải lại",
-    "language": "Ngôn ngữ"
+    "language": "Ngôn ngữ",
+    "maintenanceMode": "Đặt xe tạm ngưng để bảo trì"
   },
   "splash": {
     "poweredBy": "Được cung cấp bởi Pi Network"
@@ -278,7 +279,8 @@
     "switchedToDriver": "Chế độ tài xế",
     "switchedToPassenger": "Chế độ hành khách",
     "testnet": "Mạng thử nghiệm",
-    "mainnet": "Mạng chính"
+    "mainnet": "Mạng chính",
+    "support": "Hỗ trợ"
   },
   "history": {
     "title": "Lịch sử chuyến đi",

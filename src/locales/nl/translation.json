@@ -17,7 +17,8 @@
     "offline": "Geen internetverbinding",
     "somethingWentWrong": "Er is iets misgegaan",
     "reload": "Herladen",
-    "language": "Taal"
+    "language": "Taal",
+    "maintenanceMode": "Bestellen is tijdelijk uitgeschakeld voor onderhoud"
   },
   "splash": {
     "poweredBy": "Mogelijk gemaakt door Pi Network"
@@ -278,7 +279,8 @@
     "switchedToDriver": "Chauffeurmodus",
     "switchedToPassenger": "Passagiersmodus",
     "testnet": "Testnet",
-    "mainnet": "Mainnet"
+    "mainnet": "Mainnet",
+    "support": "Ondersteuning"
   },
   "history": {
     "title": "Ritgeschiedenis",

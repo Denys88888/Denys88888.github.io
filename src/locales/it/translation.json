@@ -17,7 +17,8 @@
     "offline": "Nessuna connessione internet",
     "somethingWentWrong": "Qualcosa è andato storto",
     "reload": "Ricarica",
-    "language": "Lingua"
+    "language": "Lingua",
+    "maintenanceMode": "Gli ordini sono temporaneamente disattivati per manutenzione"
   },
   "splash": {
     "poweredBy": "Realizzato con Pi Network"
@@ -278,7 +279,8 @@
     "switchedToDriver": "Modalità conducente",
     "switchedToPassenger": "Modalità passeggero",
     "testnet": "Rete di test",
-    "mainnet": "Rete principale"
+    "mainnet": "Rete principale",
+    "support": "Supporto"
   },
   "history": {
     "title": "Cronologia corse",

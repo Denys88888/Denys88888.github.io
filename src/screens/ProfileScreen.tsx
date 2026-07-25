@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Camera, Star, LayoutDashboard, Car, Share, ArrowLeftRight, TrendingUp } from 'lucide-react';
 import { Card } from '../components/ui/Card';
@@ -37,6 +37,10 @@ export function ProfileScreen() {
   const [savingPhone, setSavingPhone] = useState(false);
   const [notifGranted, setNotifGranted] = useState(systemNotificationsEnabled());
   const [switching, setSwitching] = useState(false);
+  const [contactEmail, setContactEmail] = useState<string>('');
+  useEffect(() => {
+    api.publicSettings().then((s) => setContactEmail(s.contactEmail ?? '')).catch(() => {});
+  }, []);
 
   if (!user) return null;
 
@@ -212,6 +216,15 @@ export function ProfileScreen() {
         <Button variant="ghost" fullWidth className="!text-danger" onClick={logout}>
           {t('auth.logout')}
         </Button>
+
+        {contactEmail && (
+          <p className="text-center text-xs opacity-60">
+            {t('profile.support')}:{' '}
+            <a href={`mailto:${contactEmail}`} className="text-primary underline">
+              {contactEmail}
+            </a>
+          </p>
+        )}
 
         <p className="text-center text-xs opacity-40">
           Taxi Pro v3.0.0 ·{' '}

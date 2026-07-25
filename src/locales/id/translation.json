@@ -17,7 +17,8 @@
     "offline": "Tidak ada koneksi internet",
     "somethingWentWrong": "Terjadi kesalahan",
     "reload": "Muat ulang",
-    "language": "Bahasa"
+    "language": "Bahasa",
+    "maintenanceMode": "Pemesanan sementara dinonaktifkan untuk pemeliharaan"
   },
   "splash": {
     "poweredBy": "Didukung oleh Pi Network"
@@ -278,7 +279,8 @@
     "switchedToDriver": "Mode pengemudi",
     "switchedToPassenger": "Mode penumpang",
     "testnet": "Testnet",
-    "mainnet": "Mainnet"
+    "mainnet": "Mainnet",
+    "support": "Dukungan"
   },
   "history": {
     "title": "Riwayat perjalanan",

@@ -17,7 +17,8 @@
     "offline": "인터넷 연결 없음",
     "somethingWentWrong": "문제가 발생했습니다",
     "reload": "새로고침",
-    "language": "언어"
+    "language": "언어",
+    "maintenanceMode": "정비를 위해 주문이 일시적으로 중단되었습니다"
   },
   "splash": {
     "poweredBy": "Pi Network 제공"
@@ -278,7 +279,8 @@
     "switchedToDriver": "운전자 모드",
     "switchedToPassenger": "승객 모드",
     "testnet": "테스트넷",
-    "mainnet": "메인넷"
+    "mainnet": "메인넷",
+    "support": "지원"
   },
   "history": {
     "title": "운행 기록",

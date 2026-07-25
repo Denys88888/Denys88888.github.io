@@ -17,7 +17,8 @@
     "offline": "Sem conexão com a internet",
     "somethingWentWrong": "Algo deu errado",
     "reload": "Recarregar",
-    "language": "Idioma"
+    "language": "Idioma",
+    "maintenanceMode": "Os pedidos estão temporariamente desativados para manutenção"
   },
   "splash": {
     "poweredBy": "Distribuído por Pi Network"
@@ -278,7 +279,8 @@
     "switchedToDriver": "Modo motorista",
     "switchedToPassenger": "Modo passageiro",
     "testnet": "Rede de teste",
-    "mainnet": "Rede principal"
+    "mainnet": "Rede principal",
+    "support": "Suporte"
   },
   "history": {
     "title": "Histórico de viagens",

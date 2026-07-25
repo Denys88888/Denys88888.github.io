@@ -17,7 +17,8 @@
     "offline": "Немає підключення до інтернету",
     "somethingWentWrong": "Щось пішло не так",
     "reload": "Перезавантажити",
-    "language": "Мова"
+    "language": "Мова",
+    "maintenanceMode": "Замовлення поїздок тимчасово вимкнено на техобслуговування"
   },
   "splash": {
     "poweredBy": "За підтримки Pi Network"
@@ -278,7 +279,8 @@
     "switchedToDriver": "Режим водія",
     "switchedToPassenger": "Режим пасажира",
     "testnet": "Тестова мережа",
-    "mainnet": "Основна мережа"
+    "mainnet": "Основна мережа",
+    "support": "Підтримка"
   },
   "history": {
     "title": "Історія поїздок",

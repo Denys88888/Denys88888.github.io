@@ -17,7 +17,8 @@
     "offline": "No internet connection",
     "somethingWentWrong": "Something went wrong",
     "reload": "Reload",
-    "language": "Language"
+    "language": "Language",
+    "maintenanceMode": "Ordering is temporarily disabled for maintenance"
   },
   "splash": {
     "poweredBy": "Powered by Pi Network"
@@ -278,7 +279,8 @@
     "switchedToDriver": "Switched to driver mode",
     "switchedToPassenger": "Switched to passenger mode",
     "testnet": "Testnet",
-    "mainnet": "Mainnet"
+    "mainnet": "Mainnet",
+    "support": "Support"
   },
   "history": {
     "title": "Ride history",

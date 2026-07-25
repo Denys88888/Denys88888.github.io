@@ -17,7 +17,8 @@
     "offline": "Keine Internetverbindung",
     "somethingWentWrong": "Etwas ist schiefgelaufen",
     "reload": "Neu laden",
-    "language": "Sprache"
+    "language": "Sprache",
+    "maintenanceMode": "Bestellungen sind vorübergehend wegen Wartung deaktiviert"
   },
   "splash": {
     "poweredBy": "Unterstützt von Pi Network"
@@ -278,7 +279,8 @@
     "switchedToDriver": "Fahrermodus",
     "switchedToPassenger": "Fahrgastmodus",
     "testnet": "Testnetz",
-    "mainnet": "Hauptnetz"
+    "mainnet": "Hauptnetz",
+    "support": "Support"
   },
   "history": {
     "title": "Fahrtverlauf",

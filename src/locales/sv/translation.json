@@ -17,7 +17,8 @@
     "offline": "Ingen internetanslutning",
     "somethingWentWrong": "Något gick fel",
     "reload": "Ladda om",
-    "language": "Språk"
+    "language": "Språk",
+    "maintenanceMode": "Beställningar är tillfälligt avstängda för underhåll"
   },
   "splash": {
     "poweredBy": "Drivs av Pi Network"
@@ -278,7 +279,8 @@
     "switchedToDriver": "Förarläge",
     "switchedToPassenger": "Passagerarläge",
     "testnet": "Testnät",
-    "mainnet": "Huvudnät"
+    "mainnet": "Huvudnät",
+    "support": "Support"
   },
   "history": {
     "title": "Reshistorik",
