@@ -65,15 +65,21 @@ export const useAppStore = create<AppState>((set) => ({
   setNearbyDrivers: (nearbyDrivers) => set({ nearbyDrivers }),
 
   toasts: [],
-  // Skip exact {type, message} duplicates already on screen — several flows
-  // (e.g. a denied-geolocation effect firing on every Home mount, plus a
-  // manual retry button re-surfacing the same cached error) can otherwise
-  // stack the identical banner two or three times in a row.
+  // Skip a duplicate {type, message} only within a very short window (300ms)
+  // — enough to swallow React-effect burst-fires (a denied-geolocation
+  // effect re-running on every Home mount, a retry button surfacing the
+  // same cached error twice in a row) without silencing genuine repeat
+  // events like two consecutive ride payments that happen to have the same
+  // formatted amount.
   addToast: (type, message) =>
-    set((s) =>
-      s.toasts.some((t) => t.type === type && t.message === message)
+    set((s) => {
+      const now = Date.now();
+      const recentDup = s.toasts.find(
+        (t) => t.type === type && t.message === message && now - Number(String(t.id).split('_')[0]) < 300
+      );
+      return recentDup
         ? s
-        : { toasts: [...s.toasts, { id: `${Date.now()}_${Math.random()}`, type, message }] }
-    ),
+        : { toasts: [...s.toasts, { id: `${now}_${Math.random()}`, type, message }] };
+    }),
   removeToast: (id) => set((s) => ({ toasts: s.toasts.filter((t) => t.id !== id) })),
 }));
