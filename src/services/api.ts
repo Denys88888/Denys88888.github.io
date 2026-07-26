@@ -207,8 +207,6 @@ export const api = {
   adminSettings: () => client.get('/api/admin/settings').then((r) => r.data),
   adminUpdateSettings: (patch: Record<string, unknown>) =>
     client.patch('/api/admin/settings', patch).then((r) => r.data),
-  adminPendingDrivers: () =>
-    client.get<{ drivers: User[] }>('/api/admin/drivers/pending').then((r) => r.data.drivers),
   adminVerifyDriver: (id: string, approve: boolean) =>
     client.post(`/api/admin/drivers/${id}/verify`, { approve }).then((r) => r.data),
   adminDrivers: (status?: string) =>

@@ -29,6 +29,11 @@ class WsService {
 
   private open(): void {
     if (!this.token) return;
+    // After an explicit disconnect() (e.g. logout), a lingering send() from a
+    // timer or effect-cleanup would otherwise reopen the socket the user just
+    // closed — token is still set, so the !this.token guard alone won't stop
+    // it. Only connect()/forceReconnect() (which clear manualClose) may reopen.
+    if (this.manualClose) return;
     if (this.ws && (this.ws.readyState === WebSocket.OPEN || this.ws.readyState === WebSocket.CONNECTING)) {
       return;
     }
