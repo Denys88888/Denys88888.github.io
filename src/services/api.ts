@@ -183,6 +183,8 @@ export const api = {
     client
       .post(`/api/payments/${paymentId}/complete`, { piPaymentId, txid })
       .then((r) => r.data),
+  cancelPayment: (paymentId: string, piPaymentId: string) =>
+    client.post(`/api/payments/${paymentId}/cancel`, { piPaymentId }).then((r) => r.data),
 
   // ── Reports ──
   createReport: (rideId: string, reportedId: string, reason: string, description?: string) =>

@@ -84,7 +84,15 @@ class WsService {
     if (this.ws && this.ws.readyState === WebSocket.OPEN) {
       this.ws.send(msg);
     } else {
-      if (this.queue.length < 50) this.queue.push(msg);
+      if (this.queue.length < 50) {
+        this.queue.push(msg);
+      } else {
+        // Backpressure: a socket that's been down long enough to build a
+        // 50-message backlog is unlikely to want stale queued frames anyway
+        // (driver-location pings especially). Drop with a breadcrumb rather
+        // than silently, so a stuck reconnect is at least visible in logs.
+        console.warn('[ws] send queue full (50), dropping message', { type });
+      }
       this.open();
     }
   }

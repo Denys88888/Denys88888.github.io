@@ -37,10 +37,18 @@ export async function authenticateWithPi(): Promise<PiAuthResult> {
     const ourPaymentId = payment.metadata?.paymentId;
     const txid = payment.transaction?.txid;
     if (ourPaymentId && txid) {
+      // Has a chain txid → finish it, same as a normal completion.
       api
         .completePayment(ourPaymentId, payment.identifier, txid)
         .then(() => logger.info('[Pi] recovered incomplete payment', { ourPaymentId }))
         .catch((err) => logger.error('[Pi] failed to recover incomplete payment', err));
+    } else if (ourPaymentId) {
+      // No txid → nothing to complete (never hit the chain). Cancel it so the
+      // Pi SDK stops blocking new createPayment calls on this stuck payment.
+      api
+        .cancelPayment(ourPaymentId, payment.identifier)
+        .then(() => logger.info('[Pi] cancelled stuck incomplete payment', { ourPaymentId }))
+        .catch((err) => logger.error('[Pi] failed to cancel incomplete payment', err));
     }
   };
   logger.info('[Pi] calling authenticate…');
