@@ -32,7 +32,20 @@ interface AppState {
 
 export const useAppStore = create<AppState>((set) => ({
   user: storage.getUser(),
-  token: storage.getToken(),
+  token: (() => {
+    const t = storage.getToken();
+    if (!t) return null;
+    // Decode the exp claim without a library — avoids showing logged-in UI
+    // with an already-expired token before the WS 1008 or a 401 fires.
+    try {
+      const payload = JSON.parse(atob(t.split('.')[1])) as { exp?: number };
+      if (payload.exp && payload.exp * 1000 < Date.now()) {
+        storage.clearAuth();
+        return null;
+      }
+    } catch { /* malformed token — fall through, WS/401 will clean up */ }
+    return t;
+  })(),
   setAuth: (user, token) => {
     storage.setUser(user);
     storage.setToken(token);
