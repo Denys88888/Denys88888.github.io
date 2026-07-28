@@ -15,9 +15,28 @@ export function isPiAvailable(): boolean {
 export function initPi(): void {
   logger.info('[Pi] SDK available:', isPiAvailable(), '| sandbox:', PI_SANDBOX);
   if (initialized || !isPiAvailable()) return;
+  // Pi.init was already called early in main.tsx; calling it again is safe —
+  // the SDK ignores duplicate inits — but we still set the flag to avoid
+  // log spam and redundant calls on every authenticate.
   window.Pi!.init({ version: '2.0', sandbox: PI_SANDBOX });
   initialized = true;
   logger.info('[Pi] init called');
+}
+
+// Open a native Pi Browser share sheet. Falls back to navigator.share or a
+// silent no-op if neither is available (desktop / non-Pi Browser context).
+export function piShare(title: string, message: string): void {
+  if (isPiAvailable() && typeof window.Pi!.openShareDialog === 'function') {
+    window.Pi!.openShareDialog(title, message);
+    return;
+  }
+  if ('share' in navigator) {
+    navigator.share({ title, text: message, url: window.location.origin }).catch((err: unknown) => {
+      if ((err as { name?: string }).name !== 'AbortError') {
+        logger.warn('[Pi] navigator.share failed', err);
+      }
+    });
+  }
 }
 
 // Authenticate the current Pi user. Returns the accessToken + basic profile.

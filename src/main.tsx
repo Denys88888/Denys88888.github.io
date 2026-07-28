@@ -6,6 +6,33 @@ import 'leaflet/dist/leaflet.css';
 import './index.css';
 import './i18n';
 import App from './App';
+import { PI_SANDBOX } from './utils/constants';
+
+// Call Pi.init as early as possible so the SDK is ready before any component
+// mounts and before the user can trigger authentication or payments.
+// window.Pi is injected by the deferred sdk.minepi.com script; it will be
+// defined by the time React mount effects run, but we init here to let the SDK
+// warm up (prefetch incomplete-payment state, check network, etc.).
+(function initPiEarly() {
+  if (typeof window === 'undefined') return;
+  const tryInit = () => {
+    if (!window.Pi) return;
+    try {
+      window.Pi.init({ version: '2.0', sandbox: PI_SANDBOX });
+      // Log available native features for debugging (non-blocking).
+      if (typeof window.Pi.nativeFeaturesList === 'function') {
+        window.Pi.nativeFeaturesList().then((features: string[]) => {
+          console.info('[Pi] nativeFeatures:', features);
+        }).catch(() => {});
+      }
+    } catch {
+      // SDK init must never crash the app.
+    }
+  };
+  // Try immediately (SDK may already be loaded), then on DOMContentLoaded.
+  tryInit();
+  document.addEventListener('DOMContentLoaded', tryInit, { once: true });
+})();
 
 // ?clearcache=1 wipes all local session state (auth token, cached user, theme,
 // language) and reloads clean — a manual escape hatch for stale local data

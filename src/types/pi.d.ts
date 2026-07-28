@@ -36,6 +36,8 @@ export interface PiSDK {
     onIncompletePaymentFound: (payment: PiIncompletePayment) => void
   ): Promise<PiAuthResult>;
   createPayment(data: PiPaymentData, callbacks: PiPaymentCallbacks): void;
+  nativeFeaturesList(): Promise<string[]>;
+  openShareDialog(title: string, message: string): void;
 }
 
 declare global {

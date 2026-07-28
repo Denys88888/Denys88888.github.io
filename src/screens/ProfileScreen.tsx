@@ -13,6 +13,7 @@ import { useAppStore } from '../store/useAppStore';
 import { useRouter } from '../store/useRouter';
 import { useToast } from '../hooks/useToast';
 import { api } from '../services/api';
+import { piShare } from '../services/piSdk';
 import { fileToAvatarDataUrl } from '../utils/image';
 import { maskPhone } from '../utils/formatters';
 import {
@@ -193,25 +194,13 @@ export function ProfileScreen() {
           </Button>
         )}
 
-        {'share' in navigator && (
-          <Button
-            variant="outline"
-            fullWidth
-            onClick={() =>
-              navigator.share?.({
-                title: 'Taxi Pro',
-                text: t('profile.shareText'),
-                url: window.location.origin,
-              }).catch((err: unknown) => {
-                if ((err as { name?: string }).name !== 'AbortError') {
-                  console.error('[profile] share:', err);
-                }
-              })
-            }
-          >
-            <Share size={18} /> {t('profile.share')}
-          </Button>
-        )}
+        <Button
+          variant="outline"
+          fullWidth
+          onClick={() => piShare('Taxi Pro', t('profile.shareText'))}
+        >
+          <Share size={18} /> {t('profile.share')}
+        </Button>
 
         <Button variant="ghost" fullWidth className="!text-danger" onClick={logout}>
           {t('auth.logout')}
