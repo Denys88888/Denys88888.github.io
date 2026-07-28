@@ -34,7 +34,7 @@ export async function authenticateWithPi(): Promise<PiAuthResult> {
     // Pi already has a txid for it, submitting completion is exactly what a
     // normal successful payment does.
     logger.warn('[Pi] incomplete payment found', payment);
-    const ourPaymentId = payment.metadata?.paymentId;
+    const ourPaymentId = payment.metadata?.paymentId as string | undefined;
     const txid = payment.transaction?.txid;
     if (ourPaymentId && txid) {
       // Has a chain txid → finish it, same as a normal completion.
@@ -49,6 +49,13 @@ export async function authenticateWithPi(): Promise<PiAuthResult> {
         .cancelPayment(ourPaymentId, payment.identifier)
         .then(() => logger.info('[Pi] cancelled stuck incomplete payment', { ourPaymentId }))
         .catch((err) => logger.error('[Pi] failed to cancel incomplete payment', err));
+    } else {
+      // No paymentId in metadata — old payment, test transaction, or metadata
+      // corruption. Cancel via piPaymentId directly so the Pi SDK is unblocked.
+      api
+        .cancelUnknownPiPayment(payment.identifier)
+        .then(() => logger.info('[Pi] cancelled unknown incomplete payment', { piId: payment.identifier }))
+        .catch((err) => logger.error('[Pi] failed to cancel unknown incomplete payment', err));
     }
   };
   logger.info('[Pi] calling authenticate…');

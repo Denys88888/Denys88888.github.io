@@ -185,6 +185,8 @@ export const api = {
       .then((r) => r.data),
   cancelPayment: (paymentId: string, piPaymentId: string) =>
     client.post(`/api/payments/${paymentId}/cancel`, { piPaymentId }).then((r) => r.data),
+  cancelUnknownPiPayment: (piPaymentId: string) =>
+    client.post('/api/payments/cancel-unknown-pi', { piPaymentId }).then((r) => r.data),
 
   // ── Reports ──
   createReport: (rideId: string, reportedId: string, reason: string, description?: string) =>

@@ -280,6 +280,10 @@ export function RideDetailsScreen() {
     } else {
       await payRide(preparedPayment);
     }
+    // Clear the prepared payment so a retry re-fetches fresh data from the
+    // server — the stale paymentId must not be reused if the backend's status
+    // has changed (e.g. held → cancelled after a timeout).
+    setPreparedPayment(null);
     // Refresh either way: even a failed attempt may have recovered a stale
     // held payment server-side (found it already completed via Pi, or
     // released it back to pending) — the ride's true state may have changed
