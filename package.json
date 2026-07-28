@@ -30,6 +30,7 @@
     "zustand": "^4.5.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.0",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
     "@types/dompurify": "^3.0.5",
@@ -44,6 +45,7 @@
     "typescript": "^5.5.3",
     "vite": "^5.3.3",
     "vite-plugin-pwa": "^0.20.5",
-    "vitest": "^2.0.1"
+    "vitest": "^2.0.1",
+    "wait-on": "^9.1.0"
   }
 }

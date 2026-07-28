@@ -1,0 +1,24 @@
+{
+  "bundles": {
+    "react": { "maxGzipKb": 50, "description": "React + ReactDOM" },
+    "leaflet": { "maxGzipKb": 80, "description": "Leaflet + react-leaflet map" },
+    "i18n": { "maxGzipKb": 30, "description": "i18next + language detector" },
+    "vendor": { "maxGzipKb": 60, "description": "axios, zustand, date-fns, dompurify, lucide-react" },
+    "index": { "maxGzipKb": 80, "description": "App entry + screen code" }
+  },
+  "totals": {
+    "maxTotalGzipKb": 350,
+    "maxInitialGzipKb": 150,
+    "description": "Total compressed transfer budget for full app (all chunks)"
+  },
+  "assets": {
+    "maxImageKb": 200,
+    "maxFontKb": 50
+  },
+  "web-vitals": {
+    "FCP": { "budget_ms": 2000, "description": "First Contentful Paint" },
+    "LCP": { "budget_ms": 3000, "description": "Largest Contentful Paint" },
+    "TBT": { "budget_ms": 300, "description": "Total Blocking Time" },
+    "CLS": { "budget": 0.1, "description": "Cumulative Layout Shift" }
+  }
+}

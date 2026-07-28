@@ -46,6 +46,8 @@ export default defineConfig({
     alias: { '@': path.resolve(__dirname, 'src') },
   },
   build: {
+    reportCompressedSize: true,
+    chunkSizeWarningLimit: 500,
     // Split heavy vendors into their own chunks so no single chunk trips the
     // 500 kB warning and the app shell caches/loads efficiently.
     rollupOptions: {
