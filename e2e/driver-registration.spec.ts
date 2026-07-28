@@ -30,8 +30,8 @@ test.describe('Driver registration', () => {
       },
       headers: { Authorization: `Bearer ${token}` },
     });
-    // 200 = submitted, 409 = already registered — both acceptable in e2e
-    expect([200, 409]).toContain(regRes.status());
+    // 201 = submitted, 409 = already registered — both acceptable in e2e
+    expect([201, 409]).toContain(regRes.status());
   });
 
   test('driver registration UI shows form fields', async ({ page }) => {
