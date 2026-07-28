@@ -117,7 +117,7 @@ export function DriverHomeScreen() {
         try {
           const { rides } = await api.listRides({ status, limit: 1 });
           if (cancelled) return;
-          const mine = rides.find((r) => r.driverId);
+          const mine = rides.find((r) => r.driverId === uid);
           if (mine) {
             setActiveRide(mine);
             return;
