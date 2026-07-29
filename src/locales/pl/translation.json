@@ -280,7 +280,10 @@
     "switchedToPassenger": "Tryb pasażera",
     "testnet": "Testnet",
     "mainnet": "Mainnet",
-    "support": "Wsparcie"
+    "support": "Wsparcie",
+    "legal": "Informacje prawne",
+    "privacyPolicy": "Polityka prywatności",
+    "termsOfService": "Warunki użytkowania"
   },
   "history": {
     "title": "Historia przejazdów",

@@ -280,7 +280,10 @@
     "switchedToPassenger": "Fahrgastmodus",
     "testnet": "Testnetz",
     "mainnet": "Hauptnetz",
-    "support": "Support"
+    "support": "Support",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "history": {
     "title": "Fahrtverlauf",

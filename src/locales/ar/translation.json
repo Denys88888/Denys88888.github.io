@@ -280,7 +280,10 @@
     "switchedToPassenger": "وضع الراكب",
     "testnet": "شبكة اختبار",
     "mainnet": "الشبكة الرئيسية",
-    "support": "الدعم"
+    "support": "الدعم",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "history": {
     "title": "سجل الرحلات",

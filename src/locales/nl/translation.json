@@ -280,7 +280,10 @@
     "switchedToPassenger": "Passagiersmodus",
     "testnet": "Testnet",
     "mainnet": "Mainnet",
-    "support": "Ondersteuning"
+    "support": "Ondersteuning",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "history": {
     "title": "Ritgeschiedenis",

@@ -280,7 +280,10 @@
     "switchedToPassenger": "Chế độ hành khách",
     "testnet": "Mạng thử nghiệm",
     "mainnet": "Mạng chính",
-    "support": "Hỗ trợ"
+    "support": "Hỗ trợ",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "history": {
     "title": "Lịch sử chuyến đi",

@@ -280,7 +280,10 @@
     "switchedToPassenger": "乗客モード",
     "testnet": "テストネット",
     "mainnet": "メインネット",
-    "support": "サポート"
+    "support": "サポート",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "history": {
     "title": "乗車履歴",

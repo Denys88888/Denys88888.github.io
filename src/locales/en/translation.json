@@ -280,7 +280,10 @@
     "switchedToPassenger": "Switched to passenger mode",
     "testnet": "Testnet",
     "mainnet": "Mainnet",
-    "support": "Support"
+    "support": "Support",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "history": {
     "title": "Ride history",

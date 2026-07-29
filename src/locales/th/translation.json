@@ -280,7 +280,10 @@
     "switchedToPassenger": "โหมดผู้โดยสาร",
     "testnet": "เครือข่ายทดสอบ",
     "mainnet": "เครือข่ายหลัก",
-    "support": "ฝ่ายสนับสนุน"
+    "support": "ฝ่ายสนับสนุน",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "history": {
     "title": "ประวัติการเดินทาง",

@@ -280,7 +280,10 @@
     "switchedToPassenger": "乘客模式",
     "testnet": "测试网",
     "mainnet": "主网",
-    "support": "客服"
+    "support": "客服",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "history": {
     "title": "行程记录",

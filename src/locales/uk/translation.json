@@ -280,7 +280,10 @@
     "switchedToPassenger": "Режим пасажира",
     "testnet": "Тестова мережа",
     "mainnet": "Основна мережа",
-    "support": "Підтримка"
+    "support": "Підтримка",
+    "legal": "Правова інформація",
+    "privacyPolicy": "Політика конфіденційності",
+    "termsOfService": "Умови використання"
   },
   "history": {
     "title": "Історія поїздок",

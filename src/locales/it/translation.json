@@ -280,7 +280,10 @@
     "switchedToPassenger": "Modalità passeggero",
     "testnet": "Rete di test",
     "mainnet": "Rete principale",
-    "support": "Supporto"
+    "support": "Supporto",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "history": {
     "title": "Cronologia corse",

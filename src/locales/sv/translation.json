@@ -280,7 +280,10 @@
     "switchedToPassenger": "Passagerarläge",
     "testnet": "Testnät",
     "mainnet": "Huvudnät",
-    "support": "Support"
+    "support": "Support",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "history": {
     "title": "Reshistorik",

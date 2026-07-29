@@ -280,7 +280,10 @@
     "switchedToPassenger": "Mode penumpang",
     "testnet": "Testnet",
     "mainnet": "Mainnet",
-    "support": "Dukungan"
+    "support": "Dukungan",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "history": {
     "title": "Riwayat perjalanan",

@@ -280,7 +280,10 @@
     "switchedToPassenger": "Modo passageiro",
     "testnet": "Rede de teste",
     "mainnet": "Rede principal",
-    "support": "Suporte"
+    "support": "Suporte",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "history": {
     "title": "Histórico de viagens",

@@ -280,7 +280,10 @@
     "switchedToPassenger": "Mode passager",
     "testnet": "Réseau test",
     "mainnet": "Réseau principal",
-    "support": "Assistance"
+    "support": "Assistance",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "history": {
     "title": "Historique des courses",

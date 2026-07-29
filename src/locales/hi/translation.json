@@ -280,7 +280,10 @@
     "switchedToPassenger": "यात्री मोड",
     "testnet": "टेस्टनेट",
     "mainnet": "मेननेट",
-    "support": "सहायता"
+    "support": "सहायता",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "history": {
     "title": "यात्रा इतिहास",

@@ -280,7 +280,10 @@
     "switchedToPassenger": "Yolcu modu",
     "testnet": "Test ağı",
     "mainnet": "Ana ağ",
-    "support": "Destek"
+    "support": "Destek",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "history": {
     "title": "Yolculuk geçmişi",

@@ -280,7 +280,10 @@
     "switchedToPassenger": "승객 모드",
     "testnet": "테스트넷",
     "mainnet": "메인넷",
-    "support": "지원"
+    "support": "지원",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "history": {
     "title": "운행 기록",
