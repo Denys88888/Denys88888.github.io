@@ -209,7 +209,8 @@
     "hideRoute": "छुपाएं",
     "navigation": "नेविगेशन",
     "today": "आज",
-    "ridesCount": "सवारियां"
+    "ridesCount": "सवारियां",
+    "rideTaken": "सवारी पहले से किसी अन्य चालक ने ली है"
   },
   "earnings": {
     "title": "कमाई",

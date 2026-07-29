@@ -209,7 +209,8 @@
     "hideRoute": "Ocultar",
     "navigation": "Navegação",
     "today": "Hoje",
-    "ridesCount": "Corridas"
+    "ridesCount": "Corridas",
+    "rideTaken": "Corrida já aceita por outro motorista"
   },
   "earnings": {
     "title": "Ganhos",

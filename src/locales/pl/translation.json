@@ -209,7 +209,8 @@
     "hideRoute": "Ukryj",
     "navigation": "Nawigacja",
     "today": "Dziś",
-    "ridesCount": "Przejazdy"
+    "ridesCount": "Przejazdy",
+    "rideTaken": "Kurs już przyjęty przez innego kierowcę"
   },
   "earnings": {
     "title": "Zarobki",

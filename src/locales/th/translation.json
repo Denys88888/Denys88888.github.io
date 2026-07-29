@@ -209,7 +209,8 @@
     "hideRoute": "ซ่อน",
     "navigation": "นำทาง",
     "today": "วันนี้",
-    "ridesCount": "การเดินทาง"
+    "ridesCount": "การเดินทาง",
+    "rideTaken": "มีคนขับรายอื่นรับการเดินทางนี้แล้ว"
   },
   "earnings": {
     "title": "รายได้",

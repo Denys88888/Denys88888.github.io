@@ -209,7 +209,8 @@
     "hideRoute": "Nascondi",
     "navigation": "Navigazione",
     "today": "Oggi",
-    "ridesCount": "Corse"
+    "ridesCount": "Corse",
+    "rideTaken": "Corsa già accettata da un altro autista"
   },
   "earnings": {
     "title": "Guadagni",

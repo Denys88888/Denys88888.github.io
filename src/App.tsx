@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAppStore } from './store/useAppStore';
 import { useRouter } from './store/useRouter';
+import { useWebSocket } from './hooks/useWebSocket';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { RideProvider } from './context/RideContext';
@@ -42,6 +43,9 @@ function Shell() {
   const user = useAppStore((s) => s.user);
   const screen = useRouter((s) => s.screen);
   const navigate = useRouter((s) => s.navigate);
+
+  // Re-connect WebSocket immediately when the device comes back online.
+  useWebSocket();
 
   // Drivers land on their own home screen.
   useEffect(() => {

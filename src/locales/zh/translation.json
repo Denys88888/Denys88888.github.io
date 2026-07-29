@@ -209,7 +209,8 @@
     "hideRoute": "隐藏",
     "navigation": "导航",
     "today": "今天",
-    "ridesCount": "行程"
+    "ridesCount": "行程",
+    "rideTaken": "该行程已被其他司机接受"
   },
   "earnings": {
     "title": "收入",

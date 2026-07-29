@@ -209,7 +209,8 @@
     "hideRoute": "Verbergen",
     "navigation": "Navigatie",
     "today": "Vandaag",
-    "ridesCount": "Ritten"
+    "ridesCount": "Ritten",
+    "rideTaken": "Rit al geaccepteerd door een andere chauffeur"
   },
   "earnings": {
     "title": "Inkomsten",

@@ -209,7 +209,8 @@
     "hideRoute": "Сховати",
     "navigation": "Навігація",
     "today": "Сьогодні",
-    "ridesCount": "Поїздки"
+    "ridesCount": "Поїздки",
+    "rideTaken": "Поїздку вже взяв інший водій"
   },
   "earnings": {
     "title": "Дохід",

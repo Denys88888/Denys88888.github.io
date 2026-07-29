@@ -209,7 +209,8 @@
     "hideRoute": "Gizle",
     "navigation": "Navigasyon",
     "today": "Bugün",
-    "ridesCount": "Yolculuklar"
+    "ridesCount": "Yolculuklar",
+    "rideTaken": "Yolculuk başka bir sürücü tarafından alındı"
   },
   "earnings": {
     "title": "Kazanç",

@@ -209,7 +209,8 @@
     "hideRoute": "Ocultar",
     "navigation": "Navegación",
     "today": "Hoy",
-    "ridesCount": "Viajes"
+    "ridesCount": "Viajes",
+    "rideTaken": "El viaje ya fue aceptado por otro conductor"
   },
   "earnings": {
     "title": "Ganancias",

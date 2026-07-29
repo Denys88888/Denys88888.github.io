@@ -209,7 +209,8 @@
     "hideRoute": "Masquer",
     "navigation": "Navigation",
     "today": "Aujourd'hui",
-    "ridesCount": "Courses"
+    "ridesCount": "Courses",
+    "rideTaken": "Course déjà prise par un autre chauffeur"
   },
   "earnings": {
     "title": "Gains",

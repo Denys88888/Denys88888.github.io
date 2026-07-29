@@ -209,7 +209,8 @@
     "hideRoute": "Ẩn",
     "navigation": "Dẫn đường",
     "today": "Hôm nay",
-    "ridesCount": "Chuyến"
+    "ridesCount": "Chuyến",
+    "rideTaken": "Chuyến đi đã được tài xế khác nhận"
   },
   "earnings": {
     "title": "Thu nhập",

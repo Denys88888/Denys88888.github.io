@@ -209,7 +209,8 @@
     "hideRoute": "Sembunyikan",
     "navigation": "Navigasi",
     "today": "Hari ini",
-    "ridesCount": "Perjalanan"
+    "ridesCount": "Perjalanan",
+    "rideTaken": "Perjalanan sudah diambil oleh pengemudi lain"
   },
   "earnings": {
     "title": "Pendapatan",

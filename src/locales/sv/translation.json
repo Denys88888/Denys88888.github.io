@@ -209,7 +209,8 @@
     "hideRoute": "Dölj",
     "navigation": "Navigering",
     "today": "Idag",
-    "ridesCount": "Resor"
+    "ridesCount": "Resor",
+    "rideTaken": "Resan är redan tagen av en annan chaufför"
   },
   "earnings": {
     "title": "Intäkter",

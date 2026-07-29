@@ -209,7 +209,8 @@
     "hideRoute": "إخفاء",
     "navigation": "الملاحة",
     "today": "اليوم",
-    "ridesCount": "الرحلات"
+    "ridesCount": "الرحلات",
+    "rideTaken": "تم أخذ الرحلة من قِبَل سائق آخر"
   },
   "earnings": {
     "title": "الأرباح",

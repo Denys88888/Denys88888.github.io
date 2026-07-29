@@ -209,7 +209,8 @@
     "hideRoute": "非表示",
     "navigation": "ナビ",
     "today": "今日",
-    "ridesCount": "乗車数"
+    "ridesCount": "乗車数",
+    "rideTaken": "すでに別のドライバーが承認しました"
   },
   "earnings": {
     "title": "収益",

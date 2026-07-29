@@ -209,7 +209,8 @@
     "hideRoute": "Hide route",
     "navigation": "Navigation",
     "today": "Today",
-    "ridesCount": "Rides"
+    "ridesCount": "Rides",
+    "rideTaken": "Ride already taken by another driver"
   },
   "earnings": {
     "title": "Earnings",

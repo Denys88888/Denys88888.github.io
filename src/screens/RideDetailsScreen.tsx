@@ -14,6 +14,7 @@ import { useAppStore } from '../store/useAppStore';
 import { useToast } from '../hooks/useToast';
 import { usePayments, type PreparedPayment } from '../hooks/usePayments';
 import { useGeolocation } from '../hooks/useGeolocation';
+import { useWakeLock } from '../hooks/useWakeLock';
 import { wsService } from '../services/wsService';
 import { api } from '../services/api';
 import { payForRide } from '../services/piSdk';
@@ -236,6 +237,9 @@ export function RideDetailsScreen() {
   const isDriver = ride.driverId === uid;
   const counterpart: RideParty | null | undefined = isDriver ? ride.passenger : ride.driver;
   const feeApplies = ride.status === 'arrived' || ride.status === 'in_progress';
+
+  // Driver: keep the screen on for the full duration of an active ride.
+  useWakeLock(isDriver && !['completed', 'cancelled'].includes(ride.status));
   // driverPos only ever arrives via the 'driver_location_update' broadcast,
   // which the server sends to the passenger — the driver never gets an echo
   // of their own position back. On the driver's own screen, their live GPS
