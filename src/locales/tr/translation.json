@@ -352,7 +352,12 @@
     "minDriverRating": "Min. sürücü puanı",
     "autoBlockThreshold": "N doğrulanan şikayet sonrası otomatik blok",
     "appName": "Uygulama adı",
-    "contactEmail": "Destek e-postası"
+    "contactEmail": "Destek e-postası",
+    "payoutsTab": "Payouts",
+    "noUnpaidPayouts": "No unpaid payouts",
+    "unpaidPayoutsCount": "unpaid payout(s)",
+    "rideId": "Ride ID",
+    "driver": "Driver"
   },
   "notify": {
     "newRide": "Yeni yolculuk isteği: {{fare}}",

@@ -352,7 +352,12 @@
     "minDriverRating": "न्यूनतम ड्राइवर रेटिंग",
     "autoBlockThreshold": "N समाधानित शिकायतों के बाद ऑटो-ब्लॉक",
     "appName": "ऐप का नाम",
-    "contactEmail": "सहायता ईमेल"
+    "contactEmail": "सहायता ईमेल",
+    "payoutsTab": "Payouts",
+    "noUnpaidPayouts": "No unpaid payouts",
+    "unpaidPayoutsCount": "unpaid payout(s)",
+    "rideId": "Ride ID",
+    "driver": "Driver"
   },
   "notify": {
     "newRide": "नई राइड अनुरोध: {{fare}}",

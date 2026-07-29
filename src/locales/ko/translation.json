@@ -352,7 +352,12 @@
     "minDriverRating": "기사 최소 평점",
     "autoBlockThreshold": "N건 처리 신고 시 자동 차단",
     "appName": "앱 이름",
-    "contactEmail": "지원 이메일"
+    "contactEmail": "지원 이메일",
+    "payoutsTab": "Payouts",
+    "noUnpaidPayouts": "No unpaid payouts",
+    "unpaidPayoutsCount": "unpaid payout(s)",
+    "rideId": "Ride ID",
+    "driver": "Driver"
   },
   "notify": {
     "newRide": "새 운행 요청: {{fare}}",

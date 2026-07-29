@@ -352,7 +352,12 @@
     "minDriverRating": "Điểm tối thiểu của tài xế",
     "autoBlockThreshold": "Tự động chặn sau N khiếu nại được xử lý",
     "appName": "Tên ứng dụng",
-    "contactEmail": "Email hỗ trợ"
+    "contactEmail": "Email hỗ trợ",
+    "payoutsTab": "Payouts",
+    "noUnpaidPayouts": "No unpaid payouts",
+    "unpaidPayoutsCount": "unpaid payout(s)",
+    "rideId": "Ride ID",
+    "driver": "Driver"
   },
   "notify": {
     "newRide": "Yêu cầu chuyến mới: {{fare}}",

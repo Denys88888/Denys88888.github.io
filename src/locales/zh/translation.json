@@ -352,7 +352,12 @@
     "minDriverRating": "司机最低评分",
     "autoBlockThreshold": "N 起已解决投诉后自动封禁",
     "appName": "应用名称",
-    "contactEmail": "客服邮箱"
+    "contactEmail": "客服邮箱",
+    "payoutsTab": "Payouts",
+    "noUnpaidPayouts": "No unpaid payouts",
+    "unpaidPayoutsCount": "unpaid payout(s)",
+    "rideId": "Ride ID",
+    "driver": "Driver"
   },
   "notify": {
     "newRide": "新订单请求：{{fare}}",

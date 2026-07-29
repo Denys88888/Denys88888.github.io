@@ -18,7 +18,7 @@ interface Stats {
   platformEarnings: number;
   pendingReports: number;
 }
-type Tab = 'stats' | 'rides' | 'users' | 'drivers' | 'analytics' | 'reports' | 'settings';
+type Tab = 'stats' | 'rides' | 'users' | 'drivers' | 'analytics' | 'reports' | 'payouts' | 'settings';
 type RideFilter = 'all' | 'active' | 'scheduled' | 'completed' | 'cancelled';
 type DriverFilter = 'all' | 'pending' | 'approved' | 'rejected';
 type ReportFilter = 'open' | 'resolved' | 'dismissed' | 'all';
@@ -39,6 +39,9 @@ export function AdminDashboardScreen() {
   const [driverFilter, setDriverFilter] = useState<DriverFilter>('pending');
   const [analytics, setAnalytics] = useState<AdminAnalytics | null>(null);
   const [reports, setReports] = useState<Report[]>([]);
+  type UnpaidPayout = { id: string; driverId: string; driverEarnings: number; fare: number; driverPayoutStatus: string; driverPayoutError?: string; createdAt: string };
+  const [unpaidPayouts, setUnpaidPayouts] = useState<UnpaidPayout[]>([]);
+  const [retryingPayout, setRetryingPayout] = useState<string | null>(null);
   const [reportFilter, setReportFilter] = useState<ReportFilter>('open');
   const [docPhoto, setDocPhoto] = useState<string | null>(null);
   const [tabLoading, setTabLoading] = useState(false);
@@ -79,7 +82,7 @@ export function AdminDashboardScreen() {
 
   useEffect(() => {
     let cancelled = false;
-    const DATA_TABS = ['users', 'rides', 'drivers', 'analytics', 'reports'] as const;
+    const DATA_TABS = ['users', 'rides', 'drivers', 'analytics', 'reports', 'payouts'] as const;
     if (!(DATA_TABS as readonly string[]).includes(tab)) return;
     setTabLoading(true);
     const done = () => { if (!cancelled) setTabLoading(false); };
@@ -89,6 +92,7 @@ export function AdminDashboardScreen() {
     if (tab === 'drivers') api.adminDrivers().then((d) => { if (!cancelled) setDrivers(d); done(); }).catch(fail);
     if (tab === 'analytics') api.adminAnalytics().then((a) => { if (!cancelled) setAnalytics(a); done(); }).catch(fail);
     if (tab === 'reports') api.adminReports().then((r) => { if (!cancelled) setReports(r); done(); }).catch(fail);
+    if (tab === 'payouts') api.adminUnpaidPayouts().then((p) => { if (!cancelled) setUnpaidPayouts(p); done(); }).catch(fail);
     return () => { cancelled = true; };
   }, [tab, addToast, t]);
 
@@ -116,6 +120,31 @@ export function AdminDashboardScreen() {
     } catch (err) {
       console.error('[admin] verify:', err);
       addToast('error', t('common.error'));
+    }
+  };
+
+  const retryUnpaidPayout = async (rideId: string): Promise<void> => {
+    setRetryingPayout(rideId);
+    try {
+      const result = await api.adminRetryPayout(rideId);
+      if (result.driverPayoutStatus === 'completed') {
+        setUnpaidPayouts((prev) => prev.filter((p) => p.id !== rideId));
+        addToast('success', t('admin.payoutRetried'));
+      } else {
+        setUnpaidPayouts((prev) =>
+          prev.map((p) =>
+            p.id === rideId
+              ? { ...p, driverPayoutStatus: result.driverPayoutStatus ?? p.driverPayoutStatus, driverPayoutError: result.driverPayoutError }
+              : p
+          )
+        );
+        addToast('error', result.driverPayoutError ?? t('common.error'));
+      }
+    } catch (err) {
+      console.error('[admin] retryUnpaidPayout:', err);
+      addToast('error', t('common.error'));
+    } finally {
+      setRetryingPayout(null);
     }
   };
 
@@ -203,7 +232,7 @@ export function AdminDashboardScreen() {
   const maxHour = analytics ? Math.max(1, ...analytics.ridesByHour) : 1;
   const maxRevenue = analytics ? Math.max(0.1, ...analytics.revenueByDay.map((d) => d.revenue)) : 1;
 
-  const tabs: Tab[] = ['stats', 'rides', 'users', 'drivers', 'analytics', 'reports', 'settings'];
+  const tabs: Tab[] = ['stats', 'rides', 'users', 'drivers', 'analytics', 'reports', 'payouts', 'settings'];
   const tabLabel: Record<Tab, string> = {
     stats: t('admin.dashboard'),
     rides: t('admin.rides'),
@@ -211,6 +240,7 @@ export function AdminDashboardScreen() {
     drivers: t('admin.driversTab'),
     analytics: t('admin.analytics'),
     reports: t('admin.reports'),
+    payouts: t('admin.payoutsTab'),
     settings: t('admin.settings'),
   };
 
@@ -561,6 +591,42 @@ export function AdminDashboardScreen() {
                     </Button>
                   </div>
                 )}
+              </Card>
+            ))}
+          </>
+        )}
+
+        {/* ── Payouts ── */}
+        {tab === 'payouts' && (
+          <>
+            <p className="text-sm opacity-60">
+              {unpaidPayouts.length === 0 ? t('admin.noUnpaidPayouts') : `${unpaidPayouts.length} ${t('admin.unpaidPayoutsCount')}`}
+            </p>
+            {unpaidPayouts.map((p) => (
+              <Card key={p.id} className="space-y-1">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0 flex-1 text-sm">
+                    <p className="font-medium truncate">{t('admin.rideId')}: {p.id.slice(-8)}</p>
+                    <p className="opacity-60 text-xs">{t('admin.driver')}: {p.driverId.slice(-8)}</p>
+                    <p className="opacity-60 text-xs">{formatDate(p.createdAt)}</p>
+                    <p className="mt-1">
+                      {t('admin.driverEarnings')}: <span className="font-semibold">{formatPi(p.driverEarnings)} π</span>
+                      {' · '}{t('admin.fare')}: {formatPi(p.fare)} π
+                    </p>
+                    <Badge tone={p.driverPayoutStatus === 'failed' ? 'danger' : 'warning'}>
+                      {p.driverPayoutStatus}
+                    </Badge>
+                    {p.driverPayoutError && (
+                      <p className="mt-1 text-xs text-red-500 break-all">{p.driverPayoutError}</p>
+                    )}
+                  </div>
+                  <Button
+                    disabled={retryingPayout === p.id}
+                    onClick={() => retryUnpaidPayout(p.id)}
+                  >
+                    {retryingPayout === p.id ? '…' : t('admin.retryPayout')}
+                  </Button>
+                </div>
               </Card>
             ))}
           </>

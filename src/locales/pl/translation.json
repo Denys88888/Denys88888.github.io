@@ -352,7 +352,12 @@
     "minDriverRating": "Min. ocena kierowcy",
     "autoBlockThreshold": "Autoblokada po N potwierdzonych skargach",
     "appName": "Nazwa aplikacji",
-    "contactEmail": "Email wsparcia"
+    "contactEmail": "Email wsparcia",
+    "payoutsTab": "Payouts",
+    "noUnpaidPayouts": "No unpaid payouts",
+    "unpaidPayoutsCount": "unpaid payout(s)",
+    "rideId": "Ride ID",
+    "driver": "Driver"
   },
   "notify": {
     "newRide": "Nowe zlecenie: {{fare}}",

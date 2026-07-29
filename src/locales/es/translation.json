@@ -352,7 +352,12 @@
     "minDriverRating": "Calificación mín. del conductor",
     "autoBlockThreshold": "Autobloquear tras N quejas confirmadas",
     "appName": "Nombre de la app",
-    "contactEmail": "Email de soporte"
+    "contactEmail": "Email de soporte",
+    "payoutsTab": "Payouts",
+    "noUnpaidPayouts": "No unpaid payouts",
+    "unpaidPayoutsCount": "unpaid payout(s)",
+    "rideId": "Ride ID",
+    "driver": "Driver"
   },
   "notify": {
     "newRide": "Nueva solicitud de viaje: {{fare}}",

@@ -352,7 +352,12 @@
     "minDriverRating": "Minimum driver rating",
     "autoBlockThreshold": "Auto-block after N resolved reports",
     "appName": "App name",
-    "contactEmail": "Support email"
+    "contactEmail": "Support email",
+    "payoutsTab": "Payouts",
+    "noUnpaidPayouts": "No unpaid payouts",
+    "unpaidPayoutsCount": "unpaid payout(s)",
+    "rideId": "Ride ID",
+    "driver": "Driver"
   },
   "notify": {
     "newRide": "New ride request: {{fare}}",

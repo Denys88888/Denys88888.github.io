@@ -352,7 +352,12 @@
     "minDriverRating": "Rating min. pengemudi",
     "autoBlockThreshold": "Blokir otomatis setelah N laporan diselesaikan",
     "appName": "Nama aplikasi",
-    "contactEmail": "Email dukungan"
+    "contactEmail": "Email dukungan",
+    "payoutsTab": "Payouts",
+    "noUnpaidPayouts": "No unpaid payouts",
+    "unpaidPayoutsCount": "unpaid payout(s)",
+    "rideId": "Ride ID",
+    "driver": "Driver"
   },
   "notify": {
     "newRide": "Permintaan perjalanan baru: {{fare}}",

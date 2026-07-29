@@ -352,7 +352,12 @@
     "minDriverRating": "Min. förarbetyg",
     "autoBlockThreshold": "Autoblockera efter N åtgärdade anmälningar",
     "appName": "Appnamn",
-    "contactEmail": "Support-e-post"
+    "contactEmail": "Support-e-post",
+    "payoutsTab": "Payouts",
+    "noUnpaidPayouts": "No unpaid payouts",
+    "unpaidPayoutsCount": "unpaid payout(s)",
+    "rideId": "Ride ID",
+    "driver": "Driver"
   },
   "notify": {
     "newRide": "Ny reseförfrågan: {{fare}}",

@@ -352,7 +352,12 @@
     "minDriverRating": "الحد الأدنى لتقييم السائق",
     "autoBlockThreshold": "حظر تلقائي بعد N شكوى مؤكدة",
     "appName": "اسم التطبيق",
-    "contactEmail": "بريد الدعم"
+    "contactEmail": "بريد الدعم",
+    "payoutsTab": "Payouts",
+    "noUnpaidPayouts": "No unpaid payouts",
+    "unpaidPayoutsCount": "unpaid payout(s)",
+    "rideId": "Ride ID",
+    "driver": "Driver"
   },
   "notify": {
     "newRide": "طلب رحلة جديد: {{fare}}",

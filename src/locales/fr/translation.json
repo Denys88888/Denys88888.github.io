@@ -352,7 +352,12 @@
     "minDriverRating": "Note min. chauffeur",
     "autoBlockThreshold": "Blocage auto après N plaintes confirmées",
     "appName": "Nom de l'app",
-    "contactEmail": "Email de support"
+    "contactEmail": "Email de support",
+    "payoutsTab": "Payouts",
+    "noUnpaidPayouts": "No unpaid payouts",
+    "unpaidPayoutsCount": "unpaid payout(s)",
+    "rideId": "Ride ID",
+    "driver": "Driver"
   },
   "notify": {
     "newRide": "Nouvelle demande de course : {{fare}}",

@@ -352,7 +352,12 @@
     "minDriverRating": "Мин. рейтинг водителя",
     "autoBlockThreshold": "Автоблок после N подтв. жалоб",
     "appName": "Название приложения",
-    "contactEmail": "Email поддержки"
+    "contactEmail": "Email поддержки",
+    "payoutsTab": "Payouts",
+    "noUnpaidPayouts": "No unpaid payouts",
+    "unpaidPayoutsCount": "unpaid payout(s)",
+    "rideId": "Ride ID",
+    "driver": "Driver"
   },
   "notify": {
     "newRide": "Новый заказ: {{fare}}",

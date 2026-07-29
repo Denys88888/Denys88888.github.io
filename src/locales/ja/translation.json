@@ -352,7 +352,12 @@
     "minDriverRating": "ドライバー最低評価",
     "autoBlockThreshold": "N件の解決済み苦情で自動ブロック",
     "appName": "アプリ名",
-    "contactEmail": "サポートメール"
+    "contactEmail": "サポートメール",
+    "payoutsTab": "Payouts",
+    "noUnpaidPayouts": "No unpaid payouts",
+    "unpaidPayoutsCount": "unpaid payout(s)",
+    "rideId": "Ride ID",
+    "driver": "Driver"
   },
   "notify": {
     "newRide": "新しい配車リクエスト：{{fare}}",

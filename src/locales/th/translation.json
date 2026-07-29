@@ -352,7 +352,12 @@
     "minDriverRating": "คะแนนคนขับขั้นต่ำ",
     "autoBlockThreshold": "บล็อกอัตโนมัติหลัง N ข้อร้องเรียนที่แก้ไข",
     "appName": "ชื่อแอป",
-    "contactEmail": "อีเมลฝ่ายสนับสนุน"
+    "contactEmail": "อีเมลฝ่ายสนับสนุน",
+    "payoutsTab": "Payouts",
+    "noUnpaidPayouts": "No unpaid payouts",
+    "unpaidPayoutsCount": "unpaid payout(s)",
+    "rideId": "Ride ID",
+    "driver": "Driver"
   },
   "notify": {
     "newRide": "คำขอเดินทางใหม่: {{fare}}",

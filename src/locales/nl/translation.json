@@ -352,7 +352,12 @@
     "minDriverRating": "Min. chauffeursscore",
     "autoBlockThreshold": "Autoblokkering na N opgeloste meldingen",
     "appName": "Appnaam",
-    "contactEmail": "Ondersteunings-e-mail"
+    "contactEmail": "Ondersteunings-e-mail",
+    "payoutsTab": "Payouts",
+    "noUnpaidPayouts": "No unpaid payouts",
+    "unpaidPayoutsCount": "unpaid payout(s)",
+    "rideId": "Ride ID",
+    "driver": "Driver"
   },
   "notify": {
     "newRide": "Nieuwe ritaanvraag: {{fare}}",

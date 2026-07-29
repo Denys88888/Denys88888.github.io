@@ -218,6 +218,10 @@ export const api = {
       .get<{ drivers: AdminDriver[] }>('/api/admin/drivers', { params: { status } })
       .then((r) => r.data.drivers),
   adminAnalytics: () => client.get<AdminAnalytics>('/api/admin/analytics').then((r) => r.data),
+  adminUnpaidPayouts: () =>
+    client.get<{ id: string; driverId: string; driverEarnings: number; fare: number; driverPayoutStatus: string; driverPayoutError?: string; createdAt: string }[]>(
+      '/api/admin/unpaid-payouts'
+    ).then((r) => r.data),
   adminRetryPayout: (rideId: string) =>
     client
       .post<{ driverPayoutStatus?: string; driverPayoutTxid?: string; driverPayoutError?: string }>(
