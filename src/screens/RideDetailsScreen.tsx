@@ -19,6 +19,7 @@ import { wsService } from '../services/wsService';
 import { api } from '../services/api';
 import { payForRide } from '../services/piSdk';
 import { notify } from '../services/notificationService';
+import { fetchRoute } from '../services/mapService';
 import { NavigationPanel } from '../components/ride/NavigationPanel';
 import { chatIdForRide, haversineKm } from '../utils/helpers';
 import { formatPi, formatDistance, formatDuration, formatDate, maskPhone } from '../utils/formatters';
@@ -170,6 +171,12 @@ export function RideDetailsScreen() {
   const targetPoint =
     ride && (ride.status === 'in_progress' ? ride.destination : ride.pickup);
   const etaSourcePos = iAmDriver ? position : driverPos;
+  // Quantised to ~100 m so the road-network lookup below only re-runs when the
+  // car has actually moved a block, not on every GPS sample — the public OSRM
+  // demo server would rate-limit a request per position update.
+  const etaSourceKey = etaSourcePos
+    ? `${etaSourcePos.lat.toFixed(3)},${etaSourcePos.lng.toFixed(3)}`
+    : null;
   useEffect(() => {
     if (!etaSourcePos || !targetPoint || !ride) {
       setEtaSeconds(null);
@@ -179,9 +186,22 @@ export function RideDetailsScreen() {
       setEtaSeconds(null);
       return;
     }
+    // Straight-line estimate first so the ETA appears instantly, then refine
+    // with OSRM's road-network duration — a crow-flies distance at a flat
+    // 30 km/h badly underestimates any trip that has to follow real streets.
     const km = haversineKm(etaSourcePos.lat, etaSourcePos.lng, targetPoint.lat, targetPoint.lng);
     setEtaSeconds(Math.max(0, Math.round((km / AVG_SPEED_KMH) * 3600)));
-  }, [etaSourcePos, targetPoint?.lat, targetPoint?.lng, ride?.status]);
+    let stale = false;
+    fetchRoute([etaSourcePos, targetPoint])
+      .then((r) => {
+        if (!stale && r) setEtaSeconds(Math.max(0, Math.round(r.durationMin * 60)));
+      })
+      .catch(() => undefined);
+    return () => {
+      stale = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [etaSourceKey, targetPoint?.lat, targetPoint?.lng, ride?.status]);
 
   const etaActive = etaSeconds !== null;
   useEffect(() => {
@@ -739,7 +759,25 @@ export function RideDetailsScreen() {
         confirmVariant="danger"
         cancelLabel={t('common.back')}
       >
-        {feeApplies ? t('ride.cancelFeeWarning') : t('ride.cancelConfirm')}
+        {feeApplies ? (
+          <div className="space-y-2">
+            <p>{t('ride.cancelFeeWarning')}</p>
+            {/* Show the actual charge, not just the percentage — "50% applies"
+                leaves the rider guessing what leaves their wallet. */}
+            <div className="rounded-lg bg-danger/10 px-3 py-2">
+              <p className="text-sm opacity-70">{t('ride.cancelFeeAmount')}</p>
+              <p className="text-xl font-bold text-danger">
+                {formatPi((ride.fare * 50) / 100)} π
+              </p>
+            </div>
+            <p className="text-xs opacity-60">{t('ride.cancelFeeExplain')}</p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            <p>{t('ride.cancelConfirm')}</p>
+            <p className="text-xs opacity-60">{t('ride.cancelFreeExplain')}</p>
+          </div>
+        )}
       </Modal>
 
       <Modal

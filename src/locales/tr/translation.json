@@ -159,7 +159,10 @@
     "paymentPreparing": "Ödeme hazırlanıyor…",
     "sosCall": "112'yi Ara",
     "sosConfirm": "Bu, acil servisleri (112) arayacak ve konumunuzu destek ekibiyle paylaşacaktır.",
-    "sosAlertOnly": "Acil değil — sadece destek ekibini bilgilendir"
+    "sosAlertOnly": "Acil değil — sadece destek ekibini bilgilendir",
+    "cancelFeeAmount": "You will be charged",
+    "cancelFeeExplain": "The fee compensates the driver for travelling to your pickup point. It is taken from the fare you already authorised.",
+    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free."
   },
   "vehicle": {
     "economy": "Ekonomi",

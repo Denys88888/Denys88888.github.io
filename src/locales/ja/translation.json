@@ -159,7 +159,10 @@
     "paymentPreparing": "支払いを準備中…",
     "sosCall": "112に電話",
     "sosConfirm": "緊急サービス（112）に発信し、位置情報がサポートに共有されます。",
-    "sosAlertOnly": "緊急ではない — サポートに通知するのみ"
+    "sosAlertOnly": "緊急ではない — サポートに通知するのみ",
+    "cancelFeeAmount": "You will be charged",
+    "cancelFeeExplain": "The fee compensates the driver for travelling to your pickup point. It is taken from the fare you already authorised.",
+    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free."
   },
   "vehicle": {
     "economy": "エコノミー",

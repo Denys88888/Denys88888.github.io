@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   MapContainer as LeafletMap,
   TileLayer,
@@ -14,18 +14,37 @@ import { fetchRoute } from '../../services/mapService';
 
 // Colored pin built from a divIcon so we don't depend on Leaflet's image assets
 // (which break under a non-root base path on GitHub Pages).
-function carIcon(small = false): L.DivIcon {
+// Compass bearing (degrees clockwise from north) from point a to point b.
+function bearingDeg(a: GeoPoint, b: GeoPoint): number {
+  const toRad = (d: number) => (d * Math.PI) / 180;
+  const φ1 = toRad(a.lat);
+  const φ2 = toRad(b.lat);
+  const Δλ = toRad(b.lng - a.lng);
+  const y = Math.sin(Δλ) * Math.cos(φ2);
+  const x = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
+  return (Math.atan2(y, x) * 180) / Math.PI;
+}
+
+// `heading` rotates the marker to face the direction of travel, the way Uber
+// and Bolt do — a car that always points north reads as a stuck pin. The
+// arrow (rather than the side-on car glyph) is what actually conveys heading;
+// null heading falls back to the neutral car silhouette.
+function carIcon(small = false, heading: number | null = null): L.DivIcon {
   const size = small ? 28 : 36;
   const svg = small ? 14 : 18;
   const bg = small ? '#0F6E56' : '#00C853';
-  return L.divIcon({
-    className: '',
-    html: `<div style="display:flex;align-items:center;justify-content:center;width:${size}px;height:${size}px;border-radius:50%;background:${bg};border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35)">
-      <svg width="${svg}" height="${svg}" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  const glyph =
+    heading === null
+      ? `<svg width="${svg}" height="${svg}" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9L18 10l-2.7-3.4A2 2 0 0 0 13.7 6H10.3a2 2 0 0 0-1.6.8L6 10l-2.5 1.1C2.7 11.3 2 12.1 2 13v3c0 .6.4 1 1 1h2"/>
         <circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>
-      </svg>
-    </div>`,
+      </svg>`
+      : `<svg width="${svg}" height="${svg}" viewBox="0 0 24 24" fill="#fff" stroke="#fff" stroke-width="1.5" stroke-linejoin="round" style="transform:rotate(${heading}deg);transition:transform .4s ease-out">
+        <path d="M12 2.5 19 20l-7-4-7 4z"/>
+      </svg>`;
+  return L.divIcon({
+    className: '',
+    html: `<div style="display:flex;align-items:center;justify-content:center;width:${size}px;height:${size}px;border-radius:50%;background:${bg};border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35)">${glyph}</div>`,
     iconSize: [size, size],
     iconAnchor: [size / 2, size / 2],
   });
@@ -194,6 +213,42 @@ export function MapView({
   const tripRoute: [number, number][] =
     tripRoad ?? tripWaypoints.map((p) => [p.lat, p.lng] as [number, number]);
 
+  // Heading for the car marker, derived from successive driver positions.
+  // Kept in a ref so a re-render with an unchanged position doesn't reset the
+  // last known direction back to "unknown" and snap the arrow north.
+  const prevDriverRef = useRef<GeoPoint | null>(null);
+  const headingRef = useRef<number | null>(null);
+  if (driver) {
+    const prev = prevDriverRef.current;
+    // Ignore GPS jitter: only re-derive heading once the car has actually
+    // moved a few metres, otherwise the arrow spins on standstill noise.
+    if (prev && (Math.abs(prev.lat - driver.lat) > 1e-5 || Math.abs(prev.lng - driver.lng) > 1e-5)) {
+      headingRef.current = bearingDeg(prev, driver);
+      prevDriverRef.current = driver;
+    } else if (!prev) {
+      prevDriverRef.current = driver;
+    }
+  }
+
+  // Grey out the part of the trip already driven, like Google Maps and Waze —
+  // the remaining leg is what the user is actually reading. Split at the route
+  // vertex nearest the car; without a driver position nothing is greyed.
+  const splitIndex = (() => {
+    if (!driver || tripRoute.length < 2) return 0;
+    let best = 0;
+    let bestD = Infinity;
+    for (let i = 0; i < tripRoute.length; i++) {
+      const d = (tripRoute[i][0] - driver.lat) ** 2 + (tripRoute[i][1] - driver.lng) ** 2;
+      if (d < bestD) {
+        bestD = d;
+        best = i;
+      }
+    }
+    return best;
+  })();
+  const travelledRoute = splitIndex > 0 ? tripRoute.slice(0, splitIndex + 1) : [];
+  const remainingRoute = splitIndex > 0 ? tripRoute.slice(splitIndex) : tripRoute;
+
   return (
     <div className={className ?? 'h-full w-full overflow-hidden rounded-card'}>
       <LeafletMap
@@ -234,8 +289,13 @@ export function MapView({
         {nearbyDrivers.map((d) => (
           <Marker key={d.uid} position={[d.location.lat, d.location.lng]} icon={carIcon(true)} />
         ))}
-        {driver && <Marker position={[driver.lat, driver.lng]} icon={carIcon()} />}
-        {me && <Marker position={[me.lat, me.lng]} icon={pin('#2979FF', true)} zIndexOffset={500} />}
+        {driver && (
+          <Marker position={[driver.lat, driver.lng]} icon={carIcon(false, headingRef.current)} />
+        )}
+        {/* Distinct from the pickup pin (also blue): the user's own position is
+            violet, so a driver testing against their own pickup point can still
+            tell the two apart. */}
+        {me && <Marker position={[me.lat, me.lng]} icon={pin('#7C4DFF', true)} zIndexOffset={500} />}
         {heatmap.map((h, i) => (
           <Circle
             key={`heat-${i}`}
@@ -252,9 +312,15 @@ export function MapView({
         {approachRoute.length >= 2 && (
           <Polyline positions={approachRoute} pathOptions={{ color: '#0F6E56', weight: 4 }} />
         )}
-        {tripRoute.length >= 2 && (
+        {travelledRoute.length >= 2 && (
           <Polyline
-            positions={tripRoute}
+            positions={travelledRoute}
+            pathOptions={{ color: '#9E9E9E', weight: 4, opacity: 0.55, lineCap: 'round' }}
+          />
+        )}
+        {remainingRoute.length >= 2 && (
+          <Polyline
+            positions={remainingRoute}
             pathOptions={{
               // Distinct from the emerald approach leg and from the emerald
               // primary color used elsewhere in the UI.

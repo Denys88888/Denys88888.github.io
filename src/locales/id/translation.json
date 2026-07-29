@@ -159,7 +159,10 @@
     "paymentPreparing": "Menyiapkan pembayaran…",
     "sosCall": "Panggil 112",
     "sosConfirm": "Ini akan menelepon layanan darurat (112) dan membagikan lokasi Anda ke dukungan.",
-    "sosAlertOnly": "Bukan darurat — cukup beri tahu dukungan"
+    "sosAlertOnly": "Bukan darurat — cukup beri tahu dukungan",
+    "cancelFeeAmount": "You will be charged",
+    "cancelFeeExplain": "The fee compensates the driver for travelling to your pickup point. It is taken from the fare you already authorised.",
+    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free."
   },
   "vehicle": {
     "economy": "Ekonomi",

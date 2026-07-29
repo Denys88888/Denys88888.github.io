@@ -37,7 +37,10 @@ class WsService {
     if (this.ws && (this.ws.readyState === WebSocket.OPEN || this.ws.readyState === WebSocket.CONNECTING)) {
       return;
     }
-    const ws = new WebSocket(`${WS_URL}/?token=${encodeURIComponent(this.token)}`);
+    // Auth via Sec-WebSocket-Protocol rather than a ?token= query string, so
+    // the JWT never lands in proxy/CDN access logs. The server echoes back the
+    // bare 'jwt' marker; the second entry carries the token.
+    const ws = new WebSocket(WS_URL, ['jwt', this.token]);
     this.ws = ws;
 
     ws.onopen = () => {

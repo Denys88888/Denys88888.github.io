@@ -159,7 +159,10 @@
     "paymentPreparing": "Zahlung wird vorbereitet…",
     "sosCall": "112 anrufen",
     "sosConfirm": "Dies ruft den Notdienst (112) an und teilt deinen Standort mit dem Support.",
-    "sosAlertOnly": "Kein Notfall — Support nur benachrichtigen"
+    "sosAlertOnly": "Kein Notfall — Support nur benachrichtigen",
+    "cancelFeeAmount": "You will be charged",
+    "cancelFeeExplain": "The fee compensates the driver for travelling to your pickup point. It is taken from the fare you already authorised.",
+    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free."
   },
   "vehicle": {
     "economy": "Economy",

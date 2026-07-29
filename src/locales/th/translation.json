@@ -159,7 +159,10 @@
     "paymentPreparing": "กำลังเตรียมการชำระเงิน…",
     "sosCall": "โทร 112",
     "sosConfirm": "การดำเนินการนี้จะโทรหาหน่วยฉุกเฉิน (112) และแชร์ตำแหน่งของคุณกับฝ่ายสนับสนุน",
-    "sosAlertOnly": "ไม่ใช่เหตุฉุกเฉิน — แจ้งเตือนฝ่ายสนับสนุนเท่านั้น"
+    "sosAlertOnly": "ไม่ใช่เหตุฉุกเฉิน — แจ้งเตือนฝ่ายสนับสนุนเท่านั้น",
+    "cancelFeeAmount": "You will be charged",
+    "cancelFeeExplain": "The fee compensates the driver for travelling to your pickup point. It is taken from the fare you already authorised.",
+    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free."
   },
   "vehicle": {
     "economy": "อีโคโนมี",

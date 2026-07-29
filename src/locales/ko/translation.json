@@ -159,7 +159,10 @@
     "paymentPreparing": "결제 준비 중…",
     "sosCall": "112에 전화",
     "sosConfirm": "긴급 서비스(112)에 전화가 연결되고 위치가 지원팀과 공유됩니다.",
-    "sosAlertOnly": "긴급 상황 아님 — 지원팀에만 알리기"
+    "sosAlertOnly": "긴급 상황 아님 — 지원팀에만 알리기",
+    "cancelFeeAmount": "You will be charged",
+    "cancelFeeExplain": "The fee compensates the driver for travelling to your pickup point. It is taken from the fare you already authorised.",
+    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free."
   },
   "vehicle": {
     "economy": "이코노미",

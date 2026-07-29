@@ -159,7 +159,10 @@
     "paymentPreparing": "جارٍ تجهيز الدفع…",
     "sosCall": "اتصل بـ 112",
     "sosConfirm": "سيؤدي هذا إلى الاتصال بخدمات الطوارئ (112) ومشاركة موقعك مع الدعم.",
-    "sosAlertOnly": "ليست حالة طارئة — فقط تنبيه الدعم"
+    "sosAlertOnly": "ليست حالة طارئة — فقط تنبيه الدعم",
+    "cancelFeeAmount": "You will be charged",
+    "cancelFeeExplain": "The fee compensates the driver for travelling to your pickup point. It is taken from the fare you already authorised.",
+    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free."
   },
   "vehicle": {
     "economy": "اقتصادي",

@@ -159,7 +159,10 @@
     "paymentPreparing": "Đang chuẩn bị thanh toán…",
     "sosCall": "Gọi 112",
     "sosConfirm": "Thao tác này sẽ gọi dịch vụ khẩn cấp (112) và chia sẻ vị trí của bạn với bộ phận hỗ trợ.",
-    "sosAlertOnly": "Không phải khẩn cấp — chỉ cảnh báo hỗ trợ"
+    "sosAlertOnly": "Không phải khẩn cấp — chỉ cảnh báo hỗ trợ",
+    "cancelFeeAmount": "You will be charged",
+    "cancelFeeExplain": "The fee compensates the driver for travelling to your pickup point. It is taken from the fare you already authorised.",
+    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free."
   },
   "vehicle": {
     "economy": "Economy",
