@@ -33,16 +33,16 @@ export function DriverHomeScreen() {
   const [accepting, setAccepting] = useState<string | null>(null);
   const [offerInputs, setOfferInputs] = useState<Record<string, string>>({});
   const [offered, setOffered] = useState<Record<string, boolean>>({});
-
-  // Keep the screen on while the driver is online so GPS and WebSocket stay alive.
-  useWakeLock(online);
   const [heatmap, setHeatmap] = useState<HeatmapPoint[]>([]);
   const [activeRide, setActiveRide] = useState<Ride | null>(null);
   const [focusNonce, setFocusNonce] = useState(0);
   const [previewRideId, setPreviewRideId] = useState<string | null>(null);
-
   const [todayRides, setTodayRides] = useState<Ride[]>([]);
   const [todayLoading, setTodayLoading] = useState(true);
+  const acceptTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Keep the screen on while the driver is online so GPS and WebSocket stay alive.
+  useWakeLock(online);
 
   useEffect(() => {
     let cancelled = false;
@@ -219,8 +219,6 @@ export function DriverHomeScreen() {
       }
     }
   };
-
-  const acceptTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const accept = (ride: Ride): void => {
     if (!wsService.connected) {

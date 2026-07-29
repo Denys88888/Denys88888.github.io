@@ -230,16 +230,17 @@ export function RideDetailsScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rideIsPayable, ride?.paymentStatus]);
 
+  const isDriver = !!ride && ride.driverId === uid;
+  // Driver: keep the screen on for the full duration of an active ride.
+  // Must be called before any conditional return to satisfy Rules of Hooks.
+  useWakeLock(isDriver && !!ride && !['completed', 'cancelled'].includes(ride.status));
+
   if (!ride) {
     return <div className="flex h-full items-center justify-center opacity-60">{t('common.loading')}</div>;
   }
 
-  const isDriver = ride.driverId === uid;
   const counterpart: RideParty | null | undefined = isDriver ? ride.passenger : ride.driver;
   const feeApplies = ride.status === 'arrived' || ride.status === 'in_progress';
-
-  // Driver: keep the screen on for the full duration of an active ride.
-  useWakeLock(isDriver && !['completed', 'cancelled'].includes(ride.status));
   // driverPos only ever arrives via the 'driver_location_update' broadcast,
   // which the server sends to the passenger — the driver never gets an echo
   // of their own position back. On the driver's own screen, their live GPS
