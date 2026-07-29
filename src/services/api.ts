@@ -219,13 +219,14 @@ export const api = {
       .then((r) => r.data.drivers),
   adminAnalytics: () => client.get<AdminAnalytics>('/api/admin/analytics').then((r) => r.data),
   adminUnpaidPayouts: () =>
-    client.get<{ id: string; driverId: string; driverEarnings: number; fare: number; driverPayoutStatus: string; driverPayoutError?: string; createdAt: string }[]>(
+    client.get<{ id: string; driverId: string | undefined; amount: number; fare: number; payoutStatus: string; payoutError?: string; createdAt: string; kind: 'fare' | 'tip' }[]>(
       '/api/admin/unpaid-payouts'
     ).then((r) => r.data),
-  adminRetryPayout: (rideId: string) =>
+  adminRetryPayout: (rideId: string, kind: 'fare' | 'tip' = 'fare') =>
     client
       .post<{ driverPayoutStatus?: string; driverPayoutTxid?: string; driverPayoutError?: string }>(
-        `/api/admin/rides/${rideId}/retry-payout`
+        `/api/admin/rides/${rideId}/retry-payout`,
+        { kind }
       )
       .then((r) => r.data),
   adminCancelPiPayment: (identifier: string) =>

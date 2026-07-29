@@ -39,7 +39,7 @@ export function AdminDashboardScreen() {
   const [driverFilter, setDriverFilter] = useState<DriverFilter>('pending');
   const [analytics, setAnalytics] = useState<AdminAnalytics | null>(null);
   const [reports, setReports] = useState<Report[]>([]);
-  type UnpaidPayout = { id: string; driverId: string; driverEarnings: number; fare: number; driverPayoutStatus: string; driverPayoutError?: string; createdAt: string };
+  type UnpaidPayout = { id: string; driverId: string | undefined; amount: number; fare: number; payoutStatus: string; payoutError?: string; createdAt: string; kind: 'fare' | 'tip' };
   const [unpaidPayouts, setUnpaidPayouts] = useState<UnpaidPayout[]>([]);
   const [retryingPayout, setRetryingPayout] = useState<string | null>(null);
   const [reportFilter, setReportFilter] = useState<ReportFilter>('open');
@@ -123,19 +123,20 @@ export function AdminDashboardScreen() {
     }
   };
 
-  const retryUnpaidPayout = async (rideId: string): Promise<void> => {
-    setRetryingPayout(rideId);
+  const retryUnpaidPayout = async (p: UnpaidPayout): Promise<void> => {
+    const key = `${p.id}:${p.kind}`;
+    setRetryingPayout(key);
     try {
-      const result = await api.adminRetryPayout(rideId);
+      const result = await api.adminRetryPayout(p.id, p.kind);
       if (result.driverPayoutStatus === 'completed') {
-        setUnpaidPayouts((prev) => prev.filter((p) => p.id !== rideId));
+        setUnpaidPayouts((prev) => prev.filter((x) => !(x.id === p.id && x.kind === p.kind)));
         addToast('success', t('admin.payoutRetried'));
       } else {
         setUnpaidPayouts((prev) =>
-          prev.map((p) =>
-            p.id === rideId
-              ? { ...p, driverPayoutStatus: result.driverPayoutStatus ?? p.driverPayoutStatus, driverPayoutError: result.driverPayoutError }
-              : p
+          prev.map((x) =>
+            x.id === p.id && x.kind === p.kind
+              ? { ...x, payoutStatus: result.driverPayoutStatus ?? x.payoutStatus, payoutError: result.driverPayoutError }
+              : x
           )
         );
         addToast('error', result.driverPayoutError ?? t('common.error'));
@@ -602,33 +603,39 @@ export function AdminDashboardScreen() {
             <p className="text-sm opacity-60">
               {unpaidPayouts.length === 0 ? t('admin.noUnpaidPayouts') : `${unpaidPayouts.length} ${t('admin.unpaidPayoutsCount')}`}
             </p>
-            {unpaidPayouts.map((p) => (
-              <Card key={p.id} className="space-y-1">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0 flex-1 text-sm">
-                    <p className="font-medium truncate">{t('admin.rideId')}: {p.id.slice(-8)}</p>
-                    <p className="opacity-60 text-xs">{t('admin.driver')}: {p.driverId.slice(-8)}</p>
-                    <p className="opacity-60 text-xs">{formatDate(p.createdAt)}</p>
-                    <p className="mt-1">
-                      {t('admin.driverEarnings')}: <span className="font-semibold">{formatPi(p.driverEarnings)} π</span>
-                      {' · '}{t('admin.fare')}: {formatPi(p.fare)} π
-                    </p>
-                    <Badge tone={p.driverPayoutStatus === 'failed' ? 'danger' : 'warning'}>
-                      {p.driverPayoutStatus}
-                    </Badge>
-                    {p.driverPayoutError && (
-                      <p className="mt-1 text-xs text-red-500 break-all">{p.driverPayoutError}</p>
-                    )}
+            {unpaidPayouts.map((p) => {
+              const key = `${p.id}:${p.kind}`;
+              return (
+                <Card key={key} className="space-y-1">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0 flex-1 text-sm">
+                      <div className="flex items-center gap-2">
+                        <p className="font-medium truncate">{t('admin.rideId')}: {p.id.slice(-8)}</p>
+                        <Badge tone={p.kind === 'tip' ? 'info' : 'neutral'}>{p.kind}</Badge>
+                      </div>
+                      <p className="opacity-60 text-xs">{t('admin.driver')}: {(p.driverId ?? '?').slice(-8)}</p>
+                      <p className="opacity-60 text-xs">{formatDate(p.createdAt)}</p>
+                      <p className="mt-1">
+                        {t('admin.driverEarnings')}: <span className="font-semibold">{formatPi(p.amount)} π</span>
+                        {' · '}{t('admin.fare')}: {formatPi(p.fare)} π
+                      </p>
+                      <Badge tone={p.payoutStatus === 'failed' ? 'danger' : 'warning'}>
+                        {p.payoutStatus}
+                      </Badge>
+                      {p.payoutError && (
+                        <p className="mt-1 text-xs text-red-500 break-all">{p.payoutError}</p>
+                      )}
+                    </div>
+                    <Button
+                      disabled={retryingPayout === key}
+                      onClick={() => retryUnpaidPayout(p)}
+                    >
+                      {retryingPayout === key ? '…' : t('admin.retryPayout')}
+                    </Button>
                   </div>
-                  <Button
-                    disabled={retryingPayout === p.id}
-                    onClick={() => retryUnpaidPayout(p.id)}
-                  >
-                    {retryingPayout === p.id ? '…' : t('admin.retryPayout')}
-                  </Button>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              );
+            })}
           </>
         )}
 
