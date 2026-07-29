@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { isAxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
 import { Circle, Check, LocateFixed, Navigation, TrendingUp, Route, MessageSquare } from 'lucide-react';
@@ -147,6 +147,7 @@ export function DriverHomeScreen() {
         setRequests((prev) => prev.filter((r) => r.id !== String(msg.rideId)));
         // Server confirmed THIS driver got the ride — safe to navigate now.
         if (msg.status === 'assigned' && accepting === String(msg.rideId)) {
+          if (acceptTimeoutRef.current) { clearTimeout(acceptTimeoutRef.current); acceptTimeoutRef.current = null; }
           setAccepting(null);
           navigate('ride', { id: String(msg.rideId) });
         }
@@ -160,11 +161,17 @@ export function DriverHomeScreen() {
         navigate('ride', { id: String(msg.rideId) });
       }
     });
-    // Another driver was faster — stay on the list and show a toast.
+    // Any server-side error during accept — TAKEN, NO_RIDE, NOT_VERIFIED, HANDLER, etc.
     const offError = wsService.on('error', (msg) => {
-      if ((msg.code === 'TAKEN' || msg.code === 'NO_RIDE') && accepting) {
-        setAccepting(null);
+      if (!accepting) return;
+      if (acceptTimeoutRef.current) { clearTimeout(acceptTimeoutRef.current); acceptTimeoutRef.current = null; }
+      setAccepting(null);
+      if (msg.code === 'TAKEN' || msg.code === 'NO_RIDE') {
         addToast('warning', t('driver.rideTaken'));
+      } else if (msg.code === 'NOT_VERIFIED') {
+        addToast('error', t('driver.notVerified'));
+      } else {
+        addToast('error', t('common.error'));
       }
     });
     return () => {
@@ -213,11 +220,26 @@ export function DriverHomeScreen() {
     }
   };
 
+  const acceptTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const accept = (ride: Ride): void => {
+    if (!wsService.connected) {
+      addToast('error', t('common.noConnection'));
+      return;
+    }
     setAccepting(ride.id);
     setRequests((prev) => prev.filter((r) => r.id !== ride.id));
     wsService.send('ride_accept', { rideId: ride.id });
-    // Navigate only after server confirms via ride_status_update {status:'assigned'}
+    // If no server response within 8 s, cancel the spinner and show an error.
+    acceptTimeoutRef.current = setTimeout(() => {
+      setAccepting((cur) => {
+        if (cur === ride.id) {
+          addToast('error', t('common.error'));
+          return null;
+        }
+        return cur;
+      });
+    }, 8000);
   };
 
   const previewRide = requests.find((r) => r.id === previewRideId) ?? null;

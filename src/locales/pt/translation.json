@@ -18,7 +18,8 @@
     "somethingWentWrong": "Algo deu errado",
     "reload": "Recarregar",
     "language": "Idioma",
-    "maintenanceMode": "Os pedidos estão temporariamente desativados para manutenção"
+    "maintenanceMode": "Os pedidos estão temporariamente desativados para manutenção",
+    "noConnection": "Sem conexão. Por favor, tente novamente"
   },
   "splash": {
     "poweredBy": "Distribuído por Pi Network"
@@ -210,7 +211,8 @@
     "navigation": "Navegação",
     "today": "Hoje",
     "ridesCount": "Corridas",
-    "rideTaken": "Corrida já aceita por outro motorista"
+    "rideTaken": "Corrida já aceita por outro motorista",
+    "notVerified": "Sua conta de motorista está em análise"
   },
   "earnings": {
     "title": "Ganhos",

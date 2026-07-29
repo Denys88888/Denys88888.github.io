@@ -18,7 +18,8 @@
     "somethingWentWrong": "Terjadi kesalahan",
     "reload": "Muat ulang",
     "language": "Bahasa",
-    "maintenanceMode": "Pemesanan sementara dinonaktifkan untuk pemeliharaan"
+    "maintenanceMode": "Pemesanan sementara dinonaktifkan untuk pemeliharaan",
+    "noConnection": "Tidak ada koneksi. Silakan coba lagi"
   },
   "splash": {
     "poweredBy": "Didukung oleh Pi Network"
@@ -210,7 +211,8 @@
     "navigation": "Navigasi",
     "today": "Hari ini",
     "ridesCount": "Perjalanan",
-    "rideTaken": "Perjalanan sudah diambil oleh pengemudi lain"
+    "rideTaken": "Perjalanan sudah diambil oleh pengemudi lain",
+    "notVerified": "Akun pengemudi Anda sedang ditinjau"
   },
   "earnings": {
     "title": "Pendapatan",

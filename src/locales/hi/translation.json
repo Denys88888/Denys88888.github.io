@@ -18,7 +18,8 @@
     "somethingWentWrong": "कुछ गड़बड़ हुई",
     "reload": "पुनः लोड करें",
     "language": "भाषा",
-    "maintenanceMode": "रखरखाव के लिए ऑर्डर अस्थायी रूप से बंद हैं"
+    "maintenanceMode": "रखरखाव के लिए ऑर्डर अस्थायी रूप से बंद हैं",
+    "noConnection": "कोई कनेक्शन नहीं। कृपया पुनः प्रयास करें"
   },
   "splash": {
     "poweredBy": "Pi Network द्वारा संचालित"
@@ -210,7 +211,8 @@
     "navigation": "नेविगेशन",
     "today": "आज",
     "ridesCount": "सवारियां",
-    "rideTaken": "सवारी पहले से किसी अन्य चालक ने ली है"
+    "rideTaken": "सवारी पहले से किसी अन्य चालक ने ली है",
+    "notVerified": "आपका ड्राइवर खाता समीक्षाधीन है"
   },
   "earnings": {
     "title": "कमाई",

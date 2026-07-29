@@ -18,7 +18,8 @@
     "somethingWentWrong": "Etwas ist schiefgelaufen",
     "reload": "Neu laden",
     "language": "Sprache",
-    "maintenanceMode": "Bestellungen sind vorübergehend wegen Wartung deaktiviert"
+    "maintenanceMode": "Bestellungen sind vorübergehend wegen Wartung deaktiviert",
+    "noConnection": "Keine Verbindung. Bitte erneut versuchen"
   },
   "splash": {
     "poweredBy": "Unterstützt von Pi Network"
@@ -210,7 +211,8 @@
     "navigation": "Navigation",
     "today": "Heute",
     "ridesCount": "Fahrten",
-    "rideTaken": "Fahrt bereits von einem anderen Fahrer angenommen"
+    "rideTaken": "Fahrt bereits von einem anderen Fahrer angenommen",
+    "notVerified": "Fahrerkonto wird noch geprüft"
   },
   "earnings": {
     "title": "Einnahmen",

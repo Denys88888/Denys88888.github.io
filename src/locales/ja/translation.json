@@ -18,7 +18,8 @@
     "somethingWentWrong": "問題が発生しました",
     "reload": "再読み込み",
     "language": "言語",
-    "maintenanceMode": "メンテナンスのため注文を一時停止しています"
+    "maintenanceMode": "メンテナンスのため注文を一時停止しています",
+    "noConnection": "接続なし。再試行してください"
   },
   "splash": {
     "poweredBy": "Pi Network 提供"
@@ -210,7 +211,8 @@
     "navigation": "ナビ",
     "today": "今日",
     "ridesCount": "乗車数",
-    "rideTaken": "すでに別のドライバーが承認しました"
+    "rideTaken": "すでに別のドライバーが承認しました",
+    "notVerified": "ドライバーアカウントは審査中です"
   },
   "earnings": {
     "title": "収益",

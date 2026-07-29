@@ -18,7 +18,8 @@
     "somethingWentWrong": "Något gick fel",
     "reload": "Ladda om",
     "language": "Språk",
-    "maintenanceMode": "Beställningar är tillfälligt avstängda för underhåll"
+    "maintenanceMode": "Beställningar är tillfälligt avstängda för underhåll",
+    "noConnection": "Ingen anslutning. Försök igen"
   },
   "splash": {
     "poweredBy": "Drivs av Pi Network"
@@ -210,7 +211,8 @@
     "navigation": "Navigering",
     "today": "Idag",
     "ridesCount": "Resor",
-    "rideTaken": "Resan är redan tagen av en annan chaufför"
+    "rideTaken": "Resan är redan tagen av en annan chaufför",
+    "notVerified": "Ditt förarkonto granskas"
   },
   "earnings": {
     "title": "Intäkter",

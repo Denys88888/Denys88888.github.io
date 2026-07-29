@@ -18,7 +18,8 @@
     "somethingWentWrong": "문제가 발생했습니다",
     "reload": "새로고침",
     "language": "언어",
-    "maintenanceMode": "정비를 위해 주문이 일시적으로 중단되었습니다"
+    "maintenanceMode": "정비를 위해 주문이 일시적으로 중단되었습니다",
+    "noConnection": "연결 없음. 다시 시도해 주세요"
   },
   "splash": {
     "poweredBy": "Pi Network 제공"
@@ -210,7 +211,8 @@
     "navigation": "내비게이션",
     "today": "오늘",
     "ridesCount": "탑승",
-    "rideTaken": "이미 다른 드라이버가 수락했습니다"
+    "rideTaken": "이미 다른 드라이버가 수락했습니다",
+    "notVerified": "드라이버 계정이 검토 중입니다"
   },
   "earnings": {
     "title": "수입",

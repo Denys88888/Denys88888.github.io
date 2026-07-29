@@ -18,7 +18,8 @@
     "somethingWentWrong": "Something went wrong",
     "reload": "Reload",
     "language": "Language",
-    "maintenanceMode": "Ordering is temporarily disabled for maintenance"
+    "maintenanceMode": "Ordering is temporarily disabled for maintenance",
+    "noConnection": "No connection. Please try again"
   },
   "splash": {
     "poweredBy": "Powered by Pi Network"
@@ -210,7 +211,8 @@
     "navigation": "Navigation",
     "today": "Today",
     "ridesCount": "Rides",
-    "rideTaken": "Ride already taken by another driver"
+    "rideTaken": "Ride already taken by another driver",
+    "notVerified": "Your driver account is under review"
   },
   "earnings": {
     "title": "Earnings",

@@ -18,7 +18,8 @@
     "somethingWentWrong": "Er is iets misgegaan",
     "reload": "Herladen",
     "language": "Taal",
-    "maintenanceMode": "Bestellen is tijdelijk uitgeschakeld voor onderhoud"
+    "maintenanceMode": "Bestellen is tijdelijk uitgeschakeld voor onderhoud",
+    "noConnection": "Geen verbinding. Probeer het opnieuw"
   },
   "splash": {
     "poweredBy": "Mogelijk gemaakt door Pi Network"
@@ -210,7 +211,8 @@
     "navigation": "Navigatie",
     "today": "Vandaag",
     "ridesCount": "Ritten",
-    "rideTaken": "Rit al geaccepteerd door een andere chauffeur"
+    "rideTaken": "Rit al geaccepteerd door een andere chauffeur",
+    "notVerified": "Uw chauffeurskonto wordt beoordeeld"
   },
   "earnings": {
     "title": "Inkomsten",

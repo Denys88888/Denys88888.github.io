@@ -18,7 +18,8 @@
     "somethingWentWrong": "Coś poszło nie tak",
     "reload": "Przeładuj",
     "language": "Język",
-    "maintenanceMode": "Zamawianie przejazdów jest tymczasowo wyłączone (prace serwisowe)"
+    "maintenanceMode": "Zamawianie przejazdów jest tymczasowo wyłączone (prace serwisowe)",
+    "noConnection": "Brak połączenia. Spróbuj ponownie"
   },
   "splash": {
     "poweredBy": "Wspierane przez Pi Network"
@@ -210,7 +211,8 @@
     "navigation": "Nawigacja",
     "today": "Dziś",
     "ridesCount": "Przejazdy",
-    "rideTaken": "Kurs już przyjęty przez innego kierowcę"
+    "rideTaken": "Kurs już przyjęty przez innego kierowcę",
+    "notVerified": "Twoje konto kierowcy jest weryfikowane"
   },
   "earnings": {
     "title": "Zarobki",

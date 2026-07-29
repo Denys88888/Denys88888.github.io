@@ -18,7 +18,8 @@
     "somethingWentWrong": "Algo salió mal",
     "reload": "Recargar",
     "language": "Idioma",
-    "maintenanceMode": "Los pedidos están temporalmente deshabilitados por mantenimiento"
+    "maintenanceMode": "Los pedidos están temporalmente deshabilitados por mantenimiento",
+    "noConnection": "Sin conexión. Por favor, inténtalo de nuevo"
   },
   "splash": {
     "poweredBy": "Con la tecnología de Pi Network"
@@ -210,7 +211,8 @@
     "navigation": "Navegación",
     "today": "Hoy",
     "ridesCount": "Viajes",
-    "rideTaken": "El viaje ya fue aceptado por otro conductor"
+    "rideTaken": "El viaje ya fue aceptado por otro conductor",
+    "notVerified": "Tu cuenta de conductor está en revisión"
   },
   "earnings": {
     "title": "Ganancias",

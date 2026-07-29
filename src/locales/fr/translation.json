@@ -18,7 +18,8 @@
     "somethingWentWrong": "Une erreur est survenue",
     "reload": "Recharger",
     "language": "Langue",
-    "maintenanceMode": "Les commandes sont temporairement désactivées pour maintenance"
+    "maintenanceMode": "Les commandes sont temporairement désactivées pour maintenance",
+    "noConnection": "Pas de connexion. Veuillez réessayer"
   },
   "splash": {
     "poweredBy": "Propulsé par Pi Network"
@@ -210,7 +211,8 @@
     "navigation": "Navigation",
     "today": "Aujourd'hui",
     "ridesCount": "Courses",
-    "rideTaken": "Course déjà prise par un autre chauffeur"
+    "rideTaken": "Course déjà prise par un autre chauffeur",
+    "notVerified": "Votre compte chauffeur est en cours de vérification"
   },
   "earnings": {
     "title": "Gains",

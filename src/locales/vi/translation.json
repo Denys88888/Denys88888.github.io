@@ -18,7 +18,8 @@
     "somethingWentWrong": "Đã xảy ra lỗi",
     "reload": "Tải lại",
     "language": "Ngôn ngữ",
-    "maintenanceMode": "Đặt xe tạm ngưng để bảo trì"
+    "maintenanceMode": "Đặt xe tạm ngưng để bảo trì",
+    "noConnection": "Không có kết nối. Vui lòng thử lại"
   },
   "splash": {
     "poweredBy": "Được cung cấp bởi Pi Network"
@@ -210,7 +211,8 @@
     "navigation": "Dẫn đường",
     "today": "Hôm nay",
     "ridesCount": "Chuyến",
-    "rideTaken": "Chuyến đi đã được tài xế khác nhận"
+    "rideTaken": "Chuyến đi đã được tài xế khác nhận",
+    "notVerified": "Tài khoản tài xế của bạn đang được xem xét"
   },
   "earnings": {
     "title": "Thu nhập",

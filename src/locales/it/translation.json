@@ -18,7 +18,8 @@
     "somethingWentWrong": "Qualcosa è andato storto",
     "reload": "Ricarica",
     "language": "Lingua",
-    "maintenanceMode": "Gli ordini sono temporaneamente disattivati per manutenzione"
+    "maintenanceMode": "Gli ordini sono temporaneamente disattivati per manutenzione",
+    "noConnection": "Nessuna connessione. Riprova"
   },
   "splash": {
     "poweredBy": "Realizzato con Pi Network"
@@ -210,7 +211,8 @@
     "navigation": "Navigazione",
     "today": "Oggi",
     "ridesCount": "Corse",
-    "rideTaken": "Corsa già accettata da un altro autista"
+    "rideTaken": "Corsa già accettata da un altro autista",
+    "notVerified": "Il tuo account autista è in revisione"
   },
   "earnings": {
     "title": "Guadagni",

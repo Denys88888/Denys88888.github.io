@@ -18,7 +18,8 @@
     "somethingWentWrong": "حدث خطأ ما",
     "reload": "إعادة تحميل",
     "language": "اللغة",
-    "maintenanceMode": "الطلبات معطلة مؤقتاً للصيانة"
+    "maintenanceMode": "الطلبات معطلة مؤقتاً للصيانة",
+    "noConnection": "لا يوجد اتصال. يرجى المحاولة مجدداً"
   },
   "splash": {
     "poweredBy": "مدعوم من Pi Network"
@@ -210,7 +211,8 @@
     "navigation": "الملاحة",
     "today": "اليوم",
     "ridesCount": "الرحلات",
-    "rideTaken": "تم أخذ الرحلة من قِبَل سائق آخر"
+    "rideTaken": "تم أخذ الرحلة من قِبَل سائق آخر",
+    "notVerified": "حسابك كسائق قيد المراجعة"
   },
   "earnings": {
     "title": "الأرباح",
