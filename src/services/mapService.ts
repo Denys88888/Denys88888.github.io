@@ -33,7 +33,20 @@ export async function searchAddress(
   near?: GeoPoint | null,
   countryCodes?: string
 ): Promise<AddressResult[]> {
-  if (query.trim().length < 3) return [];
+  const trimmed = query.trim();
+  // Two characters is enough to start suggesting — three shut out short street
+  // names and made the field feel unresponsive. The cache below keeps the extra
+  // keystroke from costing an extra Nominatim request.
+  if (trimmed.length < 2) return [];
+
+  // Nominatim asks callers to keep request volume low, and users retype and
+  // backspace through the same prefixes constantly. Serve repeats from cache.
+  const cacheKey = `${trimmed.toLowerCase()}|${countryCodes ?? ''}|${
+    near ? `${near.lat.toFixed(2)},${near.lng.toFixed(2)}` : ''
+  }`;
+  const cached = readSearchCache(cacheKey);
+  if (cached) return cached;
+
   const params = new URLSearchParams({ format: 'json', limit: '8', addressdetails: '1', q: query });
   if (near) {
     const b = bbox(near, LOCAL_RADIUS_KM);
@@ -72,9 +85,82 @@ export async function searchAddress(
     // Nominatim often returns the same place twice (e.g. a city node and its
     // administrative boundary share one display name) — keep the first of each.
     const seen = new Set<string>();
-    return results.filter((r) => !seen.has(r.displayName) && seen.add(r.displayName));
+    const deduped = results.filter((r) => !seen.has(r.displayName) && seen.add(r.displayName));
+    writeSearchCache(cacheKey, deduped);
+    return deduped;
   } catch {
     return []; // offline / Nominatim unreachable — empty dropdown, not an unhandled rejection
+  }
+}
+
+// ── Search cache ────────────────────────────────────────────────────────────
+// Survives reloads (Pi Browser reloads the PWA often) but expires, so a place
+// that opens or moves isn't remembered wrongly forever.
+
+const SEARCH_CACHE_KEY = 'tp_addr_cache';
+const SEARCH_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+const SEARCH_CACHE_MAX = 80;
+
+type CacheEntry = { at: number; results: AddressResult[] };
+
+function loadCache(): Record<string, CacheEntry> {
+  try {
+    return JSON.parse(localStorage.getItem(SEARCH_CACHE_KEY) ?? '{}') as Record<string, CacheEntry>;
+  } catch {
+    return {};
+  }
+}
+
+function readSearchCache(key: string): AddressResult[] | null {
+  const entry = loadCache()[key];
+  if (!entry) return null;
+  if (Date.now() - entry.at > SEARCH_CACHE_TTL_MS) return null;
+  return entry.results;
+}
+
+function writeSearchCache(key: string, results: AddressResult[]): void {
+  try {
+    const cache = loadCache();
+    cache[key] = { at: Date.now(), results };
+    const keys = Object.keys(cache);
+    if (keys.length > SEARCH_CACHE_MAX) {
+      // Drop the oldest entries rather than clearing everything, so a heavy
+      // session doesn't repeatedly throw away still-useful recent lookups.
+      keys
+        .sort((a, b) => cache[a].at - cache[b].at)
+        .slice(0, keys.length - SEARCH_CACHE_MAX)
+        .forEach((k) => delete cache[k]);
+    }
+    localStorage.setItem(SEARCH_CACHE_KEY, JSON.stringify(cache));
+  } catch {
+    /* quota or private mode — the cache is an optimisation, never required */
+  }
+}
+
+// ── Recently used addresses ─────────────────────────────────────────────────
+// Every competitor offers the last few destinations the moment the field is
+// focused; it is the fastest path for the trips people actually repeat, and it
+// costs no geocoding request at all.
+
+const RECENT_KEY = 'tp_addr_recent';
+const RECENT_MAX = 6;
+
+export function recentAddresses(): AddressResult[] {
+  try {
+    const list = JSON.parse(localStorage.getItem(RECENT_KEY) ?? '[]') as AddressResult[];
+    return Array.isArray(list) ? list.slice(0, RECENT_MAX) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function rememberAddress(entry: AddressResult): void {
+  try {
+    const list = recentAddresses().filter((r) => r.displayName !== entry.displayName);
+    list.unshift(entry);
+    localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, RECENT_MAX)));
+  } catch {
+    /* non-fatal */
   }
 }
 
