@@ -321,7 +321,7 @@
     "approve": "Onayla",
     "reject": "Reddet",
     "pendingDrivers": "Bekleyen sürücüler",
-    "feeHint": "%0 ile %20 arası",
+    "feeHint": "0% ile 20% arasında ayarlayın",
     "searchUsers": "Kullanıcı ara",
     "driversTab": "Tüm sürücüler",
     "analytics": "Analizler",

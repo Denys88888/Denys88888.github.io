@@ -321,7 +321,7 @@
     "approve": "承認",
     "reject": "拒否",
     "pendingDrivers": "審査待ちドライバー",
-    "feeHint": "0%〜20%で設定",
+    "feeHint": "0%から20%の間で設定",
     "searchUsers": "ユーザーを検索",
     "driversTab": "すべてのドライバー",
     "analytics": "分析",

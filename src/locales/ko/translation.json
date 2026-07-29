@@ -321,7 +321,7 @@
     "approve": "승인",
     "reject": "거부",
     "pendingDrivers": "승인 대기 기사",
-    "feeHint": "0%~20% 설정",
+    "feeHint": "0%에서 20% 사이로 설정",
     "searchUsers": "사용자 검색",
     "driversTab": "전체 기사",
     "analytics": "분석",
