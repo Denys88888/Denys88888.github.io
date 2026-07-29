@@ -204,10 +204,17 @@ export const api = {
     client.get<{ users: User[] }>('/api/admin/users', { params }).then((r) => r.data.users),
   adminBlockUser: (id: string, isBlocked: boolean, blockReason?: string) =>
     client.patch(`/api/admin/users/${id}`, { isBlocked, blockReason }).then((r) => r.data),
+  // The server caps how many rows it ships; `total` is the real match count so
+  // the table can say it is showing a subset rather than silently truncating.
   adminRides: (status?: RideStatus) =>
     client
-      .get<{ rides: AdminRide[] }>('/api/admin/rides', { params: { status } })
-      .then((r) => r.data.rides),
+      .get<{ rides: AdminRide[]; total?: number; returned?: number }>('/api/admin/rides', {
+        params: { status },
+      })
+      .then((r) => ({
+        rides: r.data.rides,
+        total: r.data.total ?? r.data.rides.length,
+      })),
   adminSettings: () => client.get('/api/admin/settings').then((r) => r.data),
   adminUpdateSettings: (patch: Record<string, unknown>) =>
     client.patch('/api/admin/settings', patch).then((r) => r.data),

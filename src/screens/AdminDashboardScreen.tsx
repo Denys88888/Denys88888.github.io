@@ -34,6 +34,7 @@ export function AdminDashboardScreen() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [users, setUsers] = useState<User[]>([]);
   const [rides, setRides] = useState<AdminRide[]>([]);
+  const [ridesTotal, setRidesTotal] = useState(0);
   const [rideFilter, setRideFilter] = useState<RideFilter>('all');
   const [drivers, setDrivers] = useState<AdminDriver[]>([]);
   const [driverFilter, setDriverFilter] = useState<DriverFilter>('pending');
@@ -88,7 +89,7 @@ export function AdminDashboardScreen() {
     const done = () => { if (!cancelled) setTabLoading(false); };
     const fail = (err: unknown) => { console.error(`[admin] load ${tab}:`, err); done(); addToast('error', t('common.error')); };
     if (tab === 'users') api.adminUsers().then((u) => { if (!cancelled) setUsers(u); done(); }).catch(fail);
-    if (tab === 'rides') api.adminRides().then((r) => { if (!cancelled) setRides(r); done(); }).catch(fail);
+    if (tab === 'rides') api.adminRides().then((r) => { if (!cancelled) { setRides(r.rides); setRidesTotal(r.total); } done(); }).catch(fail);
     if (tab === 'drivers') api.adminDrivers().then((d) => { if (!cancelled) setDrivers(d); done(); }).catch(fail);
     if (tab === 'analytics') api.adminAnalytics().then((a) => { if (!cancelled) setAnalytics(a); done(); }).catch(fail);
     if (tab === 'reports') api.adminReports().then((r) => { if (!cancelled) setReports(r); done(); }).catch(fail);
@@ -316,6 +317,13 @@ export function AdminDashboardScreen() {
             </div>
             {filteredRides.length === 0 && (
               <p className="pt-6 text-center text-sm opacity-50">—</p>
+            )}
+            {/* The server caps the payload, so say so rather than letting the
+                table look like the complete history. */}
+            {ridesTotal > rides.length && (
+              <p className="text-xs opacity-60">
+                {t('admin.showingSubset', { shown: rides.length, total: ridesTotal })}
+              </p>
             )}
             {filteredRides.map((r) => (
               <Card key={r.id} className="space-y-1.5 text-sm">

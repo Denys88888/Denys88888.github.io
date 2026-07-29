@@ -360,7 +360,8 @@
     "noUnpaidPayouts": "No unpaid payouts",
     "unpaidPayoutsCount": "unpaid payout(s)",
     "rideId": "Ride ID",
-    "driver": "Driver"
+    "driver": "Driver",
+    "showingSubset": "Показано {{shown}} з {{total}}"
   },
   "notify": {
     "newRide": "Нове замовлення: {{fare}}",
