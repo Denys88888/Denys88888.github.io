@@ -1,4 +1,4 @@
-import { Car, Truck, CarFront, Bus, type LucideIcon } from 'lucide-react';
+import { Car, Crown, CarFront, Bus, type LucideIcon } from 'lucide-react';
 import type { VehicleType } from '../types';
 
 export const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:10000';
@@ -21,8 +21,10 @@ export interface VehicleOption {
 // computes the authoritative fare.
 export const VEHICLE_OPTIONS: VehicleOption[] = [
   { type: 'economy', labelKey: 'vehicle.economy', icon: Car, basePrice: 1.0 },
-  { type: 'comfort', labelKey: 'vehicle.comfort', icon: Truck, basePrice: 1.5 },
-  { type: 'business', labelKey: 'vehicle.business', icon: CarFront, basePrice: 2.5 },
+  // A cargo truck read as "comfort" only by accident of icon naming; the tiers
+  // now go plain car → nicer car → premium marker → minibus.
+  { type: 'comfort', labelKey: 'vehicle.comfort', icon: CarFront, basePrice: 1.5 },
+  { type: 'business', labelKey: 'vehicle.business', icon: Crown, basePrice: 2.5 },
   { type: 'xl', labelKey: 'vehicle.xl', icon: Bus, basePrice: 2.0 },
 ];
 
