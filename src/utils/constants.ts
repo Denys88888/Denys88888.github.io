@@ -71,3 +71,8 @@ export const QUICK_TEMPLATE_KEYS = [
   'templates.3',
   'templates.4',
 ];
+
+// Mirrors LATE_CANCELLATION_FEE_PERCENT in taxi-pro-server/src/config/constants.ts.
+// Used only to show the rider what they will be charged before they confirm —
+// the server remains the authority on the amount actually taken.
+export const LATE_CANCELLATION_FEE_PERCENT = 50;

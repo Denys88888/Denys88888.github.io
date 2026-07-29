@@ -213,32 +213,44 @@ export function MapView({
   const tripRoute: [number, number][] =
     tripRoad ?? tripWaypoints.map((p) => [p.lat, p.lng] as [number, number]);
 
-  // Heading for the car marker, derived from successive driver positions.
-  // Kept in a ref so a re-render with an unchanged position doesn't reset the
-  // last known direction back to "unknown" and snap the arrow north.
+  // Heading for the car marker, derived from successive driver positions. The
+  // last known direction is kept in state so a re-render with an unchanged
+  // position doesn't snap the arrow back to north. Updated in an effect rather
+  // than during render — render must stay pure, and StrictMode's double
+  // invocation would otherwise consume the previous position twice.
   const prevDriverRef = useRef<GeoPoint | null>(null);
-  const headingRef = useRef<number | null>(null);
-  if (driver) {
+  const [heading, setHeading] = useState<number | null>(null);
+  const driverLat = driver?.lat;
+  const driverLng = driver?.lng;
+  useEffect(() => {
+    if (driverLat === undefined || driverLng === undefined) return;
+    const here = { lat: driverLat, lng: driverLng };
     const prev = prevDriverRef.current;
     // Ignore GPS jitter: only re-derive heading once the car has actually
     // moved a few metres, otherwise the arrow spins on standstill noise.
-    if (prev && (Math.abs(prev.lat - driver.lat) > 1e-5 || Math.abs(prev.lng - driver.lng) > 1e-5)) {
-      headingRef.current = bearingDeg(prev, driver);
-      prevDriverRef.current = driver;
+    if (prev && (Math.abs(prev.lat - here.lat) > 1e-5 || Math.abs(prev.lng - here.lng) > 1e-5)) {
+      setHeading(bearingDeg(prev, here));
+      prevDriverRef.current = here;
     } else if (!prev) {
-      prevDriverRef.current = driver;
+      prevDriverRef.current = here;
     }
-  }
+  }, [driverLat, driverLng]);
 
   // Grey out the part of the trip already driven, like Google Maps and Waze —
   // the remaining leg is what the user is actually reading. Split at the route
   // vertex nearest the car; without a driver position nothing is greyed.
   const splitIndex = (() => {
     if (!driver || tripRoute.length < 2) return 0;
+    // A degree of longitude is shorter than a degree of latitude everywhere but
+    // the equator, so compare in roughly-metric space or the nearest vertex is
+    // biased east-west (~1.6x off at Warsaw's latitude).
+    const lngScale = Math.cos((driver.lat * Math.PI) / 180);
     let best = 0;
     let bestD = Infinity;
     for (let i = 0; i < tripRoute.length; i++) {
-      const d = (tripRoute[i][0] - driver.lat) ** 2 + (tripRoute[i][1] - driver.lng) ** 2;
+      const dLat = tripRoute[i][0] - driver.lat;
+      const dLng = (tripRoute[i][1] - driver.lng) * lngScale;
+      const d = dLat * dLat + dLng * dLng;
       if (d < bestD) {
         bestD = d;
         best = i;
@@ -290,7 +302,7 @@ export function MapView({
           <Marker key={d.uid} position={[d.location.lat, d.location.lng]} icon={carIcon(true)} />
         ))}
         {driver && (
-          <Marker position={[driver.lat, driver.lng]} icon={carIcon(false, headingRef.current)} />
+          <Marker position={[driver.lat, driver.lng]} icon={carIcon(false, heading)} />
         )}
         {/* Distinct from the pickup pin (also blue): the user's own position is
             violet, so a driver testing against their own pickup point can still

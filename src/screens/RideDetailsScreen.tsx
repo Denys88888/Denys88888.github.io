@@ -22,6 +22,7 @@ import { notify } from '../services/notificationService';
 import { fetchRoute } from '../services/mapService';
 import { NavigationPanel } from '../components/ride/NavigationPanel';
 import { chatIdForRide, haversineKm } from '../utils/helpers';
+import { LATE_CANCELLATION_FEE_PERCENT } from '../utils/constants';
 import { formatPi, formatDistance, formatDuration, formatDate, maskPhone } from '../utils/formatters';
 import type { GeoPoint, Ride, RideParty, FareOffer } from '../types';
 
@@ -767,7 +768,7 @@ export function RideDetailsScreen() {
             <div className="rounded-lg bg-danger/10 px-3 py-2">
               <p className="text-sm opacity-70">{t('ride.cancelFeeAmount')}</p>
               <p className="text-xl font-bold text-danger">
-                {formatPi((ride.fare * 50) / 100)} π
+                {formatPi((ride.fare * LATE_CANCELLATION_FEE_PERCENT) / 100)} π
               </p>
             </div>
             <p className="text-xs opacity-60">{t('ride.cancelFeeExplain')}</p>
