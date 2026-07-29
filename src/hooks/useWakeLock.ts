@@ -3,56 +3,77 @@ import { logger } from '../utils/logger';
 
 // ---------------------------------------------------------------------------
 // Strategy 1: Screen Wake Lock API (Chrome 84+, NOT available in Android WebView)
-// Strategy 2: Canvas-stream video fallback (works in any WebView that supports
-//   canvas.captureStream — which is virtually all modern Android WebViews).
-//   Playing an active video prevents the OS from sleeping the screen.
+// Strategy 2: Canvas-stream video fallback (works in Android WebView).
+//   IMPORTANT: video.play() requires a user gesture. Call primeWakeLock()
+//   directly inside a click handler BEFORE setting state. The useEffect-based
+//   hook then re-uses the already-playing video element.
 // ---------------------------------------------------------------------------
 
 let fallbackVideo: HTMLVideoElement | null = null;
 let fallbackRefCount = 0;
 
-function startFallbackVideo(): void {
-  fallbackRefCount++;
-  if (fallbackVideo) return; // already running
-
+function buildFallbackVideo(): HTMLVideoElement | null {
   try {
     const canvas = document.createElement('canvas');
     canvas.width = 1;
     canvas.height = 1;
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) return null;
     ctx.fillRect(0, 0, 1, 1);
 
     const stream = (canvas as HTMLCanvasElement & {
       captureStream(fps?: number): MediaStream;
     }).captureStream(1);
-
     const video = document.createElement('video');
     video.srcObject = stream;
     video.muted = true;
     video.loop = true;
     video.playsInline = true;
     video.setAttribute('playsinline', '');
-    video.style.cssText = 'position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;top:0;left:0';
+    video.style.cssText =
+      'position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;top:0;left:0';
     document.body.appendChild(video);
-
-    video.play().then(() => {
-      logger.info('[WakeLock] fallback video started');
-    }).catch((err) => {
-      logger.warn('[WakeLock] fallback video failed', (err as Error).message);
-      video.remove();
-      fallbackVideo = null;
-    });
-
-    fallbackVideo = video;
-  } catch (err) {
-    logger.warn('[WakeLock] fallback setup failed', (err as Error).message);
+    return video;
+  } catch {
+    return null;
   }
+}
+
+// Call this synchronously inside a click handler so the browser grants
+// autoplay permission. Safe to call multiple times.
+export function primeWakeLock(): void {
+  if ('wakeLock' in navigator) return; // native API will handle it
+  if (fallbackVideo && !fallbackVideo.paused) return; // already playing
+  if (!fallbackVideo) {
+    fallbackVideo = buildFallbackVideo();
+    if (!fallbackVideo) return;
+  }
+  fallbackVideo.play().then(() => {
+    logger.info('[WakeLock] fallback video primed by user gesture');
+  }).catch((err) => {
+    logger.warn('[WakeLock] fallback prime failed', (err as Error).message);
+  });
+}
+
+function startFallbackVideo(): void {
+  fallbackRefCount++;
+  if (fallbackVideo && !fallbackVideo.paused) return; // primeWakeLock() already started it
+
+  if (!fallbackVideo) {
+    fallbackVideo = buildFallbackVideo();
+    if (!fallbackVideo) return;
+  }
+
+  fallbackVideo.play().then(() => {
+    logger.info('[WakeLock] fallback video started');
+  }).catch((err) => {
+    logger.warn('[WakeLock] fallback video autoplay blocked — call primeWakeLock() in click handler', (err as Error).message);
+  });
 }
 
 function stopFallbackVideo(): void {
   fallbackRefCount = Math.max(0, fallbackRefCount - 1);
-  if (fallbackRefCount > 0) return; // other callers still need it
+  if (fallbackRefCount > 0) return;
   if (!fallbackVideo) return;
   fallbackVideo.pause();
   fallbackVideo.srcObject = null;
@@ -65,16 +86,12 @@ function stopFallbackVideo(): void {
 
 export function useWakeLock(active: boolean): void {
   const lockRef = useRef<WakeLockSentinel | null>(null);
-  const usingNative = useRef(false);
 
   useEffect(() => {
     if (!active) return;
 
-    const hasNativeApi = 'wakeLock' in navigator;
-
-    if (hasNativeApi) {
-      // ── Native Wake Lock API path ──────────────────────────────────────
-      usingNative.current = true;
+    if ('wakeLock' in navigator) {
+      // ── Native Wake Lock API ─────────────────────────────────────────────
       let cancelled = false;
 
       const acquire = async (): Promise<void> => {
@@ -88,9 +105,7 @@ export function useWakeLock(active: boolean): void {
           });
           logger.info('[WakeLock] acquired (native)');
         } catch (err) {
-          // Native API exists but denied (e.g. battery saver) — fall through
-          // to the video fallback so we still try to keep the screen on.
-          logger.warn('[WakeLock] native acquire failed, using video fallback', (err as Error).message);
+          logger.warn('[WakeLock] native failed, trying video fallback', (err as Error).message);
           startFallbackVideo();
         }
       };
@@ -104,23 +119,18 @@ export function useWakeLock(active: boolean): void {
 
       return () => {
         cancelled = true;
-        usingNative.current = false;
         document.removeEventListener('visibilitychange', onVisibilityChange);
         if (lockRef.current) {
           lockRef.current.release().catch(() => {});
           lockRef.current = null;
         } else {
-          // Was using fallback after native denied
           stopFallbackVideo();
         }
       };
     } else {
-      // ── Video fallback path (Android WebView, older browsers) ──────────
-      usingNative.current = false;
+      // ── Video fallback (Android WebView) ─────────────────────────────────
       startFallbackVideo();
-      return () => {
-        stopFallbackVideo();
-      };
+      return () => stopFallbackVideo();
     }
   }, [active]);
 }

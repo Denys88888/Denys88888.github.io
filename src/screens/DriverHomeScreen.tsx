@@ -7,7 +7,7 @@ import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { useGeolocation } from '../hooks/useGeolocation';
 import { useToast } from '../hooks/useToast';
-import { useWakeLock } from '../hooks/useWakeLock';
+import { useWakeLock, primeWakeLock } from '../hooks/useWakeLock';
 import { useRouter } from '../store/useRouter';
 import { useAppStore } from '../store/useAppStore';
 import { wsService } from '../services/wsService';
@@ -185,10 +185,10 @@ export function DriverHomeScreen() {
   const toggleOnline = async (): Promise<void> => {
     try {
       if (!online) {
-        // Re-prime the chime right here, synchronously in this click, before
-        // the driver settles in to wait (possibly minutes) for an offer with
-        // no further taps — the most reliable gesture available for this.
+        // Both calls must be synchronous inside the click handler so the browser
+        // grants autoplay permission for the chime and wake-lock video.
         primeChime();
+        primeWakeLock();
         await api.goOnline(position?.lat, position?.lng);
         wsService.send('driver_online', {
           lat: center.lat,
