@@ -582,10 +582,10 @@ export function AdminDashboardScreen() {
                 </div>
                 <p className="font-medium">{r.reason}</p>
                 {r.description && <p className="text-xs opacity-70">{r.description}</p>}
-                <p className="text-xs opacity-50">
-                  {t('admin.reporter')}: <span className="font-mono">{r.reporterId}</span>
-                  {' · '}
-                  {t('admin.reportedUser')}: <span className="font-mono">{r.reportedId}</span>
+                <p className="text-xs opacity-60">
+                  {t('admin.reporter')}: <span className="font-medium">{r.reporterName ?? r.reporterId}</span>
+                  {' → '}
+                  {t('admin.reportedUser')}: <span className="font-medium">{r.reportedName ?? r.reportedId}</span>
                 </p>
                 <div className="flex items-center justify-between text-xs opacity-60">
                   <span>{formatDate(r.createdAt)}</span>

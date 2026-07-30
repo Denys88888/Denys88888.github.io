@@ -197,6 +197,8 @@ export interface Report {
   rideId: string;
   reporterId: string;
   reportedId: string;
+  reporterName?: string;
+  reportedName?: string;
   reason: string;
   description?: string;
   status: 'open' | 'resolved' | 'dismissed';

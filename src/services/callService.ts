@@ -228,14 +228,17 @@ class CallService {
     // getUserMedia must succeed before we advertise a call; a mic failure here
     // is what we told the user could happen if Pi Browser denies the mic.
     //
-    // Plain { audio: true } left echo cancellation, noise suppression and auto
-    // gain off in the Android WebView, which is what made the mic sound harsh.
-    // Request the voice-processing chain explicitly.
+    // Audio processing in the Pi Browser's WebView is low quality: the reported
+    // constant crackle + hiss is the signature of autoGainControl (clips loud
+    // speech into rasp, boosts the noise floor between words into hiss) and of
+    // the cheap noiseSuppression adding a metallic wash. Both off gives a rawer
+    // but far cleaner signal. Echo cancellation stays on — without it the other
+    // side hears themselves through the earpiece, which is worse than either.
     this.localStream = await navigator.mediaDevices.getUserMedia({
       audio: {
         echoCancellation: true,
-        noiseSuppression: true,
-        autoGainControl: true,
+        noiseSuppression: false,
+        autoGainControl: false,
         channelCount: 1,
       },
     });
@@ -413,12 +416,15 @@ class CallService {
     this.pendingRemoteCandidates = [];
     this.incomingOffer = null;
     this.emit({ state: 'ended', endReason: reason, muted: false });
-    // Return to idle shortly so the UI can show a brief "call ended" line.
+    // Hold the ended screen longer when the call actually connected, so the
+    // line-quality line stays readable after hanging up (you can't read it mid-
+    // conversation). A call that never connected clears quickly.
+    const hold = this.snap.stats ? 6000 : 1500;
     setTimeout(() => {
       if (this.snap.state === 'ended') {
-        this.emit({ state: 'idle', rideId: null, peerId: null, durationSec: 0 });
+        this.emit({ state: 'idle', rideId: null, peerId: null, durationSec: 0, stats: null });
       }
-    }, 1500);
+    }, hold);
   }
 }
 
