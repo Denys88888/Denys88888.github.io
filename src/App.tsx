@@ -11,6 +11,7 @@ import { BottomNav } from './components/layout/BottomNav';
 import { ToastContainer } from './components/ui/Toast';
 import { OfflineBanner } from './components/ui/OfflineBanner';
 import { MaintenanceBanner } from './components/ui/MaintenanceBanner';
+import { CallOverlay } from './components/call/CallOverlay';
 import { AuthScreen } from './screens/AuthScreen';
 import { PassengerHomeScreen } from './screens/PassengerHomeScreen';
 import { DriverHomeScreen } from './screens/DriverHomeScreen';
@@ -101,6 +102,7 @@ export default function App() {
               <ToastContainer />
               <OfflineBanner />
               <MaintenanceBanner />
+              <CallOverlay />
             </div>
           </ErrorBoundary>
         </RideProvider>

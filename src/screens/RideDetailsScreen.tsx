@@ -20,6 +20,7 @@ import { api } from '../services/api';
 import { payForRide } from '../services/piSdk';
 import { notify } from '../services/notificationService';
 import { fetchRoute } from '../services/mapService';
+import { callService } from '../services/callService';
 import { NavigationPanel } from '../components/ride/NavigationPanel';
 import { chatIdForRide, haversineKm } from '../utils/helpers';
 import { LATE_CANCELLATION_FEE_PERCENT } from '../utils/constants';
@@ -530,14 +531,14 @@ export function RideDetailsScreen() {
               {counterpart.phone && <p className="text-xs opacity-50">{maskPhone(counterpart.phone)}</p>}
             </div>
             <div className="flex gap-2">
-              {counterpart.phone && (
-                <a
-                  href={`tel:${counterpart.phone}`}
+              {['assigned', 'arrived', 'in_progress'].includes(ride.status) && (
+                <button
+                  onClick={() => void callService.startCall(ride.id, counterpart.uid)}
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-success/15 text-success"
                   aria-label={t('ride.callDriver')}
                 >
                   <Phone size={18} />
-                </a>
+                </button>
               )}
               <button
                 onClick={() => navigate('chat', { chatId: chatIdForRide(ride.id) })}
