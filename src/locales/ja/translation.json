@@ -366,7 +366,8 @@
     "unpaidPayoutsCount": "unpaid payout(s)",
     "rideId": "Ride ID",
     "driver": "Driver",
-    "showingSubset": "Showing {{shown}} of {{total}}"
+    "showingSubset": "Showing {{shown}} of {{total}}",
+    "payoutAlreadySent": "Funds already sent — do not retry, reconcile with Pi"
   },
   "notify": {
     "newRide": "新しい配車リクエスト：{{fare}}",

@@ -226,7 +226,7 @@ export const api = {
       .then((r) => r.data.drivers),
   adminAnalytics: () => client.get<AdminAnalytics>('/api/admin/analytics').then((r) => r.data),
   adminUnpaidPayouts: () =>
-    client.get<{ id: string; driverId: string | undefined; amount: number; fare: number; payoutStatus: string; payoutError?: string; createdAt: string; kind: 'fare' | 'tip' }[]>(
+    client.get<{ id: string; driverId: string | undefined; amount: number; fare: number; payoutStatus: string; payoutError?: string; createdAt: string; kind: 'fare' | 'tip'; retryable?: boolean; txid?: string }[]>(
       '/api/admin/unpaid-payouts'
     ).then((r) => r.data),
   adminRetryPayout: (rideId: string, kind: 'fare' | 'tip' = 'fare') =>

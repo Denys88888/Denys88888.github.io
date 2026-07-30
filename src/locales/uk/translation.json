@@ -366,7 +366,8 @@
     "unpaidPayoutsCount": "unpaid payout(s)",
     "rideId": "Ride ID",
     "driver": "Driver",
-    "showingSubset": "Показано {{shown}} з {{total}}"
+    "showingSubset": "Показано {{shown}} з {{total}}",
+    "payoutAlreadySent": "Кошти вже надіслано — не повторювати, звірити з Pi"
   },
   "notify": {
     "newRide": "Нове замовлення: {{fare}}",

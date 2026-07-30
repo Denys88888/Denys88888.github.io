@@ -40,7 +40,7 @@ export function AdminDashboardScreen() {
   const [driverFilter, setDriverFilter] = useState<DriverFilter>('pending');
   const [analytics, setAnalytics] = useState<AdminAnalytics | null>(null);
   const [reports, setReports] = useState<Report[]>([]);
-  type UnpaidPayout = { id: string; driverId: string | undefined; amount: number; fare: number; payoutStatus: string; payoutError?: string; createdAt: string; kind: 'fare' | 'tip' };
+  type UnpaidPayout = { id: string; driverId: string | undefined; amount: number; fare: number; payoutStatus: string; payoutError?: string; createdAt: string; kind: 'fare' | 'tip'; retryable?: boolean; txid?: string };
   const [unpaidPayouts, setUnpaidPayouts] = useState<UnpaidPayout[]>([]);
   const [retryingPayout, setRetryingPayout] = useState<string | null>(null);
   const [reportFilter, setReportFilter] = useState<ReportFilter>('open');
@@ -633,13 +633,23 @@ export function AdminDashboardScreen() {
                       {p.payoutError && (
                         <p className="mt-1 text-xs text-red-500 break-all">{p.payoutError}</p>
                       )}
+                      {/* Funds already left the wallet — retrying would pay the
+                          driver a second time, so say so instead of offering it. */}
+                      {p.retryable === false && (
+                        <p className="mt-1 text-xs text-warning">
+                          {t('admin.payoutAlreadySent')}
+                          {p.txid && <span className="block break-all opacity-60">txid: {p.txid}</span>}
+                        </p>
+                      )}
                     </div>
-                    <Button
-                      disabled={retryingPayout === key}
-                      onClick={() => retryUnpaidPayout(p)}
-                    >
-                      {retryingPayout === key ? '…' : t('admin.retryPayout')}
-                    </Button>
+                    {p.retryable !== false && (
+                      <Button
+                        disabled={retryingPayout === key}
+                        onClick={() => retryUnpaidPayout(p)}
+                      >
+                        {retryingPayout === key ? '…' : t('admin.retryPayout')}
+                      </Button>
+                    )}
                   </div>
                 </Card>
               );
