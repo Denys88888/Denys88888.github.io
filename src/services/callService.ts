@@ -114,11 +114,11 @@ class CallService {
   }
   private emit(patch: Partial<CallSnapshot>): void {
     this.snap = { ...this.snap, ...patch };
-    // Single source of truth for the ringtone: it rings only while a call is
-    // pending (outgoing 'calling' or incoming 'ringing') and is silent in every
-    // other state. Both calls are idempotent, so re-emitting the same state
-    // won't restart or cut the ring.
-    if (this.snap.state === 'calling' || this.snap.state === 'ringing') {
+    // The ringtone rings only on the RECEIVING side ('ringing'). The caller
+    // ('calling') stays silent — playing the same ring there made both phones
+    // ring at once ("звонок у обоих"), which is confusing; the caller already
+    // sees "Calling…" on screen. Idempotent, so re-emitting won't restart it.
+    if (this.snap.state === 'ringing') {
       startRingtone();
     } else {
       stopRingtone();
