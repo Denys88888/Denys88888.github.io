@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Taxi Pro — проверка звонка</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      margin: 0; padding: 20px;
+      font-family: -apple-system, system-ui, sans-serif;
+      background: #0b1512; color: #e8f0ed;
+      line-height: 1.5;
+    }
+    h1 { font-size: 20px; margin: 0 0 4px; }
+    p.sub { margin: 0 0 20px; opacity: .6; font-size: 14px; }
+    button {
+      display: block; width: 100%; padding: 16px;
+      font-size: 17px; font-weight: 600;
+      background: #00a06a; color: #fff; border: 0; border-radius: 14px;
+      margin-bottom: 20px; cursor: pointer;
+    }
+    button:disabled { opacity: .5; }
+    .row {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 12px 0; border-top: 1px solid rgba(255,255,255,.08);
+      font-size: 15px;
+    }
+    .row:first-of-type { border-top: 0; }
+    .icon { font-size: 20px; line-height: 1.2; flex-shrink: 0; width: 24px; text-align: center; }
+    .label { flex: 1; }
+    .detail { font-size: 13px; opacity: .6; margin-top: 2px; word-break: break-word; }
+    .ok { color: #4ade80; }
+    .bad { color: #f87171; }
+    .warn { color: #fbbf24; }
+    .pending { opacity: .4; }
+    #verdict {
+      margin-top: 24px; padding: 16px; border-radius: 14px;
+      font-size: 15px; font-weight: 600; text-align: center; display: none;
+    }
+    #verdict.show { display: block; }
+    #level {
+      height: 10px; border-radius: 5px; background: rgba(255,255,255,.1);
+      overflow: hidden; margin-top: 8px; display: none;
+    }
+    #level.show { display: block; }
+    #levelBar { height: 100%; width: 0%; background: #4ade80; transition: width .1s; }
+  </style>
+</head>
+<body>
+  <h1>Проверка голосового звонка</h1>
+  <p class="sub">Открой эту страницу в Pi Browser и нажми кнопку. Ничего не отправляется — всё проверяется прямо на телефоне.</p>
+
+  <button id="run">Проверить микрофон и звонок</button>
+
+  <div class="row" id="r-gum">
+    <span class="icon pending">•</span>
+    <div class="label">Доступ к микрофону (getUserMedia)<div class="detail"></div></div>
+  </div>
+  <div class="row" id="r-audio">
+    <span class="icon pending">•</span>
+    <div class="label">Реальный звук с микрофона
+      <div class="detail">Скажи что-нибудь вслух после разрешения</div>
+      <div id="level"><div id="levelBar"></div></div>
+    </div>
+  </div>
+  <div class="row" id="r-rtc">
+    <span class="icon pending">•</span>
+    <div class="label">WebRTC (RTCPeerConnection)<div class="detail"></div></div>
+  </div>
+  <div class="row" id="r-ice">
+    <span class="icon pending">•</span>
+    <div class="label">Соединение через интернет (ICE / STUN)<div class="detail"></div></div>
+  </div>
+
+  <div id="verdict"></div>
+
+  <script>
+    var set = function (id, state, detail) {
+      var row = document.getElementById(id);
+      var icon = row.querySelector('.icon');
+      var det = row.querySelector('.detail');
+      icon.className = 'icon ' + (state === 'ok' ? 'ok' : state === 'bad' ? 'bad' : state === 'warn' ? 'warn' : 'pending');
+      icon.textContent = state === 'ok' ? '✓' : state === 'bad' ? '✕' : state === 'warn' ? '!' : '•';
+      if (detail != null) det.textContent = detail;
+    };
+
+    var showVerdict = function (cls, text) {
+      var v = document.getElementById('verdict');
+      v.className = 'show';
+      v.style.background = cls === 'ok' ? 'rgba(74,222,128,.15)' : cls === 'warn' ? 'rgba(251,191,36,.15)' : 'rgba(248,113,113,.15)';
+      v.style.color = cls === 'ok' ? '#4ade80' : cls === 'warn' ? '#fbbf24' : '#f87171';
+      v.textContent = text;
+    };
+
+    document.getElementById('run').addEventListener('click', function () {
+      var btn = document.getElementById('run');
+      btn.disabled = true;
+      btn.textContent = 'Проверяю…';
+      runChecks().catch(function (e) {
+        showVerdict('bad', 'Неожиданная ошибка: ' + (e && e.message));
+      }).then(function () {
+        btn.disabled = false;
+        btn.textContent = 'Проверить ещё раз';
+      });
+    });
+
+    async function runChecks() {
+      // Reset
+      ['r-gum', 'r-audio', 'r-rtc', 'r-ice'].forEach(function (id) { set(id, 'pending', ''); });
+      document.getElementById('verdict').className = '';
+      document.getElementById('level').className = '';
+
+      // 1. getUserMedia present?
+      var hasGum = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+      if (!hasGum) {
+        set('r-gum', 'bad', 'navigator.mediaDevices.getUserMedia отсутствует в этом браузере');
+        set('r-audio', 'bad', 'Невозможно без getUserMedia');
+        checkRtc(false);
+        return;
+      }
+
+      // 2. request the mic
+      var stream = null;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        set('r-gum', 'ok', 'Разрешение получено, поток аудио открыт');
+      } catch (err) {
+        set('r-gum', 'bad', (err && err.name ? err.name + ': ' : '') + (err && err.message || 'отказано'));
+        set('r-audio', 'bad', 'Нет доступа к микрофону');
+        await checkRtc(false);
+        showVerdict('bad', 'Pi Browser не даёт доступ к микрофону — голосовой звонок внутри приложения невозможен. Останется текстовый чат.');
+        return;
+      }
+
+      // 3. real audio flowing? Measure level for ~3s.
+      await measureLevel(stream);
+
+      // 4. WebRTC + ICE
+      await checkRtc(true);
+
+      // stop mic
+      stream.getTracks().forEach(function (t) { t.stop(); });
+    }
+
+    function measureLevel(stream) {
+      return new Promise(function (resolve) {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) {
+          set('r-audio', 'warn', 'AudioContext недоступен — уровень звука не измерить, но микрофон открылся');
+          return resolve();
+        }
+        try {
+          var ctx = new AC();
+          var src = ctx.createMediaStreamSource(stream);
+          var analyser = ctx.createAnalyser();
+          analyser.fftSize = 512;
+          src.connect(analyser);
+          var data = new Uint8Array(analyser.frequencyBinCount);
+          document.getElementById('level').className = 'show';
+          var bar = document.getElementById('levelBar');
+          var peak = 0;
+          var start = Date.now();
+          set('r-audio', 'pending', 'Скажи что-нибудь вслух…');
+          var tick = function () {
+            analyser.getByteTimeDomainData(data);
+            var max = 0;
+            for (var i = 0; i < data.length; i++) {
+              var v = Math.abs(data[i] - 128);
+              if (v > max) max = v;
+            }
+            var pct = Math.min(100, Math.round((max / 128) * 100 * 2));
+            bar.style.width = pct + '%';
+            if (pct > peak) peak = pct;
+            if (Date.now() - start < 3500) {
+              requestAnimationFrame(tick);
+            } else {
+              ctx.close();
+              if (peak > 8) {
+                set('r-audio', 'ok', 'Звук идёт с микрофона (пиковый уровень ' + peak + '%)');
+              } else {
+                set('r-audio', 'warn', 'Разрешение есть, но звук почти не слышен (пик ' + peak + '%) — проверь, не заглушён ли микрофон');
+              }
+              resolve();
+            }
+          };
+          requestAnimationFrame(tick);
+        } catch (e) {
+          set('r-audio', 'warn', 'Не удалось измерить уровень: ' + (e && e.message));
+          resolve();
+        }
+      });
+    }
+
+    function checkRtc(micOk) {
+      return new Promise(function (resolve) {
+        var RTC = window.RTCPeerConnection || window.webkitRTCPeerConnection;
+        if (!RTC) {
+          set('r-rtc', 'bad', 'RTCPeerConnection отсутствует');
+          set('r-ice', 'bad', 'Невозможно без WebRTC');
+          if (micOk) showVerdict('bad', 'Микрофон работает, но WebRTC нет — звонок внутри приложения невозможен.');
+          return resolve();
+        }
+        set('r-rtc', 'ok', 'RTCPeerConnection доступен');
+
+        var pc;
+        try {
+          pc = new RTC({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
+        } catch (e) {
+          set('r-ice', 'bad', 'Не удалось создать соединение: ' + (e && e.message));
+          return resolve();
+        }
+
+        var types = {};
+        var done = false;
+        var finish = function () {
+          if (done) return;
+          done = true;
+          try { pc.close(); } catch (e) {}
+          var hasHost = !!types.host;
+          var hasSrflx = !!types.srflx; // server-reflexive = STUN saw us through NAT
+          var found = Object.keys(types).join(', ') || 'ничего';
+          if (hasSrflx) {
+            set('r-ice', 'ok', 'STUN определил внешний адрес (srflx) — прямое P2P-соединение пройдёт без платного TURN. Кандидаты: ' + found);
+          } else if (hasHost) {
+            set('r-ice', 'warn', 'Только локальные адреса (host), STUN не пробился. Часть звонков потребует TURN-сервера. Кандидаты: ' + found);
+          } else {
+            set('r-ice', 'bad', 'ICE-кандидаты не собрались — соединение может не устанавливаться. Кандидаты: ' + found);
+          }
+          renderFinalVerdict(micOk, hasSrflx, hasHost);
+          resolve();
+        };
+
+        pc.onicecandidate = function (e) {
+          if (e.candidate) {
+            var t = e.candidate.type || (function () {
+              var m = /typ (\w+)/.exec(e.candidate.candidate || '');
+              return m ? m[1] : 'unknown';
+            })();
+            types[t] = true;
+          } else {
+            finish(); // null candidate = gathering complete
+          }
+        };
+
+        // Need a media section for candidates to gather.
+        try {
+          pc.createDataChannel('probe');
+          pc.createOffer().then(function (o) { return pc.setLocalDescription(o); }).catch(function () {});
+        } catch (e) {}
+
+        setTimeout(finish, 8000); // hard stop if gathering stalls
+      });
+    }
+
+    function renderFinalVerdict(micOk, hasSrflx, hasHost) {
+      if (!micOk) return; // verdict already shown by the mic-failure path
+      if (hasSrflx) {
+        showVerdict('ok', 'Всё готово: микрофон работает и P2P-звонок пройдёт бесплатно, без TURN-сервера. Голосовой звонок внутри приложения можно делать.');
+      } else if (hasHost) {
+        showVerdict('warn', 'Микрофон работает и WebRTC есть, но STUN не пробил NAT — часть звонков соединится, часть потребует платного TURN. Звонок возможен, но не на 100% сетей.');
+      } else {
+        showVerdict('warn', 'Микрофон работает, но сеть не отдала ICE-кандидатов — на этой сети звонок может не соединиться. Проверь на мобильном интернете.');
+      }
+    }
+  </script>
+</body>
+</html>
