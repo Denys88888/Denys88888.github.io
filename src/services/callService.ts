@@ -28,6 +28,10 @@ export interface CallSnapshot {
   durationSec: number;
   // Why the last call ended, for a brief status line.
   endReason: string | null;
+  // Live line diagnostics while connected — packet loss %, jitter, round-trip,
+  // receive bitrate and negotiated codec. Shown small in the overlay so a user
+  // reporting bad audio can read the actual numbers back instead of guessing.
+  stats: string | null;
 }
 
 const ICE_SERVERS: RTCConfiguration = {
@@ -41,7 +45,10 @@ function tuneOpus(sdp: string): string {
   const rtpmap = /a=rtpmap:(\d+) opus\/48000/i.exec(sdp);
   if (!rtpmap) return sdp;
   const pt = rtpmap[1];
-  const params = 'useinbandfec=1;usedtx=0;maxaveragebitrate=32000;stereo=0';
+  // 48 kbps mono Opus is comfortably above voice-clear; FEC recovers lost
+  // packets; DTX off keeps the stream continuous (no comfort-noise artefacts on
+  // speech gaps, which can read as crackle).
+  const params = 'useinbandfec=1;usedtx=0;maxaveragebitrate=48000;stereo=0;cbr=0';
   const fmtpRe = new RegExp(`a=fmtp:${pt} ([^\\r\\n]*)`);
   if (fmtpRe.test(sdp)) {
     // Append our params to the existing fmtp line, without duplicating keys.
@@ -78,7 +85,12 @@ class CallService {
     muted: false,
     durationSec: 0,
     endReason: null,
+    stats: null,
   };
+
+  private statsTimer: ReturnType<typeof setInterval> | null = null;
+  private lastBytes = 0;
+  private lastStatsAt = 0;
 
   constructor() {
     // Bind to the shared socket once; these fire for the lifetime of the app.
@@ -261,6 +273,7 @@ class CallService {
         if (this.snap.state !== 'connected') {
           this.connectedAt = Date.now();
           this.startDurationTimer();
+          this.startStatsTimer();
           this.emit({ state: 'connected' });
         }
       } else if (s === 'failed') {
@@ -274,6 +287,62 @@ class CallService {
         }
       }
     };
+  }
+
+  // Poll inbound-audio stats so bad-audio reports come with real numbers.
+  // High loss/jitter points at the network (a TURN relay or lower bitrate would
+  // help); clean stats with bad audio points at capture/playback instead.
+  private startStatsTimer(): void {
+    this.stopStatsTimer();
+    this.lastBytes = 0;
+    this.lastStatsAt = Date.now();
+    const poll = async (): Promise<void> => {
+      if (!this.pc) return;
+      try {
+        const report = await this.pc.getStats();
+        let loss = '?';
+        let jitterMs = '?';
+        let kbps = '?';
+        let codec = '?';
+        let rttMs = '?';
+        const codecById = new Map<string, string>();
+        report.forEach((r) => {
+          if (r.type === 'codec' && typeof r.mimeType === 'string') {
+            codecById.set(r.id, r.mimeType.replace('audio/', ''));
+          }
+        });
+        report.forEach((r) => {
+          if (r.type === 'inbound-rtp' && r.kind === 'audio') {
+            const recv = r.packetsReceived ?? 0;
+            const lost = r.packetsLost ?? 0;
+            const total = recv + lost;
+            if (total > 0) loss = `${((lost / total) * 100).toFixed(1)}%`;
+            if (typeof r.jitter === 'number') jitterMs = `${Math.round(r.jitter * 1000)}ms`;
+            const bytes = r.bytesReceived ?? 0;
+            const now = Date.now();
+            const dt = (now - this.lastStatsAt) / 1000;
+            if (this.lastBytes && dt > 0) {
+              kbps = `${Math.round(((bytes - this.lastBytes) * 8) / dt / 1000)}`;
+            }
+            this.lastBytes = bytes;
+            this.lastStatsAt = now;
+            if (r.codecId && codecById.has(r.codecId)) codec = codecById.get(r.codecId)!;
+          }
+          if (r.type === 'candidate-pair' && r.state === 'succeeded' && typeof r.currentRoundTripTime === 'number') {
+            rttMs = `${Math.round(r.currentRoundTripTime * 1000)}ms`;
+          }
+        });
+        this.emit({ stats: `loss ${loss} · jitter ${jitterMs} · ${kbps}kbps · rtt ${rttMs} · ${codec}` });
+      } catch {
+        /* getStats can throw during teardown — ignore */
+      }
+    };
+    void poll();
+    this.statsTimer = setInterval(() => void poll(), 2000);
+  }
+  private stopStatsTimer(): void {
+    if (this.statsTimer) clearInterval(this.statsTimer);
+    this.statsTimer = null;
   }
 
   private startDurationTimer(): void {
@@ -320,6 +389,7 @@ class CallService {
   // errors before an offer was even sent).
   private end(reason: string, _local: boolean): void {
     this.stopDurationTimer();
+    this.stopStatsTimer();
     if (this.pc) {
       this.pc.onicecandidate = null;
       this.pc.ontrack = null;

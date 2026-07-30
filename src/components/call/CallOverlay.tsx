@@ -39,6 +39,11 @@ export function CallOverlay() {
       </div>
       <p className="mt-6 text-lg font-semibold">{t('call.title')}</p>
       <p className="mt-1 text-sm opacity-70">{statusLine()}</p>
+      {/* Live line quality while connected — lets a user reporting bad audio
+          read back the actual loss/jitter/bitrate numbers. */}
+      {call.state === 'connected' && call.stats && (
+        <p className="mt-2 font-mono text-[11px] opacity-50">{call.stats}</p>
+      )}
 
       <div className="mt-10 flex items-center gap-6">
         {call.state === 'ringing' ? (
