@@ -56,7 +56,8 @@
     "loading": "Creazione del percorso…",
     "unavailable": "Navigazione non disponibile",
     "mute": "Disattiva voce",
-    "unmute": "Attiva voce"
+    "unmute": "Attiva voce",
+    "recalculating": "Ricalcolo…"
   },
   "home": {
     "from": "Da",
@@ -167,7 +168,8 @@
     "rate_cleanliness": "Pulizia",
     "rate_driving": "Guida",
     "rate_route": "Percorso",
-    "freeCancelCountdown": "Annullamento gratuito ancora {{time}}"
+    "freeCancelCountdown": "Annullamento gratuito ancora {{time}}",
+    "arriveBy": "alle"
   },
   "vehicle": {
     "economy": "Economy",

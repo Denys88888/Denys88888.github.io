@@ -128,6 +128,18 @@ export function NavigationPanel({ from, to, position, onClose }: Props) {
                 {distanceKm != null ? formatDistance(distanceKm) : formatDistance(current.distanceM / 1000)}
                 {steps ? ` · ${idx + 1}/${steps.length}` : ''}
               </p>
+              {/* Fills as the car closes on the turn — the Google-Maps cue for
+                  "how close am I". Full segment length is current.distanceM. */}
+              {distanceKm != null && current.distanceM > 0 && (
+                <div className="mt-1 h-1 overflow-hidden rounded-full bg-white/20">
+                  <div
+                    className="h-full rounded-full bg-primary transition-[width] duration-500"
+                    style={{
+                      width: `${Math.min(100, Math.max(0, (1 - distanceKm / (current.distanceM / 1000)) * 100))}%`,
+                    }}
+                  />
+                </div>
+              )}
             </>
           )}
         </div>

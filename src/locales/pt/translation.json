@@ -56,7 +56,8 @@
     "loading": "Criando a rota…",
     "unavailable": "Navegação indisponível",
     "mute": "Silenciar voz",
-    "unmute": "Ativar voz"
+    "unmute": "Ativar voz",
+    "recalculating": "Recalculando…"
   },
   "home": {
     "from": "De",
@@ -167,7 +168,8 @@
     "rate_cleanliness": "Limpeza",
     "rate_driving": "Condução",
     "rate_route": "Rota",
-    "freeCancelCountdown": "Cancelamento grátis por mais {{time}}"
+    "freeCancelCountdown": "Cancelamento grátis por mais {{time}}",
+    "arriveBy": "às"
   },
   "vehicle": {
     "economy": "Econômico",

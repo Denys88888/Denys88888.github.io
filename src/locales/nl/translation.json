@@ -56,7 +56,8 @@
     "loading": "Route wordt berekend…",
     "unavailable": "Navigatie niet beschikbaar",
     "mute": "Stem uit",
-    "unmute": "Stem aan"
+    "unmute": "Stem aan",
+    "recalculating": "Recalculating…"
   },
   "home": {
     "from": "Van",
@@ -167,7 +168,8 @@
     "rate_cleanliness": "Cleanliness",
     "rate_driving": "Driving",
     "rate_route": "Route",
-    "freeCancelCountdown": "Free to cancel for {{time}} more"
+    "freeCancelCountdown": "Free to cancel for {{time}} more",
+    "arriveBy": "by"
   },
   "vehicle": {
     "economy": "Economy",

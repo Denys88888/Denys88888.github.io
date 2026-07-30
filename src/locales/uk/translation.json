@@ -56,7 +56,8 @@
     "loading": "Будуємо маршрут…",
     "unavailable": "Навігація недоступна",
     "mute": "Вимкнути голос",
-    "unmute": "Увімкнути голос"
+    "unmute": "Увімкнути голос",
+    "recalculating": "Перебудова маршруту…"
   },
   "home": {
     "from": "Звідки",
@@ -167,7 +168,8 @@
     "rate_cleanliness": "Чистота",
     "rate_driving": "Водіння",
     "rate_route": "Маршрут",
-    "freeCancelCountdown": "Безкоштовне скасування ще {{time}}"
+    "freeCancelCountdown": "Безкоштовне скасування ще {{time}}",
+    "arriveBy": "о"
   },
   "vehicle": {
     "economy": "Економ",

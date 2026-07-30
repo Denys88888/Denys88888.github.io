@@ -56,7 +56,8 @@
     "loading": "Route wird erstellt…",
     "unavailable": "Navigation nicht verfügbar",
     "mute": "Stimme stumm",
-    "unmute": "Stimme an"
+    "unmute": "Stimme an",
+    "recalculating": "Route wird neu berechnet…"
   },
   "home": {
     "from": "Von",
@@ -167,7 +168,8 @@
     "rate_cleanliness": "Sauberkeit",
     "rate_driving": "Fahrweise",
     "rate_route": "Route",
-    "freeCancelCountdown": "Noch {{time}} kostenlos stornierbar"
+    "freeCancelCountdown": "Noch {{time}} kostenlos stornierbar",
+    "arriveBy": "um"
   },
   "vehicle": {
     "economy": "Economy",

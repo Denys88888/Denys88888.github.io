@@ -17,6 +17,7 @@ import { loadSavedAddresses, saveAddress, removeAddress } from '../services/save
 import { formatPi, formatDistance, formatDuration } from '../utils/formatters';
 import { isValidCoord } from '../utils/validators';
 import { cn, estimateFare, routeDistanceKm } from '../utils/helpers';
+import { haptic } from '../utils/haptic';
 import type { GeoPoint, VehicleType, SavedAddress, SurgeInfo } from '../types';
 
 const DEFAULT_CENTER: GeoPoint = { lat: 52.2297, lng: 21.0122 }; // Warsaw fallback
@@ -286,6 +287,7 @@ export function PassengerHomeScreen() {
         note: note.trim() || undefined,
       });
       setCurrentRide(ride);
+      haptic.medium();
       addToast('success', schedule ? t('home.scheduleRide') : t('home.searching'));
       navigate('ride', { id: ride.id });
     } catch (err) {

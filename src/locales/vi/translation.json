@@ -56,7 +56,8 @@
     "loading": "Đang tạo tuyến đường…",
     "unavailable": "Không có dẫn đường",
     "mute": "Tắt giọng nói",
-    "unmute": "Bật giọng nói"
+    "unmute": "Bật giọng nói",
+    "recalculating": "Recalculating…"
   },
   "home": {
     "from": "Điểm đón",
@@ -167,7 +168,8 @@
     "rate_cleanliness": "Cleanliness",
     "rate_driving": "Driving",
     "rate_route": "Route",
-    "freeCancelCountdown": "Free to cancel for {{time}} more"
+    "freeCancelCountdown": "Free to cancel for {{time}} more",
+    "arriveBy": "by"
   },
   "vehicle": {
     "economy": "Economy",

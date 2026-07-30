@@ -56,7 +56,8 @@
     "loading": "ルートを作成中…",
     "unavailable": "ナビは利用できません",
     "mute": "音声オフ",
-    "unmute": "音声オン"
+    "unmute": "音声オン",
+    "recalculating": "Recalculating…"
   },
   "home": {
     "from": "出発地",
@@ -167,7 +168,8 @@
     "rate_cleanliness": "Cleanliness",
     "rate_driving": "Driving",
     "rate_route": "Route",
-    "freeCancelCountdown": "Free to cancel for {{time}} more"
+    "freeCancelCountdown": "Free to cancel for {{time}} more",
+    "arriveBy": "by"
   },
   "vehicle": {
     "economy": "エコノミー",

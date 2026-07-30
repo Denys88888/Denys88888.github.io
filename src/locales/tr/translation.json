@@ -56,7 +56,8 @@
     "loading": "Rota oluşturuluyor…",
     "unavailable": "Navigasyon kullanılamıyor",
     "mute": "Sesi kapat",
-    "unmute": "Sesi aç"
+    "unmute": "Sesi aç",
+    "recalculating": "Yeniden hesaplanıyor…"
   },
   "home": {
     "from": "Nereden",
@@ -167,7 +168,8 @@
     "rate_cleanliness": "Temizlik",
     "rate_driving": "Sürüş",
     "rate_route": "Rota",
-    "freeCancelCountdown": "{{time}} daha ücretsiz iptal"
+    "freeCancelCountdown": "{{time}} daha ücretsiz iptal",
+    "arriveBy": ""
   },
   "vehicle": {
     "economy": "Ekonomi",

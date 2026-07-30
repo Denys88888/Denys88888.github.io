@@ -56,7 +56,8 @@
     "loading": "Skapar rutt…",
     "unavailable": "Navigering ej tillgänglig",
     "mute": "Stäng av röst",
-    "unmute": "Slå på röst"
+    "unmute": "Slå på röst",
+    "recalculating": "Recalculating…"
   },
   "home": {
     "from": "Från",
@@ -167,7 +168,8 @@
     "rate_cleanliness": "Cleanliness",
     "rate_driving": "Driving",
     "rate_route": "Route",
-    "freeCancelCountdown": "Free to cancel for {{time}} more"
+    "freeCancelCountdown": "Free to cancel for {{time}} more",
+    "arriveBy": "by"
   },
   "vehicle": {
     "economy": "Economy",

@@ -5,6 +5,7 @@ import { api } from './api';
 import { useAppStore } from '../store/useAppStore';
 import { useRouter } from '../store/useRouter';
 import { formatPi } from '../utils/formatters';
+import { haptic } from '../utils/haptic';
 import type { Ride } from '../types';
 
 // In-app notification layer. The Pi Browser is an Android WebView without the
@@ -256,6 +257,7 @@ export function initNotifications(): void {
   // Passengers: a driver took the ride.
   wsService.on('ride_assigned', () => {
     if (useAppStore.getState().user?.role === 'driver') return;
+    haptic.heavy(); // the big moment — a distinct double-buzz
     notify(i18n.t('home.driverFound'));
   });
 
@@ -280,6 +282,7 @@ export function initNotifications(): void {
     }
     if (msg.status === 'payment_received') {
       const data = msg.data as { amount?: number } | undefined;
+      haptic.success();
       notify(i18n.t('notify.paymentReceived', { amount: formatPi(data?.amount ?? 0) }), { sound: true });
       return;
     }

@@ -21,6 +21,7 @@ import { payForRide } from '../services/piSdk';
 import { notify } from '../services/notificationService';
 import { fetchRoute } from '../services/mapService';
 import { callService } from '../services/callService';
+import { haptic } from '../utils/haptic';
 import { NavigationPanel } from '../components/ride/NavigationPanel';
 import { chatIdForRide, haversineKm } from '../utils/helpers';
 import { LATE_CANCELLATION_FEE_PERCENT } from '../utils/constants';
@@ -331,6 +332,7 @@ export function RideDetailsScreen() {
       // left when nothing was pre-fetched in time.
       const fallback = await preparePayment(ride.id);
       if (!fallback) {
+        haptic.error();
         addToast('error', t('ride.paymentFailed'));
         return;
       }
@@ -484,8 +486,19 @@ export function RideDetailsScreen() {
           <RideStatusBadge status={ride.status} />
           <div className="flex items-center gap-3">
             {etaSeconds !== null && (
-              <span className="rounded-full bg-primary/15 px-3 py-1 text-sm font-semibold text-primary">
-                {t('ride.eta')} {Math.floor(etaSeconds / 60)}:{String(etaSeconds % 60).padStart(2, '0')}
+              <span className="flex flex-col items-center rounded-full bg-primary/15 px-3 py-1 text-primary leading-tight">
+                <span className="text-sm font-semibold">
+                  {t('ride.eta')} {Math.floor(etaSeconds / 60)}:{String(etaSeconds % 60).padStart(2, '0')}
+                </span>
+                {/* The concrete clock time is what people actually plan around
+                    ("home by 14:32"), not a raw minute count. */}
+                <span className="text-[10px] opacity-70">
+                  {t('ride.arriveBy')}{' '}
+                  {new Date(Date.now() + etaSeconds * 1000).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </span>
               </span>
             )}
             {!!ride.surgeMultiplier && ride.surgeMultiplier > 1 && (

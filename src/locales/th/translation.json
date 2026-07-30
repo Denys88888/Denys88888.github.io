@@ -56,7 +56,8 @@
     "loading": "กำลังสร้างเส้นทาง…",
     "unavailable": "ไม่สามารถนำทางได้",
     "mute": "ปิดเสียง",
-    "unmute": "เปิดเสียง"
+    "unmute": "เปิดเสียง",
+    "recalculating": "Recalculating…"
   },
   "home": {
     "from": "จาก",
@@ -167,7 +168,8 @@
     "rate_cleanliness": "Cleanliness",
     "rate_driving": "Driving",
     "rate_route": "Route",
-    "freeCancelCountdown": "Free to cancel for {{time}} more"
+    "freeCancelCountdown": "Free to cancel for {{time}} more",
+    "arriveBy": "by"
   },
   "vehicle": {
     "economy": "อีโคโนมี",

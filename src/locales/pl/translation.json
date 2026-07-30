@@ -56,7 +56,8 @@
     "loading": "Wyznaczanie trasy…",
     "unavailable": "Nawigacja niedostępna",
     "mute": "Wycisz głos",
-    "unmute": "Włącz głos"
+    "unmute": "Włącz głos",
+    "recalculating": "Przeliczanie trasy…"
   },
   "home": {
     "from": "Skąd",
@@ -167,7 +168,8 @@
     "rate_cleanliness": "Czystość",
     "rate_driving": "Jazda",
     "rate_route": "Trasa",
-    "freeCancelCountdown": "Bezpłatne anulowanie jeszcze {{time}}"
+    "freeCancelCountdown": "Bezpłatne anulowanie jeszcze {{time}}",
+    "arriveBy": "o"
   },
   "vehicle": {
     "economy": "Ekonomiczny",

@@ -56,7 +56,8 @@
     "loading": "Строим маршрут…",
     "unavailable": "Навигация недоступна",
     "mute": "Выключить голос",
-    "unmute": "Включить голос"
+    "unmute": "Включить голос",
+    "recalculating": "Перестроение маршрута…"
   },
   "home": {
     "from": "Откуда",
@@ -167,7 +168,8 @@
     "rate_cleanliness": "Чистота",
     "rate_driving": "Вождение",
     "rate_route": "Маршрут",
-    "freeCancelCountdown": "Бесплатная отмена ещё {{time}}"
+    "freeCancelCountdown": "Бесплатная отмена ещё {{time}}",
+    "arriveBy": "в"
   },
   "vehicle": {
     "economy": "Эконом",

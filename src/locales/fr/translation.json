@@ -56,7 +56,8 @@
     "loading": "Calcul de l'itinéraire…",
     "unavailable": "Navigation indisponible",
     "mute": "Couper la voix",
-    "unmute": "Activer la voix"
+    "unmute": "Activer la voix",
+    "recalculating": "Recalcul…"
   },
   "home": {
     "from": "Départ",
@@ -167,7 +168,8 @@
     "rate_cleanliness": "Propreté",
     "rate_driving": "Conduite",
     "rate_route": "Itinéraire",
-    "freeCancelCountdown": "Annulation gratuite encore {{time}}"
+    "freeCancelCountdown": "Annulation gratuite encore {{time}}",
+    "arriveBy": "à"
   },
   "vehicle": {
     "economy": "Économique",

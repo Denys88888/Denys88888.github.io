@@ -56,7 +56,8 @@
     "loading": "Membuat rute…",
     "unavailable": "Navigasi tidak tersedia",
     "mute": "Bisukan suara",
-    "unmute": "Aktifkan suara"
+    "unmute": "Aktifkan suara",
+    "recalculating": "Recalculating…"
   },
   "home": {
     "from": "Dari",
@@ -167,7 +168,8 @@
     "rate_cleanliness": "Cleanliness",
     "rate_driving": "Driving",
     "rate_route": "Route",
-    "freeCancelCountdown": "Free to cancel for {{time}} more"
+    "freeCancelCountdown": "Free to cancel for {{time}} more",
+    "arriveBy": "by"
   },
   "vehicle": {
     "economy": "Ekonomi",

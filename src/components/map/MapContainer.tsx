@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   MapContainer as LeafletMap,
   TileLayer,
@@ -160,6 +161,8 @@ export function MapView({
   onDestinationDrag,
   className,
 }: Props) {
+  const { t } = useTranslation();
+  const recalcLabel = t('nav.recalculating');
   // Two distinct legs, each its own color: the approach (routeFrom → pickup —
   // e.g. the driver's own live position while heading to collect the
   // passenger) and the trip itself (pickup → stops → destination — where the
@@ -220,18 +223,24 @@ export function MapView({
       ? `${driver.lat.toFixed(3)},${driver.lng.toFixed(3)}`
       : null;
   const [navRoad, setNavRoad] = useState<[number, number][] | null>(null);
+  const [recalculating, setRecalculating] = useState(false);
   useEffect(() => {
     if (!driver || !destination) {
       setNavRoad(null);
+      setRecalculating(false);
       return;
     }
     if (haversineKm(driver.lat, driver.lng, destination.lat, destination.lng) < 0.4) {
       setNavRoad(null);
+      setRecalculating(false);
       return;
     }
     let stale = false;
+    setRecalculating(true);
     fetchRoute([driver, ...stops, destination]).then((r) => {
-      if (!stale && r) setNavRoad(r.points);
+      if (stale) return;
+      if (r) setNavRoad(r.points);
+      setRecalculating(false);
     });
     return () => {
       stale = true;
@@ -298,7 +307,16 @@ export function MapView({
   const remainingRoute = splitIndex > 0 ? tripRoute.slice(splitIndex) : tripRoute;
 
   return (
-    <div className={className ?? 'h-full w-full overflow-hidden rounded-card'}>
+    <div className={`relative ${className ?? 'h-full w-full overflow-hidden rounded-card'}`}>
+      {/* "Recalculating" only on a genuine reroute — a route already existed and
+          is being rebuilt after the driver moved off it. Not shown for the very
+          first route fetch, where the line is simply appearing. */}
+      {recalculating && navRoad && (
+        <div className="pointer-events-none absolute left-1/2 top-3 z-[1000] flex -translate-x-1/2 items-center gap-2 rounded-full bg-black/75 px-3 py-1.5 text-xs font-medium text-white shadow-card">
+          <span className="h-3 w-3 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+          {recalcLabel}
+        </div>
+      )}
       <LeafletMap
         center={[center.lat, center.lng]}
         zoom={14}
