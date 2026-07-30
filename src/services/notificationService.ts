@@ -56,6 +56,61 @@ function getChimeEl(): HTMLAudioElement {
   return chimeEl;
 }
 
+// A separate element for the call ringtone so it can loop on its own without
+// fighting the chime. Same data + the same <audio> path that already plays
+// reliably inside the Pi Browser WebView.
+let ringEl: HTMLAudioElement | null = null;
+function getRingEl(): HTMLAudioElement {
+  if (!ringEl) {
+    ringEl = new Audio(CHIME_DATA_URI);
+    ringEl.preload = 'auto';
+    ringEl.loop = true;
+  }
+  return ringEl;
+}
+
+let ringtoneActive = false;
+
+// Repeated ring while a call is incoming/outgoing. Relies on the same
+// first-gesture unlock as the chime (primeChime primes this element too), so it
+// can start from a gesture-less WS 'call_offer'. Looping <audio> gives a
+// continuous ring; stopRingtone silences it.
+export function startRingtone(): void {
+  if (typeof window === 'undefined' || ringtoneActive) return;
+  ringtoneActive = true;
+  const el = getRingEl();
+  el.volume = 1;
+  try {
+    el.currentTime = 0;
+  } catch {
+    /* not seekable yet */
+  }
+  el.play().catch((err) => {
+    logger.warn('[Ringtone] play failed', err);
+  });
+  try {
+    navigator.vibrate?.([400, 200, 400, 200, 400]);
+  } catch {
+    /* unsupported */
+  }
+}
+
+export function stopRingtone(): void {
+  ringtoneActive = false;
+  if (!ringEl) return;
+  ringEl.pause();
+  try {
+    ringEl.currentTime = 0;
+  } catch {
+    /* ignore */
+  }
+  try {
+    navigator.vibrate?.(0);
+  } catch {
+    /* unsupported */
+  }
+}
+
 let audioCtx: AudioContext | null = null;
 function getAudioCtxCtor(): typeof AudioContext | undefined {
   return window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
@@ -79,6 +134,23 @@ export function primeChime(): void {
     })
     .catch(() => {
       el.volume = 1;
+    });
+  // Unlock the ringtone element on the same gesture so an incoming call can
+  // ring without a fresh tap. loop is toggled off during the muted prime so it
+  // doesn't keep playing, then restored.
+  const ring = getRingEl();
+  ring.loop = false;
+  ring.volume = 0;
+  ring.play()
+    .then(() => {
+      ring.pause();
+      ring.currentTime = 0;
+      ring.volume = 1;
+      ring.loop = true;
+    })
+    .catch(() => {
+      ring.volume = 1;
+      ring.loop = true;
     });
   const Ctx = getAudioCtxCtor();
   if (!Ctx) return;

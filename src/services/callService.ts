@@ -1,4 +1,5 @@
 import { wsService } from './wsService';
+import { startRingtone, stopRingtone } from './notificationService';
 import { logger } from '../utils/logger';
 
 // ---------------------------------------------------------------------------
@@ -32,6 +33,29 @@ export interface CallSnapshot {
 const ICE_SERVERS: RTCConfiguration = {
   iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
 };
+
+// Nudge Opus toward voice-call quality: in-band FEC recovers lost packets
+// (smoother audio on a lossy mobile link) and a raised average bitrate lifts it
+// above the codec's conservative default. Applied to both offer and answer SDP.
+function tuneOpus(sdp: string): string {
+  const rtpmap = /a=rtpmap:(\d+) opus\/48000/i.exec(sdp);
+  if (!rtpmap) return sdp;
+  const pt = rtpmap[1];
+  const params = 'useinbandfec=1;usedtx=0;maxaveragebitrate=32000;stereo=0';
+  const fmtpRe = new RegExp(`a=fmtp:${pt} ([^\\r\\n]*)`);
+  if (fmtpRe.test(sdp)) {
+    // Append our params to the existing fmtp line, without duplicating keys.
+    return sdp.replace(fmtpRe, (_full, existing: string) => {
+      const kept = existing
+        .split(';')
+        .filter((kv) => !/^(useinbandfec|usedtx|maxaveragebitrate|stereo)=/.test(kv.trim()))
+        .join(';');
+      return `a=fmtp:${pt} ${[kept, params].filter(Boolean).join(';')}`;
+    });
+  }
+  // No fmtp line for Opus — add one right after its rtpmap.
+  return sdp.replace(rtpmap[0], `${rtpmap[0]}\r\na=fmtp:${pt} ${params}`);
+}
 
 type Sub = (snap: CallSnapshot) => void;
 
@@ -78,6 +102,15 @@ class CallService {
   }
   private emit(patch: Partial<CallSnapshot>): void {
     this.snap = { ...this.snap, ...patch };
+    // Single source of truth for the ringtone: it rings only while a call is
+    // pending (outgoing 'calling' or incoming 'ringing') and is silent in every
+    // other state. Both calls are idempotent, so re-emitting the same state
+    // won't restart or cut the ring.
+    if (this.snap.state === 'calling' || this.snap.state === 'ringing') {
+      startRingtone();
+    } else {
+      stopRingtone();
+    }
     this.subs.forEach((cb) => {
       try {
         cb(this.snap);
@@ -94,6 +127,7 @@ class CallService {
       this.emit({ state: 'calling', rideId, peerId, endReason: null, durationSec: 0 });
       await this.setupPeer(rideId);
       const offer = await this.pc!.createOffer({ offerToReceiveAudio: true });
+      offer.sdp = tuneOpus(offer.sdp ?? '');
       await this.pc!.setLocalDescription(offer);
       wsService.send('call_offer', { rideId, sdp: JSON.stringify(offer) });
     } catch (err) {
@@ -128,6 +162,7 @@ class CallService {
       await this.pc!.setRemoteDescription(JSON.parse(offer.sdp) as RTCSessionDescriptionInit);
       await this.drainPendingCandidates();
       const answer = await this.pc!.createAnswer();
+      answer.sdp = tuneOpus(answer.sdp ?? '');
       await this.pc!.setLocalDescription(answer);
       wsService.send('call_answer', { rideId: offer.rideId, sdp: JSON.stringify(answer) });
       this.incomingOffer = null;
@@ -180,7 +215,18 @@ class CallService {
   private async setupPeer(rideId: string): Promise<void> {
     // getUserMedia must succeed before we advertise a call; a mic failure here
     // is what we told the user could happen if Pi Browser denies the mic.
-    this.localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    //
+    // Plain { audio: true } left echo cancellation, noise suppression and auto
+    // gain off in the Android WebView, which is what made the mic sound harsh.
+    // Request the voice-processing chain explicitly.
+    this.localStream = await navigator.mediaDevices.getUserMedia({
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true,
+        channelCount: 1,
+      },
+    });
     this.snap.muted = false;
 
     const pc = new RTCPeerConnection(ICE_SERVERS);
