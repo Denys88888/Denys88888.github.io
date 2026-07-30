@@ -166,7 +166,8 @@
     "rateDetailsOptional": "Detalhar (opcional)",
     "rate_cleanliness": "Limpeza",
     "rate_driving": "Condução",
-    "rate_route": "Rota"
+    "rate_route": "Rota",
+    "freeCancelCountdown": "Cancelamento grátis por mais {{time}}"
   },
   "vehicle": {
     "economy": "Econômico",

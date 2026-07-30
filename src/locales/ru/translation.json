@@ -166,7 +166,8 @@
     "rateDetailsOptional": "Уточнить (необязательно)",
     "rate_cleanliness": "Чистота",
     "rate_driving": "Вождение",
-    "rate_route": "Маршрут"
+    "rate_route": "Маршрут",
+    "freeCancelCountdown": "Бесплатная отмена ещё {{time}}"
   },
   "vehicle": {
     "economy": "Эконом",

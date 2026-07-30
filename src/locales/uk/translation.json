@@ -166,7 +166,8 @@
     "rateDetailsOptional": "Уточнити (необов'язково)",
     "rate_cleanliness": "Чистота",
     "rate_driving": "Водіння",
-    "rate_route": "Маршрут"
+    "rate_route": "Маршрут",
+    "freeCancelCountdown": "Безкоштовне скасування ще {{time}}"
   },
   "vehicle": {
     "economy": "Економ",

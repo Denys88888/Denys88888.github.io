@@ -166,7 +166,8 @@
     "rateDetailsOptional": "Details (optional)",
     "rate_cleanliness": "Sauberkeit",
     "rate_driving": "Fahrweise",
-    "rate_route": "Route"
+    "rate_route": "Route",
+    "freeCancelCountdown": "Noch {{time}} kostenlos stornierbar"
   },
   "vehicle": {
     "economy": "Economy",

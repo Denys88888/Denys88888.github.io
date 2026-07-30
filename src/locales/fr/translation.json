@@ -166,7 +166,8 @@
     "rateDetailsOptional": "Préciser (facultatif)",
     "rate_cleanliness": "Propreté",
     "rate_driving": "Conduite",
-    "rate_route": "Itinéraire"
+    "rate_route": "Itinéraire",
+    "freeCancelCountdown": "Annulation gratuite encore {{time}}"
   },
   "vehicle": {
     "economy": "Économique",

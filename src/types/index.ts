@@ -134,6 +134,8 @@ export interface Ride {
   tipPayoutError?: string;
   tipPayoutPiId?: string;
   status: RideStatus;
+  // When the driver marked arrived — starts the free-cancellation grace window.
+  arrivedAt?: string;
   scheduledAt?: string;
   negotiable?: boolean;
   offeredFare?: number;

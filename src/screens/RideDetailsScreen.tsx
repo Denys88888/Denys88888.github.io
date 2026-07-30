@@ -46,6 +46,16 @@ export function RideDetailsScreen() {
   const [ride, setRide] = useState<Ride | null>(storeRide);
   const [driverPos, setDriverPos] = useState<GeoPoint | null>(null);
   const [showCancel, setShowCancel] = useState(false);
+  // Ticks every second only while the cancel dialog is open, so the free-
+  // cancellation countdown updates live without re-rendering the whole screen
+  // once a second the rest of the time.
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    if (!showCancel) return;
+    setNow(Date.now());
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [showCancel]);
   const [rating, setRating] = useState(0);
   // Optional per-category scores. Left at 0 they are simply not sent, so the
   // one-tap path stays exactly as it was.
@@ -265,7 +275,17 @@ export function RideDetailsScreen() {
   }
 
   const counterpart: RideParty | null | undefined = isDriver ? ride.passenger : ride.driver;
-  const feeApplies = ride.status === 'arrived' || ride.status === 'in_progress';
+  // Free before arrival and for a 5-minute grace window after (mirrors the
+  // server's rule in rideController.cancelRide). freeCancelMsLeft drives the
+  // countdown shown in the confirm dialog; it recomputes from `now` each render
+  // and the dialog ticks a 1s timer so it counts down live.
+  const FREE_CANCEL_GRACE_MS = 5 * 60 * 1000;
+  const freeCancelMsLeft =
+    ride.status === 'arrived' && ride.arrivedAt
+      ? Math.max(0, FREE_CANCEL_GRACE_MS - (now - new Date(ride.arrivedAt).getTime()))
+      : 0;
+  const feeApplies =
+    ride.status === 'in_progress' || (ride.status === 'arrived' && freeCancelMsLeft === 0);
   // driverPos only ever arrives via the 'driver_location_update' broadcast,
   // which the server sends to the passenger — the driver never gets an echo
   // of their own position back. On the driver's own screen, their live GPS
@@ -834,7 +854,19 @@ export function RideDetailsScreen() {
         ) : (
           <div className="space-y-2">
             <p>{t('ride.cancelConfirm')}</p>
-            <p className="text-xs opacity-60">{t('ride.cancelFreeExplain')}</p>
+            {freeCancelMsLeft > 0 ? (
+              // Driver has arrived but the grace window is still open — show how
+              // long cancelling stays free, counting down live.
+              <p className="text-xs opacity-70">
+                {t('ride.freeCancelCountdown', {
+                  time: `${Math.floor(freeCancelMsLeft / 60000)}:${String(
+                    Math.floor((freeCancelMsLeft % 60000) / 1000)
+                  ).padStart(2, '0')}`,
+                })}
+              </p>
+            ) : (
+              <p className="text-xs opacity-60">{t('ride.cancelFreeExplain')}</p>
+            )}
           </div>
         )}
       </Modal>

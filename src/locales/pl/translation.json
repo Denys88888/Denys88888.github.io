@@ -166,7 +166,8 @@
     "rateDetailsOptional": "Doprecyzuj (opcjonalnie)",
     "rate_cleanliness": "Czystość",
     "rate_driving": "Jazda",
-    "rate_route": "Trasa"
+    "rate_route": "Trasa",
+    "freeCancelCountdown": "Bezpłatne anulowanie jeszcze {{time}}"
   },
   "vehicle": {
     "economy": "Ekonomiczny",

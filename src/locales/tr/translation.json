@@ -166,7 +166,8 @@
     "rateDetailsOptional": "Ayrıntı ekle (isteğe bağlı)",
     "rate_cleanliness": "Temizlik",
     "rate_driving": "Sürüş",
-    "rate_route": "Rota"
+    "rate_route": "Rota",
+    "freeCancelCountdown": "{{time}} daha ücretsiz iptal"
   },
   "vehicle": {
     "economy": "Ekonomi",
