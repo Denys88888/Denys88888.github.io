@@ -11,6 +11,7 @@ import {
 import L from 'leaflet';
 import type { GeoPoint, HeatmapPoint } from '../../types';
 import { fetchRoute } from '../../services/mapService';
+import { haversineKm } from '../../utils/helpers';
 
 // Colored pin built from a divIcon so we don't depend on Leaflet's image assets
 // (which break under a non-root base path on GitHub Pages).
@@ -208,10 +209,45 @@ export function MapView({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tripKey]);
 
+  // Live rerouting during a trip: once a destination is set (the ride is under
+  // way) the route should lead from the driver's CURRENT position, not the
+  // original pickup, and rebuild if they leave it. Keyed to a ~110 m-quantised
+  // driver position so it only refetches when the car has actually moved a
+  // block — cheaper and steadier than a fixed 30 s timer. Skipped in the last
+  // ~400 m so the line doesn't thrash right at the destination.
+  const navKey =
+    driver && destination
+      ? `${driver.lat.toFixed(3)},${driver.lng.toFixed(3)}`
+      : null;
+  const [navRoad, setNavRoad] = useState<[number, number][] | null>(null);
+  useEffect(() => {
+    if (!driver || !destination) {
+      setNavRoad(null);
+      return;
+    }
+    if (haversineKm(driver.lat, driver.lng, destination.lat, destination.lng) < 0.4) {
+      setNavRoad(null);
+      return;
+    }
+    let stale = false;
+    fetchRoute([driver, ...stops, destination]).then((r) => {
+      if (!stale && r) setNavRoad(r.points);
+    });
+    return () => {
+      stale = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navKey]);
+
   const approachRoute: [number, number][] =
     approachRoad ?? approachWaypoints.map((p) => [p.lat, p.lng] as [number, number]);
+  // Prefer the live-rerouted geometry (driver's current position → destination)
+  // once it's available; fall back to the static pickup→destination route, then
+  // to a straight waypoint line. navRoad already starts at the car, so the
+  // grey/colour split below leaves nothing "travelled" on it — exactly right,
+  // since a freshly rebuilt route is entirely still-to-drive.
   const tripRoute: [number, number][] =
-    tripRoad ?? tripWaypoints.map((p) => [p.lat, p.lng] as [number, number]);
+    navRoad ?? tripRoad ?? tripWaypoints.map((p) => [p.lat, p.lng] as [number, number]);
 
   // Heading for the car marker, derived from successive driver positions. The
   // last known direction is kept in state so a re-render with an unchanged
