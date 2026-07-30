@@ -35,9 +35,19 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,png,svg,json,woff2}'],
         navigateFallback: `${base}index.html`,
-        // reset.html must bypass the SPA fallback — it's the recovery page
-        // that wipes a broken cached session.
-        navigateFallbackDenylist: [/\/reset\.html/],
+        // Standalone pages must bypass the SPA fallback: without this, the
+        // service worker answers a navigation to any of them with index.html
+        // (the app shell) instead of the real page. reset.html is the recovery
+        // page; terms/privacy are the regulatory pages Pi review opens; the
+        // rest are self-contained utility pages. Any .html added later needs an
+        // entry here too, or it will only load until a client caches the SW.
+        navigateFallbackDenylist: [
+          /\/reset\.html/,
+          /\/mic-test\.html/,
+          /\/terms\.html/,
+          /\/privacy\.html/,
+          /\/404\.html/,
+        ],
         cleanupOutdatedCaches: true,
       },
     }),
