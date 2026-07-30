@@ -46,6 +46,9 @@ export function RideDetailsScreen() {
   const [driverPos, setDriverPos] = useState<GeoPoint | null>(null);
   const [showCancel, setShowCancel] = useState(false);
   const [rating, setRating] = useState(0);
+  // Optional per-category scores. Left at 0 they are simply not sent, so the
+  // one-tap path stays exactly as it was.
+  const [subRatings, setSubRatings] = useState({ cleanliness: 0, driving: 0, route: 0 });
   const [showReport, setShowReport] = useState(false);
   const [reportText, setReportText] = useState('');
   const [etaSeconds, setEtaSeconds] = useState<number | null>(null);
@@ -282,7 +285,15 @@ export function RideDetailsScreen() {
 
   const submitRating = async (): Promise<void> => {
     try {
-      await api.updateRide(ride.id, { driverRating: rating });
+      // Only send categories the rider actually touched — the server rejects a
+      // 0 and an untouched category is "no opinion", not "one star".
+      const breakdown = Object.fromEntries(
+        Object.entries(subRatings).filter(([, v]) => v > 0)
+      );
+      await api.updateRide(ride.id, {
+        driverRating: rating,
+        ...(Object.keys(breakdown).length > 0 ? { driverRatingBreakdown: breakdown } : {}),
+      });
       addToast('success', t('common.success'));
       navigate('home');
     } catch (err) {
@@ -507,7 +518,8 @@ export function RideDetailsScreen() {
 
         {/* Counterpart contact card with phone + call (once assigned). */}
         {counterpart && (
-          <Card className="flex items-center gap-3">
+          <Card className="space-y-3">
+          <div className="flex items-center gap-3">
             <Avatar name={counterpart.name} src={counterpart.avatar} size={48} />
             <div className="flex-1">
               <p className="font-semibold">{counterpart.name}</p>
@@ -542,6 +554,18 @@ export function RideDetailsScreen() {
                 <Flag size={18} />
               </button>
             </div>
+          </div>
+          {/* Picking the right car out of several at a busy pickup is the thing
+              a plate number is worst at. Only shown while the driver is still
+              on the way or waiting — it is noise once you are in the car. */}
+          {!isDriver && counterpart.vehiclePhoto && ['assigned', 'arrived'].includes(ride.status) && (
+            <img
+              src={counterpart.vehiclePhoto}
+              alt={[counterpart.color, counterpart.brand, counterpart.model].filter(Boolean).join(' ')}
+              loading="lazy"
+              className="h-32 w-full rounded-lg object-cover"
+            />
+          )}
           </Card>
         )}
 
@@ -647,6 +671,39 @@ export function RideDetailsScreen() {
                 </button>
               ))}
             </div>
+            {/* Categories appear only once an overall score is given: asking
+                four questions up front is what makes people skip rating
+                entirely. A three-star ride is where the detail actually
+                matters, and any category left untouched is simply not sent. */}
+            {rating > 0 && (
+              <div className="space-y-2 border-t border-black/5 pt-3 dark:border-white/10">
+                <p className="text-center text-xs opacity-60">{t('ride.rateDetailsOptional')}</p>
+                {(['cleanliness', 'driving', 'route'] as const).map((cat) => (
+                  <div key={cat} className="flex items-center justify-between gap-2">
+                    <span className="text-sm">{t(`ride.rate_${cat}`)}</span>
+                    <div className="flex gap-1">
+                      {[1, 2, 3, 4, 5].map((n) => (
+                        <button
+                          key={n}
+                          onClick={() => setSubRatings((s) => ({ ...s, [cat]: n }))}
+                          className="active:scale-90"
+                          aria-label={`${t(`ride.rate_${cat}`)}: ${n}`}
+                        >
+                          <Star
+                            size={18}
+                            className={
+                              n <= subRatings[cat]
+                                ? 'fill-warning text-warning'
+                                : 'text-black/20 dark:text-white/20'
+                            }
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
             <Button fullWidth disabled={rating === 0} onClick={submitRating}>
               {t('ride.rateSubmit')}
             </Button>

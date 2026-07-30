@@ -40,6 +40,7 @@ export interface RideParty {
   model?: string;
   color?: string;
   number?: string;
+  vehiclePhoto?: string;
 }
 
 export interface GeoPoint {
@@ -141,6 +142,13 @@ export interface Ride {
   txid?: string;
   passengerRating?: number;
   driverRating?: number;
+  // Optional detail behind driverRating; the overall score is still what moves
+  // the driver's average.
+  driverRatingBreakdown?: {
+    cleanliness?: number;
+    driving?: number;
+    route?: number;
+  };
   cancelledBy?: Role;
   cancellationReason?: string;
   cancellationFee?: number;

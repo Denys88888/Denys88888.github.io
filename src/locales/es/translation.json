@@ -162,7 +162,11 @@
     "sosAlertOnly": "No es una emergencia — solo avisar al soporte",
     "cancelFeeAmount": "You will be charged",
     "cancelFeeExplain": "The fee compensates the driver for travelling to your pickup point. It is taken from the fare you already authorised.",
-    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free."
+    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free.",
+    "rateDetailsOptional": "Añadir detalle (opcional)",
+    "rate_cleanliness": "Limpieza",
+    "rate_driving": "Conducción",
+    "rate_route": "Ruta"
   },
   "vehicle": {
     "economy": "Económico",

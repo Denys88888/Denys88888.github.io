@@ -162,7 +162,11 @@
     "sosAlertOnly": "Acil değil — sadece destek ekibini bilgilendir",
     "cancelFeeAmount": "You will be charged",
     "cancelFeeExplain": "The fee compensates the driver for travelling to your pickup point. It is taken from the fare you already authorised.",
-    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free."
+    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free.",
+    "rateDetailsOptional": "Ayrıntı ekle (isteğe bağlı)",
+    "rate_cleanliness": "Temizlik",
+    "rate_driving": "Sürüş",
+    "rate_route": "Rota"
   },
   "vehicle": {
     "economy": "Ekonomi",
