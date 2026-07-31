@@ -222,7 +222,8 @@
     "today": "Hoje",
     "ridesCount": "Corridas",
     "rideTaken": "Corrida já aceita por outro motorista",
-    "notVerified": "Sua conta de motorista está em análise"
+    "notVerified": "Sua conta de motorista está em análise",
+    "autoOffline": "Você ficou offline — sinal de GPS perdido"
   },
   "earnings": {
     "title": "Ganhos",

@@ -222,7 +222,8 @@
     "today": "오늘",
     "ridesCount": "탑승",
     "rideTaken": "이미 다른 드라이버가 수락했습니다",
-    "notVerified": "드라이버 계정이 검토 중입니다"
+    "notVerified": "드라이버 계정이 검토 중입니다",
+    "autoOffline": "You were set offline — GPS signal lost"
   },
   "earnings": {
     "title": "수입",

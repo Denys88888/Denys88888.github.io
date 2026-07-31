@@ -222,7 +222,8 @@
     "today": "आज",
     "ridesCount": "सवारियां",
     "rideTaken": "सवारी पहले से किसी अन्य चालक ने ली है",
-    "notVerified": "आपका ड्राइवर खाता समीक्षाधीन है"
+    "notVerified": "आपका ड्राइवर खाता समीक्षाधीन है",
+    "autoOffline": "You were set offline — GPS signal lost"
   },
   "earnings": {
     "title": "कमाई",

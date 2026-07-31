@@ -222,7 +222,8 @@
     "today": "Hôm nay",
     "ridesCount": "Chuyến",
     "rideTaken": "Chuyến đi đã được tài xế khác nhận",
-    "notVerified": "Tài khoản tài xế của bạn đang được xem xét"
+    "notVerified": "Tài khoản tài xế của bạn đang được xem xét",
+    "autoOffline": "You were set offline — GPS signal lost"
   },
   "earnings": {
     "title": "Thu nhập",

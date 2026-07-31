@@ -222,7 +222,8 @@
     "today": "Heute",
     "ridesCount": "Fahrten",
     "rideTaken": "Fahrt bereits von einem anderen Fahrer angenommen",
-    "notVerified": "Fahrerkonto wird noch geprüft"
+    "notVerified": "Fahrerkonto wird noch geprüft",
+    "autoOffline": "Offline gesetzt — GPS-Signal verloren"
   },
   "earnings": {
     "title": "Einnahmen",

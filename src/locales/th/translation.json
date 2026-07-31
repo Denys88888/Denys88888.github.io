@@ -222,7 +222,8 @@
     "today": "วันนี้",
     "ridesCount": "การเดินทาง",
     "rideTaken": "มีคนขับรายอื่นรับการเดินทางนี้แล้ว",
-    "notVerified": "บัญชีคนขับของคุณอยู่ระหว่างการตรวจสอบ"
+    "notVerified": "บัญชีคนขับของคุณอยู่ระหว่างการตรวจสอบ",
+    "autoOffline": "You were set offline — GPS signal lost"
   },
   "earnings": {
     "title": "รายได้",

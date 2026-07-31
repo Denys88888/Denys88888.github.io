@@ -222,7 +222,8 @@
     "today": "Hoy",
     "ridesCount": "Viajes",
     "rideTaken": "El viaje ya fue aceptado por otro conductor",
-    "notVerified": "Tu cuenta de conductor está en revisión"
+    "notVerified": "Tu cuenta de conductor está en revisión",
+    "autoOffline": "Te desconectamos — señal GPS perdida"
   },
   "earnings": {
     "title": "Ganancias",

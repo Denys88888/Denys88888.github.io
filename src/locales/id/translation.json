@@ -222,7 +222,8 @@
     "today": "Hari ini",
     "ridesCount": "Perjalanan",
     "rideTaken": "Perjalanan sudah diambil oleh pengemudi lain",
-    "notVerified": "Akun pengemudi Anda sedang ditinjau"
+    "notVerified": "Akun pengemudi Anda sedang ditinjau",
+    "autoOffline": "You were set offline — GPS signal lost"
   },
   "earnings": {
     "title": "Pendapatan",

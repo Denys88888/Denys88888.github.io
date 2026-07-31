@@ -222,7 +222,8 @@
     "today": "Vandaag",
     "ridesCount": "Ritten",
     "rideTaken": "Rit al geaccepteerd door een andere chauffeur",
-    "notVerified": "Uw chauffeurskonto wordt beoordeeld"
+    "notVerified": "Uw chauffeurskonto wordt beoordeeld",
+    "autoOffline": "You were set offline — GPS signal lost"
   },
   "earnings": {
     "title": "Inkomsten",

@@ -222,7 +222,8 @@
     "today": "Idag",
     "ridesCount": "Resor",
     "rideTaken": "Resan är redan tagen av en annan chaufför",
-    "notVerified": "Ditt förarkonto granskas"
+    "notVerified": "Ditt förarkonto granskas",
+    "autoOffline": "You were set offline — GPS signal lost"
   },
   "earnings": {
     "title": "Intäkter",

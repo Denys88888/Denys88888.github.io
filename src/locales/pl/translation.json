@@ -222,7 +222,8 @@
     "today": "Dziś",
     "ridesCount": "Przejazdy",
     "rideTaken": "Kurs już przyjęty przez innego kierowcę",
-    "notVerified": "Twoje konto kierowcy jest weryfikowane"
+    "notVerified": "Twoje konto kierowcy jest weryfikowane",
+    "autoOffline": "Ustawiono offline — utracono sygnał GPS"
   },
   "earnings": {
     "title": "Zarobki",

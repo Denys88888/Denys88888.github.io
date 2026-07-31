@@ -82,12 +82,19 @@ export function DriverHomeScreen() {
     return () => clearInterval(id);
   }, [online]);
 
-  // Push live location to backend every 30 s while online so nearby-drivers stays fresh.
+  // Push live location every 30 s while online so nearby-drivers stays fresh —
+  // over the socket too, not just REST, so the server's auto-offline sweep sees
+  // this idle-but-present driver as alive (it flips a driver offline after
+  // 5 min of GPS silence).
   useEffect(() => {
     if (!online || !position) return;
-    const id = setInterval(() => {
-      if (position) api.updateDriverLocation(position.lat, position.lng).catch(() => {});
-    }, 30_000);
+    const send = () => {
+      if (!position) return;
+      api.updateDriverLocation(position.lat, position.lng).catch(() => {});
+      wsService.send('driver_location', { lat: position.lat, lng: position.lng });
+    };
+    send();
+    const id = setInterval(send, 30_000);
     return () => clearInterval(id);
   }, [online, position?.lat, position?.lng]);
 
@@ -143,6 +150,15 @@ export function DriverHomeScreen() {
       setRequests((prev) => (prev.some((r) => r.id === ride.id) ? prev : [ride, ...prev]));
     });
     const offTaken = wsService.on('ride_status_update', (msg) => {
+      // Server auto-offlined this driver (GPS went silent) — reflect it in the
+      // UI and clear the request queue so they aren't shown stale offers.
+      if (msg.status === 'offline' && !msg.rideId) {
+        const data = msg.data as { reason?: string } | undefined;
+        setOnline(false);
+        setRequests([]);
+        if (data?.reason === 'gps_timeout') addToast('info', t('driver.autoOffline'));
+        return;
+      }
       if (msg.status && msg.status !== 'searching') {
         setRequests((prev) => prev.filter((r) => r.id !== String(msg.rideId)));
         // Server confirmed THIS driver got the ride — safe to navigate now.

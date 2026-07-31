@@ -222,7 +222,8 @@
     "today": "Aujourd'hui",
     "ridesCount": "Courses",
     "rideTaken": "Course déjà prise par un autre chauffeur",
-    "notVerified": "Votre compte chauffeur est en cours de vérification"
+    "notVerified": "Votre compte chauffeur est en cours de vérification",
+    "autoOffline": "Passé hors ligne — signal GPS perdu"
   },
   "earnings": {
     "title": "Gains",

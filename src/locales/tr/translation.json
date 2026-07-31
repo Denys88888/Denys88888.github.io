@@ -222,7 +222,8 @@
     "today": "Bugün",
     "ridesCount": "Yolculuklar",
     "rideTaken": "Yolculuk başka bir sürücü tarafından alındı",
-    "notVerified": "Sürücü hesabınız inceleniyor"
+    "notVerified": "Sürücü hesabınız inceleniyor",
+    "autoOffline": "Çevrimdışı yapıldınız — GPS sinyali kayboldu"
   },
   "earnings": {
     "title": "Kazanç",

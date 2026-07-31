@@ -222,7 +222,8 @@
     "today": "اليوم",
     "ridesCount": "الرحلات",
     "rideTaken": "تم أخذ الرحلة من قِبَل سائق آخر",
-    "notVerified": "حسابك كسائق قيد المراجعة"
+    "notVerified": "حسابك كسائق قيد المراجعة",
+    "autoOffline": "You were set offline — GPS signal lost"
   },
   "earnings": {
     "title": "الأرباح",

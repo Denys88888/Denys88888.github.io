@@ -222,7 +222,8 @@
     "today": "Today",
     "ridesCount": "Rides",
     "rideTaken": "Ride already taken by another driver",
-    "notVerified": "Your driver account is under review"
+    "notVerified": "Your driver account is under review",
+    "autoOffline": "You were set offline — GPS signal lost"
   },
   "earnings": {
     "title": "Earnings",

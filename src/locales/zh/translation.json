@@ -222,7 +222,8 @@
     "today": "今天",
     "ridesCount": "行程",
     "rideTaken": "该行程已被其他司机接受",
-    "notVerified": "您的司机账户正在审核中"
+    "notVerified": "您的司机账户正在审核中",
+    "autoOffline": "You were set offline — GPS signal lost"
   },
   "earnings": {
     "title": "收入",
