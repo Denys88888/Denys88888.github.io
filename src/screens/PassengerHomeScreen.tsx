@@ -14,7 +14,7 @@ import { useRouter } from '../store/useRouter';
 import { api } from '../services/api';
 import { reverseGeocode, countryCodeAt, fetchRoute } from '../services/mapService';
 import { loadSavedAddresses, saveAddress, removeAddress } from '../services/savedAddresses';
-import { formatPi, formatDistance, formatDuration } from '../utils/formatters';
+import { formatPi, formatDistance, formatDuration, localDateTimeValue } from '../utils/formatters';
 import { isValidCoord } from '../utils/validators';
 import { cn, estimateFare, routeDistanceKm } from '../utils/helpers';
 import { haptic } from '../utils/haptic';
@@ -238,7 +238,9 @@ export function PassengerHomeScreen() {
     isValidCoord(pickup) &&
     isValidCoord(destination) &&
     !ordering &&
-    (!schedule || !!scheduledAt) &&
+    // A scheduled time in the past is silently treated as "right now" by the
+    // server, which is not what someone picking a date means to order.
+    (!schedule || (!!scheduledAt && new Date(scheduledAt).getTime() > Date.now())) &&
     (!negotiate || Number(offeredFare) > 0);
 
   // Map tap → red marker appears right away → reverse geocode → "Go here?"
@@ -459,9 +461,11 @@ export function PassengerHomeScreen() {
             </button>
           )}
 
-          {/* Now vs Schedule. */}
-          <div className="flex items-center gap-2">
-            <div className="inline-flex rounded-xl bg-black/5 dark:bg-white/10 p-1">
+          {/* Now vs Schedule. Wraps because the toggle plus a date picker is wider
+              than a phone: unwrapped it pushed the whole sheet sideways, and the
+              picker's own controls ended up past the right edge. */}
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="inline-flex shrink-0 rounded-xl bg-black/5 dark:bg-white/10 p-1">
               <button
                 onClick={() => setSchedule(false)}
                 className={cn('rounded-lg px-4 py-1.5 text-sm font-medium', !schedule && 'bg-surface-light dark:bg-surface-dark text-primary shadow-sm')}
@@ -479,8 +483,9 @@ export function PassengerHomeScreen() {
               <input
                 type="datetime-local"
                 value={scheduledAt}
+                min={localDateTimeValue(new Date())}
                 onChange={(e) => setScheduledAt(e.target.value)}
-                className="flex-1 rounded-lg border border-[#E0E0E0] dark:border-white/15 bg-transparent px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/40"
+                className="min-w-[9.5rem] flex-1 rounded-lg border border-[#E0E0E0] dark:border-white/15 bg-transparent px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/40"
               />
             )}
           </div>

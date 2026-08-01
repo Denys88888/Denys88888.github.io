@@ -45,6 +45,15 @@ export function formatDate(iso: string): string {
   }).format(d);
 }
 
+// Value for an <input type="datetime-local">, which speaks local wall-clock
+// time with no zone. Built from local parts on purpose: toISOString() would
+// hand it UTC, so anyone east of Greenwich would be offered — and could pick —
+// a slot that has already passed.
+export function localDateTimeValue(d: Date): string {
+  const pad = (n: number): string => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
 export function formatRelative(iso: string): string {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return '';
