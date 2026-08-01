@@ -11,15 +11,22 @@ const STEPS: { status: RideStatus; icon: typeof Search; labelKey: string }[] = [
   { status: 'completed', icon: CheckCircle, labelKey: 'ride.statusCompleted' },
 ];
 
+// Which step the ride has reached. 'scheduled' sits *before* the first one: a
+// booking has not started looking for anybody yet. It used to share index 0
+// with 'searching', which lit "Looking for a driver" up in active green on a
+// ride that would not move for another twenty hours — the passenger read it as
+// a driver hunt already under way and then watched nothing happen. At -1 the
+// timeline still renders, with every step dim: the trip ahead, none of it
+// begun. A status absent from the map (cancelled) has no timeline at all.
 const ORDER: Record<string, number> = {
-  searching: 0, scheduled: 0, assigned: 1, arrived: 2, in_progress: 3, completed: 4, cancelled: -1,
+  scheduled: -1, searching: 0, assigned: 1, arrived: 2, in_progress: 3, completed: 4,
 };
 
 export function RideProgressSteps({ status }: { status: RideStatus }) {
   const { t } = useTranslation();
-  const current = ORDER[status] ?? -1;
+  const current = ORDER[status];
 
-  if (current < 0) return null;
+  if (current === undefined) return null;
 
   return (
     <div className="flex items-center justify-between px-2 py-3">
