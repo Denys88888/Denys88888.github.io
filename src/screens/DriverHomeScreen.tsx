@@ -26,6 +26,7 @@ export function DriverHomeScreen() {
   const navigate = useRouter((s) => s.navigate);
   const uid = useAppStore((s) => s.user?.uid ?? '');
   const myVehicleType = useAppStore((s) => s.user?.driverInfo?.vehicleType ?? 'economy');
+  const updateUser = useAppStore((s) => s.updateUser);
 
   const [online, setOnline] = useState(false);
   const [requests, setRequests] = useState<Ride[]>([]);
@@ -118,6 +119,39 @@ export function DriverHomeScreen() {
     const id = setInterval(load, 15 * 1000);
     return () => clearInterval(id);
   }, [online]);
+
+  // A reload used to drop the toggle back to "offline" while the server still
+  // had the shift open: the driver vanished from their own UI but stayed on the
+  // passenger's map as an available car. Adopt the server's shift state instead.
+  useEffect(() => {
+    let cancelled = false;
+    api
+      .getMe()
+      .then((me) => {
+        if (cancelled) return;
+        // Refresh the cached profile either way — a vehicle class or approval
+        // changed by an admin since login would otherwise stay stale forever.
+        updateUser(me);
+        if (me.driverInfo?.isOnline) setOnline(true);
+      })
+      .catch((err) => console.error('[driver] restore shift:', err));
+    return () => { cancelled = true; };
+  }, [updateUser]);
+
+  // Re-announce the shift whenever the socket comes back (tunnel, cell handover,
+  // backgrounded app). Dispatch only offers rides to sockets it knows are on
+  // shift, so a silent reconnect would otherwise stop the offers reaching them.
+  useEffect(() => {
+    if (!online) return;
+    const off = wsService.on('__open', () => {
+      wsService.send('driver_online', {
+        lat: center.lat,
+        lng: center.lng,
+        vehicleType: myVehicleType,
+      });
+    });
+    return off;
+  }, [online, center.lat, center.lng, myVehicleType]);
 
   // An in-progress ride (page reload, back navigation) → offer the Navigation
   // shortcut back into the ride screen.
