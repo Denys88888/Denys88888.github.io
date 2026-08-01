@@ -99,6 +99,9 @@
     "needDestination": "Kies een bestemming — tik op de kaart of vul “Naar” in",
     "activeRideExists": "Je hebt al een actieve rit — rond deze eerst af of annuleer hem",
     "activeRideBanner": "Je hebt een actieve rit — tik om te openen",
+    "scheduledBanner": "Gepland voor {{when}} — tik om te openen",
+    "tooManyScheduled": "Te veel geplande ritten — annuleer er eerst één",
+    "scheduledConflict": "Je hebt al een rit rond dat tijdstip gepland",
     "noteToDriver": "Notitie voor de chauffeur (bijv. grote kofferbak, kinderzitje)",
     "addressUpdate": "Bijwerken naar huidige bestemming",
     "addressDelete": "Opgeslagen adres verwijderen"

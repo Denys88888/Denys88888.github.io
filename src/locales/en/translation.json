@@ -99,6 +99,9 @@
     "needDestination": "Choose a destination — tap the map or fill in “To”",
     "activeRideExists": "You already have an active ride — finish or cancel it first",
     "activeRideBanner": "You have an active ride — tap to open it",
+    "scheduledBanner": "Booked for {{when}} — tap to open",
+    "tooManyScheduled": "Too many scheduled rides — cancel one first",
+    "scheduledConflict": "You already have a ride booked around that time",
     "noteToDriver": "Note for the driver (e.g. large trunk, child seat)",
     "addressUpdate": "Update to current destination",
     "addressDelete": "Delete saved address"

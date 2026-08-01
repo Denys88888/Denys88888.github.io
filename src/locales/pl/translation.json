@@ -99,6 +99,9 @@
     "needDestination": "Podaj cel podróży — dotknij mapy lub wypełnij „Dokąd”",
     "activeRideExists": "Masz już aktywny przejazd — najpierw go zakończ lub anuluj",
     "activeRideBanner": "Masz aktywny przejazd — dotknij, aby otworzyć",
+    "scheduledBanner": "Zamówienie na {{when}} — dotknij, aby otworzyć",
+    "tooManyScheduled": "Za dużo zaplanowanych przejazdów — najpierw anuluj jeden",
+    "scheduledConflict": "Masz już przejazd zaplanowany na ten czas",
     "noteToDriver": "Uwaga dla kierowcy (np. duży bagażnik, fotelik dziecięcy)",
     "addressUpdate": "Zaktualizuj na bieżący cel",
     "addressDelete": "Usuń zapisany adres"

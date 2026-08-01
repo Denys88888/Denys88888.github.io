@@ -99,6 +99,9 @@
     "needDestination": "请设置目的地 — 点按地图或填写“目的地”",
     "activeRideExists": "您已有一个进行中的行程 — 请先完成或取消它",
     "activeRideBanner": "您有一个进行中的行程 — 点按打开",
+    "scheduledBanner": "已预约 {{when}} — 点击打开",
+    "tooManyScheduled": "预约行程过多 — 请先取消一个",
+    "scheduledConflict": "该时间段您已有预约行程",
     "noteToDriver": "给司机的留言（例如大后备箱、儿童座椅）",
     "addressUpdate": "更新为当前目的地",
     "addressDelete": "删除已保存的地址"

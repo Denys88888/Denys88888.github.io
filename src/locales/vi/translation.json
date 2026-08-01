@@ -99,6 +99,9 @@
     "needDestination": "Nhập điểm đến — chạm bản đồ hoặc điền “Đến”",
     "activeRideExists": "Bạn đã có một chuyến đi đang hoạt động — hãy hoàn tất hoặc hủy trước",
     "activeRideBanner": "Bạn có chuyến đi đang hoạt động — chạm để mở",
+    "scheduledBanner": "Đã đặt cho {{when}} — chạm để mở",
+    "tooManyScheduled": "Quá nhiều chuyến đã đặt trước — hãy hủy bớt một chuyến",
+    "scheduledConflict": "Bạn đã có chuyến đặt vào khoảng thời gian đó",
     "noteToDriver": "Ghi chú cho tài xế (VD: cốp lớn, ghế trẻ em)",
     "addressUpdate": "Cập nhật theo điểm đến hiện tại",
     "addressDelete": "Xóa địa chỉ đã lưu"

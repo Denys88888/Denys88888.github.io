@@ -14,7 +14,7 @@ import { useRouter } from '../store/useRouter';
 import { api } from '../services/api';
 import { reverseGeocode, countryCodeAt, fetchRoute } from '../services/mapService';
 import { loadSavedAddresses, saveAddress, removeAddress } from '../services/savedAddresses';
-import { formatPi, formatDistance, formatDuration, localDateTimeValue } from '../utils/formatters';
+import { formatPi, formatDistance, formatDuration, localDateTimeValue, formatDate } from '../utils/formatters';
 import { isValidCoord } from '../utils/validators';
 import { cn, estimateFare, routeDistanceKm } from '../utils/helpers';
 import { haptic } from '../utils/haptic';
@@ -22,11 +22,14 @@ import type { GeoPoint, VehicleType, SavedAddress, SurgeInfo } from '../types';
 
 const DEFAULT_CENTER: GeoPoint = { lat: 52.2297, lng: 21.0122 }; // Warsaw fallback
 
-// Statuses that block a new order (server enforces one active ride per passenger).
-const ACTIVE_STATUSES = ['searching', 'assigned', 'arrived', 'in_progress', 'scheduled'] as const;
+// Statuses that block a new order (the server allows one ride *under way* per
+// passenger). 'scheduled' is deliberately absent, mirroring the server: a
+// booking for later is not a ride in progress, and counting it as one took over
+// this screen and hid the order form from anyone who had planned a trip.
+const LIVE_STATUSES = ['searching', 'assigned', 'arrived', 'in_progress'] as const;
 
 async function findActiveRide() {
-  for (const status of ACTIVE_STATUSES) {
+  for (const status of LIVE_STATUSES) {
     try {
       const { rides } = await api.listRides({ status, limit: 1 });
       if (rides.length) return rides[0];
@@ -36,6 +39,22 @@ async function findActiveRide() {
     }
   }
   return null;
+}
+
+// The soonest booking still waiting for its time to come. Purely a reminder —
+// it never blocks ordering, so it is fetched separately from the active ride.
+async function findNextScheduled(uid?: string) {
+  try {
+    const { rides } = await api.listRides({ status: 'scheduled', limit: 50 });
+    // listRides matches passenger *or* driver; only the passenger's own
+    // bookings belong on the passenger's home screen.
+    const mine = rides.filter((r) => r.scheduledAt && (!uid || r.passengerId === uid));
+    mine.sort((a, b) => new Date(a.scheduledAt!).getTime() - new Date(b.scheduledAt!).getTime());
+    return mine[0] ?? null;
+  } catch (err) {
+    console.error('[home] findNextScheduled:', err);
+    return null;
+  }
 }
 
 // Fixed quick-address slots (one-tap destinations).
@@ -52,6 +71,7 @@ export function PassengerHomeScreen() {
   const { position, error: geoError, permissionDenied: geoPermissionDenied, request } = useGeolocation();
   const { addToast } = useToast();
   const setCurrentRide = useAppStore((s) => s.setCurrentRide);
+  const user = useAppStore((s) => s.user);
   const params = useRouter((s) => s.params);
   const navigate = useRouter((s) => s.navigate);
 
@@ -109,6 +129,14 @@ export function PassengerHomeScreen() {
     findActiveRide().then((r) => { if (!cancelled) setActiveRide(r); });
     return () => { cancelled = true; };
   }, []);
+
+  // A trip booked for later. Shown alongside the order form, not instead of it.
+  const [nextScheduled, setNextScheduled] = useState<import('../types').Ride | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    findNextScheduled(user?.uid).then((r) => { if (!cancelled) setNextScheduled(r); });
+    return () => { cancelled = true; };
+  }, [user?.uid]);
 
   // Saved quick addresses (Home / Work / Parents).
   const [savedAddrs, setSavedAddrs] = useState<SavedAddress[]>([]);
@@ -295,13 +323,20 @@ export function PassengerHomeScreen() {
     } catch (err) {
       // 409 = a previous ride is still active; take the passenger to it so
       // they can track or cancel it instead of failing with a generic error.
-      if (isAxiosError(err) && err.response?.data?.code === 'ACTIVE_RIDE_EXISTS') {
+      const code = isAxiosError(err) ? err.response?.data?.code : undefined;
+      if (code === 'ACTIVE_RIDE_EXISTS') {
         addToast('error', t('home.activeRideExists'));
         const active = await findActiveRide();
         if (active) {
           setCurrentRide(active);
           navigate('ride', { id: active.id });
         }
+      } else if (code === 'TOO_MANY_SCHEDULED') {
+        // The cap and the spacing rule are both about bookings, so say which
+        // one was hit — "error" alone leaves no way to fix it.
+        addToast('error', t('home.tooManyScheduled'));
+      } else if (code === 'SCHEDULED_CONFLICT') {
+        addToast('error', t('home.scheduledConflict'));
       } else {
         addToast('error', t('common.error'));
       }
@@ -374,6 +409,24 @@ export function PassengerHomeScreen() {
             >
               {t('home.activeRideBanner')}
             </Button>
+          )}
+          {/* A booking for later. Deliberately a quiet row rather than a
+              full-width button: it is information, not something blocking the
+              order form underneath it. */}
+          {nextScheduled && (
+            <button
+              type="button"
+              onClick={() => {
+                setCurrentRide(nextScheduled);
+                navigate('ride', { id: nextScheduled.id });
+              }}
+              className="flex w-full items-center gap-2 rounded-xl bg-primary/10 px-3 py-2 text-left text-sm active:scale-[0.99]"
+            >
+              <Calendar size={16} className="shrink-0 text-primary" />
+              <span className="flex-1 truncate">
+                {t('home.scheduledBanner', { when: formatDate(nextScheduled.scheduledAt!) })}
+              </span>
+            </button>
           )}
           <AddressSearch
             label={t('home.from')}

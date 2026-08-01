@@ -99,6 +99,9 @@
     "needDestination": "Ziel angeben — auf die Karte tippen oder „Nach“ ausfüllen",
     "activeRideExists": "Sie haben bereits eine aktive Fahrt — beenden oder stornieren Sie sie zuerst",
     "activeRideBanner": "Sie haben eine aktive Fahrt — zum Öffnen tippen",
+    "scheduledBanner": "Gebucht für {{when}} — zum Öffnen tippen",
+    "tooManyScheduled": "Zu viele geplante Fahrten — storniere zuerst eine",
+    "scheduledConflict": "Du hast bereits eine Fahrt um diese Zeit gebucht",
     "noteToDriver": "Hinweis für den Fahrer (z. B. großer Kofferraum, Kindersitz)",
     "addressUpdate": "Auf aktuelles Ziel aktualisieren",
     "addressDelete": "Gespeicherte Adresse löschen"

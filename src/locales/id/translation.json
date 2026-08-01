@@ -99,6 +99,9 @@
     "needDestination": "Tentukan tujuan — ketuk peta atau isi “Ke”",
     "activeRideExists": "Anda sudah memiliki perjalanan aktif — selesaikan atau batalkan dulu",
     "activeRideBanner": "Anda punya perjalanan aktif — ketuk untuk membuka",
+    "scheduledBanner": "Dijadwalkan {{when}} — ketuk untuk membuka",
+    "tooManyScheduled": "Terlalu banyak perjalanan terjadwal — batalkan satu dulu",
+    "scheduledConflict": "Anda sudah punya perjalanan terjadwal di sekitar waktu itu",
     "noteToDriver": "Catatan untuk pengemudi (mis. bagasi besar, kursi anak)",
     "addressUpdate": "Perbarui ke tujuan saat ini",
     "addressDelete": "Hapus alamat tersimpan"

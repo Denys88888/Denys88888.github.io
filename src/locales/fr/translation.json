@@ -99,6 +99,9 @@
     "needDestination": "Indiquez la destination — touchez la carte ou remplissez « Vers »",
     "activeRideExists": "Vous avez déjà une course active — terminez-la ou annulez-la d'abord",
     "activeRideBanner": "Vous avez une course active — appuyez pour l'ouvrir",
+    "scheduledBanner": "Réservé pour {{when}} — appuyez pour ouvrir",
+    "tooManyScheduled": "Trop de trajets programmés — annulez-en un d'abord",
+    "scheduledConflict": "Vous avez déjà un trajet réservé à cette heure",
     "noteToDriver": "Note pour le chauffeur (ex. grand coffre, siège enfant)",
     "addressUpdate": "Mettre à jour vers la destination actuelle",
     "addressDelete": "Supprimer l'adresse enregistrée"

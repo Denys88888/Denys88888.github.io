@@ -99,6 +99,9 @@
     "needDestination": "Indica la destinazione: tocca la mappa o compila «A»",
     "activeRideExists": "Hai già una corsa attiva — prima terminala o annullala",
     "activeRideBanner": "Hai una corsa attiva — tocca per aprirla",
+    "scheduledBanner": "Prenotato per {{when}} — tocca per aprire",
+    "tooManyScheduled": "Troppe corse programmate — annullane una prima",
+    "scheduledConflict": "Hai già una corsa prenotata a quell'ora",
     "noteToDriver": "Nota per l'autista (es. bagagliaio grande, seggiolino)",
     "addressUpdate": "Aggiorna alla destinazione attuale",
     "addressDelete": "Elimina indirizzo salvato"

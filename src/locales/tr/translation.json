@@ -99,6 +99,9 @@
     "needDestination": "Varış noktası girin — haritaya dokunun veya “Nereye” alanını doldurun",
     "activeRideExists": "Zaten aktif bir yolculuğunuz var — önce onu bitirin veya iptal edin",
     "activeRideBanner": "Aktif bir yolculuğunuz var — açmak için dokunun",
+    "scheduledBanner": "{{when}} için planlandı — açmak için dokunun",
+    "tooManyScheduled": "Çok fazla planlanmış yolculuk — önce birini iptal edin",
+    "scheduledConflict": "O saat civarında zaten planlanmış bir yolculuğunuz var",
     "noteToDriver": "Sürücü için not (örn. büyük bagaj, çocuk koltuğu)",
     "addressUpdate": "Mevcut hedefe güncelle",
     "addressDelete": "Kayıtlı adresi sil"

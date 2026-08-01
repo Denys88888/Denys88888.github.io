@@ -99,6 +99,9 @@
     "needDestination": "Informe o destino — toque no mapa ou preencha “Para”",
     "activeRideExists": "Você já tem uma corrida ativa — finalize ou cancele primeiro",
     "activeRideBanner": "Você tem uma corrida ativa — toque para abrir",
+    "scheduledBanner": "Agendado para {{when}} — toque para abrir",
+    "tooManyScheduled": "Muitas viagens agendadas — cancele uma primeiro",
+    "scheduledConflict": "Você já tem uma viagem agendada para esse horário",
     "noteToDriver": "Nota para o motorista (ex. porta-malas grande, cadeirinha infantil)",
     "addressUpdate": "Atualizar para o destino atual",
     "addressDelete": "Excluir endereço salvo"

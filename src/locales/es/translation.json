@@ -99,6 +99,9 @@
     "needDestination": "Indica el destino: toca el mapa o completa «Hasta»",
     "activeRideExists": "Ya tienes un viaje activo — termínalo o cancélalo primero",
     "activeRideBanner": "Tienes un viaje activo — toca para abrirlo",
+    "scheduledBanner": "Reservado para {{when}} — toca para abrir",
+    "tooManyScheduled": "Demasiados viajes programados — cancela uno primero",
+    "scheduledConflict": "Ya tienes un viaje reservado a esa hora",
     "noteToDriver": "Nota para el conductor (ej. maletero grande, silla infantil)",
     "addressUpdate": "Actualizar al destino actual",
     "addressDelete": "Eliminar dirección guardada"

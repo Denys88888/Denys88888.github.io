@@ -99,6 +99,9 @@
     "needDestination": "Ange destination — tryck på kartan eller fyll i ”Till”",
     "activeRideExists": "Du har redan en aktiv resa — avsluta eller avboka den först",
     "activeRideBanner": "Du har en aktiv resa — tryck för att öppna",
+    "scheduledBanner": "Bokad till {{when}} — tryck för att öppna",
+    "tooManyScheduled": "För många schemalagda resor — avboka en först",
+    "scheduledConflict": "Du har redan en resa bokad vid den tiden",
     "noteToDriver": "Anteckning till föraren (t.ex. stort bagageutrymme, barnstol)",
     "addressUpdate": "Uppdatera till aktuell destination",
     "addressDelete": "Ta bort sparad adress"
