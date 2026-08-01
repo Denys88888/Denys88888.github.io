@@ -108,18 +108,28 @@ export function PassengerHomeScreen() {
     return () => { cancelled = true; clearInterval(id); };
   }, [position?.lat, position?.lng]);
 
-  // Dynamic pricing: multiplier shown to the passenger before ordering.
+  // Dynamic pricing: multiplier shown to the passenger before ordering. It is
+  // quoted for the moment the ride will actually run — the server prices a
+  // booking by its own clock, so asking about "now" while the passenger has a
+  // time picked would show them a night ×2 on a trip booked for the afternoon.
   const [surge, setSurge] = useState<SurgeInfo | null>(null);
+  const surgeAt =
+    schedule && scheduledAt && new Date(scheduledAt).getTime() > Date.now()
+      ? new Date(scheduledAt).toISOString()
+      : undefined;
   useEffect(() => {
     const point = pickup ?? position ?? undefined;
     const fetchSurge = () =>
-      api.getSurge(point ? { lat: point.lat, lng: point.lng } : undefined).then(setSurge).catch((err) => console.error('[passenger] surge:', err));
+      api
+        .getSurge(point ? { lat: point.lat, lng: point.lng } : undefined, surgeAt)
+        .then(setSurge)
+        .catch((err) => console.error('[passenger] surge:', err));
     fetchSurge();
     const id = setInterval(fetchSurge, 5 * 60 * 1000);
     return () => clearInterval(id);
-    // Only re-check when pickup changes (not on every GPS tick)
+    // Only re-check when pickup or the booked time changes (not on every GPS tick)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pickup?.lat, pickup?.lng]);
+  }, [pickup?.lat, pickup?.lng, surgeAt]);
 
   // An unfinished ride (page reload, back navigation) — surface it so the
   // passenger can return to it or cancel it; new orders are blocked meanwhile.

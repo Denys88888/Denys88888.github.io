@@ -111,8 +111,13 @@ export const api = {
     client.post<Ride>(`/api/rides/${id}/cancel`, { reason }).then((r) => r.data),
   shareRide: (id: string) =>
     client.post<{ shareToken: string }>(`/api/rides/${id}/share`).then((r) => r.data),
-  getSurge: (point?: { lat: number; lng: number }) =>
-    client.get<SurgeInfo>('/api/rides/surge', { params: point }).then((r) => r.data),
+  // `at` is the ISO time the ride is for. Pass it when booking ahead: surge
+  // bands follow the clock the ride runs on, so leaving it out quotes the
+  // passenger one price and charges them another.
+  getSurge: (point?: { lat: number; lng: number }, at?: string) =>
+    client
+      .get<SurgeInfo>('/api/rides/surge', { params: { ...point, ...(at ? { at } : {}) } })
+      .then((r) => r.data),
   // Open 'searching' rides for a driver coming online (backfills requests
   // created before the WS connection existed).
   listOpenRides: () =>
