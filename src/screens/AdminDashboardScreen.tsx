@@ -25,6 +25,16 @@ type ReportFilter = 'open' | 'resolved' | 'dismissed' | 'all';
 
 const ACTIVE_STATUSES: RideStatus[] = ['searching', 'assigned', 'arrived', 'in_progress'];
 
+// "02.08" / "8/2" — day and month in the reader's locale, for a chart axis
+// where a full date would not fit.
+function dayLabel(isoDate?: string): string {
+  if (!isoDate) return '';
+  return new Date(`${isoDate}T00:00:00`).toLocaleDateString(undefined, {
+    day: '2-digit',
+    month: '2-digit',
+  });
+}
+
 // Admin console: KPIs, all rides, user moderation, driver applications,
 // analytics charts, and pricing/fee settings.
 export function AdminDashboardScreen() {
@@ -508,7 +518,13 @@ export function AdminDashboardScreen() {
               </div>
             </Card>
             <Card>
-              <p className="mb-3 text-sm font-medium opacity-70">{t('admin.revenueByDay')}</p>
+              {/* The title attribute below is the only place the numbers live,
+                  and on a phone nothing ever hovers — hence the scale and the
+                  dates, so a bar can be read without a mouse. */}
+              <div className="mb-3 flex items-baseline justify-between">
+                <p className="text-sm font-medium opacity-70">{t('admin.revenueByDay')}</p>
+                <span className="text-xs opacity-50">{formatPi(maxRevenue)}</span>
+              </div>
               <div className="flex h-24 items-end gap-1">
                 {analytics.revenueByDay.map((d) => (
                   <div
@@ -521,6 +537,10 @@ export function AdminDashboardScreen() {
                     title={`${d.date}: ${formatPi(d.revenue)}`}
                   />
                 ))}
+              </div>
+              <div className="mt-1 flex justify-between text-[10px] opacity-50">
+                <span>{dayLabel(analytics.revenueByDay[0]?.date)}</span>
+                <span>{dayLabel(analytics.revenueByDay[analytics.revenueByDay.length - 1]?.date)}</span>
               </div>
             </Card>
             <Card className="space-y-1.5">
