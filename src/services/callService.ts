@@ -34,25 +34,22 @@ export interface CallSnapshot {
   stats: string | null;
 }
 
-// STUN alone only works when both phones can open a direct P2P path; on carrier
-// NAT/CGNAT (very common on mobile data) that path is often asymmetric or blocked,
-// which shows up as exactly the crackle/hiss/dropout pattern reported here — audio
-// packets silently lost in one direction. A TURN relay gives WebRTC a fallback path
-// that always works. Open Relay Project's public server (openrelayproject/
-// openrelayproject) is a widely-used free TURN service for exactly this; see
-// https://www.metered.ca/tools/openrelay/. iceCandidatePoolSize pre-gathers
-// candidates so the relay path is ready as soon as the offer/answer exchange lands.
+// Multiple independent STUN providers: if one is slow/blocked on a given carrier
+// network, the others still let both sides discover a public NAT mapping. (The
+// once-common free public TURN relays — Open Relay Project's openrelayproject
+// demo, freestun.net, numb.viagenie.ca, turn.bistri.com — were probed directly
+// with raw STUN binding requests while building this and none responded on any
+// port; they're dead. A working TURN relay needs either a provider account
+// [Metered, ExpressTURN, Twilio, Cloudflare Realtime] or a self-hosted coturn on
+// a VPS with a public UDP port range — both are infra/cost decisions, not
+// something to wire in silently.) iceCandidatePoolSize pre-gathers candidates so
+// the path is ready as soon as the offer/answer exchange lands.
 const ICE_SERVERS: RTCConfiguration = {
   iceServers: [
     { urls: 'stun:stun.l.google.com:19302' },
-    { urls: 'stun:openrelay.metered.ca:80' },
-    { urls: 'turn:openrelay.metered.ca:80', username: 'openrelayproject', credential: 'openrelayproject' },
-    { urls: 'turn:openrelay.metered.ca:443', username: 'openrelayproject', credential: 'openrelayproject' },
-    {
-      urls: 'turn:openrelay.metered.ca:443?transport=tcp',
-      username: 'openrelayproject',
-      credential: 'openrelayproject',
-    },
+    { urls: 'stun:stun1.l.google.com:19302' },
+    { urls: 'stun:stun.cloudflare.com:3478' },
+    { urls: 'stun:stun.nextcloud.com:3478' },
   ],
   iceCandidatePoolSize: 4,
 };
