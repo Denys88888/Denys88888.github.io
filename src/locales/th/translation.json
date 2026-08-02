@@ -57,7 +57,7 @@
     "unavailable": "ไม่สามารถนำทางได้",
     "mute": "ปิดเสียง",
     "unmute": "เปิดเสียง",
-    "recalculating": "Recalculating…"
+    "recalculating": "กำลังคำนวณใหม่…"
   },
   "home": {
     "from": "จาก",
@@ -154,7 +154,7 @@
     "payment_held": "พักการชำระเงิน",
     "payment_completed": "ชำระแล้ว",
     "payment_refunded": "คืนเงินแล้ว",
-    "payment_cancelled": "Cancelled",
+    "payment_cancelled": "ยกเลิกแล้ว",
     "route": "เส้นทาง",
     "driverEarnings": "รายได้คนขับ",
     "searchingDriver": "กำลังหาคนขับ...",
@@ -169,15 +169,15 @@
     "sosAlertOnly": "ไม่ใช่เหตุฉุกเฉิน — แจ้งเตือนฝ่ายสนับสนุนเท่านั้น",
     "cancelFeeAmount": "ยอดที่ต้องชำระ",
     "cancelFeeExplain": "ค่าธรรมเนียมนี้ชดเชยให้คนขับที่เดินทางมายังจุดรับ ค่าโดยสารจะคืนให้เต็มจำนวน ส่วนค่าธรรมเนียมต้องชำระแยก — ตราบใดที่ยังไม่ชำระ คุณจะเรียกรถใหม่ไม่ได้",
-    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free.",
+    "cancelFreeExplain": "คนขับยังมาไม่ถึง จึงยกเลิกได้ฟรี",
     "cancelDriverExplain": "ผู้โดยสารจะไม่ถูกเรียกเก็บเงินจากการยกเลิกของคุณ",
     "feePaid": "ชำระค่าธรรมเนียมการยกเลิกแล้ว ขอบคุณค่ะ",
     "feeOutstanding": "ยังไม่ได้ชำระค่าธรรมเนียม ต้องชำระก่อนเดินทางครั้งถัดไป",
-    "rateDetailsOptional": "Add detail (optional)",
-    "rate_cleanliness": "Cleanliness",
-    "rate_driving": "Driving",
-    "rate_route": "Route",
-    "freeCancelCountdown": "Free to cancel for {{time}} more",
+    "rateDetailsOptional": "เพิ่มรายละเอียด (ไม่บังคับ)",
+    "rate_cleanliness": "ความสะอาด",
+    "rate_driving": "การขับขี่",
+    "rate_route": "เส้นทาง",
+    "freeCancelCountdown": "ยกเลิกฟรีได้อีก {{time}}",
     "arriveBy": "by"
   },
   "vehicle": {
@@ -232,7 +232,7 @@
     "ridesCount": "การเดินทาง",
     "rideTaken": "มีคนขับรายอื่นรับการเดินทางนี้แล้ว",
     "notVerified": "บัญชีคนขับของคุณอยู่ระหว่างการตรวจสอบ",
-    "autoOffline": "You were set offline — GPS signal lost"
+    "autoOffline": "คุณถูกตั้งเป็นออฟไลน์ — สัญญาณ GPS ขาดหาย"
   },
   "earnings": {
     "title": "รายได้",
@@ -244,7 +244,8 @@
     "forecastToday": "คาดการณ์วันนี้: ~{{amount}}",
     "forecastHint": "รักษาระดับนี้ไว้แล้วคุณจะได้รับประมาณ {{amount}}",
     "tipsTotal": "ทิปรวม",
-    "tip": "ทิป"
+    "tip": "ทิป",
+    "cancelFee": "ค่าธรรมเนียมยกเลิก"
   },
   "register": {
     "title": "ลงทะเบียนคนขับ",
@@ -304,9 +305,9 @@
     "testnet": "เครือข่ายทดสอบ",
     "mainnet": "เครือข่ายหลัก",
     "support": "ฝ่ายสนับสนุน",
-    "legal": "Legal",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service"
+    "legal": "ข้อมูลทางกฎหมาย",
+    "privacyPolicy": "นโยบายความเป็นส่วนตัว",
+    "termsOfService": "ข้อกำหนดการให้บริการ"
   },
   "history": {
     "title": "ประวัติการเดินทาง",
@@ -373,13 +374,14 @@
     "autoBlockThreshold": "บล็อกอัตโนมัติหลัง N ข้อร้องเรียนที่แก้ไข",
     "appName": "ชื่อแอป",
     "contactEmail": "อีเมลฝ่ายสนับสนุน",
-    "payoutsTab": "Payouts",
-    "noUnpaidPayouts": "No unpaid payouts",
-    "unpaidPayoutsCount": "unpaid payout(s)",
-    "rideId": "Ride ID",
-    "driver": "Driver",
-    "showingSubset": "Showing {{shown}} of {{total}}",
-    "payoutAlreadySent": "Funds already sent — do not retry, reconcile with Pi"
+    "payoutsTab": "การจ่ายเงิน",
+    "noUnpaidPayouts": "จ่ายเงินครบทุกรายการแล้ว",
+    "unpaidPayoutsCount": "ค้างจ่าย: {{n}}",
+    "rideId": "รหัสการเดินทาง",
+    "driverEarnings": "ให้คนขับ",
+    "driver": "คนขับ",
+    "showingSubset": "แสดง {{shown}} จาก {{total}}",
+    "payoutAlreadySent": "ส่งเงินไปแล้ว — อย่าลองใหม่ ให้ตรวจสอบกับ Pi"
   },
   "notify": {
     "newRide": "คำขอเดินทางใหม่: {{fare}}",
@@ -405,24 +407,24 @@
     "start": "เริ่มต้น"
   },
   "call": {
-    "title": "Voice call",
-    "calling": "Calling…",
-    "incoming": "Incoming call",
-    "connecting": "Connecting…",
-    "connected": "Connected",
-    "ended": "Call ended",
-    "accept": "Accept",
-    "decline": "Decline",
-    "hangUp": "Hang up",
-    "mute": "Mute",
-    "unmute": "Unmute",
-    "end_declined": "Call declined",
-    "end_busy": "Busy",
-    "end_unavailable": "Not reachable",
-    "end_ride_inactive": "Ride is no longer active",
-    "end_mic_error": "Microphone unavailable",
-    "end_failed": "Connection failed",
-    "end_hangup": "Call ended",
-    "end_disconnected": "Disconnected"
+    "title": "สายสนทนา",
+    "calling": "กำลังโทร…",
+    "incoming": "สายเรียกเข้า",
+    "connecting": "กำลังเชื่อมต่อ…",
+    "connected": "เชื่อมต่อแล้ว",
+    "ended": "วางสายแล้ว",
+    "accept": "รับสาย",
+    "decline": "ปฏิเสธ",
+    "hangUp": "วางสาย",
+    "mute": "ปิดเสียง",
+    "unmute": "เปิดเสียง",
+    "end_declined": "ปฏิเสธสายแล้ว",
+    "end_busy": "สายไม่ว่าง",
+    "end_unavailable": "ติดต่อไม่ได้",
+    "end_ride_inactive": "การเดินทางไม่ได้ใช้งานแล้ว",
+    "end_mic_error": "ใช้ไมโครโฟนไม่ได้",
+    "end_failed": "เชื่อมต่อไม่สำเร็จ",
+    "end_hangup": "วางสายแล้ว",
+    "end_disconnected": "การเชื่อมต่อหลุด"
   }
 }

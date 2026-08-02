@@ -57,7 +57,7 @@
     "unavailable": "Navigering ej tillgänglig",
     "mute": "Stäng av röst",
     "unmute": "Slå på röst",
-    "recalculating": "Recalculating…"
+    "recalculating": "Räknar om…"
   },
   "home": {
     "from": "Från",
@@ -154,7 +154,7 @@
     "payment_held": "Betalning reserverad",
     "payment_completed": "Betald",
     "payment_refunded": "Återbetald",
-    "payment_cancelled": "Cancelled",
+    "payment_cancelled": "Avbruten",
     "route": "Rutt",
     "driverEarnings": "Förarens intäkter",
     "searchingDriver": "Söker förare...",
@@ -169,15 +169,15 @@
     "sosAlertOnly": "Inget nödläge — meddela bara supporten",
     "cancelFeeAmount": "Att betala",
     "cancelFeeExplain": "Avgiften ersätter föraren för resan till upphämtningsplatsen. Resans pris återbetalas i sin helhet och avgiften betalas separat — tills den är betald kan du inte boka en ny resa.",
-    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free.",
+    "cancelFreeExplain": "Föraren har inte kommit än, så det är gratis att avboka.",
     "cancelDriverExplain": "Passageraren debiteras inte för din avbokning.",
     "feePaid": "Avbokningsavgiften är betald. Tack.",
     "feeOutstanding": "Avgiften är fortfarande obetald. Den måste regleras före nästa resa.",
-    "rateDetailsOptional": "Add detail (optional)",
-    "rate_cleanliness": "Cleanliness",
-    "rate_driving": "Driving",
-    "rate_route": "Route",
-    "freeCancelCountdown": "Free to cancel for {{time}} more",
+    "rateDetailsOptional": "Lägg till detaljer (valfritt)",
+    "rate_cleanliness": "Renlighet",
+    "rate_driving": "Körning",
+    "rate_route": "Rutt",
+    "freeCancelCountdown": "Gratis att avboka i {{time}} till",
     "arriveBy": "by"
   },
   "vehicle": {
@@ -232,7 +232,7 @@
     "ridesCount": "Resor",
     "rideTaken": "Resan är redan tagen av en annan chaufför",
     "notVerified": "Ditt förarkonto granskas",
-    "autoOffline": "You were set offline — GPS signal lost"
+    "autoOffline": "Du sattes offline — GPS-signalen tappades"
   },
   "earnings": {
     "title": "Intäkter",
@@ -244,7 +244,8 @@
     "forecastToday": "Prognos för idag: ~{{amount}}",
     "forecastHint": "Håll denna takt så tjänar du ungefär {{amount}}",
     "tipsTotal": "Total dricks",
-    "tip": "dricks"
+    "tip": "dricks",
+    "cancelFee": "avbokningsavgift"
   },
   "register": {
     "title": "Förarregistrering",
@@ -304,9 +305,9 @@
     "testnet": "Testnät",
     "mainnet": "Huvudnät",
     "support": "Support",
-    "legal": "Legal",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service"
+    "legal": "Juridik",
+    "privacyPolicy": "Integritetspolicy",
+    "termsOfService": "Användarvillkor"
   },
   "history": {
     "title": "Reshistorik",
@@ -373,13 +374,14 @@
     "autoBlockThreshold": "Autoblockera efter N åtgärdade anmälningar",
     "appName": "Appnamn",
     "contactEmail": "Support-e-post",
-    "payoutsTab": "Payouts",
-    "noUnpaidPayouts": "No unpaid payouts",
-    "unpaidPayoutsCount": "unpaid payout(s)",
-    "rideId": "Ride ID",
-    "driver": "Driver",
-    "showingSubset": "Showing {{shown}} of {{total}}",
-    "payoutAlreadySent": "Funds already sent — do not retry, reconcile with Pi"
+    "payoutsTab": "Utbetalningar",
+    "noUnpaidPayouts": "Alla utbetalningar är klara",
+    "unpaidPayoutsCount": "Obetalda utbetalningar: {{n}}",
+    "rideId": "Res-ID",
+    "driverEarnings": "Till föraren",
+    "driver": "Förare",
+    "showingSubset": "Visar {{shown}} av {{total}}",
+    "payoutAlreadySent": "Pengarna är redan skickade — försök inte igen, stäm av med Pi"
   },
   "notify": {
     "newRide": "Ny reseförfrågan: {{fare}}",
@@ -405,24 +407,24 @@
     "start": "Kom igång"
   },
   "call": {
-    "title": "Voice call",
-    "calling": "Calling…",
-    "incoming": "Incoming call",
-    "connecting": "Connecting…",
-    "connected": "Connected",
-    "ended": "Call ended",
-    "accept": "Accept",
-    "decline": "Decline",
-    "hangUp": "Hang up",
-    "mute": "Mute",
-    "unmute": "Unmute",
-    "end_declined": "Call declined",
-    "end_busy": "Busy",
-    "end_unavailable": "Not reachable",
-    "end_ride_inactive": "Ride is no longer active",
-    "end_mic_error": "Microphone unavailable",
-    "end_failed": "Connection failed",
-    "end_hangup": "Call ended",
-    "end_disconnected": "Disconnected"
+    "title": "Röstsamtal",
+    "calling": "Ringer…",
+    "incoming": "Inkommande samtal",
+    "connecting": "Ansluter…",
+    "connected": "Ansluten",
+    "ended": "Samtalet avslutat",
+    "accept": "Svara",
+    "decline": "Avvisa",
+    "hangUp": "Lägg på",
+    "mute": "Ljud av",
+    "unmute": "Ljud på",
+    "end_declined": "Samtalet avvisades",
+    "end_busy": "Upptaget",
+    "end_unavailable": "Kan inte nås",
+    "end_ride_inactive": "Resan är inte längre aktiv",
+    "end_mic_error": "Mikrofonen är inte tillgänglig",
+    "end_failed": "Anslutningen misslyckades",
+    "end_hangup": "Samtalet avslutat",
+    "end_disconnected": "Frånkopplad"
   }
 }

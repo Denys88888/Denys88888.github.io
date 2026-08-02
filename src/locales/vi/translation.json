@@ -57,7 +57,7 @@
     "unavailable": "Không có dẫn đường",
     "mute": "Tắt giọng nói",
     "unmute": "Bật giọng nói",
-    "recalculating": "Recalculating…"
+    "recalculating": "Đang tính lại…"
   },
   "home": {
     "from": "Điểm đón",
@@ -154,7 +154,7 @@
     "payment_held": "Đang giữ thanh toán",
     "payment_completed": "Đã thanh toán",
     "payment_refunded": "Đã hoàn tiền",
-    "payment_cancelled": "Cancelled",
+    "payment_cancelled": "Đã hủy",
     "route": "Tuyến đường",
     "driverEarnings": "Thu nhập tài xế",
     "searchingDriver": "Đang tìm tài xế...",
@@ -169,15 +169,15 @@
     "sosAlertOnly": "Không phải khẩn cấp — chỉ cảnh báo hỗ trợ",
     "cancelFeeAmount": "Số tiền cần trả",
     "cancelFeeExplain": "Khoản phí này bù cho tài xế quãng đường đến điểm đón. Tiền chuyến đi được hoàn lại đầy đủ, còn phí thì trả riêng — chừng nào chưa trả, bạn không thể đặt chuyến mới.",
-    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free.",
+    "cancelFreeExplain": "Tài xế chưa đến nên hủy chuyến là miễn phí.",
     "cancelDriverExplain": "Hành khách không bị tính phí khi bạn hủy chuyến.",
     "feePaid": "Đã thanh toán phí huỷ chuyến. Cảm ơn bạn.",
     "feeOutstanding": "Phí vẫn chưa được trả. Bạn cần thanh toán trước chuyến đi tiếp theo.",
-    "rateDetailsOptional": "Add detail (optional)",
-    "rate_cleanliness": "Cleanliness",
-    "rate_driving": "Driving",
-    "rate_route": "Route",
-    "freeCancelCountdown": "Free to cancel for {{time}} more",
+    "rateDetailsOptional": "Thêm chi tiết (tùy chọn)",
+    "rate_cleanliness": "Sạch sẽ",
+    "rate_driving": "Lái xe",
+    "rate_route": "Lộ trình",
+    "freeCancelCountdown": "Miễn phí hủy trong {{time}} nữa",
     "arriveBy": "by"
   },
   "vehicle": {
@@ -232,7 +232,7 @@
     "ridesCount": "Chuyến",
     "rideTaken": "Chuyến đi đã được tài xế khác nhận",
     "notVerified": "Tài khoản tài xế của bạn đang được xem xét",
-    "autoOffline": "You were set offline — GPS signal lost"
+    "autoOffline": "Bạn đã bị chuyển sang ngoại tuyến — mất tín hiệu GPS"
   },
   "earnings": {
     "title": "Thu nhập",
@@ -244,7 +244,8 @@
     "forecastToday": "Dự báo hôm nay: ~{{amount}}",
     "forecastHint": "Giữ nhịp độ này và bạn sẽ kiếm được khoảng {{amount}}",
     "tipsTotal": "Tổng tiền boa",
-    "tip": "tiền boa"
+    "tip": "tiền boa",
+    "cancelFee": "phí hủy chuyến"
   },
   "register": {
     "title": "Đăng ký tài xế",
@@ -304,9 +305,9 @@
     "testnet": "Mạng thử nghiệm",
     "mainnet": "Mạng chính",
     "support": "Hỗ trợ",
-    "legal": "Legal",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service"
+    "legal": "Pháp lý",
+    "privacyPolicy": "Chính sách bảo mật",
+    "termsOfService": "Điều khoản dịch vụ"
   },
   "history": {
     "title": "Lịch sử chuyến đi",
@@ -373,13 +374,14 @@
     "autoBlockThreshold": "Tự động chặn sau N khiếu nại được xử lý",
     "appName": "Tên ứng dụng",
     "contactEmail": "Email hỗ trợ",
-    "payoutsTab": "Payouts",
-    "noUnpaidPayouts": "No unpaid payouts",
-    "unpaidPayoutsCount": "unpaid payout(s)",
-    "rideId": "Ride ID",
-    "driver": "Driver",
-    "showingSubset": "Showing {{shown}} of {{total}}",
-    "payoutAlreadySent": "Funds already sent — do not retry, reconcile with Pi"
+    "payoutsTab": "Thanh toán",
+    "noUnpaidPayouts": "Đã thanh toán tất cả",
+    "unpaidPayoutsCount": "Chưa thanh toán: {{n}}",
+    "rideId": "Mã chuyến",
+    "driverEarnings": "Cho tài xế",
+    "driver": "Tài xế",
+    "showingSubset": "Hiển thị {{shown}} trong {{total}}",
+    "payoutAlreadySent": "Tiền đã được gửi — đừng thử lại, hãy đối chiếu với Pi"
   },
   "notify": {
     "newRide": "Yêu cầu chuyến mới: {{fare}}",
@@ -405,24 +407,24 @@
     "start": "Bắt đầu"
   },
   "call": {
-    "title": "Voice call",
-    "calling": "Calling…",
-    "incoming": "Incoming call",
-    "connecting": "Connecting…",
-    "connected": "Connected",
-    "ended": "Call ended",
-    "accept": "Accept",
-    "decline": "Decline",
-    "hangUp": "Hang up",
-    "mute": "Mute",
-    "unmute": "Unmute",
-    "end_declined": "Call declined",
-    "end_busy": "Busy",
-    "end_unavailable": "Not reachable",
-    "end_ride_inactive": "Ride is no longer active",
-    "end_mic_error": "Microphone unavailable",
-    "end_failed": "Connection failed",
-    "end_hangup": "Call ended",
-    "end_disconnected": "Disconnected"
+    "title": "Cuộc gọi thoại",
+    "calling": "Đang gọi…",
+    "incoming": "Cuộc gọi đến",
+    "connecting": "Đang kết nối…",
+    "connected": "Đã kết nối",
+    "ended": "Đã kết thúc cuộc gọi",
+    "accept": "Trả lời",
+    "decline": "Từ chối",
+    "hangUp": "Cúp máy",
+    "mute": "Tắt tiếng",
+    "unmute": "Bật tiếng",
+    "end_declined": "Cuộc gọi bị từ chối",
+    "end_busy": "Máy bận",
+    "end_unavailable": "Không liên lạc được",
+    "end_ride_inactive": "Chuyến đi không còn hoạt động",
+    "end_mic_error": "Micrô không khả dụng",
+    "end_failed": "Kết nối thất bại",
+    "end_hangup": "Đã kết thúc cuộc gọi",
+    "end_disconnected": "Mất kết nối"
   }
 }

@@ -57,7 +57,7 @@
     "unavailable": "Navigatie niet beschikbaar",
     "mute": "Stem uit",
     "unmute": "Stem aan",
-    "recalculating": "Recalculating…"
+    "recalculating": "Herberekenen…"
   },
   "home": {
     "from": "Van",
@@ -154,7 +154,7 @@
     "payment_held": "Betaling gereserveerd",
     "payment_completed": "Betaald",
     "payment_refunded": "Terugbetaald",
-    "payment_cancelled": "Cancelled",
+    "payment_cancelled": "Geannuleerd",
     "route": "Route",
     "driverEarnings": "Verdiensten chauffeur",
     "searchingDriver": "Chauffeur zoeken...",
@@ -169,15 +169,15 @@
     "sosAlertOnly": "Geen noodgeval — alleen support waarschuwen",
     "cancelFeeAmount": "Te betalen",
     "cancelFeeExplain": "De vergoeding compenseert de chauffeur voor de rit naar het ophaalpunt. De ritprijs wordt volledig terugbetaald en de vergoeding betaal je apart — zolang die openstaat, kun je geen nieuwe rit boeken.",
-    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free.",
+    "cancelFreeExplain": "De chauffeur is nog niet gearriveerd, dus annuleren is gratis.",
     "cancelDriverExplain": "De passagier betaalt niets voor jouw annulering.",
     "feePaid": "Annuleringskosten betaald. Bedankt.",
     "feeOutstanding": "De vergoeding staat nog open. Die moet voor je volgende rit voldaan worden.",
-    "rateDetailsOptional": "Add detail (optional)",
-    "rate_cleanliness": "Cleanliness",
-    "rate_driving": "Driving",
+    "rateDetailsOptional": "Details toevoegen (optioneel)",
+    "rate_cleanliness": "Netheid",
+    "rate_driving": "Rijstijl",
     "rate_route": "Route",
-    "freeCancelCountdown": "Free to cancel for {{time}} more",
+    "freeCancelCountdown": "Nog {{time}} gratis te annuleren",
     "arriveBy": "by"
   },
   "vehicle": {
@@ -232,7 +232,7 @@
     "ridesCount": "Ritten",
     "rideTaken": "Rit al geaccepteerd door een andere chauffeur",
     "notVerified": "Uw chauffeurskonto wordt beoordeeld",
-    "autoOffline": "You were set offline — GPS signal lost"
+    "autoOffline": "Je bent offline gezet — GPS-signaal verloren"
   },
   "earnings": {
     "title": "Inkomsten",
@@ -244,7 +244,8 @@
     "forecastToday": "Prognose voor vandaag: ~{{amount}}",
     "forecastHint": "Houd dit tempo aan en je verdient ongeveer {{amount}}",
     "tipsTotal": "Totaal aan fooien",
-    "tip": "fooi"
+    "tip": "fooi",
+    "cancelFee": "annuleringskosten"
   },
   "register": {
     "title": "Chauffeursregistratie",
@@ -304,9 +305,9 @@
     "testnet": "Testnet",
     "mainnet": "Mainnet",
     "support": "Ondersteuning",
-    "legal": "Legal",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service"
+    "legal": "Juridisch",
+    "privacyPolicy": "Privacybeleid",
+    "termsOfService": "Servicevoorwaarden"
   },
   "history": {
     "title": "Ritgeschiedenis",
@@ -373,13 +374,14 @@
     "autoBlockThreshold": "Autoblokkering na N opgeloste meldingen",
     "appName": "Appnaam",
     "contactEmail": "Ondersteunings-e-mail",
-    "payoutsTab": "Payouts",
-    "noUnpaidPayouts": "No unpaid payouts",
-    "unpaidPayoutsCount": "unpaid payout(s)",
-    "rideId": "Ride ID",
-    "driver": "Driver",
-    "showingSubset": "Showing {{shown}} of {{total}}",
-    "payoutAlreadySent": "Funds already sent — do not retry, reconcile with Pi"
+    "payoutsTab": "Uitbetalingen",
+    "noUnpaidPayouts": "Alle uitbetalingen voltooid",
+    "unpaidPayoutsCount": "Openstaande uitbetalingen: {{n}}",
+    "rideId": "Rit-ID",
+    "driverEarnings": "Naar chauffeur",
+    "driver": "Chauffeur",
+    "showingSubset": "{{shown}} van {{total}} weergegeven",
+    "payoutAlreadySent": "Geld al verzonden — niet opnieuw proberen, controleer met Pi"
   },
   "notify": {
     "newRide": "Nieuwe ritaanvraag: {{fare}}",
@@ -405,24 +407,24 @@
     "start": "Begin"
   },
   "call": {
-    "title": "Voice call",
-    "calling": "Calling…",
-    "incoming": "Incoming call",
-    "connecting": "Connecting…",
-    "connected": "Connected",
-    "ended": "Call ended",
-    "accept": "Accept",
-    "decline": "Decline",
-    "hangUp": "Hang up",
-    "mute": "Mute",
-    "unmute": "Unmute",
-    "end_declined": "Call declined",
-    "end_busy": "Busy",
-    "end_unavailable": "Not reachable",
-    "end_ride_inactive": "Ride is no longer active",
-    "end_mic_error": "Microphone unavailable",
-    "end_failed": "Connection failed",
-    "end_hangup": "Call ended",
-    "end_disconnected": "Disconnected"
+    "title": "Spraakoproep",
+    "calling": "Bellen…",
+    "incoming": "Inkomende oproep",
+    "connecting": "Verbinden…",
+    "connected": "Verbonden",
+    "ended": "Oproep beëindigd",
+    "accept": "Opnemen",
+    "decline": "Weigeren",
+    "hangUp": "Ophangen",
+    "mute": "Dempen",
+    "unmute": "Dempen opheffen",
+    "end_declined": "Oproep geweigerd",
+    "end_busy": "Bezet",
+    "end_unavailable": "Niet bereikbaar",
+    "end_ride_inactive": "Rit is niet meer actief",
+    "end_mic_error": "Microfoon niet beschikbaar",
+    "end_failed": "Verbinding mislukt",
+    "end_hangup": "Oproep beëindigd",
+    "end_disconnected": "Verbinding verbroken"
   }
 }

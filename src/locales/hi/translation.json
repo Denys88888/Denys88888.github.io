@@ -57,7 +57,7 @@
     "unavailable": "नेविगेशन उपलब्ध नहीं",
     "mute": "आवाज़ बंद",
     "unmute": "आवाज़ चालू",
-    "recalculating": "Recalculating…"
+    "recalculating": "फिर से गणना हो रही है…"
   },
   "home": {
     "from": "कहाँ से",
@@ -154,7 +154,7 @@
     "payment_held": "भुगतान रोका गया",
     "payment_completed": "भुगतान हुआ",
     "payment_refunded": "वापस किया गया",
-    "payment_cancelled": "Cancelled",
+    "payment_cancelled": "रद्द",
     "route": "मार्ग",
     "driverEarnings": "ड्राइवर की कमाई",
     "searchingDriver": "ड्राइवर खोज रहे हैं...",
@@ -169,15 +169,15 @@
     "sosAlertOnly": "आपातकाल नहीं है — बस सहायता को सूचित करें",
     "cancelFeeAmount": "देय राशि",
     "cancelFeeExplain": "यह शुल्क ड्राइवर को पिकअप स्थान तक आने की भरपाई करता है। किराया पूरा वापस कर दिया जाता है और शुल्क अलग से देना होता है — जब तक यह बकाया है, आप नई राइड बुक नहीं कर सकते।",
-    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free.",
+    "cancelFreeExplain": "ड्राइवर अभी नहीं पहुंचा है, इसलिए रद्द करना निःशुल्क है।",
     "cancelDriverExplain": "आपके रद्द करने पर यात्री से कोई शुल्क नहीं लिया जाता।",
     "feePaid": "रद्दीकरण शुल्क भुगतान हो गया। धन्यवाद।",
     "feeOutstanding": "शुल्क अब भी बकाया है। अगली राइड से पहले इसे चुकाना होगा।",
-    "rateDetailsOptional": "Add detail (optional)",
-    "rate_cleanliness": "Cleanliness",
-    "rate_driving": "Driving",
-    "rate_route": "Route",
-    "freeCancelCountdown": "Free to cancel for {{time}} more",
+    "rateDetailsOptional": "विवरण जोड़ें (वैकल्पिक)",
+    "rate_cleanliness": "स्वच्छता",
+    "rate_driving": "ड्राइविंग",
+    "rate_route": "मार्ग",
+    "freeCancelCountdown": "{{time}} तक रद्द करना निःशुल्क",
     "arriveBy": "by"
   },
   "vehicle": {
@@ -232,7 +232,7 @@
     "ridesCount": "सवारियां",
     "rideTaken": "सवारी पहले से किसी अन्य चालक ने ली है",
     "notVerified": "आपका ड्राइवर खाता समीक्षाधीन है",
-    "autoOffline": "You were set offline — GPS signal lost"
+    "autoOffline": "आपको ऑफ़लाइन कर दिया गया — GPS सिग्नल खो गया"
   },
   "earnings": {
     "title": "कमाई",
@@ -244,7 +244,8 @@
     "forecastToday": "आज का अनुमान: ~{{amount}}",
     "forecastHint": "यही गति बनाए रखें और आप लगभग {{amount}} कमाएँगे",
     "tipsTotal": "कुल टिप",
-    "tip": "टिप"
+    "tip": "टिप",
+    "cancelFee": "रद्दीकरण शुल्क"
   },
   "register": {
     "title": "ड्राइवर पंजीकरण",
@@ -304,9 +305,9 @@
     "testnet": "टेस्टनेट",
     "mainnet": "मेननेट",
     "support": "सहायता",
-    "legal": "Legal",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service"
+    "legal": "कानूनी",
+    "privacyPolicy": "गोपनीयता नीति",
+    "termsOfService": "सेवा की शर्तें"
   },
   "history": {
     "title": "यात्रा इतिहास",
@@ -373,13 +374,14 @@
     "autoBlockThreshold": "N समाधानित शिकायतों के बाद ऑटो-ब्लॉक",
     "appName": "ऐप का नाम",
     "contactEmail": "सहायता ईमेल",
-    "payoutsTab": "Payouts",
-    "noUnpaidPayouts": "No unpaid payouts",
-    "unpaidPayoutsCount": "unpaid payout(s)",
-    "rideId": "Ride ID",
-    "driver": "Driver",
-    "showingSubset": "Showing {{shown}} of {{total}}",
-    "payoutAlreadySent": "Funds already sent — do not retry, reconcile with Pi"
+    "payoutsTab": "भुगतान",
+    "noUnpaidPayouts": "सभी भुगतान पूरे हुए",
+    "unpaidPayoutsCount": "बकाया भुगतान: {{n}}",
+    "rideId": "राइड आईडी",
+    "driverEarnings": "ड्राइवर को",
+    "driver": "ड्राइवर",
+    "showingSubset": "{{total}} में से {{shown}} दिखाए जा रहे हैं",
+    "payoutAlreadySent": "पैसे पहले ही भेजे जा चुके हैं — दोबारा न करें, Pi से मिलान करें"
   },
   "notify": {
     "newRide": "नई राइड अनुरोध: {{fare}}",
@@ -405,24 +407,24 @@
     "start": "शुरू करें"
   },
   "call": {
-    "title": "Voice call",
-    "calling": "Calling…",
-    "incoming": "Incoming call",
-    "connecting": "Connecting…",
-    "connected": "Connected",
-    "ended": "Call ended",
-    "accept": "Accept",
-    "decline": "Decline",
-    "hangUp": "Hang up",
-    "mute": "Mute",
-    "unmute": "Unmute",
-    "end_declined": "Call declined",
-    "end_busy": "Busy",
-    "end_unavailable": "Not reachable",
-    "end_ride_inactive": "Ride is no longer active",
-    "end_mic_error": "Microphone unavailable",
-    "end_failed": "Connection failed",
-    "end_hangup": "Call ended",
-    "end_disconnected": "Disconnected"
+    "title": "वॉइस कॉल",
+    "calling": "कॉल हो रही है…",
+    "incoming": "इनकमिंग कॉल",
+    "connecting": "कनेक्ट हो रहा है…",
+    "connected": "कनेक्टेड",
+    "ended": "कॉल समाप्त",
+    "accept": "स्वीकार करें",
+    "decline": "अस्वीकार करें",
+    "hangUp": "कॉल काटें",
+    "mute": "म्यूट",
+    "unmute": "अनम्यूट",
+    "end_declined": "कॉल अस्वीकार की गई",
+    "end_busy": "व्यस्त",
+    "end_unavailable": "उपलब्ध नहीं",
+    "end_ride_inactive": "राइड अब सक्रिय नहीं है",
+    "end_mic_error": "माइक्रोफ़ोन उपलब्ध नहीं",
+    "end_failed": "कनेक्शन विफल",
+    "end_hangup": "कॉल समाप्त",
+    "end_disconnected": "डिस्कनेक्ट हो गया"
   }
 }

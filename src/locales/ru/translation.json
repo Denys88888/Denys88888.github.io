@@ -244,7 +244,8 @@
     "forecastToday": "Прогноз на сегодня: ~{{amount}}",
     "forecastHint": "Если продолжите в таком темпе, заработаете {{amount}}",
     "tipsTotal": "Всего чаевых",
-    "tip": "чаевые"
+    "tip": "чаевые",
+    "cancelFee": "штраф за отмену"
   },
   "register": {
     "title": "Регистрация водителя",
@@ -373,11 +374,12 @@
     "autoBlockThreshold": "Автоблок после N подтв. жалоб",
     "appName": "Название приложения",
     "contactEmail": "Email поддержки",
-    "payoutsTab": "Payouts",
-    "noUnpaidPayouts": "No unpaid payouts",
-    "unpaidPayoutsCount": "unpaid payout(s)",
-    "rideId": "Ride ID",
-    "driver": "Driver",
+    "payoutsTab": "Выплаты",
+    "noUnpaidPayouts": "Все выплаты проведены",
+    "unpaidPayoutsCount": "Не выплачено: {{n}}",
+    "rideId": "ID поездки",
+    "driverEarnings": "Водителю",
+    "driver": "Водитель",
     "showingSubset": "Показано {{shown}} из {{total}}",
     "payoutAlreadySent": "Деньги уже отправлены — не повторять, сверить с Pi"
   },

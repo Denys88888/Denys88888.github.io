@@ -57,7 +57,7 @@
     "unavailable": "الملاحة غير متاحة",
     "mute": "كتم الصوت",
     "unmute": "تشغيل الصوت",
-    "recalculating": "Recalculating…"
+    "recalculating": "إعادة الحساب…"
   },
   "home": {
     "from": "من",
@@ -154,7 +154,7 @@
     "payment_held": "الدفع محجوز",
     "payment_completed": "مدفوع",
     "payment_refunded": "مسترد",
-    "payment_cancelled": "Cancelled",
+    "payment_cancelled": "ملغاة",
     "route": "المسار",
     "driverEarnings": "أرباح السائق",
     "searchingDriver": "جاري البحث عن سائق...",
@@ -169,15 +169,15 @@
     "sosAlertOnly": "ليست حالة طارئة — فقط تنبيه الدعم",
     "cancelFeeAmount": "المبلغ المستحق",
     "cancelFeeExplain": "تعوّض الرسوم السائق عن رحلته إلى نقطة الانطلاق. تُعاد أجرة الرحلة بالكامل وتُدفع الرسوم على حدة — ولا يمكنك طلب رحلة جديدة قبل سدادها.",
-    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free.",
+    "cancelFreeExplain": "لم يصل السائق بعد، لذا الإلغاء مجاني.",
     "cancelDriverExplain": "لا يتم تحصيل أي رسوم من الراكب بسبب إلغائك.",
     "feePaid": "تم دفع رسوم الإلغاء. شكرًا لك.",
     "feeOutstanding": "الرسوم لم تُدفع بعد. يجب سدادها قبل رحلتك القادمة.",
-    "rateDetailsOptional": "Add detail (optional)",
-    "rate_cleanliness": "Cleanliness",
-    "rate_driving": "Driving",
-    "rate_route": "Route",
-    "freeCancelCountdown": "Free to cancel for {{time}} more",
+    "rateDetailsOptional": "أضف تفاصيل (اختياري)",
+    "rate_cleanliness": "النظافة",
+    "rate_driving": "القيادة",
+    "rate_route": "المسار",
+    "freeCancelCountdown": "الإلغاء مجاني لمدة {{time}} أخرى",
     "arriveBy": "by"
   },
   "vehicle": {
@@ -232,7 +232,7 @@
     "ridesCount": "الرحلات",
     "rideTaken": "تم أخذ الرحلة من قِبَل سائق آخر",
     "notVerified": "حسابك كسائق قيد المراجعة",
-    "autoOffline": "You were set offline — GPS signal lost"
+    "autoOffline": "تم تحويلك إلى غير متصل — فُقدت إشارة GPS"
   },
   "earnings": {
     "title": "الأرباح",
@@ -244,7 +244,8 @@
     "forecastToday": "توقعات اليوم: ~{{amount}}",
     "forecastHint": "حافظ على هذا الإيقاع وستكسب حوالي {{amount}}",
     "tipsTotal": "إجمالي الإكراميات",
-    "tip": "إكرامية"
+    "tip": "إكرامية",
+    "cancelFee": "رسوم الإلغاء"
   },
   "register": {
     "title": "تسجيل السائق",
@@ -304,9 +305,9 @@
     "testnet": "شبكة اختبار",
     "mainnet": "الشبكة الرئيسية",
     "support": "الدعم",
-    "legal": "Legal",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service"
+    "legal": "الشؤون القانونية",
+    "privacyPolicy": "سياسة الخصوصية",
+    "termsOfService": "شروط الخدمة"
   },
   "history": {
     "title": "سجل الرحلات",
@@ -373,13 +374,14 @@
     "autoBlockThreshold": "حظر تلقائي بعد N شكوى مؤكدة",
     "appName": "اسم التطبيق",
     "contactEmail": "بريد الدعم",
-    "payoutsTab": "Payouts",
-    "noUnpaidPayouts": "No unpaid payouts",
-    "unpaidPayoutsCount": "unpaid payout(s)",
-    "rideId": "Ride ID",
-    "driver": "Driver",
-    "showingSubset": "Showing {{shown}} of {{total}}",
-    "payoutAlreadySent": "Funds already sent — do not retry, reconcile with Pi"
+    "payoutsTab": "المدفوعات",
+    "noUnpaidPayouts": "تمت جميع المدفوعات",
+    "unpaidPayoutsCount": "مدفوعات معلقة: {{n}}",
+    "rideId": "معرّف الرحلة",
+    "driverEarnings": "للسائق",
+    "driver": "السائق",
+    "showingSubset": "عرض {{shown}} من {{total}}",
+    "payoutAlreadySent": "تم إرسال الأموال بالفعل — لا تُعد المحاولة، راجع مع Pi"
   },
   "notify": {
     "newRide": "طلب رحلة جديد: {{fare}}",
@@ -405,24 +407,24 @@
     "start": "ابدأ"
   },
   "call": {
-    "title": "Voice call",
-    "calling": "Calling…",
-    "incoming": "Incoming call",
-    "connecting": "Connecting…",
-    "connected": "Connected",
-    "ended": "Call ended",
-    "accept": "Accept",
-    "decline": "Decline",
-    "hangUp": "Hang up",
-    "mute": "Mute",
-    "unmute": "Unmute",
-    "end_declined": "Call declined",
-    "end_busy": "Busy",
-    "end_unavailable": "Not reachable",
-    "end_ride_inactive": "Ride is no longer active",
-    "end_mic_error": "Microphone unavailable",
-    "end_failed": "Connection failed",
-    "end_hangup": "Call ended",
-    "end_disconnected": "Disconnected"
+    "title": "مكالمة صوتية",
+    "calling": "جارٍ الاتصال…",
+    "incoming": "مكالمة واردة",
+    "connecting": "جارٍ التوصيل…",
+    "connected": "متصل",
+    "ended": "انتهت المكالمة",
+    "accept": "قبول",
+    "decline": "رفض",
+    "hangUp": "إنهاء",
+    "mute": "كتم",
+    "unmute": "إلغاء الكتم",
+    "end_declined": "تم رفض المكالمة",
+    "end_busy": "مشغول",
+    "end_unavailable": "غير متاح",
+    "end_ride_inactive": "الرحلة لم تعد نشطة",
+    "end_mic_error": "الميكروفون غير متاح",
+    "end_failed": "فشل الاتصال",
+    "end_hangup": "انتهت المكالمة",
+    "end_disconnected": "انقطع الاتصال"
   }
 }

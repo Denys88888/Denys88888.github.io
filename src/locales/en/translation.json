@@ -244,7 +244,8 @@
     "forecastToday": "Forecast for today: ~{{amount}}",
     "forecastHint": "Keep this pace and you will earn about {{amount}}",
     "tipsTotal": "Tips total",
-    "tip": "tip"
+    "tip": "tip",
+    "cancelFee": "cancellation fee"
   },
   "register": {
     "title": "Driver registration",
@@ -374,9 +375,10 @@
     "appName": "App name",
     "contactEmail": "Support email",
     "payoutsTab": "Payouts",
-    "noUnpaidPayouts": "No unpaid payouts",
-    "unpaidPayoutsCount": "unpaid payout(s)",
+    "noUnpaidPayouts": "All payouts settled",
+    "unpaidPayoutsCount": "Unpaid payouts: {{n}}",
     "rideId": "Ride ID",
+    "driverEarnings": "To driver",
     "driver": "Driver",
     "showingSubset": "Showing {{shown}} of {{total}}",
     "payoutAlreadySent": "Funds already sent — do not retry, reconcile with Pi"

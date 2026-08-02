@@ -57,7 +57,7 @@
     "unavailable": "ナビは利用できません",
     "mute": "音声オフ",
     "unmute": "音声オン",
-    "recalculating": "Recalculating…"
+    "recalculating": "再計算中…"
   },
   "home": {
     "from": "出発地",
@@ -154,7 +154,7 @@
     "payment_held": "支払い保留中",
     "payment_completed": "支払い済み",
     "payment_refunded": "返金済み",
-    "payment_cancelled": "Cancelled",
+    "payment_cancelled": "キャンセル済み",
     "route": "ルート",
     "driverEarnings": "ドライバー収益",
     "searchingDriver": "ドライバーを探しています...",
@@ -169,15 +169,15 @@
     "sosAlertOnly": "緊急ではない — サポートに通知するのみ",
     "cancelFeeAmount": "お支払い額",
     "cancelFeeExplain": "この料金は、乗車地点までのドライバーの移動に対する補償です。運賃は全額返金され、料金は別途お支払いいただきます。お支払いが済むまで新しい配車はご利用いただけません。",
-    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free.",
+    "cancelFreeExplain": "ドライバーはまだ到着していないため、キャンセルは無料です。",
     "cancelDriverExplain": "あなたのキャンセルで乗客に料金は発生しません。",
     "feePaid": "キャンセル料をお支払いいただきました。ありがとうございます。",
     "feeOutstanding": "キャンセル料が未払いです。次回のご乗車前にお支払いください。",
-    "rateDetailsOptional": "Add detail (optional)",
-    "rate_cleanliness": "Cleanliness",
-    "rate_driving": "Driving",
-    "rate_route": "Route",
-    "freeCancelCountdown": "Free to cancel for {{time}} more",
+    "rateDetailsOptional": "詳細を追加（任意）",
+    "rate_cleanliness": "清潔さ",
+    "rate_driving": "運転",
+    "rate_route": "ルート",
+    "freeCancelCountdown": "あと{{time}}は無料でキャンセルできます",
     "arriveBy": "by"
   },
   "vehicle": {
@@ -232,7 +232,7 @@
     "ridesCount": "乗車数",
     "rideTaken": "すでに別のドライバーが承認しました",
     "notVerified": "ドライバーアカウントは審査中です",
-    "autoOffline": "You were set offline — GPS signal lost"
+    "autoOffline": "オフラインになりました — GPS信号を失いました"
   },
   "earnings": {
     "title": "収益",
@@ -244,7 +244,8 @@
     "forecastToday": "本日の予測：約 {{amount}}",
     "forecastHint": "このペースを保てば約 {{amount}} 稼げます",
     "tipsTotal": "チップ合計",
-    "tip": "チップ"
+    "tip": "チップ",
+    "cancelFee": "キャンセル料"
   },
   "register": {
     "title": "ドライバー登録",
@@ -304,9 +305,9 @@
     "testnet": "テストネット",
     "mainnet": "メインネット",
     "support": "サポート",
-    "legal": "Legal",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service"
+    "legal": "法的情報",
+    "privacyPolicy": "プライバシーポリシー",
+    "termsOfService": "利用規約"
   },
   "history": {
     "title": "乗車履歴",
@@ -373,13 +374,14 @@
     "autoBlockThreshold": "N件の解決済み苦情で自動ブロック",
     "appName": "アプリ名",
     "contactEmail": "サポートメール",
-    "payoutsTab": "Payouts",
-    "noUnpaidPayouts": "No unpaid payouts",
-    "unpaidPayoutsCount": "unpaid payout(s)",
-    "rideId": "Ride ID",
-    "driver": "Driver",
-    "showingSubset": "Showing {{shown}} of {{total}}",
-    "payoutAlreadySent": "Funds already sent — do not retry, reconcile with Pi"
+    "payoutsTab": "支払い",
+    "noUnpaidPayouts": "未払いはありません",
+    "unpaidPayoutsCount": "未払い: {{n}}件",
+    "rideId": "乗車ID",
+    "driverEarnings": "ドライバー取分",
+    "driver": "ドライバー",
+    "showingSubset": "{{total}}件中{{shown}}件を表示",
+    "payoutAlreadySent": "送金済みです — 再試行せず、Piで照合してください"
   },
   "notify": {
     "newRide": "新しい配車リクエスト：{{fare}}",
@@ -405,24 +407,24 @@
     "start": "始める"
   },
   "call": {
-    "title": "Voice call",
-    "calling": "Calling…",
-    "incoming": "Incoming call",
-    "connecting": "Connecting…",
-    "connected": "Connected",
-    "ended": "Call ended",
-    "accept": "Accept",
-    "decline": "Decline",
-    "hangUp": "Hang up",
-    "mute": "Mute",
-    "unmute": "Unmute",
-    "end_declined": "Call declined",
-    "end_busy": "Busy",
-    "end_unavailable": "Not reachable",
-    "end_ride_inactive": "Ride is no longer active",
-    "end_mic_error": "Microphone unavailable",
-    "end_failed": "Connection failed",
-    "end_hangup": "Call ended",
-    "end_disconnected": "Disconnected"
+    "title": "音声通話",
+    "calling": "発信中…",
+    "incoming": "着信",
+    "connecting": "接続中…",
+    "connected": "接続済み",
+    "ended": "通話終了",
+    "accept": "応答",
+    "decline": "拒否",
+    "hangUp": "通話を終了",
+    "mute": "ミュート",
+    "unmute": "ミュート解除",
+    "end_declined": "通話が拒否されました",
+    "end_busy": "通話中",
+    "end_unavailable": "応答なし",
+    "end_ride_inactive": "この乗車は終了しています",
+    "end_mic_error": "マイクを利用できません",
+    "end_failed": "接続に失敗しました",
+    "end_hangup": "通話終了",
+    "end_disconnected": "切断されました"
   }
 }

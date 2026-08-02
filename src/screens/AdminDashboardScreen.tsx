@@ -40,7 +40,7 @@ export function AdminDashboardScreen() {
   const [driverFilter, setDriverFilter] = useState<DriverFilter>('pending');
   const [analytics, setAnalytics] = useState<AdminAnalytics | null>(null);
   const [reports, setReports] = useState<Report[]>([]);
-  type UnpaidPayout = { id: string; driverId: string | undefined; amount: number; fare: number; payoutStatus: string; payoutError?: string; createdAt: string; kind: 'fare' | 'tip'; retryable?: boolean; txid?: string };
+  type UnpaidPayout = { id: string; driverId: string | undefined; amount: number; fare: number; payoutStatus: string; payoutError?: string; createdAt: string; kind: 'fare' | 'tip' | 'fee'; retryable?: boolean; txid?: string };
   const [unpaidPayouts, setUnpaidPayouts] = useState<UnpaidPayout[]>([]);
   const [retryingPayout, setRetryingPayout] = useState<string | null>(null);
   const [reportFilter, setReportFilter] = useState<ReportFilter>('open');
@@ -609,7 +609,9 @@ export function AdminDashboardScreen() {
         {tab === 'payouts' && (
           <>
             <p className="text-sm opacity-60">
-              {unpaidPayouts.length === 0 ? t('admin.noUnpaidPayouts') : `${unpaidPayouts.length} ${t('admin.unpaidPayoutsCount')}`}
+              {unpaidPayouts.length === 0
+                ? t('admin.noUnpaidPayouts')
+                : t('admin.unpaidPayoutsCount', { n: unpaidPayouts.length })}
             </p>
             {unpaidPayouts.map((p) => {
               const key = `${p.id}:${p.kind}`;
@@ -617,15 +619,21 @@ export function AdminDashboardScreen() {
                 <Card key={key} className="space-y-1">
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0 flex-1 text-sm">
-                      <div className="flex items-center gap-2">
-                        <p className="font-medium truncate">{t('admin.rideId')}: {p.id.slice(-8)}</p>
-                        <Badge tone={p.kind === 'tip' ? 'info' : 'neutral'}>{p.kind}</Badge>
+                      {/* Wraps rather than truncates: the id is what the
+                          operator reconciles against Pi, so half of it is no
+                          more useful than none of it. */}
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <p className="font-medium">{t('admin.rideId')}: {p.id.slice(-8)}</p>
+                        {/* A 'fee' row is a cancelled ride, not a completed one —
+                            worth telling apart at a glance, since the fare shown
+                            below it was refunded and never earned. */}
+                        <Badge tone={p.kind === 'tip' ? 'info' : p.kind === 'fee' ? 'warning' : 'neutral'}>{p.kind}</Badge>
                       </div>
                       <p className="opacity-60 text-xs">{t('admin.driver')}: {(p.driverId ?? '?').slice(-8)}</p>
                       <p className="opacity-60 text-xs">{formatDate(p.createdAt)}</p>
                       <p className="mt-1">
                         {t('admin.driverEarnings')}: <span className="font-semibold">{formatPi(p.amount)}</span>
-                        {' · '}{t('admin.fare')}: {formatPi(p.fare)}
+                        {' · '}{t('ride.fare')}: {formatPi(p.fare)}
                       </p>
                       <Badge tone={p.payoutStatus === 'failed' ? 'danger' : 'warning'}>
                         {p.payoutStatus}
@@ -646,6 +654,10 @@ export function AdminDashboardScreen() {
                       <Button
                         disabled={retryingPayout === key}
                         onClick={() => retryUnpaidPayout(p)}
+                        // Same compact size the rides tab uses for this action.
+                        // At full size the button ate half the card and squeezed
+                        // the ride id and amounts into unreadable slivers.
+                        className="shrink-0 px-3 py-1.5 text-xs"
                       >
                         {retryingPayout === key ? '…' : t('admin.retryPayout')}
                       </Button>

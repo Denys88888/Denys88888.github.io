@@ -57,7 +57,7 @@
     "unavailable": "Navigasi tidak tersedia",
     "mute": "Bisukan suara",
     "unmute": "Aktifkan suara",
-    "recalculating": "Recalculating…"
+    "recalculating": "Menghitung ulang…"
   },
   "home": {
     "from": "Dari",
@@ -154,7 +154,7 @@
     "payment_held": "Pembayaran ditahan",
     "payment_completed": "Dibayar",
     "payment_refunded": "Dikembalikan",
-    "payment_cancelled": "Cancelled",
+    "payment_cancelled": "Dibatalkan",
     "route": "Rute",
     "driverEarnings": "Pendapatan pengemudi",
     "searchingDriver": "Mencari pengemudi...",
@@ -169,15 +169,15 @@
     "sosAlertOnly": "Bukan darurat — cukup beri tahu dukungan",
     "cancelFeeAmount": "Jumlah tagihan",
     "cancelFeeExplain": "Biaya ini mengganti perjalanan pengemudi ke titik penjemputan. Tarif perjalanan dikembalikan penuh dan biaya dibayar terpisah — selama belum dibayar, Anda tidak bisa memesan perjalanan baru.",
-    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free.",
+    "cancelFreeExplain": "Pengemudi belum tiba, jadi pembatalan gratis.",
     "cancelDriverExplain": "Penumpang tidak dikenakan biaya atas pembatalan Anda.",
     "feePaid": "Biaya pembatalan telah dibayar. Terima kasih.",
     "feeOutstanding": "Biaya masih belum dibayar. Harus dilunasi sebelum perjalanan berikutnya.",
-    "rateDetailsOptional": "Add detail (optional)",
-    "rate_cleanliness": "Cleanliness",
-    "rate_driving": "Driving",
-    "rate_route": "Route",
-    "freeCancelCountdown": "Free to cancel for {{time}} more",
+    "rateDetailsOptional": "Tambahkan detail (opsional)",
+    "rate_cleanliness": "Kebersihan",
+    "rate_driving": "Cara mengemudi",
+    "rate_route": "Rute",
+    "freeCancelCountdown": "Gratis dibatalkan {{time}} lagi",
     "arriveBy": "by"
   },
   "vehicle": {
@@ -232,7 +232,7 @@
     "ridesCount": "Perjalanan",
     "rideTaken": "Perjalanan sudah diambil oleh pengemudi lain",
     "notVerified": "Akun pengemudi Anda sedang ditinjau",
-    "autoOffline": "You were set offline — GPS signal lost"
+    "autoOffline": "Anda dijadikan offline — sinyal GPS hilang"
   },
   "earnings": {
     "title": "Pendapatan",
@@ -244,7 +244,8 @@
     "forecastToday": "Perkiraan hari ini: ~{{amount}}",
     "forecastHint": "Pertahankan tempo ini dan kamu akan mendapat sekitar {{amount}}",
     "tipsTotal": "Total tip",
-    "tip": "tip"
+    "tip": "tip",
+    "cancelFee": "biaya pembatalan"
   },
   "register": {
     "title": "Pendaftaran pengemudi",
@@ -304,9 +305,9 @@
     "testnet": "Testnet",
     "mainnet": "Mainnet",
     "support": "Dukungan",
-    "legal": "Legal",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service"
+    "legal": "Hukum",
+    "privacyPolicy": "Kebijakan Privasi",
+    "termsOfService": "Ketentuan Layanan"
   },
   "history": {
     "title": "Riwayat perjalanan",
@@ -373,13 +374,14 @@
     "autoBlockThreshold": "Blokir otomatis setelah N laporan diselesaikan",
     "appName": "Nama aplikasi",
     "contactEmail": "Email dukungan",
-    "payoutsTab": "Payouts",
-    "noUnpaidPayouts": "No unpaid payouts",
-    "unpaidPayoutsCount": "unpaid payout(s)",
-    "rideId": "Ride ID",
-    "driver": "Driver",
-    "showingSubset": "Showing {{shown}} of {{total}}",
-    "payoutAlreadySent": "Funds already sent — do not retry, reconcile with Pi"
+    "payoutsTab": "Pembayaran",
+    "noUnpaidPayouts": "Semua pembayaran selesai",
+    "unpaidPayoutsCount": "Pembayaran tertunda: {{n}}",
+    "rideId": "ID perjalanan",
+    "driverEarnings": "Untuk pengemudi",
+    "driver": "Pengemudi",
+    "showingSubset": "Menampilkan {{shown}} dari {{total}}",
+    "payoutAlreadySent": "Dana sudah dikirim — jangan ulangi, cocokkan dengan Pi"
   },
   "notify": {
     "newRide": "Permintaan perjalanan baru: {{fare}}",
@@ -405,24 +407,24 @@
     "start": "Mulai"
   },
   "call": {
-    "title": "Voice call",
-    "calling": "Calling…",
-    "incoming": "Incoming call",
-    "connecting": "Connecting…",
-    "connected": "Connected",
-    "ended": "Call ended",
-    "accept": "Accept",
-    "decline": "Decline",
-    "hangUp": "Hang up",
-    "mute": "Mute",
-    "unmute": "Unmute",
-    "end_declined": "Call declined",
-    "end_busy": "Busy",
-    "end_unavailable": "Not reachable",
-    "end_ride_inactive": "Ride is no longer active",
-    "end_mic_error": "Microphone unavailable",
-    "end_failed": "Connection failed",
-    "end_hangup": "Call ended",
-    "end_disconnected": "Disconnected"
+    "title": "Panggilan suara",
+    "calling": "Memanggil…",
+    "incoming": "Panggilan masuk",
+    "connecting": "Menghubungkan…",
+    "connected": "Terhubung",
+    "ended": "Panggilan berakhir",
+    "accept": "Terima",
+    "decline": "Tolak",
+    "hangUp": "Akhiri",
+    "mute": "Bisukan",
+    "unmute": "Nyalakan mik",
+    "end_declined": "Panggilan ditolak",
+    "end_busy": "Sibuk",
+    "end_unavailable": "Tidak dapat dihubungi",
+    "end_ride_inactive": "Perjalanan sudah tidak aktif",
+    "end_mic_error": "Mikrofon tidak tersedia",
+    "end_failed": "Koneksi gagal",
+    "end_hangup": "Panggilan berakhir",
+    "end_disconnected": "Terputus"
   }
 }

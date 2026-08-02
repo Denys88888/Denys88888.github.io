@@ -57,7 +57,7 @@
     "unavailable": "导航不可用",
     "mute": "关闭语音",
     "unmute": "开启语音",
-    "recalculating": "Recalculating…"
+    "recalculating": "正在重新规划…"
   },
   "home": {
     "from": "出发地",
@@ -154,7 +154,7 @@
     "payment_held": "款项已冻结",
     "payment_completed": "已支付",
     "payment_refunded": "已退款",
-    "payment_cancelled": "Cancelled",
+    "payment_cancelled": "已取消",
     "route": "路线",
     "driverEarnings": "司机收入",
     "searchingDriver": "正在寻找司机...",
@@ -169,15 +169,15 @@
     "sosAlertOnly": "不是紧急情况 — 仅提醒支持团队",
     "cancelFeeAmount": "应付金额",
     "cancelFeeExplain": "该费用补偿司机前往上车点的行程。车费将全额退还，费用需另行支付——未支付前无法叫新的车。",
-    "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free.",
+    "cancelFreeExplain": "司机尚未到达，取消免费。",
     "cancelDriverExplain": "您取消订单不会向乘客收取费用。",
     "feePaid": "取消费用已支付，谢谢。",
     "feeOutstanding": "费用仍未支付，需在下次乘车前结清。",
-    "rateDetailsOptional": "Add detail (optional)",
-    "rate_cleanliness": "Cleanliness",
-    "rate_driving": "Driving",
-    "rate_route": "Route",
-    "freeCancelCountdown": "Free to cancel for {{time}} more",
+    "rateDetailsOptional": "添加详情（可选）",
+    "rate_cleanliness": "整洁度",
+    "rate_driving": "驾驶",
+    "rate_route": "路线",
+    "freeCancelCountdown": "还可免费取消 {{time}}",
     "arriveBy": "by"
   },
   "vehicle": {
@@ -232,7 +232,7 @@
     "ridesCount": "行程",
     "rideTaken": "该行程已被其他司机接受",
     "notVerified": "您的司机账户正在审核中",
-    "autoOffline": "You were set offline — GPS signal lost"
+    "autoOffline": "您已被设为离线 — GPS 信号丢失"
   },
   "earnings": {
     "title": "收入",
@@ -244,7 +244,8 @@
     "forecastToday": "今日预计收入：约 {{amount}}",
     "forecastHint": "保持这个节奏，您预计可赚约 {{amount}}",
     "tipsTotal": "小费总计",
-    "tip": "小费"
+    "tip": "小费",
+    "cancelFee": "取消费"
   },
   "register": {
     "title": "司机注册",
@@ -304,9 +305,9 @@
     "testnet": "测试网",
     "mainnet": "主网",
     "support": "客服",
-    "legal": "Legal",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service"
+    "legal": "法律信息",
+    "privacyPolicy": "隐私政策",
+    "termsOfService": "服务条款"
   },
   "history": {
     "title": "行程记录",
@@ -373,13 +374,14 @@
     "autoBlockThreshold": "N 起已解决投诉后自动封禁",
     "appName": "应用名称",
     "contactEmail": "客服邮箱",
-    "payoutsTab": "Payouts",
-    "noUnpaidPayouts": "No unpaid payouts",
-    "unpaidPayoutsCount": "unpaid payout(s)",
-    "rideId": "Ride ID",
-    "driver": "Driver",
-    "showingSubset": "Showing {{shown}} of {{total}}",
-    "payoutAlreadySent": "Funds already sent — do not retry, reconcile with Pi"
+    "payoutsTab": "付款",
+    "noUnpaidPayouts": "没有未结付款",
+    "unpaidPayoutsCount": "未结付款：{{n}}",
+    "rideId": "行程 ID",
+    "driverEarnings": "司机所得",
+    "driver": "司机",
+    "showingSubset": "显示 {{total}} 条中的 {{shown}} 条",
+    "payoutAlreadySent": "资金已发送 — 请勿重试，请与 Pi 核对"
   },
   "notify": {
     "newRide": "新订单请求：{{fare}}",
@@ -405,24 +407,24 @@
     "start": "开始"
   },
   "call": {
-    "title": "Voice call",
-    "calling": "Calling…",
-    "incoming": "Incoming call",
-    "connecting": "Connecting…",
-    "connected": "Connected",
-    "ended": "Call ended",
-    "accept": "Accept",
-    "decline": "Decline",
-    "hangUp": "Hang up",
-    "mute": "Mute",
-    "unmute": "Unmute",
-    "end_declined": "Call declined",
-    "end_busy": "Busy",
-    "end_unavailable": "Not reachable",
-    "end_ride_inactive": "Ride is no longer active",
-    "end_mic_error": "Microphone unavailable",
-    "end_failed": "Connection failed",
-    "end_hangup": "Call ended",
-    "end_disconnected": "Disconnected"
+    "title": "语音通话",
+    "calling": "正在呼叫…",
+    "incoming": "来电",
+    "connecting": "正在连接…",
+    "connected": "已连接",
+    "ended": "通话已结束",
+    "accept": "接听",
+    "decline": "拒接",
+    "hangUp": "挂断",
+    "mute": "静音",
+    "unmute": "取消静音",
+    "end_declined": "对方已拒接",
+    "end_busy": "占线",
+    "end_unavailable": "无法接通",
+    "end_ride_inactive": "行程已结束",
+    "end_mic_error": "麦克风不可用",
+    "end_failed": "连接失败",
+    "end_hangup": "通话已结束",
+    "end_disconnected": "连接已断开"
   }
 }
