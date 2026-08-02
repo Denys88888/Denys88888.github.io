@@ -57,7 +57,12 @@
     "unavailable": "내비게이션을 사용할 수 없음",
     "mute": "음성 끄기",
     "unmute": "음성 켜기",
-    "recalculating": "경로 재계산 중…"
+    "recalculating": "경로 재계산 중…",
+    "kmh": "km/h",
+    "speedLimit": "제한 속도",
+    "yourSpeed": "현재 속도",
+    "lanes": "차선 안내",
+    "then": "그다음"
   },
   "home": {
     "from": "출발지",

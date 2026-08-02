@@ -57,7 +57,12 @@
     "unavailable": "Navigation unavailable",
     "mute": "Mute voice",
     "unmute": "Unmute voice",
-    "recalculating": "Recalculating…"
+    "recalculating": "Recalculating…",
+    "kmh": "km/h",
+    "speedLimit": "Speed limit",
+    "yourSpeed": "Your speed",
+    "lanes": "Lane guidance",
+    "then": "Then"
   },
   "home": {
     "from": "From",

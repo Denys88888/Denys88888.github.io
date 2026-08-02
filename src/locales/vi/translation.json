@@ -57,7 +57,12 @@
     "unavailable": "Không có dẫn đường",
     "mute": "Tắt giọng nói",
     "unmute": "Bật giọng nói",
-    "recalculating": "Đang tính lại…"
+    "recalculating": "Đang tính lại…",
+    "kmh": "km/h",
+    "speedLimit": "Giới hạn tốc độ",
+    "yourSpeed": "Tốc độ của bạn",
+    "lanes": "Hướng dẫn làn đường",
+    "then": "Sau đó"
   },
   "home": {
     "from": "Điểm đón",

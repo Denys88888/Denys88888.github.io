@@ -57,7 +57,12 @@
     "unavailable": "Navigering ej tillgänglig",
     "mute": "Stäng av röst",
     "unmute": "Slå på röst",
-    "recalculating": "Räknar om…"
+    "recalculating": "Räknar om…",
+    "kmh": "km/h",
+    "speedLimit": "Hastighetsgräns",
+    "yourSpeed": "Din hastighet",
+    "lanes": "Filvägledning",
+    "then": "Sedan"
   },
   "home": {
     "from": "Från",

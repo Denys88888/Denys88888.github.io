@@ -57,7 +57,12 @@
     "unavailable": "Navigatie niet beschikbaar",
     "mute": "Stem uit",
     "unmute": "Stem aan",
-    "recalculating": "Herberekenen…"
+    "recalculating": "Herberekenen…",
+    "kmh": "km/u",
+    "speedLimit": "Maximumsnelheid",
+    "yourSpeed": "Jouw snelheid",
+    "lanes": "Rijstrookadvies",
+    "then": "Daarna"
   },
   "home": {
     "from": "Van",

@@ -232,6 +232,15 @@ export async function fetchRoute(waypoints: GeoPoint[]): Promise<RouteResult | n
 
 // ── Turn-by-turn maneuvers (OSRM steps) ──
 
+// One lane of the road as it approaches a maneuver, in left-to-right order.
+export interface Lane {
+  // Where this lane lets you go: 'straight', 'left', 'slight right',
+  // 'sharp left', 'uturn', 'merge to left', 'none', … (OSM turn:lanes values).
+  indications: string[];
+  // True when staying in this lane keeps you on the route.
+  valid: boolean;
+}
+
 export interface Maneuver {
   // OSRM maneuver type ('turn', 'depart', 'arrive', 'roundabout', …) +
   // modifier ('left', 'right', 'straight', …).
@@ -241,6 +250,8 @@ export interface Maneuver {
   distanceM: number; // length of the step following this maneuver
   lat: number;
   lng: number;
+  // Lane layout at the maneuver, when OSM has turn:lanes for that junction.
+  lanes?: Lane[];
 }
 
 // Fetch the maneuver list for a route (driver turn-by-turn navigation).
@@ -261,6 +272,7 @@ export async function fetchRouteSteps(waypoints: GeoPoint[]): Promise<Maneuver[]
             distance: number;
             name: string;
             maneuver: { type: string; modifier?: string; location: [number, number] };
+            intersections?: Array<{ lanes?: Array<{ valid?: boolean; indications?: string[] }> }>;
           }>;
         }>;
       }>;
@@ -275,11 +287,88 @@ export async function fetchRouteSteps(waypoints: GeoPoint[]): Promise<Maneuver[]
         distanceM: s.distance,
         lat: s.maneuver.location[1],
         lng: s.maneuver.location[0],
+        // The step's first intersection is the junction the maneuver happens
+        // at, so its lanes are the ones the driver has to pick between now.
+        lanes: s.intersections?.[0]?.lanes?.map((l) => ({
+          indications: l.indications?.length ? l.indications : ['none'],
+          valid: l.valid === true,
+        })),
       }))
     );
   } catch {
     return null;
   }
+}
+
+// ── Legal speed limit from OpenStreetMap (Overpass API, no API key) ──
+// OSRM's demo server can tell us how fast a road is normally driven but not
+// what the sign says, so the limit itself comes from the raw OSM maxspeed tag.
+
+const OVERPASS = 'https://overpass-api.de/api/interpreter';
+const MPH_TO_KPH = 1.609344;
+
+// OSM maxspeed values are free-form: "50", "30 mph", "DE:urban", "none",
+// "walk". Only an explicit number is worth showing on a speed-limit sign.
+export function parseMaxspeed(raw: string | undefined): number | null {
+  if (!raw) return null;
+  const match = /^(\d+(?:\.\d+)?)\s*(mph|knots)?$/i.exec(raw.trim());
+  if (!match) return null;
+  const value = parseFloat(match[1]);
+  if (!value) return null;
+  const unit = match[2]?.toLowerCase();
+  if (unit === 'knots') return null;
+  return Math.round(unit === 'mph' ? value * MPH_TO_KPH : value);
+}
+
+// Keyed by a ~110 m grid cell, so driving down one street is a single lookup
+// rather than one per GPS tick. Entries hold the in-flight promise too, so
+// overlapping calls for the same cell share one request.
+const limitCache = new Map<string, Promise<number | null>>();
+let overpassFailures = 0;
+let overpassPausedUntil = 0;
+const MAX_OVERPASS_FAILURES = 3;
+const OVERPASS_PAUSE_MS = 120_000;
+
+// Speed limit in km/h for the road at `point`, or null when OSM does not say.
+// Never throws and never blocks the caller: navigation works without it.
+export async function speedLimitKph(point: GeoPoint): Promise<number | null> {
+  const cell = `${point.lat.toFixed(3)},${point.lng.toFixed(3)}`;
+  const cached = limitCache.get(cell);
+  if (cached) return cached;
+  // A public instance that is down or throttling us stays down for a while, so
+  // back off instead of firing a request every time the driver moves — but only
+  // for a couple of minutes: a busy minute must not cost the sign for the whole
+  // trip.
+  if (Date.now() < overpassPausedUntil) return null;
+
+  const query =
+    `[out:json][timeout:10];way(around:35,${point.lat},${point.lng})` +
+    `["highway"]["maxspeed"];out tags 1;`;
+  const request = (async () => {
+    try {
+      const res = await fetch(OVERPASS, { method: 'POST', body: query });
+      if (!res.ok) throw new Error(String(res.status));
+      const data = (await res.json()) as {
+        elements?: Array<{ tags?: { maxspeed?: string } }>;
+      };
+      overpassFailures = 0;
+      return parseMaxspeed(data.elements?.[0]?.tags?.maxspeed);
+    } catch {
+      overpassFailures += 1;
+      if (overpassFailures >= MAX_OVERPASS_FAILURES) {
+        overpassPausedUntil = Date.now() + OVERPASS_PAUSE_MS;
+        overpassFailures = 0; // fresh strikes once the pause is over
+      }
+      // Don't remember a failure as "this road has no limit" — drop the entry
+      // so the next cell the driver enters can try again.
+      limitCache.delete(cell);
+      return null;
+    }
+  })();
+
+  if (limitCache.size > 200) limitCache.clear();
+  limitCache.set(cell, request);
+  return request;
 }
 
 // Reverse geocode: coordinates → human-readable address.

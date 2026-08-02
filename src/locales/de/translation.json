@@ -57,7 +57,12 @@
     "unavailable": "Navigation nicht verfügbar",
     "mute": "Stimme stumm",
     "unmute": "Stimme an",
-    "recalculating": "Route wird neu berechnet…"
+    "recalculating": "Route wird neu berechnet…",
+    "kmh": "km/h",
+    "speedLimit": "Tempolimit",
+    "yourSpeed": "Deine Geschwindigkeit",
+    "lanes": "Spurführung",
+    "then": "Danach"
   },
   "home": {
     "from": "Von",

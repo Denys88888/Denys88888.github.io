@@ -45,7 +45,7 @@ export function RideDetailsScreen() {
   const { addToast } = useToast();
   const { preparePayment, payRide, processing } = usePayments();
   const [preparedPayment, setPreparedPayment] = useState<PreparedPayment | null>(null);
-  const { position } = useGeolocation();
+  const { position, speed } = useGeolocation();
   const storeRide = useAppStore((s) => s.currentRide);
   const uid = useAppStore((s) => s.user?.uid ?? '');
 
@@ -485,6 +485,7 @@ export function RideDetailsScreen() {
               from={liveDriverPos ?? ride.pickup}
               to={targetPoint}
               position={liveDriverPos}
+              speed={speed}
               onClose={() => setShowNav(false)}
             />
           </div>

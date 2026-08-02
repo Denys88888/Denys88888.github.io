@@ -57,7 +57,12 @@
     "unavailable": "导航不可用",
     "mute": "关闭语音",
     "unmute": "开启语音",
-    "recalculating": "正在重新规划…"
+    "recalculating": "正在重新规划…",
+    "kmh": "公里/小时",
+    "speedLimit": "限速",
+    "yourSpeed": "当前速度",
+    "lanes": "车道指引",
+    "then": "然后"
   },
   "home": {
     "from": "出发地",

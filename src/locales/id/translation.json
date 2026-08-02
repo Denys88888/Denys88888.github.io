@@ -57,7 +57,12 @@
     "unavailable": "Navigasi tidak tersedia",
     "mute": "Bisukan suara",
     "unmute": "Aktifkan suara",
-    "recalculating": "Menghitung ulang…"
+    "recalculating": "Menghitung ulang…",
+    "kmh": "km/jam",
+    "speedLimit": "Batas kecepatan",
+    "yourSpeed": "Kecepatan Anda",
+    "lanes": "Panduan lajur",
+    "then": "Lalu"
   },
   "home": {
     "from": "Dari",

@@ -57,7 +57,12 @@
     "unavailable": "Navigasyon kullanılamıyor",
     "mute": "Sesi kapat",
     "unmute": "Sesi aç",
-    "recalculating": "Yeniden hesaplanıyor…"
+    "recalculating": "Yeniden hesaplanıyor…",
+    "kmh": "km/s",
+    "speedLimit": "Hız sınırı",
+    "yourSpeed": "Hızınız",
+    "lanes": "Şerit rehberi",
+    "then": "Sonra"
   },
   "home": {
     "from": "Nereden",

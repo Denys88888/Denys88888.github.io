@@ -1,18 +1,23 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  ArrowLeft,
+  ArrowRight,
   ArrowUp,
+  ArrowUpLeft,
+  ArrowUpRight,
   CornerUpLeft,
   CornerUpRight,
   MapPin,
   Navigation,
   RefreshCcw,
+  RotateCcw,
   Volume2,
   VolumeX,
   X,
 } from 'lucide-react';
-import { fetchRouteSteps, type Maneuver } from '../../services/mapService';
-import { haversineKm } from '../../utils/helpers';
+import { fetchRouteSteps, speedLimitKph, type Maneuver } from '../../services/mapService';
+import { cn, haversineKm } from '../../utils/helpers';
 import { formatDistance } from '../../utils/formatters';
 import type { GeoPoint } from '../../types';
 
@@ -21,6 +26,8 @@ interface Props {
   to: GeoPoint;
   // Live driver position; instructions advance as it approaches each maneuver.
   position: GeoPoint | null;
+  // Ground speed in m/s from the device, when it is known.
+  speed?: number | null;
   onClose: () => void;
 }
 
@@ -46,43 +53,130 @@ function maneuverIcon(key: string) {
   return ArrowUp;
 }
 
+// One lane's arrow. OSM lane values are phrases ('slight left', 'merge to
+// right'), so the specific ones have to be matched before the plain ones.
+export function laneIcon(indication: string) {
+  if (indication.includes('uturn')) return RotateCcw;
+  if (indication.includes('sharp left')) return ArrowLeft;
+  if (indication.includes('sharp right')) return ArrowRight;
+  if (indication.includes('slight left') || indication.includes('merge to left'))
+    return ArrowUpLeft;
+  if (indication.includes('slight right') || indication.includes('merge to right'))
+    return ArrowUpRight;
+  if (indication.includes('left')) return CornerUpLeft;
+  if (indication.includes('right')) return CornerUpRight;
+  return ArrowUp; // 'straight', 'none'
+}
+
 const ADVANCE_RADIUS_KM = 0.03; // 30 m — consider the maneuver done
+const NEAR_KM = 0.08; // came this close to the junction — the driver was at it
+const PASSED_KM = 0.04; // …and has since pulled this far away again
+const OFF_ROUTE_KM = 0.15; // never got near it and is now this far past: off route
+const LIMIT_MIN_GAP_MS = 15000; // don't ask OSM about the speed limit faster than this
+const LIMIT_MIN_MOVE_KM = 0.15; // …nor before the driver has actually gone somewhere
+const OVER_LIMIT_KPH = 5; // tolerance before the speed reads as speeding
 
 // Turn-by-turn banner for drivers: textual OSRM maneuvers + Web Speech voice.
-export function NavigationPanel({ from, to, position, onClose }: Props) {
+export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
   const { t, i18n } = useTranslation();
   const [steps, setSteps] = useState<Maneuver[] | null>(null);
   const [idx, setIdx] = useState(0);
   const [voice, setVoice] = useState(true);
+  const [limitKph, setLimitKph] = useState<number | null>(null);
   const spokenRef = useRef<string>('');
+  const limitAskedRef = useRef<{ lat: number; lng: number; at: number } | null>(null);
+  const closestRef = useRef<{ idx: number; km: number } | null>(null);
+  // Where the route in `steps` was calculated from. Not `from` itself: that is
+  // the live driver position, and routing again on every GPS fix would hammer
+  // the routing service and restart the instructions a few times a second.
+  const [origin, setOrigin] = useState<GeoPoint>(from);
+
+  // A new destination (pickup reached → passenger's drop-off) is a new route,
+  // and it starts wherever the driver is standing now.
+  useEffect(() => {
+    setOrigin(from);
+    closestRef.current = null;
+    // `from` is deliberately not a dependency — see `origin` above.
+  }, [to.lat, to.lng]);
 
   useEffect(() => {
     let stale = false;
     setSteps(null);
     setIdx(0);
-    fetchRouteSteps([from, to]).then((s) => {
+    fetchRouteSteps([origin, to]).then((s) => {
       if (!stale) setSteps(s);
     });
     return () => {
       stale = true;
     };
-  }, [from.lat, from.lng, to.lat, to.lng]);
+  }, [origin.lat, origin.lng, to.lat, to.lng]);
 
-  // Advance past maneuvers the driver has reached.
+  // Both "the turn is behind us" and "we are not on this route any more" are
+  // read from the same thing: how the distance to the maneuver ahead moves.
+  // While it shrinks the driver is heading for the turn; once it grows again,
+  // the closest approach tells us whether they went through the junction or
+  // never reached it.
   useEffect(() => {
     if (!steps || !position) return;
     let i = idx;
-    while (
-      i < steps.length - 1 &&
-      haversineKm(position.lat, position.lng, steps[i].lat, steps[i].lng) < ADVANCE_RADIUS_KM
-    ) {
-      i += 1;
+    let closest = closestRef.current;
+    let lost = false;
+
+    for (;;) {
+      const step = steps[i];
+      if (!step) break;
+      const km = haversineKm(position.lat, position.lng, step.lat, step.lng);
+      if (!closest || closest.idx !== i || km < closest.km) closest = { idx: i, km };
+      // A fast car between two GPS fixes can jump clean over the 30 m circle,
+      // so getting close and then pulling away counts as having passed too.
+      const passed =
+        km < ADVANCE_RADIUS_KM || (closest.km < NEAR_KM && km > closest.km + PASSED_KM);
+      if (passed && i < steps.length - 1) {
+        i += 1;
+        closest = null;
+        continue;
+      }
+      lost = !passed && km > closest.km + OFF_ROUTE_KM;
+      break;
     }
+
+    closestRef.current = closest;
     if (i !== idx) setIdx(i);
-  }, [steps, position?.lat, position?.lng]);
+    if (lost) {
+      // Missed the turn or took another street: route again from here.
+      closestRef.current = null;
+      setOrigin({ lat: position.lat, lng: position.lng });
+    }
+  }, [steps, idx, position?.lat, position?.lng]);
+
+  // Speed limit for the road under the car. Overpass is a shared public
+  // service, so ask only once the driver has moved on, and treat every failure
+  // as "unknown" — the sign simply doesn't appear.
+  useEffect(() => {
+    if (!position) return;
+    const asked = limitAskedRef.current;
+    if (
+      asked &&
+      (Date.now() - asked.at < LIMIT_MIN_GAP_MS ||
+        haversineKm(asked.lat, asked.lng, position.lat, position.lng) < LIMIT_MIN_MOVE_KM)
+    ) {
+      return;
+    }
+    limitAskedRef.current = { lat: position.lat, lng: position.lng, at: Date.now() };
+    let stale = false;
+    speedLimitKph(position).then((kph) => {
+      if (!stale) setLimitKph(kph);
+    });
+    return () => {
+      stale = true;
+    };
+  }, [position?.lat, position?.lng]);
 
   const current = steps?.[idx] ?? null;
+  const next = steps?.[idx + 1] ?? null;
   const key = current ? maneuverKey(current) : null;
+  const speedKph = speed != null && speed >= 0 ? Math.round(speed * 3.6) : null;
+  const speeding = speedKph != null && limitKph != null && speedKph > limitKph + OVER_LIMIT_KPH;
   const distanceKm = useMemo(() => {
     if (!current) return null;
     if (!position) return null;
@@ -111,6 +205,8 @@ export function NavigationPanel({ from, to, position, onClose }: Props) {
   }, [spoken, voice, i18n.language]);
 
   const Icon = key ? maneuverIcon(key) : Navigation;
+  const NextIcon = next ? maneuverIcon(maneuverKey(next)) : null;
+  const lanes = current?.lanes;
 
   return (
     <div className="pointer-events-auto rounded-card bg-black/80 p-3 text-white shadow-card backdrop-blur">
@@ -161,6 +257,64 @@ export function NavigationPanel({ from, to, position, onClose }: Props) {
           <X size={17} />
         </button>
       </div>
+
+      {/* Which lane to be in. OSM knows the lane layout of most city junctions;
+          the ones that keep you on the route are lit, the rest are dimmed. */}
+      {lanes && lanes.length > 0 && (
+        <div className="mt-2 flex justify-center gap-1" aria-label={t('nav.lanes')}>
+          {lanes.map((lane, i) => (
+            <div
+              key={i}
+              data-lane={lane.valid ? 'valid' : 'invalid'}
+              className={cn(
+                'flex h-9 min-w-[2.25rem] items-center justify-center gap-0.5 rounded-lg px-1',
+                lane.valid ? 'bg-primary text-white' : 'bg-white/10 text-white/40'
+              )}
+            >
+              {lane.indications.slice(0, 2).map((indication, j) => {
+                const LaneIcon = laneIcon(indication);
+                return <LaneIcon key={j} size={16} strokeWidth={lane.valid ? 2.5 : 2} />;
+              })}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {(speedKph != null || limitKph != null || next) && (
+        <div className="mt-2 flex items-center justify-between gap-2 border-t border-white/15 pt-2">
+          {speedKph != null ? (
+            <div className="flex shrink-0 items-baseline gap-1" aria-label={t('nav.yourSpeed')}>
+              <span
+                className={cn('text-2xl font-bold leading-none', speeding && 'text-danger')}
+              >
+                {speedKph}
+              </span>
+              <span className="text-[10px] opacity-70">{t('nav.kmh')}</span>
+            </div>
+          ) : (
+            <span className="shrink-0" />
+          )}
+
+          {/* What comes after the current turn, so a turn that follows straight
+              after another one isn't a surprise. */}
+          {next && NextIcon && (
+            <div className="flex min-w-0 flex-1 items-center justify-end gap-1 text-xs opacity-70">
+              <span className="shrink-0">{t('nav.then')}</span>
+              <NextIcon size={14} className="shrink-0" />
+              <span className="truncate">{next.road || t(`nav.${maneuverKey(next)}`)}</span>
+            </div>
+          )}
+
+          {limitKph != null && (
+            <div
+              aria-label={t('nav.speedLimit')}
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-[3px] border-danger bg-white text-sm font-bold text-black"
+            >
+              {limitKph}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

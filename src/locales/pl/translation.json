@@ -57,7 +57,12 @@
     "unavailable": "Nawigacja niedostępna",
     "mute": "Wycisz głos",
     "unmute": "Włącz głos",
-    "recalculating": "Przeliczanie trasy…"
+    "recalculating": "Przeliczanie trasy…",
+    "kmh": "km/h",
+    "speedLimit": "Ograniczenie prędkości",
+    "yourSpeed": "Twoja prędkość",
+    "lanes": "Wskazówki dotyczące pasów",
+    "then": "Następnie"
   },
   "home": {
     "from": "Skąd",
