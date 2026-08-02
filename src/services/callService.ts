@@ -34,8 +34,27 @@ export interface CallSnapshot {
   stats: string | null;
 }
 
+// STUN alone only works when both phones can open a direct P2P path; on carrier
+// NAT/CGNAT (very common on mobile data) that path is often asymmetric or blocked,
+// which shows up as exactly the crackle/hiss/dropout pattern reported here — audio
+// packets silently lost in one direction. A TURN relay gives WebRTC a fallback path
+// that always works. Open Relay Project's public server (openrelayproject/
+// openrelayproject) is a widely-used free TURN service for exactly this; see
+// https://www.metered.ca/tools/openrelay/. iceCandidatePoolSize pre-gathers
+// candidates so the relay path is ready as soon as the offer/answer exchange lands.
 const ICE_SERVERS: RTCConfiguration = {
-  iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
+  iceServers: [
+    { urls: 'stun:stun.l.google.com:19302' },
+    { urls: 'stun:openrelay.metered.ca:80' },
+    { urls: 'turn:openrelay.metered.ca:80', username: 'openrelayproject', credential: 'openrelayproject' },
+    { urls: 'turn:openrelay.metered.ca:443', username: 'openrelayproject', credential: 'openrelayproject' },
+    {
+      urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+      username: 'openrelayproject',
+      credential: 'openrelayproject',
+    },
+  ],
+  iceCandidatePoolSize: 4,
 };
 
 // Nudge Opus toward voice-call quality: in-band FEC recovers lost packets
@@ -268,6 +287,20 @@ class CallService {
       }
       this.remoteAudio.srcObject = e.streams[0];
       void this.remoteAudio.play().catch(() => undefined);
+
+      // Ask the browser to hold ~150ms of audio before playout. That absorbs
+      // network jitter (packets arriving unevenly spaced) by smoothing it into a
+      // steady stream instead of playing gaps/bursts as crackle — the standard
+      // fix for jitter-driven artifacts, at the cost of a small added delay that's
+      // unnoticeable in a voice call. jitterBufferTarget is the current API;
+      // playoutDelayHint is kept for browsers that only support the older name.
+      const receiver = e.receiver as unknown as Record<string, unknown>;
+      try {
+        if (typeof receiver.jitterBufferTarget !== 'undefined') receiver.jitterBufferTarget = 150;
+        else if (typeof receiver.playoutDelayHint !== 'undefined') receiver.playoutDelayHint = 0.15;
+      } catch (err) {
+        logger.warn('[call] jitter buffer tuning unsupported', (err as Error).message);
+      }
     };
 
     pc.onconnectionstatechange = () => {
