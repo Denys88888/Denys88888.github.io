@@ -154,6 +154,11 @@ export interface Ride {
   cancelledBy?: Role;
   cancellationReason?: string;
   cancellationFee?: number;
+  // A late-cancellation fee is collected as its own Pi payment after the fact,
+  // not taken out of the refunded fare — 'outstanding' until the passenger
+  // approves it, and blocking their next booking while it is.
+  cancellationFeeStatus?: 'outstanding' | 'paid';
+  cancellationFeeDriverEarnings?: number;
   shareToken?: string;
   // Enriched by GET /api/rides/:id once assigned (contact cards).
   driver?: RideParty | null;

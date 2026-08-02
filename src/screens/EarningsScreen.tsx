@@ -3,12 +3,17 @@ import { useTranslation } from 'react-i18next';
 import { TrendingUp } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { api } from '../services/api';
+import { useAppStore } from '../store/useAppStore';
 import { formatPi, formatDate } from '../utils/formatters';
 import { isToday, isThisWeek, isThisMonth } from 'date-fns';
 import type { Ride, SurgeInfo } from '../types';
 
 // What the driver actually pockets from a ride: earnings after fee + full tip.
+// A ride cancelled on them late earns only their share of the cancellation
+// fee — they were paid for driving to the pickup, not for a trip that never
+// ran, so the fare and any tip on that record are not theirs.
 function earned(r: Ride): number {
+  if (r.status === 'cancelled') return r.cancellationFeeDriverEarnings || 0;
   return (r.driverEarnings || 0) + (r.tipAmount || 0);
 }
 
@@ -27,17 +32,37 @@ export function EarningsScreen() {
   const { t } = useTranslation();
   const [rides, setRides] = useState<Ride[] | null>(null);
   const [surge, setSurge] = useState<SurgeInfo | null>(null);
+  const uid = useAppStore((s) => s.user?.uid);
 
   useEffect(() => {
     let cancelled = false;
-    api.listRides({ status: 'completed', limit: 50 })
-      .then((r) => { if (!cancelled) setRides(r.rides); })
+    // Two queries, because a late cancellation pays the driver too and those
+    // rides never reach 'completed'. Leaving them out told a driver they had
+    // earned nothing on money that had already reached their wallet.
+    Promise.all([
+      api.listRides({ status: 'completed', limit: 50 }),
+      api.listRides({ status: 'cancelled', limit: 50 }),
+    ])
+      .then(([done, off]) => {
+        if (cancelled) return;
+        // The ride list matches either side of a ride, so check the driver is
+        // this driver — a fee on a ride they cancelled as a passenger is money
+        // they paid to someone else, not money they earned.
+        const paidFees = off.rides.filter(
+          (r) => r.cancellationFeeStatus === 'paid' && r.driverId === uid
+        );
+        setRides(
+          [...done.rides, ...paidFees].sort(
+            (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+        );
+      })
       .catch((err) => { console.error('[earnings] rides:', err); if (!cancelled) setRides([]); });
     api.getSurge()
       .then((s) => { if (!cancelled) setSurge(s); })
       .catch((err) => console.error('[earnings] surge:', err));
     return () => { cancelled = true; };
-  }, []);
+  }, [uid]);
 
   const totals = useMemo(() => {
     const list = rides ?? [];
@@ -138,16 +163,31 @@ export function EarningsScreen() {
               <div className="text-sm">
                 <p className="font-medium">
                   {formatPi(earned(r))}
-                  {!!r.tipAmount && (
-                    <span className="ml-1.5 text-xs font-semibold text-success">
-                      +{formatPi(r.tipAmount)} {t('earnings.tip')}
+                  {r.status === 'cancelled' ? (
+                    // Without this the row looks like a suspiciously cheap trip.
+                    <span className="ml-1.5 text-xs font-semibold text-warning">
+                      {t('earnings.cancelFee')}
                     </span>
+                  ) : (
+                    !!r.tipAmount && (
+                      <span className="ml-1.5 text-xs font-semibold text-success">
+                        +{formatPi(r.tipAmount)} {t('earnings.tip')}
+                      </span>
+                    )
                   )}
                 </p>
                 <p className="text-xs opacity-50">{formatDate(r.createdAt)}</p>
               </div>
               <span className="text-xs opacity-50">
-                {t('ride.platformFee')}: {formatPi(r.platformFee || 0)}
+                {/* The ride's own platformFee belongs to a fare that was
+                    refunded — on these rows the platform's cut is the part of
+                    the fee that did not go to the driver. */}
+                {t('ride.platformFee')}:{' '}
+                {formatPi(
+                  r.status === 'cancelled'
+                    ? Math.max(0, (r.cancellationFee || 0) - (r.cancellationFeeDriverEarnings || 0))
+                    : r.platformFee || 0
+                )}
               </span>
             </Card>
           ))}
