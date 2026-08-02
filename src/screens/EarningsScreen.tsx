@@ -5,17 +5,9 @@ import { Card } from '../components/ui/Card';
 import { api } from '../services/api';
 import { useAppStore } from '../store/useAppStore';
 import { formatPi, formatDate } from '../utils/formatters';
+import { driverEarned as earned } from '../utils/cancellation';
 import { isToday, isThisWeek, isThisMonth } from 'date-fns';
 import type { Ride, SurgeInfo } from '../types';
-
-// What the driver actually pockets from a ride: earnings after fee + full tip.
-// A ride cancelled on them late earns only their share of the cancellation
-// fee — they were paid for driving to the pickup, not for a trip that never
-// ran, so the fare and any tip on that record are not theirs.
-function earned(r: Ride): number {
-  if (r.status === 'cancelled') return r.cancellationFeeDriverEarnings || 0;
-  return (r.driverEarnings || 0) + (r.tipAmount || 0);
-}
 
 // Rough productivity coefficient by time of day: evenings and mornings are
 // busier than the small hours.

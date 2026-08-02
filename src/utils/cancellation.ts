@@ -42,3 +42,50 @@ export function cancellationFeeApplies(
 export function cancellationFee(ride: CancellableRide, opts: { isDriver: boolean; now: number }): number {
   return cancellationFeeApplies(ride, opts) ? (ride.fare * LATE_CANCELLATION_FEE_PERCENT) / 100 : 0;
 }
+
+// driverEarnings is required on a Ride but optional here: a ride that never
+// reached a driver carries no such figure, and the rule below has to hold for
+// one anyway.
+type SettledRide = Pick<
+  Ride,
+  'status' | 'fare' | 'cancellationFee' | 'cancellationFeeStatus' | 'cancellationFeeDriverEarnings'
+> &
+  Partial<Pick<Ride, 'driverEarnings' | 'tipAmount'>>;
+
+// What the driver actually pockets from a ride: their cut of the fare plus the
+// whole tip. A ride cancelled on them late pays only their share of the fee —
+// they were paid for driving to the pickup, not for a trip that never ran.
+export function driverEarned(ride: SettledRide): number {
+  if (ride.status === 'cancelled') {
+    return ride.cancellationFeeStatus === 'paid' ? ride.cancellationFeeDriverEarnings || 0 : 0;
+  }
+  return (ride.driverEarnings || 0) + (ride.tipAmount || 0);
+}
+
+// What actually changed hands on a finished ride, from one side of it, plus the
+// translation key that says what the number is. Null when nothing moved.
+//
+// A cancelled ride never charged its fare, so printing that number told a
+// passenger they had paid 8 π for a trip that cost them 4 — or, after a free
+// cancellation, for one that cost them nothing at all. The driver is shown
+// their own money throughout, never the passenger's side of it.
+export function settledAmount(
+  ride: SettledRide,
+  isDriver: boolean
+): { amount: number; label?: string; tone?: string } | null {
+  if (ride.status !== 'cancelled') {
+    return { amount: isDriver ? driverEarned(ride) : ride.fare };
+  }
+  if (ride.cancellationFeeStatus === 'paid') {
+    // The passenger paid the whole fee; the driver received their share of it.
+    const amount = isDriver ? ride.cancellationFeeDriverEarnings : ride.cancellationFee;
+    return amount ? { amount, label: 'earnings.cancelFee', tone: 'text-warning' } : null;
+  }
+  // Raised and still owed. It blocks the passenger's next booking, so it is the
+  // one thing on the card they need to see; the driver is owed nothing until it
+  // is collected.
+  if (!isDriver && ride.cancellationFeeStatus === 'outstanding' && ride.cancellationFee) {
+    return { amount: ride.cancellationFee, label: 'home.feeDueTitle', tone: 'text-danger' };
+  }
+  return null;
+}
