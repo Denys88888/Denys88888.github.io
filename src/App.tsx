@@ -68,7 +68,7 @@ function Shell() {
   const showNav = !FULLSCREEN.includes(screen);
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="safe-top flex h-full flex-col">
       <main className="min-h-0 flex-1 overflow-hidden">
         <Active />
       </main>

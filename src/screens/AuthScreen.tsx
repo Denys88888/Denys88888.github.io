@@ -13,7 +13,7 @@ export function AuthScreen() {
   const { login, devLogin, loading } = useAuth();
 
   return (
-    <div className="flex h-full flex-col bg-gradient-to-b from-primary to-[#063D30] text-white">
+    <div className="safe-top flex h-full flex-col bg-gradient-to-b from-primary to-[#063D30] text-white">
       <div className="flex justify-end p-4">
         <LanguageSelector />
       </div>

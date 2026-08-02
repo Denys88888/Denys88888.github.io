@@ -328,6 +328,10 @@ h3 { font-size: 16px; font-weight: 600; }
 
 /* ── Safe area ────────────────────────────────────────────────────── */
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+/* Installed from the manifest the app runs standalone, with no browser chrome
+   between it and the status bar / notch — the map then slides underneath the
+   clock. Zero in a normal browser tab, where the chrome already stands there. */
+.safe-top { padding-top: env(safe-area-inset-top, 0px); }
 
 /* ── Scrollable list ─────────────────────────────────────────────── */
 .scroll-list {
