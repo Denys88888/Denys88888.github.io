@@ -29,6 +29,7 @@ import {
   cancellationFeeApplies,
   freeCancelMsLeft as msLeftToCancelFree,
 } from '../utils/cancellation';
+import { payCancellationFee } from '../services/cancellationFeePayment';
 import { formatPi, formatDistance, formatDuration, formatDate, maskPhone } from '../utils/formatters';
 import type { GeoPoint, Ride, RideParty, FareOffer } from '../types';
 
@@ -296,6 +297,23 @@ export function RideDetailsScreen() {
       await api.cancelRide(ride.id, feeApplies ? 'late-cancel' : 'user-cancel');
       addToast('info', t('ride.statusCancelled'));
       setShowCancel(false);
+      // The dialog just told them a figure would be charged, so ask for it here
+      // rather than letting them find out at their next booking. Pi needs their
+      // approval in the wallet for every transfer — there is nothing on file to
+      // charge — so this is a request, not a deduction.
+      if (feeApplies) {
+        try {
+          await payCancellationFee(ride.id);
+          addToast('success', t('ride.feePaid'));
+        } catch (err) {
+          // Backing out of the payment sheet lands here too, and that is a
+          // choice, not a failure — so say what it means rather than
+          // "something went wrong". The debt stands and the next booking is
+          // blocked until it is settled.
+          console.error('[ride] cancellation fee:', err);
+          addToast('info', t('ride.feeOutstanding'));
+        }
+      }
       back();
     } catch (err) {
       console.error('[ride] cancel:', err);

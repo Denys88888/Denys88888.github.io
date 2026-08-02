@@ -111,6 +111,16 @@ export const api = {
     client.post<Ride>(`/api/rides/${id}/cancel`, { reason }).then((r) => r.data),
   shareRide: (id: string) =>
     client.post<{ shareToken: string }>(`/api/rides/${id}/share`).then((r) => r.data),
+  // A late-cancellation fee this passenger still owes, or null. Asked before
+  // the order form is filled in — the server refuses the booking anyway, but
+  // finding that out only at the last step, after picking a destination and a
+  // class, is a worse way to learn about a debt.
+  outstandingFee: () =>
+    client
+      .get<{ rideId: string; amount: number; cancelledAt: string } | null>(
+        '/api/rides/outstanding-fee'
+      )
+      .then((r) => r.data),
   // `at` is the ISO time the ride is for. Pass it when booking ahead: surge
   // bands follow the clock the ride runs on, so leaving it out quotes the
   // passenger one price and charges them another.
@@ -173,7 +183,7 @@ export const api = {
       .then((r) => r.data.messages),
 
   // ── Payments ──
-  createPayment: (rideId: string, opts?: { type?: 'ride' | 'tip'; amount?: number }) =>
+  createPayment: (rideId: string, opts?: { type?: 'ride' | 'tip' | 'fee'; amount?: number }) =>
     client
       .post<{
         paymentId: string;

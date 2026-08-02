@@ -14,6 +14,7 @@ import { useRouter } from '../store/useRouter';
 import { api } from '../services/api';
 import { reverseGeocode, countryCodeAt, fetchRoute } from '../services/mapService';
 import { loadSavedAddresses, saveAddress, removeAddress } from '../services/savedAddresses';
+import { payCancellationFee } from '../services/cancellationFeePayment';
 import { formatPi, formatDistance, formatDuration, localDateTimeValue, formatDate } from '../utils/formatters';
 import { isValidCoord } from '../utils/validators';
 import { cn, estimateFare, routeDistanceKm } from '../utils/helpers';
@@ -148,6 +149,43 @@ export function PassengerHomeScreen() {
     return () => { cancelled = true; };
   }, [user?.uid]);
 
+  // An unpaid late-cancellation fee. It blocks ordering, so it is asked for up
+  // front rather than letting someone fill in a whole trip and be turned away
+  // at the last step. Pi cannot charge without the passenger's approval in
+  // their wallet, so the only way this clears is them tapping Pay.
+  const [owedFee, setOwedFee] = useState<{ rideId: string; amount: number } | null>(null);
+  const [payingFee, setPayingFee] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    api
+      .outstandingFee()
+      .then((r) => { if (!cancelled) setOwedFee(r); })
+      .catch((err) => console.error('[home] outstandingFee:', err));
+    return () => { cancelled = true; };
+  }, [user?.uid]);
+
+  const settleFee = async (): Promise<void> => {
+    if (!owedFee) return;
+    setPayingFee(true);
+    try {
+      await payCancellationFee(owedFee.rideId);
+      setOwedFee(null);
+      addToast('success', t('ride.feePaid'));
+    } catch (err) {
+      // Includes backing out of the Pi sheet, which is a choice rather than a
+      // fault — the debt simply stands and ordering stays blocked.
+      console.error('[home] settleFee:', err);
+      // ...but it also includes the case where an earlier attempt did go
+      // through and the server only just reconciled it with Pi. Ask before
+      // telling them they still owe money they have in fact already paid.
+      const still = await api.outstandingFee().catch(() => owedFee);
+      setOwedFee(still);
+      addToast(still ? 'info' : 'success', t(still ? 'ride.feeOutstanding' : 'ride.feePaid'));
+    } finally {
+      setPayingFee(false);
+    }
+  };
+
   // Saved quick addresses (Home / Work / Parents).
   const [savedAddrs, setSavedAddrs] = useState<SavedAddress[]>([]);
   useEffect(() => {
@@ -276,6 +314,9 @@ export function PassengerHomeScreen() {
     isValidCoord(pickup) &&
     isValidCoord(destination) &&
     !ordering &&
+    // The server refuses the booking anyway; greying the button out is what
+    // makes the reason visible next to the card that explains it.
+    !owedFee &&
     // A scheduled time in the past is silently treated as "right now" by the
     // server, which is not what someone picking a date means to order.
     (!schedule || (!!scheduledAt && new Date(scheduledAt).getTime() > Date.now())) &&
@@ -347,6 +388,13 @@ export function PassengerHomeScreen() {
         addToast('error', t('home.tooManyScheduled'));
       } else if (code === 'SCHEDULED_CONFLICT') {
         addToast('error', t('home.scheduledConflict'));
+      } else if (code === 'CANCELLATION_FEE_DUE') {
+        // A fee raised after this screen loaded — on another device, or on a
+        // scheduled ride the dispatcher promoted and the driver cancelled.
+        // Show the card so there is something to pay, not just a refusal.
+        const data = isAxiosError(err) ? err.response?.data : undefined;
+        if (data?.rideId) setOwedFee({ rideId: data.rideId, amount: data.amount });
+        addToast('error', t('home.feeDueTitle'));
       } else {
         addToast('error', t('common.error'));
       }
@@ -408,6 +456,23 @@ export function PassengerHomeScreen() {
       <div className="-mt-4 flex-1 overflow-y-auto rounded-t-2xl surface p-4 shadow-card">
         <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-black/15 dark:bg-white/20" />
         <div className="space-y-3">
+          {/* Nothing below this can be ordered until it is settled, so it sits
+              above the form and says the amount, the reason and the way out.
+              Pi has no card on file — only the passenger can authorise it. */}
+          {owedFee && (
+            <div className="rounded-xl bg-danger/10 p-3">
+              <p className="text-sm font-semibold text-danger">{t('home.feeDueTitle')}</p>
+              <p className="mt-1 text-xs opacity-70">{t('home.feeDueBody')}</p>
+              <Button
+                fullWidth
+                loading={payingFee}
+                onClick={settleFee}
+                className="mt-2 !bg-danger"
+              >
+                {t('home.feeDuePay', { amount: formatPi(owedFee.amount) })}
+              </Button>
+            </div>
+          )}
           {activeRide && (
             <Button
               fullWidth
