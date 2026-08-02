@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { cn } from '../../utils/helpers';
-import { hapticLight } from '../../utils/haptics';
+import { haptic } from '../../utils/haptic';
 
 type Variant = 'primary' | 'success' | 'danger' | 'ghost' | 'outline';
 
@@ -41,7 +41,7 @@ export function Button({
         className
       )}
       disabled={disabled || loading}
-      onClick={(e) => { hapticLight(); onClick?.(e); }}
+      onClick={(e) => { haptic.light(); onClick?.(e); }}
       {...rest}
     >
       {loading && (

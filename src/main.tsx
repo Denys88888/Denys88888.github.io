@@ -7,6 +7,7 @@ import './index.css';
 import './i18n';
 import App from './App';
 import { PI_SANDBOX } from './utils/constants';
+import { watchForNewVersion } from './utils/appUpdate';
 
 // Call Pi.init as early as possible so the SDK is ready before any component
 // mounts and before the user can trigger authentication or payments.
@@ -67,4 +68,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 );
 
 // The service worker is generated and auto-registered by vite-plugin-pwa
-// (registerType: 'autoUpdate'), so no manual registration is needed here.
+// (registerType: 'autoUpdate'), so no manual registration is needed here — but
+// registration alone leaves an open page running the build it loaded with, so
+// watch for a newer worker and reload once doing so costs the user nothing.
+watchForNewVersion();

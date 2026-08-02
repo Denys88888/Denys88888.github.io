@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Circle } from 'lucide-react';
+import { Car, Circle } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
@@ -550,6 +550,9 @@ export function AdminDashboardScreen() {
                 <div key={d.uid} className="flex items-center justify-between text-sm">
                   <span>{i + 1}. {d.name}</span>
                   <span className="opacity-70">
+                    {/* The bare count read as a mystery number next to the money.
+                        An icon says "rides" in every one of the 20 languages. */}
+                    <Car size={12} className="mr-1 inline align-[-1px]" />
                     {d.rides} · <b>{formatPi(d.earnings)}</b>
                   </span>
                 </div>
@@ -561,7 +564,10 @@ export function AdminDashboardScreen() {
               {analytics.topRoutes.map((r, i) => (
                 <div key={r.route} className="flex items-center justify-between gap-2 text-sm">
                   <span className="truncate">{i + 1}. {r.route}</span>
-                  <b className="shrink-0">{r.count}</b>
+                  <b className="shrink-0">
+                    <Car size={12} className="mr-1 inline align-[-1px] opacity-70" />
+                    {r.count}
+                  </b>
                 </div>
               ))}
             </Card>
