@@ -24,7 +24,11 @@ import { callService } from '../services/callService';
 import { haptic } from '../utils/haptic';
 import { NavigationPanel } from '../components/ride/NavigationPanel';
 import { chatIdForRide, haversineKm } from '../utils/helpers';
-import { LATE_CANCELLATION_FEE_PERCENT } from '../utils/constants';
+import {
+  cancellationFee,
+  cancellationFeeApplies,
+  freeCancelMsLeft as msLeftToCancelFree,
+} from '../utils/cancellation';
 import { formatPi, formatDistance, formatDuration, formatDate, maskPhone } from '../utils/formatters';
 import type { GeoPoint, Ride, RideParty, FareOffer } from '../types';
 
@@ -276,17 +280,11 @@ export function RideDetailsScreen() {
   }
 
   const counterpart: RideParty | null | undefined = isDriver ? ride.passenger : ride.driver;
-  // Free before arrival and for a 5-minute grace window after (mirrors the
-  // server's rule in rideController.cancelRide). freeCancelMsLeft drives the
-  // countdown shown in the confirm dialog; it recomputes from `now` each render
-  // and the dialog ticks a 1s timer so it counts down live.
-  const FREE_CANCEL_GRACE_MS = 5 * 60 * 1000;
-  const freeCancelMsLeft =
-    ride.status === 'arrived' && ride.arrivedAt
-      ? Math.max(0, FREE_CANCEL_GRACE_MS - (now - new Date(ride.arrivedAt).getTime()))
-      : 0;
-  const feeApplies =
-    ride.status === 'in_progress' || (ride.status === 'arrived' && freeCancelMsLeft === 0);
+  // Both recompute from `now` each render, and the dialog ticks a 1s timer, so
+  // the countdown runs live. The rules themselves live in utils/cancellation,
+  // paired with the server's.
+  const freeCancelMsLeft = msLeftToCancelFree(ride, now);
+  const feeApplies = cancellationFeeApplies(ride, { isDriver, now });
   // driverPos only ever arrives via the 'driver_location_update' broadcast,
   // which the server sends to the passenger — the driver never gets an echo
   // of their own position back. On the driver's own screen, their live GPS
@@ -840,6 +838,17 @@ export function RideDetailsScreen() {
             </Button>
           </div>
         )}
+
+        {/* Sharing a trip and the SOS button are the passenger's; calling the
+            ride off is not. A driver whose car dies, or who cannot reach the
+            pickup at all, had no way out of an accepted ride — the trip stayed
+            open, the passenger kept waiting for a car that was never coming,
+            and the held payment sat there with it. */}
+        {!['completed', 'cancelled'].includes(ride.status) && isDriver && (
+          <Button variant="ghost" className="w-full !text-danger" onClick={() => setShowCancel(true)}>
+            {t('ride.cancel')}
+          </Button>
+        )}
       </div>
 
       <Modal
@@ -859,7 +868,7 @@ export function RideDetailsScreen() {
             <div className="rounded-lg bg-danger/10 px-3 py-2">
               <p className="text-sm opacity-70">{t('ride.cancelFeeAmount')}</p>
               <p className="text-xl font-bold text-danger">
-                {formatPi((ride.fare * LATE_CANCELLATION_FEE_PERCENT) / 100)} π
+                {formatPi(cancellationFee(ride, { isDriver, now }))}
               </p>
             </div>
             <p className="text-xs opacity-60">{t('ride.cancelFeeExplain')}</p>
@@ -867,7 +876,13 @@ export function RideDetailsScreen() {
         ) : (
           <div className="space-y-2">
             <p>{t('ride.cancelConfirm')}</p>
-            {freeCancelMsLeft > 0 ? (
+            {isDriver ? (
+              // The grace-window texts below are written to the passenger — a
+              // countdown on their free cancellation, an explanation of the fee
+              // they are avoiding. None of it is the driver's situation, so tell
+              // them the one thing that is: nobody gets billed for this.
+              <p className="text-xs opacity-60">{t('ride.cancelDriverExplain')}</p>
+            ) : freeCancelMsLeft > 0 ? (
               // Driver has arrived but the grace window is still open — show how
               // long cancelling stays free, counting down live.
               <p className="text-xs opacity-70">

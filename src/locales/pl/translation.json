@@ -167,6 +167,7 @@
     "cancelFeeAmount": "You will be charged",
     "cancelFeeExplain": "The fee compensates the driver for travelling to your pickup point. It is taken from the fare you already authorised.",
     "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free.",
+    "cancelDriverExplain": "Za Twoją anulację pasażer nie zostanie obciążony.",
     "rateDetailsOptional": "Doprecyzuj (opcjonalnie)",
     "rate_cleanliness": "Czystość",
     "rate_driving": "Jazda",

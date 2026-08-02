@@ -167,6 +167,7 @@
     "cancelFeeAmount": "You will be charged",
     "cancelFeeExplain": "The fee compensates the driver for travelling to your pickup point. It is taken from the fare you already authorised.",
     "cancelFreeExplain": "The driver has not arrived yet, so cancelling is free.",
+    "cancelDriverExplain": "あなたのキャンセルで乗客に料金は発生しません。",
     "rateDetailsOptional": "Add detail (optional)",
     "rate_cleanliness": "Cleanliness",
     "rate_driving": "Driving",

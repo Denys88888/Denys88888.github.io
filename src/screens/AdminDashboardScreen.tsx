@@ -624,8 +624,8 @@ export function AdminDashboardScreen() {
                       <p className="opacity-60 text-xs">{t('admin.driver')}: {(p.driverId ?? '?').slice(-8)}</p>
                       <p className="opacity-60 text-xs">{formatDate(p.createdAt)}</p>
                       <p className="mt-1">
-                        {t('admin.driverEarnings')}: <span className="font-semibold">{formatPi(p.amount)} π</span>
-                        {' · '}{t('admin.fare')}: {formatPi(p.fare)} π
+                        {t('admin.driverEarnings')}: <span className="font-semibold">{formatPi(p.amount)}</span>
+                        {' · '}{t('admin.fare')}: {formatPi(p.fare)}
                       </p>
                       <Badge tone={p.payoutStatus === 'failed' ? 'danger' : 'warning'}>
                         {p.payoutStatus}
