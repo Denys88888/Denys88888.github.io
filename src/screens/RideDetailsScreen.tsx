@@ -469,7 +469,12 @@ export function RideDetailsScreen() {
           destination={ride.status === 'in_progress' ? ride.destination : undefined}
           stops={ride.status === 'in_progress' ? ride.stops : undefined}
           driver={liveDriverPos}
-          me={position}
+          // On the driver's own screen `liveDriverPos` IS `position` — the same
+          // point twice would stack the plain "me" dot exactly on top of the
+          // heading-aware car icon, hiding it. Only the passenger needs their
+          // own separate position marker.
+          me={isDriver ? null : position}
+          navMode={showNav && isDriver}
           className="h-full w-full"
         />
         <button

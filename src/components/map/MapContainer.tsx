@@ -74,6 +74,47 @@ function Recenter({ center, nonce }: { center: GeoPoint; nonce?: number }) {
   return null;
 }
 
+// Snap to a tighter zoom when turn-by-turn guidance starts, the way Google
+// Maps zooms in for active navigation — only on that transition, so it
+// doesn't fight a zoom level the driver sets manually afterward.
+function NavZoom({ active }: { active: boolean }) {
+  const map = useMap();
+  const wasActive = useRef(false);
+  useEffect(() => {
+    if (active && !wasActive.current) {
+      map.setView(map.getCenter(), 17, { animate: true });
+    }
+    wasActive.current = active;
+  }, [active, map]);
+  return null;
+}
+
+// Heading-up rotation for active navigation: spins the map so the direction
+// of travel points to the top of the screen, like Google Maps/Waze. Leaflet
+// has no native rotation, so this CSS-rotates its container — scaled up so
+// the rotated corners stay covered — while `carIcon`'s own counter-rotation
+// cancels out, keeping the car arrow pointing straight up. With heading
+// unknown or navigation inactive the transform is cleared: a plain,
+// unrotated north-up map, same as before this existed.
+function RotateMap({ heading, active }: { heading: number | null; active: boolean }) {
+  const map = useMap();
+  useEffect(() => {
+    const el = map.getContainer();
+    if (active && heading !== null) {
+      el.style.transform = `scale(1.8) rotate(${-heading}deg)`;
+      el.style.transition = 'transform .35s ease-out';
+    } else {
+      el.style.transform = '';
+      el.style.transition = '';
+    }
+    return () => {
+      el.style.transform = '';
+      el.style.transition = '';
+    };
+  }, [active, heading, map]);
+  return null;
+}
+
 // Leaflet caches the container size at init. If the map mounts before its
 // container has its final height (splash→app transition, flex/%-height layout
 // settling — common on mobile / Pi Browser), tiles never paint and the map looks
@@ -140,6 +181,9 @@ interface Props {
   onMapClick?: (p: GeoPoint) => void;
   // When provided, the destination pin is draggable and reports its new position.
   onDestinationDrag?: (p: GeoPoint) => void;
+  // Active turn-by-turn guidance: tightens the zoom and rotates the map to
+  // face the direction of travel (see NavZoom/RotateMap above).
+  navMode?: boolean;
   className?: string;
 }
 
@@ -159,6 +203,7 @@ export function MapView({
   stops = [],
   onMapClick,
   onDestinationDrag,
+  navMode = false,
   className,
 }: Props) {
   const { t } = useTranslation();
@@ -307,7 +352,7 @@ export function MapView({
   const remainingRoute = splitIndex > 0 ? tripRoute.slice(splitIndex) : tripRoute;
 
   return (
-    <div className={`relative ${className ?? 'h-full w-full overflow-hidden rounded-card'}`}>
+    <div className={`relative overflow-hidden ${className ?? 'h-full w-full rounded-card'}`}>
       {/* "Recalculating" only on a genuine reroute — a route already existed and
           is being rebuilt after the driver moved off it. Not shown for the very
           first route fetch, where the line is simply appearing. */}
@@ -322,6 +367,7 @@ export function MapView({
         zoom={14}
         zoomControl={false}
         attributionControl={false}
+        dragging={!navMode}
         style={{ height: '100%', width: '100%' }}
       >
         <TileLayer
@@ -329,6 +375,8 @@ export function MapView({
           subdomains={['a', 'b', 'c']}
         />
         <SizeInvalidator />
+        <NavZoom active={navMode} />
+        <RotateMap heading={heading} active={navMode} />
         <Recenter center={focus ?? driver ?? pickup ?? center} nonce={focusNonce} />
         {onMapClick && <ClickCapture onClick={onMapClick} />}
         {pickup && <Marker position={[pickup.lat, pickup.lng]} icon={pin('#2979FF', true)} />}
