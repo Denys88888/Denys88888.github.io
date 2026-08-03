@@ -15,6 +15,7 @@ import type { User, RideStatus, Report } from '../types';
 interface Stats {
   totalRides: number;
   activeUsers: number;
+  totalUsers: number;
   platformEarnings: number;
   pendingReports: number;
 }
@@ -293,6 +294,10 @@ export function AdminDashboardScreen() {
               <p className="text-2xl font-bold">{stats.activeUsers}</p>
             </Card>
             <Card>
+              <p className="text-xs opacity-60">{t('admin.totalUsers')}</p>
+              <p className="text-2xl font-bold">{stats.totalUsers}</p>
+            </Card>
+            <Card>
               <p className="text-xs opacity-60">{t('admin.platformEarnings')}</p>
               <p className="text-2xl font-bold">{formatPi(stats.platformEarnings)}</p>
             </Card>
@@ -391,6 +396,11 @@ export function AdminDashboardScreen() {
                     {u.role}
                   </Badge>
                   {u.isBlocked && <Badge tone="danger">{t('admin.blocked')}</Badge>}
+                  {!!u.strikeCount && (
+                    <Badge tone={u.strikeCount >= 3 ? 'danger' : 'warning'}>
+                      {t('admin.strikes')}: {u.strikeCount}
+                    </Badge>
+                  )}
                 </div>
               </div>
               <Button

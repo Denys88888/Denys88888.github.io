@@ -94,6 +94,9 @@ export interface User {
   rating: number;
   ratingCount: number;
   isBlocked: boolean;
+  // Only populated by GET /api/admin/users — count of resolved reports
+  // against this user, mirroring the auto-block threshold check.
+  strikeCount?: number;
   fcmToken?: string;
   preferredLanguage?: string;
   preferredTheme?: Theme;
