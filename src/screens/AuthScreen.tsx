@@ -1,16 +1,31 @@
+import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Car } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { LanguageSelector } from '../components/ui/LanguageSelector';
 import { Button } from '../components/ui/Button';
 
-const isDevMode = new URLSearchParams(window.location.search).has('dev');
+const isDevMode =
+  new URLSearchParams(window.location.search).has('dev') || localStorage.getItem('taxi_pro_dev') === '1';
 
 // Single-action login screen. The only button authenticates via the Pi SDK.
 // With ?dev in the URL, shows extra buttons for sandbox testing without Pi SDK.
 export function AuthScreen() {
   const { t } = useTranslation();
   const { login, devLogin, loading } = useAuth();
+  // 5 taps on the logo within 2s enables dev mode without needing to edit the
+  // URL bar (handy in environments where typing a query string is awkward).
+  const tapsRef = useRef<number[]>([]);
+
+  const handleLogoTap = () => {
+    if (isDevMode) return;
+    const now = Date.now();
+    tapsRef.current = [...tapsRef.current, now].filter((t) => now - t < 2000);
+    if (tapsRef.current.length >= 5) {
+      localStorage.setItem('taxi_pro_dev', '1');
+      window.location.reload();
+    }
+  };
 
   return (
     <div className="safe-top flex h-full flex-col bg-gradient-to-b from-primary to-[#063D30] text-white">
@@ -19,7 +34,10 @@ export function AuthScreen() {
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8 text-center">
-        <div className="flex h-24 w-24 items-center justify-center rounded-3xl bg-white/15">
+        <div
+          className="flex h-24 w-24 items-center justify-center rounded-3xl bg-white/15"
+          onClick={handleLogoTap}
+        >
           <Car size={48} strokeWidth={1.75} />
         </div>
         <h1 className="text-white">{t('auth.welcome')}</h1>
