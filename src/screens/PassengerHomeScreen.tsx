@@ -12,6 +12,7 @@ import { useToast } from '../hooks/useToast';
 import { useAppStore } from '../store/useAppStore';
 import { useRouter } from '../store/useRouter';
 import { api } from '../services/api';
+import { wsService } from '../services/wsService';
 import { reverseGeocode, countryCodeAt, fetchRoute } from '../services/mapService';
 import { loadSavedAddresses, saveAddress, removeAddress } from '../services/savedAddresses';
 import { payCancellationFee } from '../services/cancellationFeePayment';
@@ -139,6 +140,20 @@ export function PassengerHomeScreen() {
     let cancelled = false;
     findActiveRide().then((r) => { if (!cancelled) setActiveRide(r); });
     return () => { cancelled = true; };
+  }, []);
+  // A ride can go live while the passenger is already sitting on Home (driver
+  // assigned from a scheduled trip, reconnect, multi-device) — findActiveRide()
+  // above only runs on mount, so without this the banner would stay hidden
+  // until a full reload. Re-check on the same WS events RideDetailsScreen
+  // already reacts to.
+  useEffect(() => {
+    const recheck = () => { findActiveRide().then(setActiveRide); };
+    const offAssigned = wsService.on('ride_assigned', recheck);
+    const offStatus = wsService.on('ride_status_update', recheck);
+    return () => {
+      offAssigned();
+      offStatus();
+    };
   }, []);
 
   // A trip booked for later. Shown alongside the order form, not instead of it.
