@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Calendar, Star, Phone, MessageCircle, Flag, Share2, Siren, Navigation, Zap } from 'lucide-react';
+import { ArrowLeft, Calendar, Star, Phone, MessageCircle, Flag, Share2, Siren, Navigation, LocateFixed, Zap } from 'lucide-react';
 import { MapView } from '../components/map/MapContainer';
 import { RideStatusBadge } from '../components/ride/RideStatusBadge';
 import { SearchingOverlay } from '../components/ride/SearchingOverlay';
@@ -23,7 +23,7 @@ import { fetchRoute } from '../services/mapService';
 import { callService } from '../services/callService';
 import { haptic } from '../utils/haptic';
 import { NavigationPanel } from '../components/ride/NavigationPanel';
-import { chatIdForRide, haversineKm } from '../utils/helpers';
+import { chatIdForRide, haversineKm, cn } from '../utils/helpers';
 import {
   cancellationFee,
   cancellationFeeApplies,
@@ -45,7 +45,8 @@ export function RideDetailsScreen() {
   const { addToast } = useToast();
   const { preparePayment, payRide, processing } = usePayments();
   const [preparedPayment, setPreparedPayment] = useState<PreparedPayment | null>(null);
-  const { position, speed } = useGeolocation();
+  const { position, speed, request: requestGeo, error: geoError, permissionDenied: geoPermissionDenied } = useGeolocation();
+  const [focusNonce, setFocusNonce] = useState(0);
   const storeRide = useAppStore((s) => s.currentRide);
   const uid = useAppStore((s) => s.user?.uid ?? '');
 
@@ -454,9 +455,14 @@ export function RideDetailsScreen() {
     }
   };
 
+  // Full turn-by-turn mode: the map takes over like Google Maps' driving view
+  // (instruction banner pinned to the top, ETA/exit bar pinned to the bottom)
+  // instead of sharing the screen with the scrollable ride-details sheet.
+  const navActive = showNav && isDriver;
+
   return (
     <div className="flex h-full flex-col">
-      <div className="relative h-[48%]">
+      <div className={cn('relative', navActive ? 'flex-1' : 'h-[48%]')}>
         <MapView
           center={liveDriverPos ?? ride.pickup}
           // Before the ride starts, the relevant route is the driver's own
@@ -474,18 +480,22 @@ export function RideDetailsScreen() {
           // heading-aware car icon, hiding it. Only the passenger needs their
           // own separate position marker.
           me={isDriver ? null : position}
-          navMode={showNav && isDriver}
+          focus={focusNonce > 0 ? liveDriverPos : undefined}
+          focusNonce={focusNonce}
+          navMode={navActive}
           className="h-full w-full"
         />
-        <button
-          onClick={back}
-          className="absolute left-3 top-3 z-[1000] flex h-10 w-10 items-center justify-center rounded-full bg-white/90 dark:bg-black/70 shadow-fab active:scale-95"
-          aria-label={t('common.back')}
-        >
-          <ArrowLeft size={20} />
-        </button>
-        {showNav && isDriver && targetPoint && (
-          <div className="absolute inset-x-3 bottom-3 z-[1000]">
+        {!navActive && (
+          <button
+            onClick={back}
+            className="absolute left-3 top-3 z-[1000] flex h-10 w-10 items-center justify-center rounded-full bg-white/90 dark:bg-black/70 shadow-fab active:scale-95"
+            aria-label={t('common.back')}
+          >
+            <ArrowLeft size={20} />
+          </button>
+        )}
+        {navActive && targetPoint && (
+          <div className="absolute inset-x-3 top-3 z-[1000]">
             <NavigationPanel
               from={liveDriverPos ?? ride.pickup}
               to={targetPoint}
@@ -493,6 +503,58 @@ export function RideDetailsScreen() {
               speed={speed}
               onClose={() => setShowNav(false)}
             />
+          </div>
+        )}
+        <button
+          onClick={() => {
+            if (!position && geoError) {
+              addToast('error', t(geoPermissionDenied ? 'home.locationPermissionDenied' : 'home.locationError'));
+            }
+            requestGeo();
+            setFocusNonce((n) => n + 1);
+          }}
+          className={cn(
+            'absolute right-3 z-[1000] flex h-11 w-11 items-center justify-center rounded-full bg-white text-black shadow-fab active:scale-95 dark:bg-black/80 dark:text-white',
+            navActive ? 'bottom-24' : 'bottom-3'
+          )}
+          aria-label={t('home.useMyLocation')}
+        >
+          <LocateFixed size={20} />
+        </button>
+        {/* Google-Maps-style bottom bar: ETA + distance + arrival clock stay
+            visible the whole time the driver is navigating, with a dedicated
+            exit control, instead of requiring a scroll down to the details
+            sheet to see any of this. */}
+        {navActive && (
+          <div className="absolute inset-x-3 bottom-3 z-[1000] flex items-center gap-3 rounded-card bg-white p-3 shadow-card dark:bg-neutral-900">
+            <div className="min-w-0 flex-1">
+              {etaSeconds !== null ? (
+                <>
+                  <p className="text-2xl font-bold leading-tight text-primary">
+                    {formatDuration(Math.max(1, etaSeconds / 60))}
+                  </p>
+                  <p className="truncate text-xs opacity-70">
+                    {formatDistance(haversineKm(
+                      (liveDriverPos ?? ride.pickup).lat,
+                      (liveDriverPos ?? ride.pickup).lng,
+                      targetPoint!.lat,
+                      targetPoint!.lng
+                    ))}
+                    {' · '}
+                    {t('ride.arriveBy')}{' '}
+                    {new Date(Date.now() + etaSeconds * 1000).toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                  </p>
+                </>
+              ) : (
+                <p className="text-sm opacity-70">{t('nav.loading')}</p>
+              )}
+            </div>
+            <Button variant="danger" onClick={() => setShowNav(false)}>
+              {t('nav.exit')}
+            </Button>
           </div>
         )}
       </div>

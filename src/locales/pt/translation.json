@@ -62,7 +62,8 @@
     "speedLimit": "Limite de velocidade",
     "yourSpeed": "Sua velocidade",
     "lanes": "Orientação de faixas",
-    "then": "Depois"
+    "then": "Depois",
+    "exit": "Sair"
   },
   "home": {
     "from": "De",

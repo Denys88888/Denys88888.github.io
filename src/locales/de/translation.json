@@ -62,7 +62,8 @@
     "speedLimit": "Tempolimit",
     "yourSpeed": "Deine Geschwindigkeit",
     "lanes": "Spurführung",
-    "then": "Danach"
+    "then": "Danach",
+    "exit": "Verlassen"
   },
   "home": {
     "from": "Von",

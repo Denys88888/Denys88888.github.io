@@ -62,7 +62,8 @@
     "speedLimit": "限速",
     "yourSpeed": "当前速度",
     "lanes": "车道指引",
-    "then": "然后"
+    "then": "然后",
+    "exit": "退出"
   },
   "home": {
     "from": "出发地",

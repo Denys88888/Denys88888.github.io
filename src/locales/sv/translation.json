@@ -62,7 +62,8 @@
     "speedLimit": "Hastighetsgräns",
     "yourSpeed": "Din hastighet",
     "lanes": "Filvägledning",
-    "then": "Sedan"
+    "then": "Sedan",
+    "exit": "Avsluta"
   },
   "home": {
     "from": "Från",

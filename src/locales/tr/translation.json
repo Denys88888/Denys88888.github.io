@@ -62,7 +62,8 @@
     "speedLimit": "Hız sınırı",
     "yourSpeed": "Hızınız",
     "lanes": "Şerit rehberi",
-    "then": "Sonra"
+    "then": "Sonra",
+    "exit": "Çıkış"
   },
   "home": {
     "from": "Nereden",

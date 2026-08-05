@@ -62,7 +62,8 @@
     "speedLimit": "Speed limit",
     "yourSpeed": "Your speed",
     "lanes": "Lane guidance",
-    "then": "Then"
+    "then": "Then",
+    "exit": "Exit"
   },
   "home": {
     "from": "From",

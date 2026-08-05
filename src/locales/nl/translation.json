@@ -62,7 +62,8 @@
     "speedLimit": "Maximumsnelheid",
     "yourSpeed": "Jouw snelheid",
     "lanes": "Rijstrookadvies",
-    "then": "Daarna"
+    "then": "Daarna",
+    "exit": "Afsluiten"
   },
   "home": {
     "from": "Van",

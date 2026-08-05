@@ -62,7 +62,8 @@
     "speedLimit": "Limite di velocità",
     "yourSpeed": "La tua velocità",
     "lanes": "Guida sulle corsie",
-    "then": "Poi"
+    "then": "Poi",
+    "exit": "Esci"
   },
   "home": {
     "from": "Da",

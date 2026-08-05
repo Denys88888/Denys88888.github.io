@@ -62,7 +62,8 @@
     "speedLimit": "制限速度",
     "yourSpeed": "現在の速度",
     "lanes": "車線案内",
-    "then": "その次"
+    "then": "その次",
+    "exit": "終了"
   },
   "home": {
     "from": "出発地",

@@ -62,7 +62,8 @@
     "speedLimit": "제한 속도",
     "yourSpeed": "현재 속도",
     "lanes": "차선 안내",
-    "then": "그다음"
+    "then": "그다음",
+    "exit": "종료"
   },
   "home": {
     "from": "출발지",

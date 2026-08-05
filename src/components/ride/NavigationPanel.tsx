@@ -209,27 +209,29 @@ export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
   const lanes = current?.lanes;
 
   return (
-    <div className="pointer-events-auto rounded-card bg-black/80 p-3 text-white shadow-card backdrop-blur">
-      <div className="flex items-center gap-3">
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary">
-          <Icon size={24} />
+    <div className="pointer-events-auto overflow-hidden rounded-card bg-black/85 text-white shadow-card backdrop-blur">
+      <div className="flex items-center gap-3 p-3">
+        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary">
+          <Icon size={28} />
         </div>
         <div className="min-w-0 flex-1">
           {steps === null && <p className="text-sm opacity-80">{t('nav.loading')}</p>}
           {steps !== null && !current && <p className="text-sm opacity-80">{t('nav.unavailable')}</p>}
           {current && (
             <>
-              <p className="truncate text-sm font-semibold">{instruction}</p>
-              <p className="text-xs opacity-70">
+              {/* The distance to the turn is the number a driver glances at —
+                  lead with it, big, the way Google Maps does; the instruction
+                  text is secondary context underneath. */}
+              <p className="text-2xl font-bold leading-none">
                 {distanceKm != null ? formatDistance(distanceKm) : formatDistance(current.distanceM / 1000)}
-                {steps ? ` · ${idx + 1}/${steps.length}` : ''}
               </p>
+              <p className="mt-1 truncate text-sm opacity-90">{instruction}</p>
               {/* Fills as the car closes on the turn — the Google-Maps cue for
                   "how close am I". Full segment length is current.distanceM. */}
               {distanceKm != null && current.distanceM > 0 && (
-                <div className="mt-1 h-1 overflow-hidden rounded-full bg-white/20">
+                <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-white/20">
                   <div
-                    className="h-full rounded-full bg-primary transition-[width] duration-500"
+                    className="h-full rounded-full bg-white transition-[width] duration-500"
                     style={{
                       width: `${Math.min(100, Math.max(0, (1 - distanceKm / (current.distanceM / 1000)) * 100))}%`,
                     }}
@@ -241,7 +243,7 @@ export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
         </div>
         <button
           onClick={() => setVoice((v) => !v)}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15"
           aria-label={voice ? t('nav.mute') : t('nav.unmute')}
         >
           {voice ? <Volume2 size={17} /> : <VolumeX size={17} />}
@@ -251,17 +253,28 @@ export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
             window.speechSynthesis?.cancel();
             onClose();
           }}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15"
           aria-label={t('common.close')}
         >
           <X size={17} />
         </button>
       </div>
 
+      {/* What comes after the current turn, as its own strip directly under
+          the main banner — mirrors Google Maps' "Далее" chip, so a turn that
+          follows immediately after another one isn't a surprise. */}
+      {next && NextIcon && (
+        <div className="flex items-center gap-2 border-t border-white/10 bg-white/5 px-3 py-2 text-xs opacity-80">
+          <span className="shrink-0">{t('nav.then')}</span>
+          <NextIcon size={14} className="shrink-0" />
+          <span className="truncate">{next.road || t(`nav.${maneuverKey(next)}`)}</span>
+        </div>
+      )}
+
       {/* Which lane to be in. OSM knows the lane layout of most city junctions;
           the ones that keep you on the route are lit, the rest are dimmed. */}
       {lanes && lanes.length > 0 && (
-        <div className="mt-2 flex justify-center gap-1" aria-label={t('nav.lanes')}>
+        <div className="flex justify-center gap-1 border-t border-white/10 p-2" aria-label={t('nav.lanes')}>
           {lanes.map((lane, i) => (
             <div
               key={i}
@@ -280,37 +293,22 @@ export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
         </div>
       )}
 
-      {(speedKph != null || limitKph != null || next) && (
-        <div className="mt-2 flex items-center justify-between gap-2 border-t border-white/15 pt-2">
-          {speedKph != null ? (
-            <div className="flex shrink-0 items-baseline gap-1" aria-label={t('nav.yourSpeed')}>
-              <span
-                className={cn('text-2xl font-bold leading-none', speeding && 'text-danger')}
-              >
-                {speedKph}
-              </span>
-              <span className="text-[10px] opacity-70">{t('nav.kmh')}</span>
-            </div>
-          ) : (
-            <span className="shrink-0" />
-          )}
-
-          {/* What comes after the current turn, so a turn that follows straight
-              after another one isn't a surprise. */}
-          {next && NextIcon && (
-            <div className="flex min-w-0 flex-1 items-center justify-end gap-1 text-xs opacity-70">
-              <span className="shrink-0">{t('nav.then')}</span>
-              <NextIcon size={14} className="shrink-0" />
-              <span className="truncate">{next.road || t(`nav.${maneuverKey(next)}`)}</span>
-            </div>
-          )}
-
+      {(speedKph != null || limitKph != null) && (
+        <div className="flex items-center gap-2 border-t border-white/10 p-2">
           {limitKph != null && (
             <div
               aria-label={t('nav.speedLimit')}
               className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-[3px] border-danger bg-white text-sm font-bold text-black"
             >
               {limitKph}
+            </div>
+          )}
+          {speedKph != null && (
+            <div className="flex shrink-0 items-baseline gap-1" aria-label={t('nav.yourSpeed')}>
+              <span className={cn('text-2xl font-bold leading-none', speeding && 'text-danger')}>
+                {speedKph}
+              </span>
+              <span className="text-[10px] opacity-70">{t('nav.kmh')}</span>
             </div>
           )}
         </div>
