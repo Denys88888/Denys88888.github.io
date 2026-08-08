@@ -209,7 +209,7 @@ export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
   const lanes = current?.lanes;
 
   return (
-    <div className="pointer-events-auto overflow-hidden rounded-card bg-black/85 text-white shadow-card backdrop-blur">
+    <div className="pointer-events-auto overflow-hidden rounded-card bg-black/55 text-white shadow-card backdrop-blur-md">
       <div className="flex items-center gap-3 p-3">
         <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary">
           <Icon size={28} />
