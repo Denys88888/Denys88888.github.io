@@ -267,7 +267,11 @@ export function initNotifications(): void {
     const m = msg.message as { senderId?: string; text?: string } | undefined;
     if (!m || m.senderId === me) return;
     if (useRouter.getState().screen === 'chat') return; // already looking at it
-    notify(i18n.t('notify.newMessage', { text: (m.text ?? '').slice(0, 60) }));
+    // Sound, like every other interruption worth reacting to. Without it a
+    // message arriving while the rider is looking at the map produced only a
+    // silent toast that scrolled away unnoticed (reported: "no notification
+    // for messages") — the Pi Browser has no push to fall back on.
+    notify(i18n.t('notify.newMessage', { text: (m.text ?? '').slice(0, 60) }), { sound: true });
   });
 
   // Tips land asynchronously after the ride — tell the driver.

@@ -564,7 +564,7 @@ export function RideDetailsScreen() {
           last action (Cancel) sits under the system nav and can't be tapped. */}
       <div
         className="-mt-4 flex-1 space-y-4 overflow-y-auto rounded-t-2xl surface p-4 shadow-card"
-        style={{ paddingBottom: 'calc(1rem + max(env(safe-area-inset-bottom), 16px))' }}
+        style={{ paddingBottom: 'calc(1rem + max(var(--safe-bottom), 16px))' }}
       >
         <div className="flex items-center justify-between">
           <RideStatusBadge status={ride.status} />

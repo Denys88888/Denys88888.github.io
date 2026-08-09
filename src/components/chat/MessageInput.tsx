@@ -21,7 +21,7 @@ export function MessageInput({ onSend, placeholder }: Props) {
   return (
     <div
       className="surface flex items-center gap-2 border-t border-black/5 dark:border-white/10 p-3"
-      style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 12px)' }}
+      style={{ paddingBottom: 'max(var(--safe-bottom), 12px)' }}
     >
       <input
         value={text}

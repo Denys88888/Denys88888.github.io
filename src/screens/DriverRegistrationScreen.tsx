@@ -307,7 +307,7 @@ export function DriverRegistrationScreen() {
 
       <div
         className="surface flex gap-3 border-t border-black/5 dark:border-white/10 p-4"
-        style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 16px)' }}
+        style={{ paddingBottom: 'max(var(--safe-bottom), 16px)' }}
       >
         <Button variant="ghost" onClick={() => (step === 0 ? back() : setStep((s) => s - 1))}>
           {t('common.back')}

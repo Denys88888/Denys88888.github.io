@@ -8,6 +8,11 @@ import './i18n';
 import App from './App';
 import { PI_SANDBOX } from './utils/constants';
 import { watchForNewVersion } from './utils/appUpdate';
+import { bootSafeArea } from './utils/safeArea';
+
+// Before first paint, so the tab bar never renders under the Android system
+// navigation bar and then jumps once a measurement lands.
+bootSafeArea();
 
 // Call Pi.init as early as possible so the SDK is ready before any component
 // mounts and before the user can trigger authentication or payments.

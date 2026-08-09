@@ -327,7 +327,12 @@ h3 { font-size: 16px; font-weight: 600; }
 }
 
 /* ── Safe area ────────────────────────────────────────────────────── */
-.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+/* The gap to leave at the bottom of the screen. --android-nav-floor is set by
+   bootSafeArea() (utils/safeArea.ts) only on Android runtimes that paint under
+   the system nav bar while reporting no inset for it; everywhere else this is
+   just env(safe-area-inset-bottom). */
+:root { --safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--android-nav-floor, 0px)); }
+.safe-bottom { padding-bottom: var(--safe-bottom); }
 /* Installed from the manifest the app runs standalone, with no browser chrome
    between it and the status bar / notch — the map then slides underneath the
    clock. Zero in a normal browser tab, where the chrome already stands there. */
@@ -356,7 +361,7 @@ h3 { font-size: 16px; font-weight: 600; }
   background: var(--sheet-bg);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-bottom: var(--safe-bottom);
 }
 .nav-item {
   flex: 1;
