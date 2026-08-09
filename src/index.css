@@ -14,6 +14,14 @@
     --safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--android-nav-floor, 0px));
   }
 
+  /* Used by App and AuthScreen. It was only ever declared in
+     styles/globals.css, which nothing imports, so it has quietly done nothing:
+     harmless in the Pi Browser, where the browser's own chrome sits above the
+     page, but in an installed PWA the app runs against the status bar. */
+  .safe-top {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
   html,
   body,
   #root {
