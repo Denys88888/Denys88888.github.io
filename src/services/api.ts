@@ -61,13 +61,20 @@ export interface PaginatedRides {
 export const api = {
   // ── Health ──
   health: () => client.get<HealthInfo>('/api/health').then((r) => r.data),
-  // Public branding/contact/maintenance subset — no auth required, safe to
-  // call before login (see also adminSettings for the full admin-only record).
+  // Public branding/contact/maintenance + the fare knobs the client quotes
+  // from — no auth required, safe to call before login (see also adminSettings
+  // for the full admin-only record, which keeps commission and thresholds).
   publicSettings: () =>
     client
-      .get<{ appName: string; appLogo: string; contactEmail: string; maintenanceMode: boolean }>(
-        '/api/settings'
-      )
+      .get<{
+        appName: string;
+        appLogo: string;
+        contactEmail: string;
+        maintenanceMode: boolean;
+        minFare?: number;
+        baseFarePerKm?: number;
+        surgeEnabled?: boolean;
+      }>('/api/settings')
       .then((r) => r.data),
 
   // ── Auth ──

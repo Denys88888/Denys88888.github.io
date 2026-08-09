@@ -23,6 +23,17 @@ const FARE_TABLE: Record<string, { base: number; perKm: number; perMin: number; 
   xl: { base: 2.0, perKm: 0.9, perMin: 0.15, minFare: 3.0 },
 };
 
+// The admin-tunable half of the model, mirrored from GET /api/settings. Without
+// it the quote on screen was computed purely from the table above, so raising
+// minFare or the per-km rate in the admin panel changed what the server charged
+// while the price the passenger saw never moved. Empty until the first fetch
+// lands (and if it never does), which just falls back to the table defaults —
+// the same defaults the server starts from.
+let fareOverrides: { minFare?: number; baseFarePerKm?: number } = {};
+export function setFareOverrides(o: { minFare?: number; baseFarePerKm?: number }): void {
+  fareOverrides = o;
+}
+
 export function estimateFare(
   vehicleType: string,
   distanceKm: number,
@@ -30,8 +41,18 @@ export function estimateFare(
   surge = 1
 ): number {
   const t = FARE_TABLE[vehicleType] ?? FARE_TABLE.economy;
-  const raw = (t.base + distanceKm * t.perKm + durationMin * t.perMin) * (surge > 0 ? surge : 1);
-  return Math.round(Math.max(raw, t.minFare) * 100) / 100;
+  // Same two knobs the server applies (services/fareCalculator.ts):
+  // baseFarePerKm rescales every class proportionally off the economy rate, and
+  // minFare raises — never lowers — the class's own floor.
+  const perKmScale =
+    fareOverrides.baseFarePerKm && fareOverrides.baseFarePerKm > 0
+      ? fareOverrides.baseFarePerKm / FARE_TABLE.economy.perKm
+      : 1;
+  const minFare = Math.max(t.minFare, fareOverrides.minFare ?? 0);
+  const raw =
+    (t.base + distanceKm * t.perKm * perKmScale + durationMin * t.perMin) *
+    (surge > 0 ? surge : 1);
+  return Math.round(Math.max(raw, minFare) * 100) / 100;
 }
 
 // Great-circle distance in km (client-side estimate for UI only).
