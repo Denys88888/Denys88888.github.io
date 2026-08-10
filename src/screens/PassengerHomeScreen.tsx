@@ -15,6 +15,7 @@ import { api } from '../services/api';
 import { wsService } from '../services/wsService';
 import { reverseGeocode, countryCodeAt, fetchRoute } from '../services/mapService';
 import { loadSavedAddresses, saveAddress, removeAddress } from '../services/savedAddresses';
+import { loadOrderDraft, saveOrderDraft, clearOrderDraft } from '../services/orderDraft';
 import { payCancellationFee } from '../services/cancellationFeePayment';
 import { formatPi, formatDistance, formatDuration, localDateTimeValue, formatDate } from '../utils/formatters';
 import { isValidCoord } from '../utils/validators';
@@ -77,16 +78,29 @@ export function PassengerHomeScreen() {
   const params = useRouter((s) => s.params);
   const navigate = useRouter((s) => s.navigate);
 
+  // "Repeat this ride" (params) wins over a leftover draft — picking a past
+  // ride from History is a deliberate choice to replace whatever was here.
+  const draft = useMemo(() => (params.repeatPickup || params.repeatDest ? null : loadOrderDraft()), [params.repeatPickup, params.repeatDest]);
   const [pickup, setPickup] = useState<GeoPoint | null>(() => {
-    try { return params.repeatPickup ? JSON.parse(params.repeatPickup) : null; } catch { return null; }
+    try { return params.repeatPickup ? JSON.parse(params.repeatPickup) : (draft?.pickup ?? null); } catch { return null; }
   });
   const [destination, setDestination] = useState<GeoPoint | null>(() => {
-    try { return params.repeatDest ? JSON.parse(params.repeatDest) : null; } catch { return null; }
+    try { return params.repeatDest ? JSON.parse(params.repeatDest) : (draft?.destination ?? null); } catch { return null; }
   });
-  const [stops, setStops] = useState<GeoPoint[]>([]);
-  const [vehicle, setVehicle] = useState<VehicleType>('economy');
+  const [stops, setStops] = useState<GeoPoint[]>(() => draft?.stops ?? []);
+  const [vehicle, setVehicle] = useState<VehicleType>(() => draft?.vehicle ?? 'economy');
   const [ordering, setOrdering] = useState(false);
   const [country, setCountry] = useState<string | undefined>();
+
+  // Keep the draft current so a tab switch and back doesn't undo the address
+  // picks above — including the passenger explicitly clearing a field, which
+  // must persist as "empty" too, not silently restore whatever was cleared.
+  // Cleared for real (not just written as empty) in order() once a ride
+  // actually gets created — otherwise a completed trip's pickup/destination
+  // would haunt the next one.
+  useEffect(() => {
+    saveOrderDraft({ pickup, destination, stops, vehicle });
+  }, [pickup, destination, stops, vehicle]);
 
   // Scheduling + negotiation state.
   const [schedule, setSchedule] = useState(false);
@@ -383,6 +397,7 @@ export function PassengerHomeScreen() {
         note: note.trim() || undefined,
       });
       setCurrentRide(ride);
+      clearOrderDraft();
       haptic.medium();
       addToast('success', schedule ? t('home.scheduleRide') : t('home.searching'));
       navigate('ride', { id: ride.id });
