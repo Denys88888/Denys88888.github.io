@@ -76,12 +76,12 @@ export function HistoryScreen() {
                 </p>
                 <p className="mt-1 text-xs opacity-40">{formatDate(ride.createdAt)}</p>
               </div>
-              <div className="ml-3 flex flex-col items-end gap-1">
+              <div className="ms-3 flex flex-col items-end gap-1">
                 {(() => {
                   const money = settledAmount(ride, user?.role === 'driver');
                   if (!money) return null;
                   return (
-                    <div className="text-right">
+                    <div className="text-end">
                       <p className={cn('font-bold', money.tone)}>{formatPi(money.amount)}</p>
                       {money.label && (
                         <p className={cn('text-[10px] leading-tight', money.tone)}>

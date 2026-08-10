@@ -93,7 +93,7 @@ export function AddressSearch({ label, placeholder, value, icon, near, countryCo
           {(showingRecents ? recents : results).map((r, i) => (
             <li key={`${r.displayName}-${i}`}>
               <button
-                className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-primary/10"
+                className="flex w-full items-center gap-2 px-3 py-2 text-start text-sm hover:bg-primary/10"
                 // pointerdown fires before the input's blur, so selection wins
                 // the race against the blur-driven close on slow devices.
                 onPointerDown={(e) => {

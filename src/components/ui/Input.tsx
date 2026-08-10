@@ -17,13 +17,16 @@ export function Input({ label, icon, error, className, ...rest }: Props) {
         </span>
       )}
       <span className="relative flex items-center">
-        {icon && <span className="absolute left-3 text-text-light/50 dark:text-text-dark/50">{icon}</span>}
+        {/* start-3/ps-9, not left-3/pl-9: an RTL input (Arabic) right-aligns its
+            own text, so a physically-left icon would sit on the wrong side of
+            it — logical start/end follow direction: rtl automatically. */}
+        {icon && <span className="absolute start-3 text-text-light/50 dark:text-text-dark/50">{icon}</span>}
         <input
           className={cn(
             'w-full rounded-lg border border-[#E0E0E0] dark:border-white/15 bg-surface-light dark:bg-surface-dark',
             'px-3 py-2.5 text-base outline-none transition',
             'focus:border-primary focus:ring-2 focus:ring-primary/40',
-            icon && 'pl-9',
+            icon && 'ps-9',
             error && 'border-danger focus:ring-danger/40',
             className
           )}

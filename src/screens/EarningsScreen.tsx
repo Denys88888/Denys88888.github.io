@@ -157,12 +157,12 @@ export function EarningsScreen() {
                   {formatPi(earned(r))}
                   {r.status === 'cancelled' ? (
                     // Without this the row looks like a suspiciously cheap trip.
-                    <span className="ml-1.5 text-xs font-semibold text-warning">
+                    <span className="ms-1.5 text-xs font-semibold text-warning">
                       {t('earnings.cancelFee')}
                     </span>
                   ) : (
                     !!r.tipAmount && (
-                      <span className="ml-1.5 text-xs font-semibold text-success">
+                      <span className="ms-1.5 text-xs font-semibold text-success">
                         +{formatPi(r.tipAmount)} {t('earnings.tip')}
                       </span>
                     )

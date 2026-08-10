@@ -394,7 +394,7 @@ export function DriverHomeScreen() {
                 <p className="font-bold">{formatPi(todayEarnings)}</p>
               </div>
             </div>
-            <div className="text-right">
+            <div className="text-end">
               <p className="text-xs opacity-60">{t('driver.ridesCount')}</p>
               <p className="font-bold">{todayRides.length}</p>
             </div>
@@ -443,7 +443,7 @@ export function DriverHomeScreen() {
                   </p>
                 )}
               </div>
-              <span className="ml-2 text-right">
+              <span className="ms-2 text-end">
                 <span className="block font-bold">{formatPi(ride.fare)}</span>
                 <span className="block text-[10px] opacity-60">{ride.vehicleType}</span>
                 {ride.negotiable && <span className="text-[10px] text-primary">{t('driver.negotiable')}</span>}

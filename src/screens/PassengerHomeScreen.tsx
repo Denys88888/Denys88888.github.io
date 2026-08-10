@@ -510,7 +510,7 @@ export function PassengerHomeScreen() {
                 setCurrentRide(nextScheduled);
                 navigate('ride', { id: nextScheduled.id });
               }}
-              className="flex w-full items-center gap-2 rounded-xl bg-primary/10 px-3 py-2 text-left text-sm active:scale-[0.99]"
+              className="flex w-full items-center gap-2 rounded-xl bg-primary/10 px-3 py-2 text-start text-sm active:scale-[0.99]"
             >
               <Calendar size={16} className="shrink-0 text-primary" />
               <span className="flex-1 truncate">
@@ -691,11 +691,11 @@ export function PassengerHomeScreen() {
               <div>
                 <p className="text-xs opacity-60">
                   {t('home.estimatedFare')}
-                  {surgeX > 1 && <span className="ml-1 font-semibold text-warning">×{surgeX}</span>}
+                  {surgeX > 1 && <span className="ms-1 font-semibold text-warning">×{surgeX}</span>}
                 </p>
                 <p className="text-xl font-bold">{formatPi(fareEstimate)}</p>
               </div>
-              <div className="text-right text-xs opacity-70">
+              <div className="text-end text-xs opacity-70">
                 <p>{formatDistance(distanceKm)}</p>
                 <p>{formatDuration(durationMin)}</p>
               </div>
