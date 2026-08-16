@@ -495,7 +495,11 @@ export function RideDetailsScreen() {
           </button>
         )}
         {navActive && targetPoint && (
-          <div className="absolute inset-x-3 top-3 z-[1000]">
+          // pointer-events-none on the strip, auto on the panel itself (set in
+          // NavigationPanel): the wrapper spans the full width, so without this
+          // it swallowed map drags and pinches in the empty space beside the
+          // panel — the driver couldn't pan the map along the top of the screen.
+          <div className="pointer-events-none absolute inset-x-3 top-3 z-[1000]">
             <NavigationPanel
               from={liveDriverPos ?? ride.pickup}
               to={targetPoint}

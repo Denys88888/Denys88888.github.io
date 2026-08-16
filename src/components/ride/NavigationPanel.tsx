@@ -209,7 +209,11 @@ export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
   const lanes = current?.lanes;
 
   return (
-    <div className="pointer-events-auto overflow-hidden rounded-card bg-black/55 text-white shadow-card backdrop-blur-md">
+    <div
+      role="region"
+      aria-label={t('driver.navigation')}
+      className="pointer-events-auto overflow-hidden rounded-card bg-black/55 text-white shadow-card backdrop-blur-md"
+    >
       <div className="flex items-center gap-3 p-3">
         <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary">
           <Icon size={28} />
@@ -222,10 +226,18 @@ export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
               {/* The distance to the turn is the number a driver glances at —
                   lead with it, big, the way Google Maps does; the instruction
                   text is secondary context underneath. */}
-              <p className="text-2xl font-bold leading-none">
+              {/* aria-live so a screen reader announces each new distance as
+                  the car closes on the turn, without re-reading the whole
+                  panel. Polite, not assertive: it must not cut across the
+                  spoken turn instruction. */}
+              <p className="text-2xl font-bold leading-none" aria-live="polite">
                 {distanceKm != null ? formatDistance(distanceKm) : formatDistance(current.distanceM / 1000)}
               </p>
-              <p className="mt-1 truncate text-sm opacity-90">{instruction}</p>
+              {/* Two lines, not truncate: "Начните движение прямо · Al.
+                  Jerozolimskie" clipped to "Начните дви…" tells the driver
+                  nothing, and street names are exactly where the useful part
+                  sits at the end. */}
+              <p className="mt-1 line-clamp-2 text-sm opacity-90">{instruction}</p>
               {/* Fills as the car closes on the turn — the Google-Maps cue for
                   "how close am I". Full segment length is current.distanceM. */}
               {distanceKm != null && current.distanceM > 0 && (
@@ -241,22 +253,24 @@ export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
             </>
           )}
         </div>
+        {/* 44px: the minimum reliable touch target, and this is a control a
+            driver reaches for one-handed while moving. */}
         <button
           onClick={() => setVoice((v) => !v)}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15"
           aria-label={voice ? t('nav.mute') : t('nav.unmute')}
         >
-          {voice ? <Volume2 size={17} /> : <VolumeX size={17} />}
+          {voice ? <Volume2 size={18} /> : <VolumeX size={18} />}
         </button>
         <button
           onClick={() => {
             window.speechSynthesis?.cancel();
             onClose();
           }}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15"
           aria-label={t('common.close')}
         >
-          <X size={17} />
+          <X size={18} />
         </button>
       </div>
 

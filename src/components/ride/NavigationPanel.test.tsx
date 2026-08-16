@@ -184,3 +184,51 @@ describe('NavigationPanel speed', () => {
     expect(screen.getByText('Then')).toBeTruthy();
   });
 });
+
+// Reported from a real driver screenshot: the instruction line was clipped to
+// "Начните дви…" mid-word. The useful part of an instruction — which street —
+// sits at the END of the string ("Turn right · Świętokrzyska"), so truncating
+// to one line throws away exactly what the driver needs. It wraps to two lines
+// now; these pin that so a future style pass can't quietly put truncate back.
+describe('NavigationPanel instruction legibility', () => {
+  it('does not clip the instruction to a single line', async () => {
+    speedLimitKph.mockResolvedValue(null);
+    show();
+
+    const line = await screen.findByText(/Turn right/);
+    expect(line.className).not.toMatch(/\btruncate\b/);
+    expect(line.className).toMatch(/line-clamp-2/);
+  });
+
+  it('keeps the street name, not just the manoeuvre verb', async () => {
+    speedLimitKph.mockResolvedValue(null);
+    show();
+
+    // Both halves in one node: clipping would drop the road and leave the verb.
+    await screen.findByText(/Turn right.*Świętokrzyska/);
+  });
+
+  it('announces the closing distance politely for screen readers', async () => {
+    speedLimitKph.mockResolvedValue(null);
+    const { container } = show();
+
+    await screen.findByText(/Turn right/);
+    const live = container.querySelector('[aria-live="polite"]');
+    expect(live).not.toBeNull();
+    // The live region must carry the distance, not the whole panel.
+    expect(live!.textContent).toMatch(/\d/);
+  });
+
+  it('gives both controls a 44px touch target', async () => {
+    speedLimitKph.mockResolvedValue(null);
+    show();
+
+    const mute = await screen.findByLabelText('Mute voice');
+    const close = screen.getByLabelText('Close');
+    // h-11/w-11 = 44px; anything smaller is unreliable for a driver one-handed.
+    for (const btn of [mute, close]) {
+      expect(btn.className).toMatch(/\bh-11\b/);
+      expect(btn.className).toMatch(/\bw-11\b/);
+    }
+  });
+});
