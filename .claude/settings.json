@@ -1,0 +1,37 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/mac/Denys88888.github.io/.claude/hooks/secret-scan.sh",
+            "if": "Bash(git *)",
+            "timeout": 20,
+            "statusMessage": "Scanning for credentials"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/mac/Denys88888.github.io/.claude/hooks/css-reaches-bundle.sh",
+            "timeout": 15
+          },
+          {
+            "type": "command",
+            "command": "/Users/mac/Denys88888.github.io/.claude/hooks/typecheck.sh",
+            "asyncRewake": true,
+            "timeout": 120,
+            "rewakeSummary": "TypeScript errors"
+          }
+        ]
+      }
+    ]
+  }
+}
