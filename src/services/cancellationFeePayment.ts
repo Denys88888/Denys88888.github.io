@@ -1,5 +1,5 @@
 import { api } from './api';
-import { payForRide } from './piSdk';
+import { payForRide, type PreparedPiPayment } from './piSdk';
 import { logger } from '../utils/logger';
 
 // Settling a late-cancellation fee. The fare is escrowed as one Pi payment for
@@ -14,13 +14,24 @@ import { logger } from '../utils/logger';
 // The amount is not a parameter. The server prices the fee from the ride it
 // already recorded and ignores anything the client sends, so passing one here
 // would only invite the two to disagree on screen.
-export async function payCancellationFee(rideId: string): Promise<{ txid: string }> {
+//
+// Split in two on purpose. Asking the server for the payment record is a
+// network call, and doing it inside the Pay handler is what broke this: by the
+// time Pi.createPayment ran, the tap's user activation had expired, the wallet
+// sheet silently never opened, and since no callback fires either the button
+// just span forever. So the record is fetched as soon as the debt is known and
+// the tap itself goes straight to the SDK.
+export async function prepareCancellationFee(rideId: string): Promise<PreparedPiPayment> {
   const payment = await api.createPayment(rideId, { type: 'fee' });
-  logger.info('[fee] paying cancellation fee', { rideId, amount: payment.amount });
-  return payForRide({
+  logger.info('[fee] prepared cancellation fee', { rideId, amount: payment.amount });
+  return {
     paymentId: payment.paymentId,
     amount: payment.amount,
     memo: payment.memo,
     metadata: payment.metadata,
-  });
+  };
+}
+
+export function payCancellationFee(prepared: PreparedPiPayment): Promise<{ txid: string }> {
+  return payForRide(prepared);
 }

@@ -16,7 +16,8 @@ import { wsService } from '../services/wsService';
 import { reverseGeocode, countryCodeAt, fetchRoute } from '../services/mapService';
 import { loadSavedAddresses, saveAddress, removeAddress } from '../services/savedAddresses';
 import { loadOrderDraft, saveOrderDraft, clearOrderDraft } from '../services/orderDraft';
-import { payCancellationFee } from '../services/cancellationFeePayment';
+import { payCancellationFee, prepareCancellationFee } from '../services/cancellationFeePayment';
+import type { PreparedPiPayment } from '../services/piSdk';
 import { formatPi, formatDistance, formatDuration, localDateTimeValue, formatDate } from '../utils/formatters';
 import { isValidCoord } from '../utils/validators';
 import { cn, estimateFare, routeDistanceKm } from '../utils/helpers';
@@ -184,6 +185,10 @@ export function PassengerHomeScreen() {
   // their wallet, so the only way this clears is them tapping Pay.
   const [owedFee, setOwedFee] = useState<{ rideId: string; amount: number } | null>(null);
   const [payingFee, setPayingFee] = useState(false);
+  // Fetched here rather than in the Pay handler: a network call between the tap
+  // and Pi.createPayment costs the tap its user activation, and the wallet
+  // sheet then never opens (silently — no callback fires at all).
+  const [feePayment, setFeePayment] = useState<PreparedPiPayment | null>(null);
   useEffect(() => {
     let cancelled = false;
     api
@@ -193,11 +198,27 @@ export function PassengerHomeScreen() {
     return () => { cancelled = true; };
   }, [user?.uid]);
 
+  // Keyed by the ride, not by the owedFee object: re-checking the debt after a
+  // failed attempt hands back an equal-but-new object, and depending on that
+  // would mint a fresh server-side payment record on every backed-out tap.
+  const owedRideId = owedFee?.rideId;
+  useEffect(() => {
+    if (!owedRideId) { setFeePayment(null); return; }
+    let cancelled = false;
+    prepareCancellationFee(owedRideId)
+      .then((p) => { if (!cancelled) setFeePayment(p); })
+      .catch((err) => console.error('[home] prepareCancellationFee:', err));
+    return () => { cancelled = true; };
+  }, [owedRideId]);
+
   const settleFee = async (): Promise<void> => {
     if (!owedFee) return;
     setPayingFee(true);
     try {
-      await payCancellationFee(owedFee.rideId);
+      // Falling back to preparing it here keeps a failed prefetch from leaving a
+      // button that can never do anything — it only risks the activation this
+      // whole split exists to protect, it does not throw the debt away.
+      await payCancellationFee(feePayment ?? (await prepareCancellationFee(owedFee.rideId)));
       setOwedFee(null);
       addToast('success', t('ride.feePaid'));
     } catch (err) {

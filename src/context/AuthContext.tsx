@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from '
 import { useAppStore } from '../store/useAppStore';
 import { api } from '../services/api';
 import { wsService } from '../services/wsService';
-import { authenticateWithPi, initPi } from '../services/piSdk';
+import { authenticateWithPi, ensurePiPayments, initPi } from '../services/piSdk';
 import { initNotifications } from '../services/notificationService';
 
 interface AuthCtx {
@@ -18,6 +18,7 @@ const Ctx = createContext<AuthCtx | null>(null);
 // fetches server health), and exposes Pi login / logout.
 export function AuthProvider({ children }: { children: ReactNode }) {
   const token = useAppStore((s) => s.token);
+  const user = useAppStore((s) => s.user);
   const setAuth = useAppStore((s) => s.setAuth);
   const storeLogout = useAppStore((s) => s.logout);
   const setHealth = useAppStore((s) => s.setHealth);
@@ -30,6 +31,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.error('[auth] health check (non-critical, server may be cold-starting):', err);
     });
   }, [setHealth]);
+
+  // A session restored from storage never went through Pi.authenticate, and the
+  // SDK will not create a payment for an instance that hasn't — so the fare, a
+  // tip and the cancellation fee all failed for anyone who simply reopened the
+  // app. Arming it here rather than from a pay button keeps the click's user
+  // activation intact. Dev logins have no Pi identity to authenticate.
+  const uid = user?.uid;
+  useEffect(() => {
+    if (!uid || uid.startsWith('dev_')) return;
+    ensurePiPayments().catch((err) => {
+      console.error('[auth] Pi payments unavailable until re-login:', err);
+    });
+  }, [uid]);
 
   // Connect / disconnect the WebSocket as the token changes.
   useEffect(() => {

@@ -16,7 +16,11 @@ export interface PiPaymentCallbacks {
   onReadyForServerApproval: (paymentId: string) => void;
   onReadyForServerCompletion: (paymentId: string, txid: string) => void;
   onCancel: (paymentId: string) => void;
-  onError: (error: Error, payment?: unknown) => void;
+  // When the SDK refuses because an earlier payment is still open it reports it
+  // here, and the leftover payment itself is the second argument — the only
+  // handle we ever get on it, since the SDK's own onIncompletePaymentFound is
+  // instance state that only authenticate() arms.
+  onError: (error: Error, payment?: PiIncompletePayment) => void;
 }
 
 // The DTO the SDK hands back for a payment left over from a previous session

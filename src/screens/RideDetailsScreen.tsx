@@ -17,7 +17,7 @@ import { useGeolocation } from '../hooks/useGeolocation';
 import { useWakeLock } from '../hooks/useWakeLock';
 import { wsService } from '../services/wsService';
 import { api } from '../services/api';
-import { payForRide } from '../services/piSdk';
+import { payForRide, type PreparedPiPayment } from '../services/piSdk';
 import { notify } from '../services/notificationService';
 import { fetchRoute } from '../services/mapService';
 import { callService } from '../services/callService';
@@ -29,11 +29,16 @@ import {
   cancellationFeeApplies,
   freeCancelMsLeft as msLeftToCancelFree,
 } from '../utils/cancellation';
-import { payCancellationFee } from '../services/cancellationFeePayment';
 import { formatPi, formatDistance, formatDuration, formatDate, maskPhone } from '../utils/formatters';
 import type { GeoPoint, Ride, RideParty, FareOffer } from '../types';
 
 const AVG_SPEED_KMH = 30;
+const TIP_PRESETS = [1, 2, 5];
+
+async function prepareTip(rideId: string, amount: number): Promise<PreparedPiPayment> {
+  const p = await api.createPayment(rideId, { type: 'tip', amount });
+  return { paymentId: p.paymentId, amount: p.amount, memo: p.memo, metadata: p.metadata };
+}
 
 // Ride tracking screen: live map + status, counterpart contact (phone/call),
 // driver offers for negotiable rides, cancel + pay + rate.
@@ -73,6 +78,10 @@ export function RideDetailsScreen() {
   const [showNav, setShowNav] = useState(params.nav === '1');
   const [tipBusy, setTipBusy] = useState(false);
   const [tipCustom, setTipCustom] = useState('');
+  // Prepared up front for the same reason the fare is (see usePayments): asking
+  // our server for the payment record inside the tap handler burns the tap's
+  // user activation, and Pi then declines to open the wallet sheet at all.
+  const [tipPresets, setTipPresets] = useState<Record<number, PreparedPiPayment>>({});
   const [sosSending, setSosSending] = useState(false);
   const [showSos, setShowSos] = useState(false);
 
@@ -277,6 +286,16 @@ export function RideDetailsScreen() {
   // Must be called before any conditional return to satisfy Rules of Hooks.
   useWakeLock(isDriver && !!ride && !['completed', 'cancelled'].includes(ride.status));
 
+  const canTip = !!ride && ride.status === 'completed' && !isDriver && !!ride.driverId && !ride.tipAmount;
+  useEffect(() => {
+    if (!canTip) return;
+    let cancelled = false;
+    Promise.all(TIP_PRESETS.map(async (a) => [a, await prepareTip(rideId, a)] as const))
+      .then((entries) => { if (!cancelled) setTipPresets(Object.fromEntries(entries)); })
+      .catch((err) => console.error('[ride] prepare tips:', err));
+    return () => { cancelled = true; };
+  }, [canTip, rideId]);
+
   if (!ride) {
     return <div className="flex h-full items-center justify-center opacity-60">{t('common.loading')}</div>;
   }
@@ -302,19 +321,13 @@ export function RideDetailsScreen() {
       // rather than letting them find out at their next booking. Pi needs their
       // approval in the wallet for every transfer — there is nothing on file to
       // charge — so this is a request, not a deduction.
-      if (feeApplies) {
-        try {
-          await payCancellationFee(ride.id);
-          addToast('success', t('ride.feePaid'));
-        } catch (err) {
-          // Backing out of the payment sheet lands here too, and that is a
-          // choice, not a failure — so say what it means rather than
-          // "something went wrong". The debt stands and the next booking is
-          // blocked until it is settled.
-          console.error('[ride] cancellation fee:', err);
-          addToast('info', t('ride.feeOutstanding'));
-        }
-      }
+      // The fee cannot be charged from here. Pi only opens its wallet sheet
+      // while the tap that asked for it is still "active", and cancelling the
+      // ride first costs two server round-trips — so the sheet silently never
+      // appeared and the passenger was told the fee was outstanding no matter
+      // what they did. Home carries the same debt with its payment prepared in
+      // advance, which is the one place the tap does reach the wallet.
+      if (feeApplies) addToast('info', t('ride.feeOutstanding'));
       back();
     } catch (err) {
       console.error('[ride] cancel:', err);
@@ -369,17 +382,13 @@ export function RideDetailsScreen() {
   };
 
   // Tip the driver: a separate Pi payment (100% goes to the driver).
+  // A typed-in amount has no prepared record to use, so it takes the slower
+  // path and may need a second tap if the server was cold.
   const sendTip = async (amount: number): Promise<void> => {
     if (!amount || amount <= 0) return;
     setTipBusy(true);
     try {
-      const p = await api.createPayment(ride.id, { type: 'tip', amount });
-      await payForRide({
-        paymentId: p.paymentId,
-        amount: p.amount,
-        memo: p.memo,
-        metadata: p.metadata,
-      });
+      await payForRide(tipPresets[amount] ?? (await prepareTip(ride.id, amount)));
       addToast('success', t('ride.tipThanks'));
       api.getRide(ride.id).then(setRide).catch((err) => console.error('[ride] refresh after tip:', err));
     } catch (err) {
@@ -843,7 +852,7 @@ export function RideDetailsScreen() {
             ) : (
               <>
                 <div className="flex gap-2">
-                  {[1, 2, 5].map((a) => (
+                  {TIP_PRESETS.map((a) => (
                     <Button
                       key={a}
                       variant="outline"
