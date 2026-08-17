@@ -4,9 +4,11 @@
  */
 import { test, expect } from '@playwright/test';
 import { mockPiSdk } from './helpers/mockPi';
+import { API } from './helpers/session';
 
 const BASE = process.env.E2E_BASE_URL || 'http://localhost:5199';
-const API = process.env.E2E_API_URL || 'http://localhost:3001';
+// Defaults to production, like helpers/session.ts — nothing listens on
+// localhost:3001, so the old default made these fail everywhere except CI.
 
 test.describe('Driver registration', () => {
   test('driver registration API accepts valid vehicle data', async ({ request }) => {

@@ -17,11 +17,34 @@ export default defineConfig({
       use: { ...devices['Pixel 7'] },
     },
   ],
-  // Start the dev server automatically when not in CI
+  // Start the dev server automatically when not in CI.
+  //
+  // VITE_E2E=1 is what compiles in src/e2eInit.ts, the module that seeds a
+  // session from ?e2eToken/?e2eUser. Without it that injection is dead code and
+  // no test can get past the auth screen — which is why the UI tests here were
+  // written to skip themselves when an element wasn't found, and passed while
+  // asserting nothing.
+  // The API/WS overrides matter as much as VITE_E2E: .env points the dev server
+  // at localhost:10000, so without them the injected token is written and then
+  // immediately thrown away when the profile fetch fails — landing the test on
+  // the auth screen with no hint as to why. CI passes the same three.
+  //
+  // reuseExistingServer stays on so a dev server you already have is not killed,
+  // but note it will be reused *with whatever env it was started with* — if
+  // login mysteriously fails, check that first (`curl -s localhost:5199/src/e2eInit.ts`
+  // prints the resolved import.meta.env).
   webServer: process.env.CI
     ? undefined
     : {
         command: 'npm run dev',
+        env: {
+          VITE_E2E: '1',
+          VITE_API_URL: process.env.E2E_API_URL || 'https://taxi-pro-server.onrender.com',
+          VITE_WS_URL: (process.env.E2E_API_URL || 'https://taxi-pro-server.onrender.com').replace(
+            /^http/,
+            'ws'
+          ),
+        },
         url: 'http://localhost:5199',
         reuseExistingServer: true,
         cwd: '..',
