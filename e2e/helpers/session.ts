@@ -8,20 +8,54 @@ export interface DevSession {
   user: { uid: string; role: string; name: string };
 }
 
+// Logging in is rate limited to 10 attempts a minute per IP, and the whole CI
+// job is one IP. Every test that logs in again for a name it already used spends
+// part of that budget for nothing, so the sessions are kept for the life of the
+// worker. Retries reuse the same process, which is exactly when the budget is
+// thinnest.
+const sessions = new Map<string, Promise<DevSession>>();
+
 /**
  * Mint a dev session against the API. Dev auth derives the uid from the name,
  * so a per-test name gives a per-test account — important here because the
  * server allows one active ride per passenger, and a leftover ride from another
  * test would surface as a confusing 409 rather than a clear failure.
  */
-export async function devLogin(
+export function devLogin(
   request: APIRequestContext,
   name: string,
   role: 'passenger' | 'driver' = 'passenger'
 ): Promise<DevSession> {
-  const res = await request.post(`${API}/api/auth/dev`, { data: { name, role } });
-  if (!res.ok()) throw new Error(`dev login failed for ${name}: ${res.status()} ${await res.text()}`);
-  return res.json();
+  const key = `${name}:${role}`;
+  const existing = sessions.get(key);
+  if (existing) return existing;
+  const minted = mintSession(request, name, role).catch((err) => {
+    sessions.delete(key);
+    throw err;
+  });
+  sessions.set(key, minted);
+  return minted;
+}
+
+async function mintSession(
+  request: APIRequestContext,
+  name: string,
+  role: 'passenger' | 'driver'
+): Promise<DevSession> {
+  // Two workers plus retries can still crowd the limiter even with the cache.
+  // A 429 is the server working as intended, so wait it out rather than failing
+  // the run. The limiter sends standard headers, so it says when the window
+  // rolls — guessing would either give up too early or idle for a full minute.
+  for (let attempt = 0; ; attempt++) {
+    const res = await request.post(`${API}/api/auth/dev`, { data: { name, role } });
+    if (res.ok()) return res.json();
+    if (res.status() !== 429 || attempt === 2) {
+      throw new Error(`dev login failed for ${name}: ${res.status()} ${await res.text()}`);
+    }
+    const resetSec = Number(res.headers()['ratelimit-reset'] ?? res.headers()['retry-after']);
+    const waitMs = Number.isFinite(resetSec) && resetSec > 0 ? resetSec * 1000 : 30_000;
+    await new Promise((r) => setTimeout(r, Math.min(waitMs, 60_000) + 500));
+  }
 }
 
 /**

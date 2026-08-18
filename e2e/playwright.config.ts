@@ -2,7 +2,10 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: '.',
-  timeout: 30000,
+  // The two-party lifecycle test walks a whole ride over a live websocket and
+  // sits at ~30s on a warm API, so the old 30s budget failed it on any hiccup —
+  // and waiting out the login rate limiter needs room on top of that.
+  timeout: 150_000,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 2 : undefined,
   reporter: process.env.CI ? 'github' : 'list',
