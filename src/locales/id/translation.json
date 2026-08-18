@@ -179,6 +179,7 @@
     "cancelDriverExplain": "Penumpang tidak dikenakan biaya atas pembatalan Anda.",
     "feePaid": "Biaya pembatalan telah dibayar. Terima kasih.",
     "feeOutstanding": "Biaya masih belum dibayar. Harus dilunasi sebelum perjalanan berikutnya.",
+    "walletSilent": "Dompet Pi tidak terbuka. Buka aplikasi di Pi Browser lalu coba lagi.",
     "rateDetailsOptional": "Tambahkan detail (opsional)",
     "rate_cleanliness": "Kebersihan",
     "rate_driving": "Cara mengemudi",

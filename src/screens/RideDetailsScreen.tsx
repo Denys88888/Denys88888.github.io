@@ -17,7 +17,7 @@ import { useGeolocation } from '../hooks/useGeolocation';
 import { useWakeLock } from '../hooks/useWakeLock';
 import { wsService } from '../services/wsService';
 import { api } from '../services/api';
-import { payForRide, type PreparedPiPayment } from '../services/piSdk';
+import { isWalletSilent, payForRide, type PreparedPiPayment } from '../services/piSdk';
 import { notify } from '../services/notificationService';
 import { fetchRoute } from '../services/mapService';
 import { callService } from '../services/callService';
@@ -410,7 +410,14 @@ export function RideDetailsScreen() {
       addToast('success', t('ride.tipThanks'));
       api.getRide(ride.id).then(setRide).catch((err) => console.error('[ride] refresh after tip:', err));
     } catch (err) {
-      addToast('error', err instanceof Error ? err.message : t('common.error'));
+      addToast(
+        'error',
+        isWalletSilent(err)
+          ? t('ride.walletSilent')
+          : err instanceof Error
+            ? err.message
+            : t('common.error')
+      );
     } finally {
       setTipBusy(false);
     }

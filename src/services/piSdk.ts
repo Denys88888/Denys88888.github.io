@@ -22,6 +22,56 @@ let piSessionReady = false;
 // racing, and whichever loses leaves the payment behind it hanging.
 let piSessionArming: Promise<void> | null = null;
 
+// The SDK is a bridge to the Pi app over postMessage. When the other end is not
+// there — the page is open outside the Pi Browser, the app is mid-update, the
+// origin is not the one registered in the Developer Portal — the call does not
+// fail. It goes silent: no result, no error, no cancel callback. The promise
+// then never settles, and the button awaiting it spins for as long as the
+// screen stays open. That is what "paying the fee does nothing" looks like from
+// the outside, and no amount of retrying fixes it because nothing went wrong.
+//
+// So every entry into the SDK gets a deadline. Only the silent window is
+// guarded: once the wallet has answered once, the passenger may take as long as
+// they like to read the sheet and confirm.
+const PI_AUTH_TIMEOUT_MS = 30_000;
+const PI_SHEET_TIMEOUT_MS = 30_000;
+
+// A silent bridge is a different failure from a declined or cancelled payment,
+// and it needs its own message: retrying changes nothing until the page is open
+// inside the Pi Browser. Tagged so the screens can say that instead of the
+// generic "something went wrong, the fee is still unpaid".
+export const PI_WALLET_SILENT = 'PI_WALLET_SILENT';
+
+export function isWalletSilent(err: unknown): boolean {
+  return (err as { code?: unknown } | null | undefined)?.code === PI_WALLET_SILENT;
+}
+
+function walletSilentError(message: string): Error {
+  return Object.assign(new Error(message), { code: PI_WALLET_SILENT });
+}
+
+function withTimeout<T>(work: Promise<T>, ms: number, what: string): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(
+      () =>
+        reject(
+          walletSilentError(`${what} did not respond — open the app in the Pi Browser and try again.`)
+        ),
+      ms
+    );
+    work.then(
+      (value) => {
+        clearTimeout(timer);
+        resolve(value);
+      },
+      (err: unknown) => {
+        clearTimeout(timer);
+        reject(err instanceof Error ? err : new Error(String(err)));
+      }
+    );
+  });
+}
+
 export function isPiAvailable(): boolean {
   return typeof window !== 'undefined' && !!window.Pi;
 }
@@ -101,7 +151,7 @@ export function ensurePiPayments(): Promise<void> {
 // Authenticate the current Pi user. Returns the accessToken + basic profile.
 export async function authenticateWithPi(): Promise<PiAuthResult> {
   if (!isPiAvailable()) {
-    throw new Error('Pi SDK unavailable — please open this app in the Pi Browser.');
+    throw walletSilentError('Pi SDK unavailable — please open this app in the Pi Browser.');
   }
   initPi();
   const onIncompletePaymentFound = (payment: PiIncompletePayment): void => {
@@ -115,9 +165,10 @@ export async function authenticateWithPi(): Promise<PiAuthResult> {
   // API rejects A2U payment creation with error "missing_scope". Drivers who
   // logged in before this scope was added must log out and back in once to
   // grant it (Pi will prompt for the new permission on next authenticate).
-  const result = await window.Pi!.authenticate(
-    ['username', 'payments', 'wallet_address'],
-    onIncompletePaymentFound
+  const result = await withTimeout(
+    window.Pi!.authenticate(['username', 'payments', 'wallet_address'], onIncompletePaymentFound),
+    PI_AUTH_TIMEOUT_MS,
+    'Pi login'
   );
   piSessionReady = true;
   return result;
@@ -140,7 +191,7 @@ export interface PreparedPiPayment {
 // callback ever fires, so the promise hangs and the button spins forever.
 export function payForRide(params: PreparedPiPayment): Promise<{ txid: string }> {
   if (!isPiAvailable()) {
-    return Promise.reject(new Error('Pi SDK unavailable — open in the Pi Browser.'));
+    return Promise.reject(walletSilentError('Pi SDK unavailable — open in the Pi Browser.'));
   }
   // Normally already armed on boot, so this costs a microtask, not a request.
   if (!piSessionReady) return ensurePiPayments().then(() => startPiPayment(params, true));
@@ -150,20 +201,39 @@ export function payForRide(params: PreparedPiPayment): Promise<{ txid: string }>
 function startPiPayment(params: PreparedPiPayment, mayRecover: boolean): Promise<{ txid: string }> {
   return new Promise((resolve, reject) => {
     initPi();
+    // The wallet answers before the passenger does: onReadyForServerApproval
+    // fires as soon as Pi has created the payment, with the sheet still waiting
+    // to be confirmed. So the deadline covers only the stretch where nothing has
+    // come back at all — the first callback stands it down, and confirming can
+    // then take as long as it takes.
+    let answered = false;
+    const deadline = setTimeout(() => {
+      if (!answered) reject(walletSilentError('The Pi wallet did not open — try again.'));
+    }, PI_SHEET_TIMEOUT_MS);
+    const answering = (): void => {
+      answered = true;
+      clearTimeout(deadline);
+    };
     window.Pi!.createPayment(
       { amount: params.amount, memo: params.memo, metadata: params.metadata },
       {
         onReadyForServerApproval: (piPaymentId) => {
+          answering();
           api.approvePayment(params.paymentId, piPaymentId).catch((e) => reject(e));
         },
         onReadyForServerCompletion: (piPaymentId, txid) => {
+          answering();
           api
             .completePayment(params.paymentId, piPaymentId, txid)
             .then(() => resolve({ txid }))
             .catch((e) => reject(e));
         },
-        onCancel: () => reject(new Error('Payment cancelled')),
+        onCancel: () => {
+          answering();
+          reject(new Error('Payment cancelled'));
+        },
         onError: (error, pending) => {
+          answering();
           // The SDK reports "a pending payment needs to be handled" here and
           // hands over the payment itself. It then calls its own
           // onIncompletePaymentFound — which only authenticate() ever arms, so

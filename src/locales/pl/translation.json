@@ -179,6 +179,7 @@
     "cancelDriverExplain": "Za Twoją anulację pasażer nie zostanie obciążony.",
     "feePaid": "Opłata za anulowanie została zapłacona. Dziękujemy.",
     "feeOutstanding": "Opłata jest nadal nieuregulowana. Trzeba ją uiścić przed następnym przejazdem.",
+    "walletSilent": "Portfel Pi się nie otworzył. Otwórz aplikację w Pi Browser i spróbuj ponownie.",
     "rateDetailsOptional": "Doprecyzuj (opcjonalnie)",
     "rate_cleanliness": "Czystość",
     "rate_driving": "Jazda",

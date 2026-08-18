@@ -17,6 +17,7 @@ import { reverseGeocode, countryCodeAt, fetchRoute } from '../services/mapServic
 import { loadSavedAddresses, saveAddress, removeAddress } from '../services/savedAddresses';
 import { loadOrderDraft, saveOrderDraft, clearOrderDraft } from '../services/orderDraft';
 import { payCancellationFee, prepareCancellationFee } from '../services/cancellationFeePayment';
+import { isWalletSilent } from '../services/piSdk';
 import type { PreparedPiPayment } from '../services/piSdk';
 import { formatPi, formatDistance, formatDuration, localDateTimeValue, formatDate } from '../utils/formatters';
 import { isValidCoord } from '../utils/validators';
@@ -230,6 +231,13 @@ export function PassengerHomeScreen() {
       // telling them they still owe money they have in fact already paid.
       const still = await api.outstandingFee().catch(() => owedFee);
       setOwedFee(still);
+      // "Still unpaid" is the wrong thing to say when the wallet never answered
+      // at all: nothing was declined, the bridge to the Pi app is simply not
+      // there, and tapping again from the same place will do the same nothing.
+      if (still && isWalletSilent(err)) {
+        addToast('error', t('ride.walletSilent'));
+        return;
+      }
       addToast(still ? 'info' : 'success', t(still ? 'ride.feeOutstanding' : 'ride.feePaid'));
     } finally {
       setPayingFee(false);

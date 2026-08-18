@@ -179,6 +179,7 @@
     "cancelDriverExplain": "İptaliniz için yolcudan ücret alınmaz.",
     "feePaid": "İptal ücreti ödendi. Teşekkürler.",
     "feeOutstanding": "Ücret hâlâ ödenmedi. Bir sonraki yolculuktan önce kapatılması gerekiyor.",
+    "walletSilent": "Pi cüzdanı açılmadı. Uygulamayı Pi Browser'da açıp tekrar deneyin.",
     "rateDetailsOptional": "Ayrıntı ekle (isteğe bağlı)",
     "rate_cleanliness": "Temizlik",
     "rate_driving": "Sürüş",

@@ -179,6 +179,7 @@
     "cancelDriverExplain": "Al passeggero non viene addebitato nulla per la tua cancellazione.",
     "feePaid": "Penale di annullamento pagata. Grazie.",
     "feeOutstanding": "La penale è ancora da pagare. Dovrà essere saldata prima della prossima corsa.",
+    "walletSilent": "Il portafoglio Pi non si è aperto. Apri l'app nel Pi Browser e riprova.",
     "rateDetailsOptional": "Dettagli (facoltativo)",
     "rate_cleanliness": "Pulizia",
     "rate_driving": "Guida",

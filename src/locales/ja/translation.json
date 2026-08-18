@@ -179,6 +179,7 @@
     "cancelDriverExplain": "あなたのキャンセルで乗客に料金は発生しません。",
     "feePaid": "キャンセル料をお支払いいただきました。ありがとうございます。",
     "feeOutstanding": "キャンセル料が未払いです。次回のご乗車前にお支払いください。",
+    "walletSilent": "Piウォレットが開きませんでした。Pi Browser でアプリを開いて、もう一度お試しください。",
     "rateDetailsOptional": "詳細を追加（任意）",
     "rate_cleanliness": "清潔さ",
     "rate_driving": "運転",

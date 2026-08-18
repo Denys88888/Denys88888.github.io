@@ -179,6 +179,7 @@
     "cancelDriverExplain": "The passenger is not charged for your cancellation.",
     "feePaid": "Cancellation fee paid. Thank you.",
     "feeOutstanding": "The fee is still unpaid. You will need to settle it before your next ride.",
+    "walletSilent": "The Pi wallet didn't open. Open the app in the Pi Browser and try again.",
     "rateDetailsOptional": "Add detail (optional)",
     "rate_cleanliness": "Cleanliness",
     "rate_driving": "Driving",

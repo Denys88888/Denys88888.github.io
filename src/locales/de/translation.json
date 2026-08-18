@@ -179,6 +179,7 @@
     "cancelDriverExplain": "Für Ihre Stornierung wird dem Fahrgast nichts berechnet.",
     "feePaid": "Stornogebühr bezahlt. Vielen Dank.",
     "feeOutstanding": "Die Gebühr ist noch offen. Sie muss vor der nächsten Fahrt beglichen werden.",
+    "walletSilent": "Die Pi-Wallet hat sich nicht geöffnet. Öffne die App im Pi Browser und versuche es erneut.",
     "rateDetailsOptional": "Details (optional)",
     "rate_cleanliness": "Sauberkeit",
     "rate_driving": "Fahrweise",

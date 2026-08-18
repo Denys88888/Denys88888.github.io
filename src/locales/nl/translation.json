@@ -179,6 +179,7 @@
     "cancelDriverExplain": "De passagier betaalt niets voor jouw annulering.",
     "feePaid": "Annuleringskosten betaald. Bedankt.",
     "feeOutstanding": "De vergoeding staat nog open. Die moet voor je volgende rit voldaan worden.",
+    "walletSilent": "De Pi-wallet is niet geopend. Open de app in de Pi Browser en probeer het opnieuw.",
     "rateDetailsOptional": "Details toevoegen (optioneel)",
     "rate_cleanliness": "Netheid",
     "rate_driving": "Rijstijl",

@@ -179,6 +179,7 @@
     "cancelDriverExplain": "O passageiro não é cobrado pelo seu cancelamento.",
     "feePaid": "Taxa de cancelamento paga. Obrigado.",
     "feeOutstanding": "A taxa continua por pagar. Terá de a liquidar antes da próxima viagem.",
+    "walletSilent": "A carteira Pi não abriu. Abra o app no Pi Browser e tente novamente.",
     "rateDetailsOptional": "Detalhar (opcional)",
     "rate_cleanliness": "Limpeza",
     "rate_driving": "Condução",

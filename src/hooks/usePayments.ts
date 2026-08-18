@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { isAxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
 import { api } from '../services/api';
-import { payForRide } from '../services/piSdk';
+import { isWalletSilent, payForRide } from '../services/piSdk';
 import { useToast } from './useToast';
 
 export interface PreparedPayment {
@@ -18,6 +18,9 @@ export function usePayments() {
   const { t } = useTranslation();
 
   const errorMessage = (err: unknown): string => {
+    // A wallet that never answered has no server-side reason to surface, and its
+    // internal message is English-only — say the one thing that helps instead.
+    if (isWalletSilent(err)) return t('ride.walletSilent');
     // Surface the server's actual reason (e.g. "Payment already completed"
     // after a stale-hold recovery) instead of axios's generic
     // "Request failed with status code 409".

@@ -179,6 +179,7 @@
     "cancelDriverExplain": "Passageraren debiteras inte för din avbokning.",
     "feePaid": "Avbokningsavgiften är betald. Tack.",
     "feeOutstanding": "Avgiften är fortfarande obetald. Den måste regleras före nästa resa.",
+    "walletSilent": "Pi-plånboken öppnades inte. Öppna appen i Pi Browser och försök igen.",
     "rateDetailsOptional": "Lägg till detaljer (valfritt)",
     "rate_cleanliness": "Renlighet",
     "rate_driving": "Körning",

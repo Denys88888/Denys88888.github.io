@@ -179,6 +179,7 @@
     "cancelDriverExplain": "기사님이 취소해도 승객에게는 요금이 청구되지 않습니다.",
     "feePaid": "취소 수수료가 결제되었습니다. 감사합니다.",
     "feeOutstanding": "수수료가 아직 미결제 상태입니다. 다음 이용 전에 결제하셔야 합니다.",
+    "walletSilent": "Pi 지갑이 열리지 않았습니다. Pi Browser에서 앱을 열고 다시 시도해 주세요.",
     "rateDetailsOptional": "세부 정보 추가(선택)",
     "rate_cleanliness": "청결",
     "rate_driving": "운전",

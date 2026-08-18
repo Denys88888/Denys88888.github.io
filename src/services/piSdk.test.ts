@@ -201,4 +201,75 @@ describe('paying through the Pi SDK', () => {
     const sdk = await loadSdk();
     await expect(sdk.payForRide(PREPARED)).rejects.toThrow(/Pi Browser/);
   });
+
+  describe('when the Pi bridge goes quiet', () => {
+    // The failure the owner actually hit: "оплатить штраф не работает". Not an
+    // error, not a refusal — the SDK simply never called anything back, so the
+    // promise never settled and the button spun until the screen was closed.
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('gives up on a wallet that never opens instead of spinning forever', async () => {
+      installPi(); // createPayment is a stub that calls nothing back, like a dead bridge.
+      const sdk = await loadSdk();
+      await sdk.ensurePiPayments();
+
+      const paid = sdk.payForRide(PREPARED);
+      const settled = expect(paid).rejects.toMatchObject({ code: 'PI_WALLET_SILENT' });
+      await vi.advanceTimersByTimeAsync(30_000);
+      await settled;
+    });
+
+    it('gives up on a login the Pi app never answers', async () => {
+      const { authenticate } = installPi();
+      authenticate.mockReturnValue(new Promise(() => {}));
+      const sdk = await loadSdk();
+
+      const armed = sdk.ensurePiPayments();
+      const settled = expect(armed).rejects.toMatchObject({ code: 'PI_WALLET_SILENT' });
+      await vi.advanceTimersByTimeAsync(30_000);
+      await settled;
+    });
+
+    it('lets the passenger read the sheet as long as they like once it has opened', async () => {
+      // The deadline guards the silence, not the decision. onReadyForServerApproval
+      // fires while the sheet is still waiting to be confirmed, so anything after
+      // it must be allowed to take minutes without the payment being torn down.
+      const { createPayment } = installPi();
+      const sdk = await loadSdk();
+      await sdk.ensurePiPayments();
+
+      const paid = sdk.payForRide(PREPARED);
+      callbacksOf(createPayment).onReadyForServerApproval('pi_1');
+      await vi.advanceTimersByTimeAsync(120_000);
+
+      callbacksOf(createPayment).onReadyForServerCompletion('pi_1', 'tx_1');
+      await expect(paid).resolves.toEqual({ txid: 'tx_1' });
+    });
+
+    it('does not mistake backing out of the sheet for a silent wallet', async () => {
+      // Cancelling is a choice and keeps its own message; only silence earns the
+      // "open the app in the Pi Browser" advice.
+      const { createPayment } = installPi();
+      const sdk = await loadSdk();
+      await sdk.ensurePiPayments();
+
+      const paid = sdk.payForRide(PREPARED);
+      callbacksOf(createPayment).onCancel('pi_1');
+
+      const err = await paid.catch((e: unknown) => e);
+      expect((err as Error).message).toBe('Payment cancelled');
+      expect(sdk.isWalletSilent(err)).toBe(false);
+    });
+
+    it('tags being outside the Pi Browser as the same silence', async () => {
+      const sdk = await loadSdk();
+      const err = await sdk.payForRide(PREPARED).catch((e: unknown) => e);
+      expect(sdk.isWalletSilent(err)).toBe(true);
+    });
+  });
 });

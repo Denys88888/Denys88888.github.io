@@ -179,6 +179,7 @@
     "cancelDriverExplain": "您取消订单不会向乘客收取费用。",
     "feePaid": "取消费用已支付，谢谢。",
     "feeOutstanding": "费用仍未支付，需在下次乘车前结清。",
+    "walletSilent": "Pi 钱包未打开。请在 Pi Browser 中打开应用后重试。",
     "rateDetailsOptional": "添加详情（可选）",
     "rate_cleanliness": "整洁度",
     "rate_driving": "驾驶",

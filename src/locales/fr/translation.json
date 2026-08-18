@@ -179,6 +179,7 @@
     "cancelDriverExplain": "Le passager n'est pas facturé pour votre annulation.",
     "feePaid": "Frais d'annulation payés. Merci.",
     "feeOutstanding": "Les frais restent impayés. Il faudra les régler avant votre prochaine course.",
+    "walletSilent": "Le portefeuille Pi ne s'est pas ouvert. Ouvrez l'application dans le Pi Browser et réessayez.",
     "rateDetailsOptional": "Préciser (facultatif)",
     "rate_cleanliness": "Propreté",
     "rate_driving": "Conduite",

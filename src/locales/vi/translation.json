@@ -179,6 +179,7 @@
     "cancelDriverExplain": "Hành khách không bị tính phí khi bạn hủy chuyến.",
     "feePaid": "Đã thanh toán phí huỷ chuyến. Cảm ơn bạn.",
     "feeOutstanding": "Phí vẫn chưa được trả. Bạn cần thanh toán trước chuyến đi tiếp theo.",
+    "walletSilent": "Ví Pi không mở được. Hãy mở ứng dụng trong Pi Browser và thử lại.",
     "rateDetailsOptional": "Thêm chi tiết (tùy chọn)",
     "rate_cleanliness": "Sạch sẽ",
     "rate_driving": "Lái xe",
