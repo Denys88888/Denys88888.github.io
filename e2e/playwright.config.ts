@@ -2,6 +2,9 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: '.',
+  // The API hibernates when idle; wake it once here rather than letting whichever
+  // test ran first absorb the 502 and report it as an auth failure.
+  globalSetup: './global-setup.ts',
   // The two-party lifecycle test walks a whole ride over a live websocket and
   // sits at ~30s on a warm API, so the old 30s budget failed it on any hiccup —
   // and waiting out the login rate limiter needs room on top of that.

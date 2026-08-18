@@ -46,16 +46,69 @@ async function mintSession(
   // A 429 is the server working as intended, so wait it out rather than failing
   // the run. The limiter sends standard headers, so it says when the window
   // rolls — guessing would either give up too early or idle for a full minute.
+  // 502/503 are a different animal: the Render instance hibernates and drops the
+  // first requests back with `x-render-routing: hibernate-wake-error`. Neither
+  // says anything about auth, and reporting either as "dev login failed" sent
+  // every past investigation off after the wrong thing.
   for (let attempt = 0; ; attempt++) {
     const res = await request.post(`${API}/api/auth/dev`, { data: { name, role } });
     if (res.ok()) return res.json();
-    if (res.status() !== 429 || attempt === 2) {
-      throw new Error(`dev login failed for ${name}: ${res.status()} ${await res.text()}`);
+    const status = res.status();
+    // A Cloudflare challenge is not something waiting out will clear, and it is
+    // not our limiter either — it is the edge deciding this IP looks like a bot.
+    // Retrying it burns two minutes and then reports "rate limited", which reads
+    // as an app problem and is not one. Say what it actually is and stop.
+    if (!RETRYABLE.has(status) || challenged(res.headers()) || attempt === 3) {
+      throw new Error(`dev login failed for ${name}: ${status} ${describe(res.headers())}`);
     }
-    const resetSec = Number(res.headers()['ratelimit-reset'] ?? res.headers()['retry-after']);
-    const waitMs = Number.isFinite(resetSec) && resetSec > 0 ? resetSec * 1000 : 30_000;
-    await new Promise((r) => setTimeout(r, Math.min(waitMs, 60_000) + 500));
+    await new Promise((r) => setTimeout(r, backoffMs(res.headers(), status, attempt)));
   }
+}
+
+const RETRYABLE = new Set([429, 500, 502, 503, 504]);
+
+const waking = (h: Record<string, string>): boolean =>
+  (h['x-render-routing'] ?? '').includes('hibernate');
+
+/** Cloudflare's managed challenge, served as a 429 with an HTML interstitial. */
+const challenged = (h: Record<string, string>): boolean =>
+  !!h['cf-mitigated'] || (h['content-type'] ?? '').includes('text/html');
+
+/** Why the call failed, in the terms that point at the right thing to fix. */
+function describe(h: Record<string, string>): string {
+  if (challenged(h)) return 'blocked by the Cloudflare edge (this IP is being challenged)';
+  if (waking(h)) return 'the API was hibernating and did not wake in time';
+  return "the API's own rate limiter";
+}
+
+/** How long to hold off: what the limiter says, or a short wake-up wait. */
+function backoffMs(headers: Record<string, string>, status: number, attempt: number): number {
+  if (status === 429) {
+    const resetSec = Number(headers['ratelimit-reset'] ?? headers['retry-after']);
+    const waitMs = Number.isFinite(resetSec) && resetSec > 0 ? resetSec * 1000 : 30_000;
+    return Math.min(waitMs, 60_000) + 500;
+  }
+  // Waking takes tens of seconds, so climb rather than hammer a booting process.
+  return Math.min(3_000 * 2 ** attempt, 20_000);
+}
+
+/**
+ * Run an API call, retrying the statuses that mean "the platform, not the app".
+ *
+ * Used by the setup steps a test depends on but is not testing — a hibernating
+ * instance dropping `POST /drivers/online` should not read as "driver could not
+ * go online", which is a claim about the app.
+ */
+export async function withWakeRetry(
+  call: () => Promise<import('@playwright/test').APIResponse>,
+  attempts = 4
+): Promise<import('@playwright/test').APIResponse> {
+  let res = await call();
+  for (let attempt = 0; attempt < attempts - 1 && !res.ok() && RETRYABLE.has(res.status()); attempt++) {
+    await new Promise((r) => setTimeout(r, backoffMs(res.headers(), res.status(), attempt)));
+    res = await call();
+  }
+  return res;
 }
 
 /**

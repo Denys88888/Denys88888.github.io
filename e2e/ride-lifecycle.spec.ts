@@ -11,7 +11,15 @@
  * exactly like two phones.
  */
 import { test, expect, type Page } from '@playwright/test';
-import { devLogin, openAs, auth, cancelActiveRides, API, type DevSession } from './helpers/session';
+import {
+  devLogin,
+  openAs,
+  auth,
+  cancelActiveRides,
+  withWakeRetry,
+  API,
+  type DevSession,
+} from './helpers/session';
 
 // Warsaw. Pickup and destination are ~1.8 km apart, well inside the dispatch
 // radius, so the driver actually receives the request.
@@ -36,11 +44,16 @@ function uniquePickup() {
 
 /** Put the driver online at the pickup, so dispatch reaches them. */
 async function goOnline(request: Parameters<typeof devLogin>[0], driver: DevSession) {
-  const res = await request.post(`${API}/api/drivers/online`, {
-    data: { lat: 52.2297, lng: 21.0122 },
-    headers: auth(driver),
-  });
-  expect(res.ok(), `driver could not go online: ${await res.text()}`).toBeTruthy();
+  const res = await withWakeRetry(() =>
+    request.post(`${API}/api/drivers/online`, {
+      data: { lat: 52.2297, lng: 21.0122 },
+      headers: auth(driver),
+    })
+  );
+  expect(
+    res.ok(),
+    `driver could not go online: ${res.status()} ${await res.text()}`
+  ).toBeTruthy();
 }
 
 /** The ride the passenger is tracking, as the server sees it. */
@@ -89,10 +102,12 @@ test.describe.serial('two-party ride lifecycle', () => {
       // Order through the API rather than the map: tapping a Leaflet tile to
       // pick a destination is a test of Leaflet, and the point here is what
       // both screens do once a ride exists.
-      const created = await request.post(`${API}/api/rides`, {
-        data: { pickup: PICKUP, destination: DESTINATION, vehicleType: 'economy' },
-        headers: auth(passenger),
-      });
+      const created = await withWakeRetry(() =>
+        request.post(`${API}/api/rides`, {
+          data: { pickup: PICKUP, destination: DESTINATION, vehicleType: 'economy' },
+          headers: auth(passenger),
+        })
+      );
       expect(created.status(), await created.text()).toBe(201);
       const ride = await created.json();
 
@@ -142,10 +157,12 @@ test.describe.serial('two-party ride lifecycle', () => {
     await goOnline(request, driver);
 
     const PICKUP = uniquePickup();
-    const created = await request.post(`${API}/api/rides`, {
-      data: { pickup: PICKUP, destination: DESTINATION, vehicleType: 'economy' },
-      headers: auth(passenger),
-    });
+    const created = await withWakeRetry(() =>
+      request.post(`${API}/api/rides`, {
+        data: { pickup: PICKUP, destination: DESTINATION, vehicleType: 'economy' },
+        headers: auth(passenger),
+      })
+    );
     expect(created.status(), await created.text()).toBe(201);
     const ride = await created.json();
 
@@ -210,10 +227,12 @@ test.describe.serial('two-party ride lifecycle', () => {
     await goOnline(request, driver);
 
     const PICKUP = uniquePickup();
-    const created = await request.post(`${API}/api/rides`, {
-      data: { pickup: PICKUP, destination: DESTINATION, vehicleType: 'economy' },
-      headers: auth(passenger),
-    });
+    const created = await withWakeRetry(() =>
+      request.post(`${API}/api/rides`, {
+        data: { pickup: PICKUP, destination: DESTINATION, vehicleType: 'economy' },
+        headers: auth(passenger),
+      })
+    );
     expect(created.status(), await created.text()).toBe(201);
 
     const ctx = await browser.newContext();
