@@ -34,7 +34,7 @@ function ToastItem({ toast }: { toast: ToastMessage }) {
 export function ToastContainer() {
   const { toasts } = useToast();
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-4 z-[60] flex flex-col items-center gap-2 px-4">
+    <div className="pointer-events-none fixed inset-x-0 top-4 z-toast flex flex-col items-center gap-2 px-4">
       {toasts.map((t) => (
         <ToastItem key={t.id} toast={t} />
       ))}

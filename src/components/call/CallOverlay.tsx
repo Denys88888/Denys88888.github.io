@@ -33,7 +33,7 @@ export function CallOverlay() {
   };
 
   return (
-    <div className="fixed inset-0 z-[1000] flex flex-col items-center justify-center bg-black/80 backdrop-blur-sm px-6 text-white">
+    <div className="fixed inset-0 z-overlay flex flex-col items-center justify-center bg-black/80 backdrop-blur-sm px-6 text-white">
       <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primary/30">
         <Phone size={40} className={call.state === 'calling' || call.state === 'ringing' ? 'animate-pulse' : ''} />
       </div>

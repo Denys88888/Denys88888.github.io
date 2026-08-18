@@ -29,6 +29,17 @@ export default {
         card: '0 4px 20px rgba(0,0,0,0.08)',
         fab: '0 6px 20px rgba(15,110,86,0.4)',
       },
+      // One place to read the layering from. Leaflet numbers its own panes 200-700
+      // and its controls 1000, and the map wrapper isolates them — but anything
+      // that has to sit above the map still has to clear 1000, because the
+      // screens put their in-map buttons there too.
+      zIndex: {
+        map: '1000', // controls drawn on top of a map, inside the map's box
+        overlay: '1100', // full-screen takeovers (incoming call)
+        modal: '1200',
+        banner: '1300', // offline / maintenance strips, above a modal on purpose
+        toast: '1400', // nothing may cover a notification
+      },
       keyframes: {
         'slide-up': {
           '0%': { transform: 'translateY(100%)', opacity: '0' },

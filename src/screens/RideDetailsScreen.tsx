@@ -50,7 +50,14 @@ export function RideDetailsScreen() {
   const { addToast } = useToast();
   const { preparePayment, payRide, processing } = usePayments();
   const [preparedPayment, setPreparedPayment] = useState<PreparedPayment | null>(null);
-  const { position, speed, request: requestGeo, error: geoError, permissionDenied: geoPermissionDenied } = useGeolocation();
+  const {
+    position,
+    speed,
+    request: requestGeo,
+    error: geoError,
+    permissionDenied: geoPermissionDenied,
+    loading: geoLoading,
+  } = useGeolocation();
   const [focusNonce, setFocusNonce] = useState(0);
   const storeRide = useAppStore((s) => s.currentRide);
   const uid = useAppStore((s) => s.user?.uid ?? '');
@@ -296,6 +303,17 @@ export function RideDetailsScreen() {
     return () => { cancelled = true; };
   }, [canTip, rideId]);
 
+  // The driver home's own "Navigation" shortcut opens this screen with ?nav=1,
+  // which asks for the driving view before anyone has tapped anything here. If
+  // there is no fix to guide from, that route has to say so too — otherwise the
+  // screen simply doesn't navigate and the button below reads as already on.
+  useEffect(() => {
+    if (!iAmDriver || !showNav || position || geoLoading) return;
+    if (!geoError && !geoPermissionDenied) return;
+    addToast('error', t(geoPermissionDenied ? 'home.locationPermissionDenied' : 'home.locationError'));
+    setShowNav(false);
+  }, [iAmDriver, showNav, position, geoLoading, geoError, geoPermissionDenied, addToast, t]);
+
   if (!ride) {
     return <div className="flex h-full items-center justify-center opacity-60">{t('common.loading')}</div>;
   }
@@ -503,7 +521,7 @@ export function RideDetailsScreen() {
         {!navActive && (
           <button
             onClick={back}
-            className="absolute left-3 top-3 z-[1000] flex h-10 w-10 items-center justify-center rounded-full bg-white/90 dark:bg-black/70 shadow-fab active:scale-95"
+            className="absolute left-3 top-3 z-map flex h-10 w-10 items-center justify-center rounded-full bg-white/90 dark:bg-black/70 shadow-fab active:scale-95"
             aria-label={t('common.back')}
           >
             <ArrowLeft size={20} />
@@ -514,7 +532,7 @@ export function RideDetailsScreen() {
           // NavigationPanel): the wrapper spans the full width, so without this
           // it swallowed map drags and pinches in the empty space beside the
           // panel — the driver couldn't pan the map along the top of the screen.
-          <div className="pointer-events-none absolute inset-x-3 top-3 z-[1000]">
+          <div className="pointer-events-none absolute inset-x-3 top-3 z-map">
             <NavigationPanel
               from={liveDriverPos}
               to={targetPoint}
@@ -533,7 +551,7 @@ export function RideDetailsScreen() {
             setFocusNonce((n) => n + 1);
           }}
           className={cn(
-            'absolute right-3 z-[1000] flex h-11 w-11 items-center justify-center rounded-full bg-white text-black shadow-fab active:scale-95 dark:bg-black/80 dark:text-white',
+            'absolute right-3 z-map flex h-11 w-11 items-center justify-center rounded-full bg-white text-black shadow-fab active:scale-95 dark:bg-black/80 dark:text-white',
             navActive ? 'bottom-24' : 'bottom-3'
           )}
           aria-label={t('home.useMyLocation')}
@@ -545,7 +563,7 @@ export function RideDetailsScreen() {
             exit control, instead of requiring a scroll down to the details
             sheet to see any of this. */}
         {navActive && (
-          <div className="absolute inset-x-3 bottom-3 z-[1000] flex items-center gap-3 rounded-card bg-white p-3 shadow-card dark:bg-neutral-900">
+          <div className="absolute inset-x-3 bottom-3 z-map flex items-center gap-3 rounded-card bg-white p-3 shadow-card dark:bg-neutral-900">
             <div className="min-w-0 flex-1">
               {etaSeconds !== null ? (
                 <>

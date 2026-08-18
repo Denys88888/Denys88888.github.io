@@ -352,12 +352,17 @@ export function MapView({
   const remainingRoute = splitIndex > 0 ? tripRoute.slice(splitIndex) : tripRoute;
 
   return (
-    <div className={`relative overflow-hidden ${className ?? 'h-full w-full rounded-card'}`}>
+    // `isolate`: Leaflet numbers its own panes up to 1000, and nothing between
+    // them and <body> made a stacking context — so a fixed overlay elsewhere in
+    // the app lost to the map and simply never appeared. Toasts were invisible
+    // on every screen with a map. Keeping the map's numbering to itself is the
+    // fix; the app's own layers are in tailwind.config.js.
+    <div className={`relative isolate overflow-hidden ${className ?? 'h-full w-full rounded-card'}`}>
       {/* "Recalculating" only on a genuine reroute — a route already existed and
           is being rebuilt after the driver moved off it. Not shown for the very
           first route fetch, where the line is simply appearing. */}
       {recalculating && navRoad && (
-        <div className="pointer-events-none absolute left-1/2 top-3 z-[1000] flex -translate-x-1/2 items-center gap-2 rounded-full bg-black/75 px-3 py-1.5 text-xs font-medium text-white shadow-card">
+        <div className="pointer-events-none absolute left-1/2 top-3 z-map flex -translate-x-1/2 items-center gap-2 rounded-full bg-black/75 px-3 py-1.5 text-xs font-medium text-white shadow-card">
           <span className="h-3 w-3 animate-spin rounded-full border-2 border-white/40 border-t-white" />
           {recalcLabel}
         </div>

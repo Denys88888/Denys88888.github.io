@@ -272,9 +272,77 @@ test.describe.serial('two-party ride lifecycle', () => {
       // position to route from.
       await expect(page.getByRole('button', { name: /^exit$/i })).toHaveCount(0);
       await expect(page.getByText(/building the route/i)).toHaveCount(0);
+
+      // Toasts clear after 4s, so re-fire it for the paint check below.
+      await navBtn.click();
+      const layering = await toastLayering(page);
+      expect(layering.toastZ, 'no toast on screen to check').not.toBeNull();
+      expect(layering.covering, 'something is painted over the toast').toEqual([]);
     } finally {
       await cancelActiveRides(request, passenger);
       await ctx.close();
     }
   });
 });
+
+/**
+ * What, if anything, is painted over the toast currently on screen.
+ *
+ * `toBeVisible` says nothing about paint order, and hit-testing agreed with it
+ * here because Leaflet's tiles take no pointer events — so the map covering
+ * every notification passed every check we had while being plainly invisible on
+ * screen. Leaflet numbers its panes up to 1000 and nothing between them and
+ * <body> made a stacking context, which left the z-[60] toast layer underneath
+ * the map on every screen that has one.
+ */
+async function toastLayering(
+  page: Page
+): Promise<{ toastZ: number | null; covering: string[] }> {
+  return page.evaluate(() => {
+    const toast = document.querySelector('[role="alert"]');
+    if (!toast) return { toastZ: null, covering: [] };
+    const layer = toast.parentElement ?? toast;
+    const box = toast.getBoundingClientRect();
+
+    const makesContext = (s: CSSStyleDeclaration): boolean =>
+      (s.position !== 'static' && s.zIndex !== 'auto') ||
+      s.position === 'fixed' ||
+      s.transform !== 'none' ||
+      s.filter !== 'none' ||
+      Number(s.opacity) < 1 ||
+      s.mixBlendMode !== 'normal' ||
+      s.isolation === 'isolate' ||
+      s.contain.includes('paint');
+
+    /**
+     * The z-index this element ends up competing with at the top of the page.
+     * A nested stacking context takes its descendants with it, so the number
+     * that decides is the outermost one's, not the element's own.
+     */
+    const rootZ = (el: Element): number => {
+      const own = getComputedStyle(el);
+      let z = own.position !== 'static' && own.zIndex !== 'auto' ? Number(own.zIndex) : 0;
+      for (let e = el.parentElement; e && e !== document.documentElement; e = e.parentElement) {
+        const s = getComputedStyle(e);
+        if (makesContext(s)) z = s.zIndex === 'auto' ? 0 : Number(s.zIndex) || 0;
+      }
+      return z;
+    };
+
+    const toastZ = rootZ(layer);
+    const covering = new Set<string>();
+    for (const el of document.querySelectorAll('body *')) {
+      if (el.contains(toast) || toast.contains(el)) continue;
+      const s = getComputedStyle(el);
+      if (s.visibility === 'hidden' || s.display === 'none' || Number(s.opacity) === 0) continue;
+      const r = el.getBoundingClientRect();
+      if (r.width === 0 || r.height === 0) continue;
+      const overlaps =
+        r.left < box.right && r.right > box.left && r.top < box.bottom && r.bottom > box.top;
+      if (overlaps && rootZ(el) > toastZ) {
+        covering.add(`${el.tagName.toLowerCase()}.${el.className.toString().trim().split(/\s+/)[0]}`);
+      }
+    }
+    return { toastZ, covering: [...covering].slice(0, 5) };
+  });
+}
