@@ -4,7 +4,7 @@
  * The UI half of this now lives in ride-lifecycle.spec.ts — see the note below.
  */
 import { test, expect } from '@playwright/test';
-import { API } from './helpers/session';
+import { API, auth, devLogin } from './helpers/session';
 
 test.describe('Full ride flow', () => {
   // The UI walkthrough that used to live here asserted nothing: `?dev=name` only
@@ -25,22 +25,17 @@ test.describe('Full ride flow', () => {
   });
 
   test('dev login works and returns JWT', async ({ request }) => {
-    const res = await request.post(`${API}/api/auth/dev`, {
-      data: { name: 'e2e-test-user', role: 'passenger' },
-    });
-    expect(res.status()).toBe(200);
-    const body = await res.json();
+    // Through the helper rather than a raw POST: logins are rate limited to 10
+    // a minute for the whole run, and a hand-rolled one here spends from that
+    // budget without the helper's back-off. devLogin throws on any non-200, so
+    // the response-code check this test used to make is still being made.
+    const body = await devLogin(request, 'e2e-test-user', 'passenger');
     expect(body.token).toBeTruthy();
     expect(body.user.role).toBe('passenger');
   });
 
   test('create ride via API', async ({ request }) => {
-
-    // Login
-    const loginRes = await request.post(`${API}/api/auth/dev`, {
-      data: { name: 'e2e-ride-passenger', role: 'passenger' },
-    });
-    const { token } = await loginRes.json();
+    const session = await devLogin(request, 'e2e-ride-passenger', 'passenger');
 
     // Create ride
     const rideRes = await request.post(`${API}/api/rides`, {
@@ -49,7 +44,7 @@ test.describe('Full ride flow', () => {
         destination: { lat: 48.4716, lng: 35.0385, address: 'End' },
         vehicleType: 'economy',
       },
-      headers: { Authorization: `Bearer ${token}` },
+      headers: auth(session),
     });
     expect(rideRes.status()).toBe(201);
     const ride = await rideRes.json();
@@ -59,7 +54,7 @@ test.describe('Full ride flow', () => {
     // Cancel it
     const cancelRes = await request.post(`${API}/api/rides/${ride.id}/cancel`, {
       data: { reason: 'e2e test cleanup' },
-      headers: { Authorization: `Bearer ${token}` },
+      headers: auth(session),
     });
     expect(cancelRes.status()).toBe(200);
   });

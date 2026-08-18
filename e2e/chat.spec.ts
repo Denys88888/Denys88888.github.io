@@ -4,7 +4,7 @@
  */
 import { test, expect } from '@playwright/test';
 import { mockPiSdk } from './helpers/mockPi';
-import { API } from './helpers/session';
+import { API, auth, devLogin } from './helpers/session';
 
 const BASE = process.env.E2E_BASE_URL || 'http://localhost:5199';
 // Defaults to production, like helpers/session.ts — nothing listens on
@@ -12,11 +12,8 @@ const BASE = process.env.E2E_BASE_URL || 'http://localhost:5199';
 
 test.describe('Chat', () => {
   test('send and receive a message via API', async ({ request }) => {
-    // Login as passenger
-    const pasRes = await request.post(`${API}/api/auth/dev`, {
-      data: { name: 'e2e-chat-passenger', role: 'passenger' },
-    });
-    const { token: pasToken } = await pasRes.json();
+    const passenger = await devLogin(request, 'e2e-chat-passenger', 'passenger');
+    const pasToken = passenger.token;
 
     // Create a ride to get a chatId (rideId is used as chatId)
     const rideRes = await request.post(`${API}/api/rides`, {
@@ -25,7 +22,7 @@ test.describe('Chat', () => {
         destination: { lat: 48.4716, lng: 35.0385, address: 'Chat end' },
         vehicleType: 'economy',
       },
-      headers: { Authorization: `Bearer ${pasToken}` },
+      headers: auth(passenger),
     });
     expect(rideRes.status()).toBe(201);
     const ride = await rideRes.json();
@@ -74,10 +71,7 @@ test.describe('Chat', () => {
   });
 
   test('message rate limit rejects spam', async ({ request }) => {
-    const loginRes = await request.post(`${API}/api/auth/dev`, {
-      data: { name: 'e2e-spam', role: 'passenger' },
-    });
-    const { token } = await loginRes.json();
+    const { token } = await devLogin(request, 'e2e-spam', 'passenger');
 
     // Send 25 messages rapidly — rate limiter should kick in
     const results: number[] = [];

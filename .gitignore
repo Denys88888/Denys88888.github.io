@@ -8,3 +8,7 @@ dist-ssr
 coverage
 *.log
 dev-dist
+
+# Playwright scratch output
+test-results/
+playwright-report/

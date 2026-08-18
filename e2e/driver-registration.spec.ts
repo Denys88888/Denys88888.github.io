@@ -4,7 +4,7 @@
  */
 import { test, expect } from '@playwright/test';
 import { mockPiSdk } from './helpers/mockPi';
-import { API } from './helpers/session';
+import { API, auth, devLogin } from './helpers/session';
 
 const BASE = process.env.E2E_BASE_URL || 'http://localhost:5199';
 // Defaults to production, like helpers/session.ts — nothing listens on
@@ -13,11 +13,7 @@ const BASE = process.env.E2E_BASE_URL || 'http://localhost:5199';
 test.describe('Driver registration', () => {
   test('driver registration API accepts valid vehicle data', async ({ request }) => {
     // Login as a passenger who wants to become a driver
-    const loginRes = await request.post(`${API}/api/auth/dev`, {
-      data: { name: 'e2e-driver-reg', role: 'passenger' },
-    });
-    expect(loginRes.status()).toBe(200);
-    const { token } = await loginRes.json();
+    const session = await devLogin(request, 'e2e-driver-reg', 'passenger');
 
     // Submit driver registration
     const regRes = await request.post(`${API}/api/drivers/register`, {
@@ -30,7 +26,7 @@ test.describe('Driver registration', () => {
         vehicleYear: 2020,
         seats: 4,
       },
-      headers: { Authorization: `Bearer ${token}` },
+      headers: auth(session),
     });
     // 201 = submitted, 409 = already registered — both acceptable in e2e
     expect([201, 409]).toContain(regRes.status());
@@ -65,13 +61,10 @@ test.describe('Driver registration', () => {
   });
 
   test('nearby drivers endpoint returns array', async ({ request }) => {
-    const loginRes = await request.post(`${API}/api/auth/dev`, {
-      data: { name: 'e2e-nearby', role: 'passenger' },
-    });
-    const { token } = await loginRes.json();
+    const session = await devLogin(request, 'e2e-nearby', 'passenger');
 
     const res = await request.get(`${API}/api/drivers/nearby?lat=48.4647&lng=35.0462`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: auth(session),
     });
     expect(res.status()).toBe(200);
     const body = await res.json();

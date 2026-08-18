@@ -41,6 +41,8 @@ export function DriverHomeScreen() {
   const [todayRides, setTodayRides] = useState<Ride[]>([]);
   const [todayLoading, setTodayLoading] = useState(true);
   const acceptTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Whether this socket generation has been told the driver is on shift.
+  const announcedRef = useRef(false);
 
   // Keep the screen on while the driver is online so GPS and WebSocket stay alive.
   useWakeLock(online);
@@ -142,15 +144,35 @@ export function DriverHomeScreen() {
   // backgrounded app). Dispatch only offers rides to sockets it knows are on
   // shift, so a silent reconnect would otherwise stop the offers reaching them.
   useEffect(() => {
-    if (!online) return;
-    const off = wsService.on('__open', () => {
+    if (!online) {
+      announcedRef.current = false;
+      return;
+    }
+    const announce = (): void => {
+      announcedRef.current = true;
       wsService.send('driver_online', {
         lat: center.lat,
         lng: center.lng,
         vehicleType: myVehicleType,
       });
+    };
+    // '__open' alone was not enough. The socket is opened at login, long before
+    // this screen mounts, so on the restore-shift path — getMe reports the shift
+    // is still open and flips the toggle back on — the event had already fired
+    // and would never fire again. The server therefore had the socket down as
+    // off-shift and sent it no offers at all: the driver saw only what the 15 s
+    // poll backfilled, and lost every live request to a driver who happened to
+    // have toggled on by hand. Announce straight away when the socket is already
+    // up; the ref keeps a map pan from re-announcing on every center change.
+    if (!announcedRef.current && wsService.connected) announce();
+    const offOpen = wsService.on('__open', announce);
+    const offClose = wsService.on('__close', () => {
+      announcedRef.current = false;
     });
-    return off;
+    return () => {
+      offOpen();
+      offClose();
+    };
   }, [online, center.lat, center.lng, myVehicleType]);
 
   // An in-progress ride (page reload, back navigation) → offer the Navigation
@@ -271,10 +293,14 @@ export function DriverHomeScreen() {
   };
 
   const accept = (ride: Ride): void => {
-    if (!wsService.connected) {
-      addToast('error', t('common.noConnection'));
-      return;
-    }
+    // Refusing outright while the socket is merely CONNECTING cost drivers rides
+    // they had already been offered: the queue is filled by a REST poll, so a
+    // card is on screen from the first render, seconds before the socket is up.
+    // Tapping it in that window said "no connection" and dropped the accept —
+    // over a connection that was about to be fine. wsService.send() queues and
+    // flushes on open for exactly this, and a send that truly never lands is
+    // still caught by the timeout below.
+    const wasConnected = wsService.connected;
     setAccepting(ride.id);
     setRequests((prev) => prev.filter((r) => r.id !== ride.id));
     wsService.send('ride_accept', { rideId: ride.id });
@@ -282,7 +308,10 @@ export function DriverHomeScreen() {
     acceptTimeoutRef.current = setTimeout(() => {
       setAccepting((cur) => {
         if (cur === ride.id) {
-          addToast('error', t('common.error'));
+          // Put the card back: unlike a TAKEN reply, nothing here says the ride
+          // is gone, and hiding a still-open request is the same lost fare.
+          setRequests((prev) => (prev.some((r) => r.id === ride.id) ? prev : [ride, ...prev]));
+          addToast('error', t(wasConnected ? 'common.error' : 'common.noConnection'));
           return null;
         }
         return cur;
