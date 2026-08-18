@@ -249,11 +249,29 @@ test.describe.serial('two-party ride lifecycle', () => {
 
       const navBtn = page.getByRole('button', { name: /navigation/i });
       await expect(navBtn).toBeVisible({ timeout: 20000 });
+
+      // Let the toasts from taking the ride expire first (they last 4s). One of
+      // them is already a location warning, so asserting on a toast without this
+      // would pass on a button that did nothing at all.
+      await expect(page.getByRole('alert')).toHaveCount(0, { timeout: 10000 });
       await navBtn.click();
 
-      await expect(page.getByText(/location/i).first()).toBeVisible({ timeout: 10000 });
-      await expect(page.getByRole('region', { name: /navigation/i })).toHaveCount(0);
-      await expect(page.getByText(/building route/i)).toHaveCount(0);
+      // The button has to say why it did nothing — silently toggling a flag
+      // that nothing acts on just looks broken.
+      await expect(
+        page
+          .getByRole('alert')
+          .filter({ hasText: /location access is off|couldn't get your location/i })
+      ).toBeVisible({ timeout: 10000 });
+
+      // And the driving view must not have taken the screen over. These two are
+      // what the view rendered when it opened without a fix, and each is a
+      // different lie: the ETA bar's own "Exit" control means turn-by-turn is
+      // running, and "Building the route…" is what it showed underneath a panel
+      // already announcing the first instruction — forever, because there was no
+      // position to route from.
+      await expect(page.getByRole('button', { name: /^exit$/i })).toHaveCount(0);
+      await expect(page.getByText(/building the route/i)).toHaveCount(0);
     } finally {
       await cancelActiveRides(request, passenger);
       await ctx.close();

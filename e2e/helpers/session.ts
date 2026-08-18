@@ -1,38 +1,99 @@
+import { readFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import type { APIRequestContext, Page } from '@playwright/test';
+import { API, BASE } from './env';
 
-export const API = process.env.E2E_API_URL || 'https://taxi-pro-server.onrender.com';
-export const BASE = process.env.E2E_BASE_URL || 'http://localhost:5199';
+export { API, BASE } from './env';
 
 export interface DevSession {
   token: string;
   user: { uid: string; role: string; name: string };
 }
 
-// Logging in is rate limited to 10 attempts a minute per IP, and the whole CI
-// job is one IP. Every test that logs in again for a name it already used spends
-// part of that budget for nothing, so the sessions are kept for the life of the
-// worker. Retries reuse the same process, which is exactly when the budget is
-// thinnest.
-const sessions = new Map<string, Promise<DevSession>>();
+/**
+ * Every account the suite signs in as.
+ *
+ * They are minted once, in order, by global-setup — not by whichever test got
+ * there first. Parallel workers each opening their own logins looked to the
+ * Cloudflare edge in front of Render exactly like a bot: it answered the burst
+ * with a 429 challenge page and the whole run collapsed, on CI's IP as readily
+ * as on a laptop. One unhurried pass costs a minute and is never mistaken for
+ * an attack.
+ *
+ * A name missing from this list still works — it falls back to minting on
+ * demand, which is one request, not a burst.
+ */
+export const ACCOUNTS: ReadonlyArray<readonly [string, 'passenger' | 'driver']> = [
+  ['TestDriver', 'driver'],
+  ['e2e-lc-passenger', 'passenger'],
+  ['e2e-lc2-passenger', 'passenger'],
+  ['e2e-nav-passenger', 'passenger'],
+  ['e2e-session-passenger', 'passenger'],
+  ['e2e-session-driver', 'driver'],
+  ['e2e-chat-passenger', 'passenger'],
+  ['e2e-spam', 'passenger'],
+  ['e2e-driver-reg', 'passenger'],
+  ['e2e-nearby', 'passenger'],
+  ['e2e-test-user', 'passenger'],
+  ['e2e-ride-passenger', 'passenger'],
+];
 
 /**
- * Mint a dev session against the API. Dev auth derives the uid from the name,
- * so a per-test name gives a per-test account — important here because the
- * server allows one active ride per passenger, and a leftover ride from another
- * test would surface as a confusing 409 rather than a clear failure.
+ * Where global-setup leaves the minted sessions for the workers to pick up.
+ *
+ * A file rather than an env var because workers are separate processes started
+ * before setup's return value could reach them, and the tokens are good for 24h
+ * so there is nothing to keep warm in memory.
+ *
+ * Keyed by which API minted them. A local run signs with the development JWT
+ * secret against a store that starts empty, so its tokens verify perfectly well
+ * against production and then name users that do not exist there — every call
+ * 404s and nothing says why. Separate files, no crossover.
+ */
+export const SESSIONS_FILE = join(
+  tmpdir(),
+  `taxipro-e2e-sessions-${API.replace(/[^a-z0-9]+/gi, '-')}.json`
+);
+
+export const sessionKey = (name: string, role: string): string => `${name}:${role}`;
+
+const sessions = new Map<string, Promise<DevSession>>();
+let preloaded: Record<string, DevSession> | null | undefined;
+
+/** Sessions global-setup already minted, or null when it could not. */
+function fromSetup(key: string): DevSession | undefined {
+  if (preloaded === undefined) {
+    try {
+      preloaded = JSON.parse(readFileSync(SESSIONS_FILE, 'utf8')) as Record<string, DevSession>;
+    } catch {
+      preloaded = null;
+    }
+  }
+  return preloaded?.[key];
+}
+
+/**
+ * Sign in as a dev account. Dev auth derives the uid from the name, so a
+ * per-test name gives a per-test account — important here because the server
+ * allows one active ride per passenger, and a leftover ride from another test
+ * would surface as a confusing 409 rather than a clear failure.
  */
 export function devLogin(
   request: APIRequestContext,
   name: string,
   role: 'passenger' | 'driver' = 'passenger'
 ): Promise<DevSession> {
-  const key = `${name}:${role}`;
+  const key = sessionKey(name, role);
   const existing = sessions.get(key);
   if (existing) return existing;
-  const minted = mintSession(request, name, role).catch((err) => {
-    sessions.delete(key);
-    throw err;
-  });
+  const ready = fromSetup(key);
+  const minted = ready
+    ? Promise.resolve(ready)
+    : mintSession(request, name, role).catch((err) => {
+        sessions.delete(key);
+        throw err;
+      });
   sessions.set(key, minted);
   return minted;
 }
