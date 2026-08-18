@@ -467,7 +467,13 @@ export function RideDetailsScreen() {
   // Full turn-by-turn mode: the map takes over like Google Maps' driving view
   // (instruction banner pinned to the top, ETA/exit bar pinned to the bottom)
   // instead of sharing the screen with the scrollable ride-details sheet.
-  const navActive = showNav && isDriver;
+  // Navigation is guidance from where the car actually is, so it needs a fix.
+  // Without one the view used to open anyway and lie in two directions at once:
+  // the panel fell back to the pickup point, so it drew a zero-length route and
+  // announced "0 m — start driving" as though the driver had already arrived,
+  // while the ETA bar, which has no such fallback, sat on "building route…"
+  // forever underneath it.
+  const navActive = showNav && isDriver && !!liveDriverPos;
 
   return (
     <div className="flex h-full flex-col">
@@ -503,14 +509,14 @@ export function RideDetailsScreen() {
             <ArrowLeft size={20} />
           </button>
         )}
-        {navActive && targetPoint && (
+        {navActive && targetPoint && liveDriverPos && (
           // pointer-events-none on the strip, auto on the panel itself (set in
           // NavigationPanel): the wrapper spans the full width, so without this
           // it swallowed map drags and pinches in the empty space beside the
           // panel — the driver couldn't pan the map along the top of the screen.
           <div className="pointer-events-none absolute inset-x-3 top-3 z-[1000]">
             <NavigationPanel
-              from={liveDriverPos ?? ride.pickup}
+              from={liveDriverPos}
               to={targetPoint}
               position={liveDriverPos}
               speed={speed}
@@ -636,7 +642,24 @@ export function RideDetailsScreen() {
         )}
 
         {isDriver && !['completed', 'cancelled', 'searching', 'scheduled'].includes(ride.status) && (
-          <Button fullWidth variant={showNav ? 'outline' : 'primary'} onClick={() => setShowNav((v) => !v)}>
+          <Button
+            fullWidth
+            variant={showNav ? 'outline' : 'primary'}
+            onClick={() => {
+              // Say why nothing happened. Silently toggling a flag that
+              // navActive then ignores looks like a dead button, and the fix
+              // (allow location) is one the driver has to make themselves.
+              if (!showNav && !liveDriverPos) {
+                requestGeo();
+                addToast(
+                  'error',
+                  t(geoPermissionDenied ? 'home.locationPermissionDenied' : 'home.locationError')
+                );
+                return;
+              }
+              setShowNav((v) => !v);
+            }}
+          >
             <Navigation size={16} /> {t('driver.navigation')}
           </Button>
         )}

@@ -193,4 +193,51 @@ test.describe.serial('two-party ride lifecycle', () => {
       await ctx.close();
     }
   });
+
+  test('navigation says it needs location instead of guiding from nowhere', async ({
+    browser,
+    request,
+  }) => {
+    // With no position fix the navigation view opened anyway and contradicted
+    // itself: the instruction panel fell back to the pickup point, so it drew a
+    // zero-length route and announced "0 m — start driving" as though the car
+    // were already there, while the ETA bar underneath — which has no such
+    // fallback — sat on "building route…" for good. A browser context with
+    // geolocation simply not granted is exactly that state.
+    const passenger = await devLogin(request, 'e2e-nav-passenger', 'passenger');
+    const driver = await devLogin(request, DRIVER_FIXTURE, 'driver');
+    await cancelActiveRides(request, passenger);
+    await goOnline(request, driver);
+
+    const PICKUP = uniquePickup();
+    const created = await request.post(`${API}/api/rides`, {
+      data: { pickup: PICKUP, destination: DESTINATION, vehicleType: 'economy' },
+      headers: auth(passenger),
+    });
+    expect(created.status(), await created.text()).toBe(201);
+
+    const ctx = await browser.newContext();
+    const page = await ctx.newPage();
+
+    try {
+      await openAs(page, driver);
+      await page
+        .locator('div')
+        .filter({ hasText: PICKUP.address })
+        .getByRole('button', { name: /accept/i })
+        .last()
+        .click({ timeout: 20000 });
+
+      const navBtn = page.getByRole('button', { name: /navigation/i });
+      await expect(navBtn).toBeVisible({ timeout: 20000 });
+      await navBtn.click();
+
+      await expect(page.getByText(/location/i).first()).toBeVisible({ timeout: 10000 });
+      await expect(page.getByRole('region', { name: /navigation/i })).toHaveCount(0);
+      await expect(page.getByText(/building route/i)).toHaveCount(0);
+    } finally {
+      await cancelActiveRides(request, passenger);
+      await ctx.close();
+    }
+  });
 });
