@@ -201,7 +201,8 @@
     "translate": "Vertalen",
     "hideTranslation": "Vertaling verbergen",
     "translateFailed": "Vertaling mislukt",
-    "translateSameLanguage": "Al in uw taal"
+    "translateSameLanguage": "Al in uw taal",
+    "unread": "{{count}} ongelezen"
   },
   "templates": {
     "0": "Ik ben er",

@@ -266,7 +266,15 @@ export function initNotifications(): void {
     const me = useAppStore.getState().user?.uid;
     const m = msg.message as { senderId?: string; text?: string } | undefined;
     if (!m || m.senderId === me) return;
-    if (useRouter.getState().screen === 'chat') return; // already looking at it
+    const chatId = typeof msg.chatId === 'string' ? msg.chatId : '';
+    const router = useRouter.getState();
+    // Only "already looking at it" when it is *this* chat that is open — being
+    // in some other conversation is exactly the case where the message would
+    // otherwise vanish unseen.
+    if (router.screen === 'chat' && (!chatId || router.params.chatId === chatId)) return;
+    // The badge outlives the toast: this is what a driver who was watching the
+    // road still sees when they look back at the screen.
+    if (chatId) useAppStore.getState().bumpUnread(chatId);
     // Sound, like every other interruption worth reacting to. Without it a
     // message arriving while the rider is looking at the map produced only a
     // silent toast that scrolled away unnoticed (reported: "no notification

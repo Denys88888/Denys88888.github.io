@@ -201,7 +201,8 @@
     "translate": "Перевести",
     "hideTranslation": "Скрыть перевод",
     "translateFailed": "Не удалось перевести",
-    "translateSameLanguage": "Уже на вашем языке"
+    "translateSameLanguage": "Уже на вашем языке",
+    "unread": "{{count}} непрочитанных"
   },
   "templates": {
     "0": "Я здесь",

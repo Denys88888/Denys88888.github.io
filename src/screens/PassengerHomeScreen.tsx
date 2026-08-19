@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { isAxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
-import { LocateFixed, Circle, X, Calendar, Coins, Zap, Home, Briefcase, Users } from 'lucide-react';
+import { LocateFixed, Circle, X, Calendar, Coins, Zap, Home, Briefcase, Users, MessageCircle } from 'lucide-react';
 import { MapView } from '../components/map/MapContainer';
 import { AddressSearch } from '../components/map/AddressSearch';
 import { VehicleTypeSelector } from '../components/ride/VehicleTypeSelector';
@@ -10,6 +10,7 @@ import { Modal } from '../components/ui/Modal';
 import { useGeolocation } from '../hooks/useGeolocation';
 import { useToast } from '../hooks/useToast';
 import { useAppStore } from '../store/useAppStore';
+import { useUnreadForRide } from '../hooks/useUnread';
 import { useRouter } from '../store/useRouter';
 import { api } from '../services/api';
 import { wsService } from '../services/wsService';
@@ -152,6 +153,7 @@ export function PassengerHomeScreen() {
   // An unfinished ride (page reload, back navigation) — surface it so the
   // passenger can return to it or cancel it; new orders are blocked meanwhile.
   const [activeRide, setActiveRide] = useState<import('../types').Ride | null>(null);
+  const activeUnread = useUnreadForRide(activeRide?.id);
   useEffect(() => {
     let cancelled = false;
     findActiveRide().then((r) => { if (!cancelled) setActiveRide(r); });
@@ -542,6 +544,14 @@ export function PassengerHomeScreen() {
               className="!bg-warning"
             >
               {t('home.activeRideBanner')}
+              {/* Same reason as on the driver's side: the toast is gone in four
+                  seconds, so an unread message needs somewhere to sit. */}
+              {activeUnread > 0 && (
+                <span className="ms-2 flex h-5 items-center gap-1 rounded-full bg-danger px-2 text-[11px] font-bold text-white">
+                  <MessageCircle size={11} />
+                  {activeUnread > 9 ? '9+' : activeUnread}
+                </span>
+              )}
             </Button>
           )}
           {/* A booking for later. Deliberately a quiet row rather than a

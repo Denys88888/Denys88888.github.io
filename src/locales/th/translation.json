@@ -201,7 +201,8 @@
     "translate": "แปล",
     "hideTranslation": "ซ่อนคำแปล",
     "translateFailed": "แปลไม่สำเร็จ",
-    "translateSameLanguage": "เป็นภาษาของคุณอยู่แล้ว"
+    "translateSameLanguage": "เป็นภาษาของคุณอยู่แล้ว",
+    "unread": "ยังไม่ได้อ่าน {{count}} ข้อความ"
   },
   "templates": {
     "0": "ฉันมาถึงแล้ว",

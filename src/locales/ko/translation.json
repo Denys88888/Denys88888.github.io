@@ -201,7 +201,8 @@
     "translate": "번역",
     "hideTranslation": "번역 숨기기",
     "translateFailed": "번역 실패",
-    "translateSameLanguage": "이미 사용자 언어입니다"
+    "translateSameLanguage": "이미 사용자 언어입니다",
+    "unread": "읽지 않음 {{count}}개"
   },
   "templates": {
     "0": "도착했습니다",

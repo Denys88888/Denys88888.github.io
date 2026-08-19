@@ -201,7 +201,8 @@
     "translate": "Übersetzen",
     "hideTranslation": "Übersetzung ausblenden",
     "translateFailed": "Übersetzung fehlgeschlagen",
-    "translateSameLanguage": "Bereits in Ihrer Sprache"
+    "translateSameLanguage": "Bereits in Ihrer Sprache",
+    "unread": "{{count}} ungelesen"
   },
   "templates": {
     "0": "Ich bin da",

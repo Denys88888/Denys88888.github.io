@@ -201,7 +201,8 @@
     "translate": "Terjemahkan",
     "hideTranslation": "Sembunyikan terjemahan",
     "translateFailed": "Terjemahan gagal",
-    "translateSameLanguage": "Sudah dalam bahasa Anda"
+    "translateSameLanguage": "Sudah dalam bahasa Anda",
+    "unread": "{{count}} belum dibaca"
   },
   "templates": {
     "0": "Saya di sini",

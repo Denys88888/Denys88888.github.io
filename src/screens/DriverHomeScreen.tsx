@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { isAxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
-import { Circle, Check, LocateFixed, Navigation, TrendingUp, Route, MessageSquare } from 'lucide-react';
+import { Circle, Check, LocateFixed, Navigation, TrendingUp, Route, MessageSquare, MessageCircle } from 'lucide-react';
 import { MapView } from '../components/map/MapContainer';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -10,6 +10,7 @@ import { useToast } from '../hooks/useToast';
 import { useWakeLock, primeWakeLock } from '../hooks/useWakeLock';
 import { useRouter } from '../store/useRouter';
 import { useAppStore } from '../store/useAppStore';
+import { useUnreadForRide } from '../hooks/useUnread';
 import { wsService } from '../services/wsService';
 import { api } from '../services/api';
 import { primeChime } from '../services/notificationService';
@@ -36,6 +37,7 @@ export function DriverHomeScreen() {
   const [offered, setOffered] = useState<Record<string, boolean>>({});
   const [heatmap, setHeatmap] = useState<HeatmapPoint[]>([]);
   const [activeRide, setActiveRide] = useState<Ride | null>(null);
+  const activeUnread = useUnreadForRide(activeRide?.id);
   const [focusNonce, setFocusNonce] = useState(0);
   const [previewRideId, setPreviewRideId] = useState<string | null>(null);
   const [todayRides, setTodayRides] = useState<Ride[]>([]);
@@ -407,6 +409,14 @@ export function DriverHomeScreen() {
             className="!bg-success"
           >
             <Navigation size={16} /> {t('driver.navigation')}
+            {/* The passenger's message is unreadable from here — but the fact
+                that one is waiting has to be, or it is missed entirely. */}
+            {activeUnread > 0 && (
+              <span className="ms-2 flex h-5 items-center gap-1 rounded-full bg-danger px-2 text-[11px] font-bold text-white">
+                <MessageCircle size={11} />
+                {activeUnread > 9 ? '9+' : activeUnread}
+              </span>
+            )}
           </Button>
         )}
         {online && todayLoading && (

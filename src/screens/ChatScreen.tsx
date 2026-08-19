@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChatHeader } from '../components/chat/ChatHeader';
 import { ChatWindow } from '../components/chat/ChatWindow';
@@ -15,7 +16,15 @@ export function ChatScreen() {
   const back = useRouter((s) => s.back);
   const uid = useAppStore((s) => s.user?.uid ?? '');
   const chatId = params.chatId ?? '';
+  const clearUnread = useAppStore((s) => s.clearUnread);
   const { messages, send } = useChat(chatId);
+
+  // Opening the chat *is* reading it. Re-runs on every new message too, so a
+  // message that lands while the screen is already open never leaves a badge
+  // behind on the way back to the ride.
+  useEffect(() => {
+    if (chatId) clearUnread(chatId);
+  }, [chatId, clearUnread, messages.length]);
 
   return (
     <div className="flex h-full flex-col">

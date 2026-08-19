@@ -208,11 +208,17 @@ export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
   const NextIcon = next ? maneuverIcon(maneuverKey(next)) : null;
   const lanes = current?.lanes;
 
+  // Google Maps keeps the road visible *through* the banner: the map is the
+  // thing the driver is actually reading, and a solid card over the top third
+  // of the screen hides the junction they are driving into. 55% black plus a
+  // 12px backdrop blur still smeared into an opaque-looking slab, so both come
+  // down — a light 30% scrim and a 2px blur, just enough to keep white text
+  // legible, with a text shadow doing the rest of that job over bright tiles.
   return (
     <div
       role="region"
       aria-label={t('driver.navigation')}
-      className="pointer-events-auto overflow-hidden rounded-card bg-black/55 text-white shadow-card backdrop-blur-md"
+      className="pointer-events-auto overflow-hidden rounded-card bg-black/30 text-white shadow-card backdrop-blur-[2px] [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]"
     >
       <div className="flex items-center gap-3 p-3">
         <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary">
@@ -257,7 +263,7 @@ export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
             driver reaches for one-handed while moving. */}
         <button
           onClick={() => setVoice((v) => !v)}
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-black/40"
           aria-label={voice ? t('nav.mute') : t('nav.unmute')}
         >
           {voice ? <Volume2 size={18} /> : <VolumeX size={18} />}
@@ -267,7 +273,7 @@ export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
             window.speechSynthesis?.cancel();
             onClose();
           }}
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-black/40"
           aria-label={t('common.close')}
         >
           <X size={18} />
@@ -278,7 +284,7 @@ export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
           the main banner — mirrors Google Maps' "Далее" chip, so a turn that
           follows immediately after another one isn't a surprise. */}
       {next && NextIcon && (
-        <div className="flex items-center gap-2 border-t border-white/10 bg-white/5 px-3 py-2 text-xs opacity-80">
+        <div className="flex items-center gap-2 border-t border-white/15 bg-black/20 px-3 py-2 text-xs opacity-80">
           <span className="shrink-0">{t('nav.then')}</span>
           <NextIcon size={14} className="shrink-0" />
           <span className="truncate">{next.road || t(`nav.${maneuverKey(next)}`)}</span>

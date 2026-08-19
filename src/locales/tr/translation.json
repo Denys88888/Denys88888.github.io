@@ -201,7 +201,8 @@
     "translate": "Çevir",
     "hideTranslation": "Çeviriyi gizle",
     "translateFailed": "Çeviri başarısız",
-    "translateSameLanguage": "Zaten sizin dilinizde"
+    "translateSameLanguage": "Zaten sizin dilinizde",
+    "unread": "{{count}} okunmamış"
   },
   "templates": {
     "0": "Buradayım",

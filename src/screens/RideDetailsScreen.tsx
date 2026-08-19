@@ -62,7 +62,10 @@ export function RideDetailsScreen() {
   const storeRide = useAppStore((s) => s.currentRide);
   const uid = useAppStore((s) => s.user?.uid ?? '');
 
+  const unreadByChat = useAppStore((s) => s.unreadByChat);
+
   const [ride, setRide] = useState<Ride | null>(storeRide);
+  const unreadCount = ride ? (unreadByChat[chatIdForRide(ride.id)] ?? 0) : 0;
   const [driverPos, setDriverPos] = useState<GeoPoint | null>(null);
   const [showCancel, setShowCancel] = useState(false);
   // Ticks every second only while the cancel dialog is open, so the free-
@@ -718,12 +721,24 @@ export function RideDetailsScreen() {
                   <Phone size={18} />
                 </button>
               )}
+              {/* The unread count is the only lasting sign a message arrived:
+                  the toast is gone after four seconds and the Pi Browser gives
+                  us no push notification to fall back on. */}
               <button
                 onClick={() => navigate('chat', { chatId: chatIdForRide(ride.id) })}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/15 text-primary"
-                aria-label={t('ride.messageDriver')}
+                className="relative flex h-10 w-10 items-center justify-center rounded-full bg-primary/15 text-primary"
+                aria-label={
+                  unreadCount > 0
+                    ? `${t('ride.messageDriver')} (${t('chat.unread', { count: unreadCount })})`
+                    : t('ride.messageDriver')
+                }
               >
                 <MessageCircle size={18} />
+                {unreadCount > 0 && (
+                  <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-danger px-1 text-[10px] font-bold leading-none text-white ring-2 ring-surface-light dark:ring-surface-dark">
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </span>
+                )}
               </button>
               <button
                 onClick={() => setShowReport(true)}

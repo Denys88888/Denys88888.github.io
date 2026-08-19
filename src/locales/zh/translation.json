@@ -201,7 +201,8 @@
     "translate": "翻译",
     "hideTranslation": "隐藏翻译",
     "translateFailed": "翻译失败",
-    "translateSameLanguage": "已经是您的语言"
+    "translateSameLanguage": "已经是您的语言",
+    "unread": "{{count}} 条未读"
   },
   "templates": {
     "0": "我到了",

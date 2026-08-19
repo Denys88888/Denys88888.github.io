@@ -201,7 +201,8 @@
     "translate": "Translate",
     "hideTranslation": "Hide translation",
     "translateFailed": "Translation failed",
-    "translateSameLanguage": "Already in your language"
+    "translateSameLanguage": "Already in your language",
+    "unread": "{{count}} unread"
   },
   "templates": {
     "0": "I'm here",

@@ -201,7 +201,8 @@
     "translate": "अनुवाद",
     "hideTranslation": "अनुवाद छिपाएँ",
     "translateFailed": "अनुवाद विफल",
-    "translateSameLanguage": "पहले से आपकी भाषा में"
+    "translateSameLanguage": "पहले से आपकी भाषा में",
+    "unread": "{{count}} अपठित"
   },
   "templates": {
     "0": "मैं यहाँ हूँ",

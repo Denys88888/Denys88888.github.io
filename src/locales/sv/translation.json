@@ -201,7 +201,8 @@
     "translate": "Översätt",
     "hideTranslation": "Dölj översättning",
     "translateFailed": "Översättningen misslyckades",
-    "translateSameLanguage": "Redan på ditt språk"
+    "translateSameLanguage": "Redan på ditt språk",
+    "unread": "{{count}} olästa"
   },
   "templates": {
     "0": "Jag är här",

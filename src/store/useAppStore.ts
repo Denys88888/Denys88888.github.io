@@ -24,6 +24,14 @@ interface AppState {
   nearbyDrivers: DriverSummary[];
   setNearbyDrivers: (drivers: DriverSummary[]) => void;
 
+  // Unread chat messages, per chat id. A toast lives four seconds and then
+  // leaves no trace, so a driver looking at the road (or a rider whose screen
+  // was off) had no way at all to learn a message had arrived — reported as
+  // "no message notification". This is the part that persists until read.
+  unreadByChat: Record<string, number>;
+  bumpUnread: (chatId: string) => void;
+  clearUnread: (chatId: string) => void;
+
   // Toasts
   toasts: ToastMessage[];
   addToast: (type: ToastMessage['type'], message: string) => void;
@@ -60,7 +68,7 @@ export const useAppStore = create<AppState>((set) => ({
     }),
   logout: () => {
     storage.clearAuth();
-    set({ user: null, token: null, currentRide: null });
+    set({ user: null, token: null, currentRide: null, unreadByChat: {} });
   },
 
   theme: storage.getTheme(),
@@ -76,6 +84,17 @@ export const useAppStore = create<AppState>((set) => ({
   setCurrentRide: (currentRide) => set({ currentRide }),
   nearbyDrivers: [],
   setNearbyDrivers: (nearbyDrivers) => set({ nearbyDrivers }),
+
+  unreadByChat: {},
+  bumpUnread: (chatId) =>
+    set((s) => ({ unreadByChat: { ...s.unreadByChat, [chatId]: (s.unreadByChat[chatId] ?? 0) + 1 } })),
+  clearUnread: (chatId) =>
+    set((s) => {
+      if (!s.unreadByChat[chatId]) return s;
+      const next = { ...s.unreadByChat };
+      delete next[chatId];
+      return { unreadByChat: next };
+    }),
 
   toasts: [],
   // Skip a duplicate {type, message} only within a very short window (300ms)

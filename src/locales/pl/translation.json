@@ -201,7 +201,8 @@
     "translate": "Przetłumacz",
     "hideTranslation": "Ukryj tłumaczenie",
     "translateFailed": "Tłumaczenie nie powiodło się",
-    "translateSameLanguage": "Już w Twoim języku"
+    "translateSameLanguage": "Już w Twoim języku",
+    "unread": "{{count}} nieprzeczytanych"
   },
   "templates": {
     "0": "Jestem na miejscu",

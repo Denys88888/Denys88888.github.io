@@ -201,7 +201,8 @@
     "translate": "ترجمة",
     "hideTranslation": "إخفاء الترجمة",
     "translateFailed": "فشلت الترجمة",
-    "translateSameLanguage": "باللغة الخاصة بك بالفعل"
+    "translateSameLanguage": "باللغة الخاصة بك بالفعل",
+    "unread": "{{count}} غير مقروءة"
   },
   "templates": {
     "0": "أنا هنا",

@@ -201,7 +201,8 @@
     "translate": "Traduzir",
     "hideTranslation": "Ocultar tradução",
     "translateFailed": "Falha na tradução",
-    "translateSameLanguage": "Já está no seu idioma"
+    "translateSameLanguage": "Já está no seu idioma",
+    "unread": "{{count}} não lidas"
   },
   "templates": {
     "0": "Estou aqui",

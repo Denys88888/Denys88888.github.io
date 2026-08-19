@@ -201,7 +201,8 @@
     "translate": "Dịch",
     "hideTranslation": "Ẩn bản dịch",
     "translateFailed": "Dịch thất bại",
-    "translateSameLanguage": "Đã ở ngôn ngữ của bạn"
+    "translateSameLanguage": "Đã ở ngôn ngữ của bạn",
+    "unread": "{{count}} chưa đọc"
   },
   "templates": {
     "0": "Tôi ở đây",

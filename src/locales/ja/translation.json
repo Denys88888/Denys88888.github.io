@@ -201,7 +201,8 @@
     "translate": "翻訳",
     "hideTranslation": "翻訳を隠す",
     "translateFailed": "翻訳に失敗しました",
-    "translateSameLanguage": "すでにあなたの言語です"
+    "translateSameLanguage": "すでにあなたの言語です",
+    "unread": "未読 {{count}} 件"
   },
   "templates": {
     "0": "到着しました",
