@@ -616,6 +616,27 @@ export function RideDetailsScreen() {
                 <p className="text-sm opacity-70">{t('nav.loading')}</p>
               )}
             </div>
+            {/* A driver in navigation has three quarters of the screen given
+                over to the map, and the chat button sits in the sheet below
+                the fold — so a message announced itself for four seconds and
+                then had nowhere to be seen. This is the one place the driver
+                is already looking. */}
+            <button
+              onClick={() => navigate('chat', { chatId: chatIdForRide(ride.id) })}
+              className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary"
+              aria-label={
+                unreadCount > 0
+                  ? `${t('ride.messageDriver')} (${t('chat.unread', { count: unreadCount })})`
+                  : t('ride.messageDriver')
+              }
+            >
+              <MessageCircle size={18} />
+              {unreadCount > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-danger px-1 text-[10px] font-bold leading-none text-white ring-2 ring-surface-light dark:ring-surface-dark">
+                  {unreadCount > 9 ? '9+' : unreadCount}
+                </span>
+              )}
+            </button>
             <Button variant="danger" onClick={() => setShowNav(false)}>
               {t('nav.exit')}
             </Button>
