@@ -1,4 +1,4 @@
-import { TOKEN_KEY, USER_KEY, THEME_KEY, LANG_KEY } from '../utils/constants';
+import { TOKEN_KEY, USER_KEY, THEME_KEY, LANG_KEY, UNREAD_KEY } from '../utils/constants';
 import type { User, Theme } from '../types';
 
 // Thin, typed wrapper over localStorage. All access to persisted state goes
@@ -32,8 +32,31 @@ export const storage = {
   setLang(lang: string): void {
     try { localStorage.setItem(LANG_KEY, lang); } catch { /* quota / private mode */ }
   },
+  // Unread message counts, per chat id. Kept on disk because the Pi Browser
+  // reloads the page whenever it feels like it — backgrounded, memory
+  // pressure, a pull-to-refresh the driver did not mean — and an in-memory
+  // badge died with it, taking the only lasting trace of the message with it.
+  getUnread(): Record<string, number> {
+    let raw: string | null = null;
+    try { raw = localStorage.getItem(UNREAD_KEY); } catch { return {}; }
+    if (!raw) return {};
+    try {
+      const parsed = JSON.parse(raw) as unknown;
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+      const out: Record<string, number> = {};
+      for (const [k, v] of Object.entries(parsed as Record<string, unknown>)) {
+        if (typeof v === 'number' && Number.isFinite(v) && v > 0) out[k] = v;
+      }
+      return out;
+    } catch { return {}; }
+  },
+  setUnread(map: Record<string, number>): void {
+    try { localStorage.setItem(UNREAD_KEY, JSON.stringify(map)); } catch { /* quota / private mode */ }
+  },
   clearAuth(): void {
     try { localStorage.removeItem(TOKEN_KEY); } catch { /* ignore */ }
     try { localStorage.removeItem(USER_KEY); } catch { /* ignore */ }
+    // Badges belong to the account that was signed in, not to the device.
+    try { localStorage.removeItem(UNREAD_KEY); } catch { /* ignore */ }
   },
 };

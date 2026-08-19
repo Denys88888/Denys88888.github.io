@@ -9,6 +9,7 @@ export const TOKEN_KEY = 'taxipro_token';
 export const USER_KEY = 'taxipro_user';
 export const THEME_KEY = 'taxipro_theme';
 export const LANG_KEY = 'taxipro_lang';
+export const UNREAD_KEY = 'taxipro_unread';
 
 export interface VehicleOption {
   type: VehicleType;

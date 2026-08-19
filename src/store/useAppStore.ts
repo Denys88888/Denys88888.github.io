@@ -85,14 +85,23 @@ export const useAppStore = create<AppState>((set) => ({
   nearbyDrivers: [],
   setNearbyDrivers: (nearbyDrivers) => set({ nearbyDrivers }),
 
-  unreadByChat: {},
+  // Restored from disk: the Pi Browser reloads the page on its own — a
+  // backgrounded app, memory pressure, an accidental pull-to-refresh — and an
+  // in-memory-only badge died with it, losing the last trace of a message the
+  // driver never saw. That is the very failure this counter exists to prevent.
+  unreadByChat: storage.getUnread(),
   bumpUnread: (chatId) =>
-    set((s) => ({ unreadByChat: { ...s.unreadByChat, [chatId]: (s.unreadByChat[chatId] ?? 0) + 1 } })),
+    set((s) => {
+      const next = { ...s.unreadByChat, [chatId]: (s.unreadByChat[chatId] ?? 0) + 1 };
+      storage.setUnread(next);
+      return { unreadByChat: next };
+    }),
   clearUnread: (chatId) =>
     set((s) => {
       if (!s.unreadByChat[chatId]) return s;
       const next = { ...s.unreadByChat };
       delete next[chatId];
+      storage.setUnread(next);
       return { unreadByChat: next };
     }),
 
