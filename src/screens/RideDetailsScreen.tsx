@@ -505,7 +505,13 @@ export function RideDetailsScreen() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className={cn('relative', navActive ? 'flex-1' : 'h-[48%]')}>
+      {/* Navigating, the map IS the screen — Google Maps gives the road almost
+          all of it and keeps the details to a strip at the bottom. Splitting
+          it half and half left the driver a third of a screen of map with the
+          ETA bar eating into that; 3:1 puts the junction they are driving into
+          back in view. The sheet below still scrolls, so nothing it holds
+          (arrived, cancel, the passenger's card) becomes unreachable. */}
+      <div className={cn('relative', navActive ? 'flex-[3]' : 'h-[48%]')}>
         <MapView
           center={liveDriverPos ?? ride.pickup}
           // Before the ride starts, the relevant route is the driver's own
