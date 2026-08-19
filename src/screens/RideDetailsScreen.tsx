@@ -296,6 +296,17 @@ export function RideDetailsScreen() {
   // Must be called before any conditional return to satisfy Rules of Hooks.
   useWakeLock(isDriver && !!ride && !['completed', 'cancelled'].includes(ride.status));
 
+  // The ride is over — stop navigating to it. Nothing used to turn this off, so
+  // a driver whose passenger cancelled kept a turn-by-turn banner over three
+  // quarters of the screen, still counting down metres to a pickup that was no
+  // longer happening. Worse, the toggle that would have dismissed it is hidden
+  // on a finished ride, leaving the exit bar as the only way out of a mode the
+  // app should never have kept them in.
+  const rideOver = !!ride && ['completed', 'cancelled'].includes(ride.status);
+  useEffect(() => {
+    if (rideOver) setShowNav(false);
+  }, [rideOver]);
+
   const canTip = !!ride && ride.status === 'completed' && !isDriver && !!ride.driverId && !ride.tipAmount;
   useEffect(() => {
     if (!canTip) return;
