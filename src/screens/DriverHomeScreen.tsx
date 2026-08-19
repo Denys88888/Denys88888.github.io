@@ -16,6 +16,7 @@ import { api } from '../services/api';
 import { primeChime } from '../services/notificationService';
 import { formatPi, formatDistance, formatDuration } from '../utils/formatters';
 import { haversineKm, cn } from '../utils/helpers';
+import { fetchActiveRide } from '../utils/activeRide';
 import { isToday } from 'date-fns';
 import type { GeoPoint, Ride, HeatmapPoint } from '../types';
 
@@ -181,26 +182,9 @@ export function DriverHomeScreen() {
   // shortcut back into the ride screen.
   useEffect(() => {
     let cancelled = false;
-    (async () => {
-      for (const status of ['in_progress', 'arrived', 'assigned'] as const) {
-        if (cancelled) return;
-        try {
-          const { rides } = await api.listRides({ status, limit: 1 });
-          if (cancelled) return;
-          const mine = rides.find((r) => r.driverId === uid);
-          if (mine) {
-            setActiveRide(mine);
-            return;
-          }
-        } catch (err) {
-          console.error('[driver] findActiveRide:', err);
-          return;
-        }
-      }
-      if (!cancelled) setActiveRide(null);
-    })();
+    fetchActiveRide(uid, 'driver').then((r) => { if (!cancelled && r !== undefined) setActiveRide(r); });
     return () => { cancelled = true; };
-  }, []);
+  }, [uid]);
 
   useEffect(() => {
     const offAvail = wsService.on('ride_available', (msg) => {

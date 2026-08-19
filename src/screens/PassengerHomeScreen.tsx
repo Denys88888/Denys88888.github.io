@@ -23,29 +23,11 @@ import type { PreparedPiPayment } from '../services/piSdk';
 import { formatPi, formatDistance, formatDuration, localDateTimeValue, formatDate } from '../utils/formatters';
 import { isValidCoord } from '../utils/validators';
 import { cn, estimateFare, routeDistanceKm } from '../utils/helpers';
+import { fetchActiveRide } from '../utils/activeRide';
 import { haptic } from '../utils/haptic';
 import type { GeoPoint, VehicleType, SavedAddress, SurgeInfo } from '../types';
 
 const DEFAULT_CENTER: GeoPoint = { lat: 52.2297, lng: 21.0122 }; // Warsaw fallback
-
-// Statuses that block a new order (the server allows one ride *under way* per
-// passenger). 'scheduled' is deliberately absent, mirroring the server: a
-// booking for later is not a ride in progress, and counting it as one took over
-// this screen and hid the order form from anyone who had planned a trip.
-const LIVE_STATUSES = ['searching', 'assigned', 'arrived', 'in_progress'] as const;
-
-async function findActiveRide() {
-  for (const status of LIVE_STATUSES) {
-    try {
-      const { rides } = await api.listRides({ status, limit: 1 });
-      if (rides.length) return rides[0];
-    } catch (err) {
-      console.error('[home] findActiveRide:', err);
-      return null;
-    }
-  }
-  return null;
-}
 
 // The soonest booking still waiting for its time to come. Purely a reminder —
 // it never blocks ordering, so it is fetched separately from the active ride.
@@ -156,23 +138,27 @@ export function PassengerHomeScreen() {
   const activeUnread = useUnreadForRide(activeRide?.id);
   useEffect(() => {
     let cancelled = false;
-    findActiveRide().then((r) => { if (!cancelled) setActiveRide(r); });
+    fetchActiveRide(user?.uid, 'passenger').then((r) => { if (!cancelled && r !== undefined) setActiveRide(r); });
     return () => { cancelled = true; };
-  }, []);
+  }, [user?.uid]);
   // A ride can go live while the passenger is already sitting on Home (driver
-  // assigned from a scheduled trip, reconnect, multi-device) — findActiveRide()
+  // assigned from a scheduled trip, reconnect, multi-device) — the fetch
   // above only runs on mount, so without this the banner would stay hidden
   // until a full reload. Re-check on the same WS events RideDetailsScreen
   // already reacts to.
   useEffect(() => {
-    const recheck = () => { findActiveRide().then(setActiveRide); };
+    // `undefined` = the check itself failed; leave the banner alone rather
+    // than hiding a ride that is still under way.
+    const recheck = () => {
+      fetchActiveRide(user?.uid, 'passenger').then((r) => { if (r !== undefined) setActiveRide(r); });
+    };
     const offAssigned = wsService.on('ride_assigned', recheck);
     const offStatus = wsService.on('ride_status_update', recheck);
     return () => {
       offAssigned();
       offStatus();
     };
-  }, []);
+  }, [user?.uid]);
 
   // A trip booked for later. Shown alongside the order form, not instead of it.
   const [nextScheduled, setNextScheduled] = useState<import('../types').Ride | null>(null);
@@ -438,7 +424,7 @@ export function PassengerHomeScreen() {
       const code = isAxiosError(err) ? err.response?.data?.code : undefined;
       if (code === 'ACTIVE_RIDE_EXISTS') {
         addToast('error', t('home.activeRideExists'));
-        const active = await findActiveRide();
+        const active = await fetchActiveRide(user?.uid, 'passenger');
         if (active) {
           setCurrentRide(active);
           navigate('ride', { id: active.id });
