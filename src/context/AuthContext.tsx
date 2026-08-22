@@ -1,9 +1,12 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
+import { isAxiosError } from 'axios';
 import { useAppStore } from '../store/useAppStore';
 import { api } from '../services/api';
 import { wsService } from '../services/wsService';
 import { authenticateWithPi, ensurePiPayments, initPi } from '../services/piSdk';
 import { initNotifications } from '../services/notificationService';
+import { apiErrorKey } from '../utils/apiError';
 
 interface AuthCtx {
   login: () => Promise<void>;
@@ -23,7 +26,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const storeLogout = useAppStore((s) => s.logout);
   const setHealth = useAppStore((s) => s.setHealth);
   const addToast = useAppStore((s) => s.addToast);
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
+
+  // The login screen is the one place where a failure has to explain itself: a
+  // driver who cannot get in has no app at all, and no other screen to read.
+  // Axios' own text ("Request failed with status code 503") is English, and
+  // untranslated, and says nothing a driver can act on. Errors thrown by the Pi
+  // SDK keep their own wording — "user cancelled" is more use than any of ours.
+  const authErrorMessage = (err: unknown, fallback: string): string => {
+    if (isAxiosError(err)) return t(apiErrorKey(err));
+    return err instanceof Error && err.message ? err.message : fallback;
+  };
 
   useEffect(() => {
     initPi();
@@ -75,7 +89,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { token: jwt, user } = await api.piAuth(piResult.accessToken);
       setAuth(user, jwt);
     } catch (err) {
-      addToast('error', err instanceof Error ? err.message : 'Login failed');
+      addToast('error', authErrorMessage(err, t('common.error')));
       throw err;
     } finally {
       setLoading(false);
@@ -88,7 +102,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { token: jwt, user } = await api.devAuth(name, role);
       setAuth(user, jwt);
     } catch (err) {
-      addToast('error', err instanceof Error ? err.message : 'Dev login failed');
+      addToast('error', authErrorMessage(err, t('common.error')));
       throw err;
     } finally {
       setLoading(false);
