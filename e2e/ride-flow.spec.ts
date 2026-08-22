@@ -4,7 +4,8 @@
  * The UI half of this now lives in ride-lifecycle.spec.ts — see the note below.
  */
 import { test, expect } from '@playwright/test';
-import { API, auth, devLogin } from './helpers/session';
+import type { APIResponse } from '@playwright/test';
+import { API, auth, cancelActiveRides, devLogin } from './helpers/session';
 
 test.describe('Full ride flow', () => {
   // The UI walkthrough that used to live here asserted nothing: `?dev=name` only
@@ -37,15 +38,42 @@ test.describe('Full ride flow', () => {
   test('create ride via API', async ({ request }) => {
     const session = await devLogin(request, 'e2e-ride-passenger', 'passenger');
 
-    // Create ride
-    const rideRes = await request.post(`${API}/api/rides`, {
-      data: {
-        pickup: { lat: 48.4647, lng: 35.0462, address: 'Start' },
-        destination: { lat: 48.4716, lng: 35.0385, address: 'End' },
-        vehicleType: 'economy',
-      },
-      headers: auth(session),
-    });
+    // Start from a clean account. The suite runs against the shared deployed
+    // API, where this uid outlives the run, and the server allows one live ride
+    // per passenger — so anything left behind by an earlier run, or by a run
+    // still going on another commit, is refused here as a 409. Four commits
+    // pushed minutes apart is enough to overlap two runs and turn this test red
+    // for reasons that have nothing to do with the code under test.
+    await cancelActiveRides(request, session);
+
+    const create = (): Promise<APIResponse> =>
+      request.post(`${API}/api/rides`, {
+        data: {
+          pickup: { lat: 48.4647, lng: 35.0462, address: 'Start' },
+          destination: { lat: 48.4716, lng: 35.0385, address: 'End' },
+          vehicleType: 'economy',
+        },
+        headers: auth(session),
+      });
+
+    // A concurrent run can take the slot between the cleanup and the create, so
+    // one retry — and if it is still refused, say which rule refused it. The
+    // bare `expect(201)` this replaces reported "Received: 409" and left the
+    // reader to guess between a stuck ride and an unpaid cancellation fee.
+    let rideRes = await create();
+    if (rideRes.status() === 409) {
+      await cancelActiveRides(request, session);
+      rideRes = await create();
+    }
+    if (rideRes.status() === 409) {
+      const body = (await rideRes.json().catch(() => ({}))) as {
+        code?: string;
+        error?: string;
+      };
+      throw new Error(
+        `ride creation refused: ${body.code ?? 'unknown'} — ${body.error ?? '(no message)'}`
+      );
+    }
     expect(rideRes.status()).toBe(201);
     const ride = await rideRes.json();
     expect(ride.id).toBeTruthy();
