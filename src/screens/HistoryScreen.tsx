@@ -72,7 +72,8 @@ export function HistoryScreen() {
                   {ride.pickup.address ?? `${ride.pickup.lat.toFixed(3)}, ${ride.pickup.lng.toFixed(3)}`}
                 </p>
                 <p className="truncate text-sm opacity-60">
-                  → {ride.destination.address ?? `${ride.destination.lat.toFixed(3)}, ${ride.destination.lng.toFixed(3)}`}
+                  <span className="dir-arrow">→</span>{' '}
+                  {ride.destination.address ?? `${ride.destination.lat.toFixed(3)}, ${ride.destination.lng.toFixed(3)}`}
                 </p>
                 <p className="mt-1 text-xs opacity-40">{formatDate(ride.createdAt)}</p>
               </div>

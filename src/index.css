@@ -64,6 +64,17 @@
   .skeleton {
     @apply animate-pulse rounded-md bg-black/10 dark:bg-white/10;
   }
+  /* A literal "→" does not mirror itself in RTL. U+2192 carries no bidi
+     mirroring property, so in Arabic or Hebrew — where the line reads
+     right-to-left — an arrow between "from" and "to" points back at where the
+     trip started, and the two addresses read swapped. */
+  .dir-arrow {
+    display: inline-block;
+  }
+  [dir='rtl'] .dir-arrow {
+    transform: scaleX(-1);
+  }
+
   /* Hide scrollbars on horizontal chip/vehicle rows. */
   .no-scrollbar::-webkit-scrollbar {
     display: none;

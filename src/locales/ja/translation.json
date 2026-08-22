@@ -20,7 +20,8 @@
     "language": "言語",
     "maintenanceMode": "メンテナンスのため注文を一時停止しています",
     "noConnection": "接続なし。再試行してください",
-    "serverDown": "サーバーが一時的に利用できません。しばらくしてから再度お試しください"
+    "serverDown": "サーバーが一時的に利用できません。しばらくしてから再度お試しください",
+    "cantReachServer": "サーバーに接続できません。通信状況を確認するか、後でもう一度お試しください"
   },
   "splash": {
     "poweredBy": "Pi Network 提供"

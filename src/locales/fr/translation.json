@@ -20,7 +20,8 @@
     "language": "Langue",
     "maintenanceMode": "Les commandes sont temporairement désactivées pour maintenance",
     "noConnection": "Pas de connexion. Veuillez réessayer",
-    "serverDown": "Le serveur est temporairement indisponible. Réessayez plus tard"
+    "serverDown": "Le serveur est temporairement indisponible. Réessayez plus tard",
+    "cantReachServer": "Serveur injoignable. Vérifiez votre connexion ou réessayez plus tard"
   },
   "splash": {
     "poweredBy": "Propulsé par Pi Network"

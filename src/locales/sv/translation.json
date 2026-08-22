@@ -20,7 +20,8 @@
     "language": "Språk",
     "maintenanceMode": "Beställningar är tillfälligt avstängda för underhåll",
     "noConnection": "Ingen anslutning. Försök igen",
-    "serverDown": "Servern är tillfälligt otillgänglig. Försök igen senare"
+    "serverDown": "Servern är tillfälligt otillgänglig. Försök igen senare",
+    "cantReachServer": "Servern går inte att nå. Kontrollera din anslutning eller försök senare"
   },
   "splash": {
     "poweredBy": "Drivs av Pi Network"

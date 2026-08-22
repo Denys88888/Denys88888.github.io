@@ -20,7 +20,8 @@
     "language": "语言",
     "maintenanceMode": "服务因维护暂时不可用",
     "noConnection": "无连接，请重试",
-    "serverDown": "服务器暂时不可用，请稍后再试"
+    "serverDown": "服务器暂时不可用，请稍后再试",
+    "cantReachServer": "无法连接服务器。请检查网络或稍后重试"
   },
   "splash": {
     "poweredBy": "由 Pi Network 提供支持"

@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import { AxiosError, AxiosHeaders } from 'axios';
 import { apiErrorKey } from './apiError';
 
@@ -14,12 +14,29 @@ const withStatus = (status: number): AxiosError => {
   return err;
 };
 
+const setOnline = (online: boolean): void => {
+  Object.defineProperty(navigator, 'onLine', { value: online, configurable: true });
+};
+
 // Three different situations used to produce one sentence. The whole point of
 // the helper is that they no longer do.
 describe('apiErrorKey', () => {
-  it('tells the user their connection is gone when nothing answered', () => {
-    // No `response` at all: airplane mode, a tunnel, DNS.
+  afterEach(() => setOnline(true));
+
+  it('tells the user their connection is gone when the phone has no network', () => {
+    // No `response` at all, and the radio agrees: airplane mode, a tunnel.
+    setOnline(false);
     expect(apiErrorKey(new AxiosError('Network Error'))).toBe('common.offline');
+  });
+
+  // The bug this pins: a suspended Render service answers with a plain HTML
+  // page and no CORS header, so the browser blocks it and axios reports the
+  // same shape as a dead tunnel. Calling that "no internet connection" on a
+  // phone with full bars sends the driver to reboot their handset over an
+  // outage that is ours.
+  it('blames the server, not the phone, when the phone is online', () => {
+    setOnline(true);
+    expect(apiErrorKey(new AxiosError('Network Error'))).toBe('common.cantReachServer');
   });
 
   it('names the server when the edge answers but the app behind it does not', () => {

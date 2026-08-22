@@ -20,7 +20,8 @@
     "language": "Sprache",
     "maintenanceMode": "Bestellungen sind vorübergehend wegen Wartung deaktiviert",
     "noConnection": "Keine Verbindung. Bitte erneut versuchen",
-    "serverDown": "Server vorübergehend nicht erreichbar. Bitte später erneut versuchen"
+    "serverDown": "Server vorübergehend nicht erreichbar. Bitte später erneut versuchen",
+    "cantReachServer": "Server nicht erreichbar. Prüfe deine Verbindung oder versuche es später"
   },
   "splash": {
     "poweredBy": "Unterstützt von Pi Network"

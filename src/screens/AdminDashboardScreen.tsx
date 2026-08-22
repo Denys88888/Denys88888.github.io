@@ -349,7 +349,12 @@ export function AdminDashboardScreen() {
                 </div>
                 <p>
                   <b>{r.passengerName}</b>
-                  {r.driverName ? <> → <b>{r.driverName}</b></> : null}
+                  {r.driverName ? (
+                    <>
+                      {' '}
+                      <span className="dir-arrow">→</span> <b>{r.driverName}</b>
+                    </>
+                  ) : null}
                 </p>
                 <p className="flex items-center gap-1.5 truncate text-xs opacity-70">
                   <Circle size={8} className="shrink-0 fill-success text-success" />
@@ -621,7 +626,8 @@ export function AdminDashboardScreen() {
                 {r.description && <p className="text-xs opacity-70">{r.description}</p>}
                 <p className="text-xs opacity-60">
                   {t('admin.reporter')}: <span className="font-medium">{r.reporterName ?? r.reporterId}</span>
-                  {' → '}
+                  {' '}
+                  <span className="dir-arrow">→</span>{' '}
                   {t('admin.reportedUser')}: <span className="font-medium">{r.reportedName ?? r.reportedId}</span>
                 </p>
                 <div className="flex items-center justify-between text-xs opacity-60">

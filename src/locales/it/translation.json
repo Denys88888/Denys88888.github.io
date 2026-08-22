@@ -20,7 +20,8 @@
     "language": "Lingua",
     "maintenanceMode": "Gli ordini sono temporaneamente disattivati per manutenzione",
     "noConnection": "Nessuna connessione. Riprova",
-    "serverDown": "Server temporaneamente non disponibile. Riprova più tardi"
+    "serverDown": "Server temporaneamente non disponibile. Riprova più tardi",
+    "cantReachServer": "Server non raggiungibile. Controlla la connessione o riprova più tardi"
   },
   "splash": {
     "poweredBy": "Realizzato con Pi Network"

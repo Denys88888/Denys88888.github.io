@@ -20,7 +20,8 @@
     "language": "Taal",
     "maintenanceMode": "Bestellen is tijdelijk uitgeschakeld voor onderhoud",
     "noConnection": "Geen verbinding. Probeer het opnieuw",
-    "serverDown": "Server tijdelijk niet beschikbaar. Probeer het later opnieuw"
+    "serverDown": "Server tijdelijk niet beschikbaar. Probeer het later opnieuw",
+    "cantReachServer": "Server niet bereikbaar. Controleer je verbinding of probeer het later"
   },
   "splash": {
     "poweredBy": "Mogelijk gemaakt door Pi Network"

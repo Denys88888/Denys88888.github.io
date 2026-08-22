@@ -20,7 +20,8 @@
     "language": "Idioma",
     "maintenanceMode": "Os pedidos estão temporariamente desativados para manutenção",
     "noConnection": "Sem conexão. Por favor, tente novamente",
-    "serverDown": "O servidor está temporariamente indisponível. Tente novamente mais tarde"
+    "serverDown": "O servidor está temporariamente indisponível. Tente novamente mais tarde",
+    "cantReachServer": "Não foi possível conectar ao servidor. Verifique sua conexão ou tente mais tarde"
   },
   "splash": {
     "poweredBy": "Distribuído por Pi Network"

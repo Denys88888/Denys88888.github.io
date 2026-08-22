@@ -20,7 +20,8 @@
     "language": "Dil",
     "maintenanceMode": "Sipariş geçici olarak bakım için devre dışı bırakıldı",
     "noConnection": "Bağlantı yok. Lütfen tekrar deneyin",
-    "serverDown": "Sunucu geçici olarak kullanılamıyor. Lütfen daha sonra tekrar deneyin"
+    "serverDown": "Sunucu geçici olarak kullanılamıyor. Lütfen daha sonra tekrar deneyin",
+    "cantReachServer": "Sunucuya ulaşılamıyor. Bağlantınızı kontrol edin veya sonra tekrar deneyin"
   },
   "splash": {
     "poweredBy": "Pi Network tarafından desteklenmektedir"

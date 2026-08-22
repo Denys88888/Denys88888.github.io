@@ -20,7 +20,8 @@
     "language": "언어",
     "maintenanceMode": "정비를 위해 주문이 일시적으로 중단되었습니다",
     "noConnection": "연결 없음. 다시 시도해 주세요",
-    "serverDown": "서버를 일시적으로 사용할 수 없습니다. 나중에 다시 시도해 주세요"
+    "serverDown": "서버를 일시적으로 사용할 수 없습니다. 나중에 다시 시도해 주세요",
+    "cantReachServer": "서버에 연결할 수 없습니다. 연결 상태를 확인하거나 나중에 다시 시도하세요"
   },
   "splash": {
     "poweredBy": "Pi Network 제공"

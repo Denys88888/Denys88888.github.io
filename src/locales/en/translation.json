@@ -20,7 +20,8 @@
     "language": "Language",
     "maintenanceMode": "Ordering is temporarily disabled for maintenance",
     "noConnection": "No connection. Please try again",
-    "serverDown": "Server is temporarily unavailable. Please try again later"
+    "serverDown": "Server is temporarily unavailable. Please try again later",
+    "cantReachServer": "Can't reach the server. Check your connection or try again later"
   },
   "splash": {
     "poweredBy": "Powered by Pi Network"
