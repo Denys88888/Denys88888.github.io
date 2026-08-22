@@ -49,7 +49,7 @@ export function RideDetailsScreen() {
   const navigate = useRouter((s) => s.navigate);
   const back = useRouter((s) => s.back);
   const { addToast } = useToast();
-  const { preparePayment, payRide, processing } = usePayments();
+  const { preparePayment, prepareFailureMessage, payRide, processing } = usePayments();
   const [preparedPayment, setPreparedPayment] = useState<PreparedPayment | null>(null);
   const {
     position,
@@ -396,7 +396,9 @@ export function RideDetailsScreen() {
       const fallback = await preparePayment(ride.id);
       if (!fallback) {
         haptic.error();
-        addToast('error', t('ride.paymentFailed'));
+        // Say which thing failed. A flat "payment failed" here sends the
+        // driver to check their wallet when the server is simply unreachable.
+        addToast('error', prepareFailureMessage());
         return;
       }
       await payRide(fallback);

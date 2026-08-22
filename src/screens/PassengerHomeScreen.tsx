@@ -223,6 +223,15 @@ export function PassengerHomeScreen() {
       // "Still unpaid" is the wrong thing to say when the wallet never answered
       // at all: nothing was declined, the bridge to the Pi app is simply not
       // there, and tapping again from the same place will do the same nothing.
+      // Nor is "still unpaid" right when our own server never answered: no
+      // decision was taken about the money at all. Only the network-shaped
+      // failures take this branch — a real 4xx still falls through to the
+      // reconciled answer below.
+      const netKey = isAxiosError(err) ? apiErrorKey(err) : null;
+      if (netKey && netKey !== 'common.error') {
+        addToast('error', t(netKey));
+        return;
+      }
       if (still && isWalletSilent(err)) {
         addToast('error', t('ride.walletSilent'));
         return;
