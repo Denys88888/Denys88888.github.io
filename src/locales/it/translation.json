@@ -19,7 +19,8 @@
     "reload": "Ricarica",
     "language": "Lingua",
     "maintenanceMode": "Gli ordini sono temporaneamente disattivati per manutenzione",
-    "noConnection": "Nessuna connessione. Riprova"
+    "noConnection": "Nessuna connessione. Riprova",
+    "serverDown": "Server temporaneamente non disponibile. Riprova più tardi"
   },
   "splash": {
     "poweredBy": "Realizzato con Pi Network"

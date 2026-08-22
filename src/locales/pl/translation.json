@@ -19,7 +19,8 @@
     "reload": "Przeładuj",
     "language": "Język",
     "maintenanceMode": "Zamawianie przejazdów jest tymczasowo wyłączone (prace serwisowe)",
-    "noConnection": "Brak połączenia. Spróbuj ponownie"
+    "noConnection": "Brak połączenia. Spróbuj ponownie",
+    "serverDown": "Serwer jest chwilowo niedostępny. Spróbuj później"
   },
   "splash": {
     "poweredBy": "Wspierane przez Pi Network"

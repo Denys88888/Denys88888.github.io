@@ -21,6 +21,7 @@ import { payCancellationFee, prepareCancellationFee } from '../services/cancella
 import { isWalletSilent } from '../services/piSdk';
 import type { PreparedPiPayment } from '../services/piSdk';
 import { formatPi, formatDistance, formatDuration, localDateTimeValue, formatDate } from '../utils/formatters';
+import { apiErrorKey } from '../utils/apiError';
 import { isValidCoord } from '../utils/validators';
 import { cn, estimateFare, routeDistanceKm } from '../utils/helpers';
 import { fetchActiveRide } from '../utils/activeRide';
@@ -443,7 +444,7 @@ export function PassengerHomeScreen() {
         if (data?.rideId) setOwedFee({ rideId: data.rideId, amount: data.amount });
         addToast('error', t('home.feeDueTitle'));
       } else {
-        addToast('error', t('common.error'));
+        addToast('error', t(apiErrorKey(err)));
       }
     } finally {
       setOrdering(false);

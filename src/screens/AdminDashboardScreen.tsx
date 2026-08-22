@@ -9,6 +9,7 @@ import { RideStatusBadge } from '../components/ride/RideStatusBadge';
 import { useToast } from '../hooks/useToast';
 import { api, type AdminRide, type AdminDriver, type AdminAnalytics } from '../services/api';
 import { formatPi, formatDate } from '../utils/formatters';
+import { apiErrorKey } from '../utils/apiError';
 import { cn } from '../utils/helpers';
 import type { User, RideStatus, Report } from '../types';
 
@@ -98,7 +99,7 @@ export function AdminDashboardScreen() {
     if (!(DATA_TABS as readonly string[]).includes(tab)) return;
     setTabLoading(true);
     const done = () => { if (!cancelled) setTabLoading(false); };
-    const fail = (err: unknown) => { console.error(`[admin] load ${tab}:`, err); done(); addToast('error', t('common.error')); };
+    const fail = (err: unknown) => { console.error(`[admin] load ${tab}:`, err); done(); addToast('error', t(apiErrorKey(err))); };
     if (tab === 'users') api.adminUsers().then((u) => { if (!cancelled) setUsers(u); done(); }).catch(fail);
     if (tab === 'rides') api.adminRides().then((r) => { if (!cancelled) { setRides(r.rides); setRidesTotal(r.total); } done(); }).catch(fail);
     if (tab === 'drivers') api.adminDrivers().then((d) => { if (!cancelled) setDrivers(d); done(); }).catch(fail);
@@ -116,7 +117,7 @@ export function AdminDashboardScreen() {
       setDrivers((prev) => prev.map(flip) as AdminDriver[]);
     } catch (err) {
       console.error('[admin] toggleBlock:', err);
-      addToast('error', t('common.error'));
+      addToast('error', t(apiErrorKey(err)));
     }
   };
 
@@ -131,7 +132,7 @@ export function AdminDashboardScreen() {
       addToast('success', approve ? t('admin.approve') : t('admin.reject'));
     } catch (err) {
       console.error('[admin] verify:', err);
-      addToast('error', t('common.error'));
+      addToast('error', t(apiErrorKey(err)));
     }
   };
 
@@ -155,7 +156,7 @@ export function AdminDashboardScreen() {
       }
     } catch (err) {
       console.error('[admin] retryUnpaidPayout:', err);
-      addToast('error', t('common.error'));
+      addToast('error', t(apiErrorKey(err)));
     } finally {
       setRetryingPayout(null);
     }
@@ -191,7 +192,7 @@ export function AdminDashboardScreen() {
       }
     } catch (err) {
       console.error('[admin] retryPayout:', err);
-      addToast('error', t('common.error'));
+      addToast('error', t(apiErrorKey(err)));
     } finally {
       setRetryingRideId(null);
     }
@@ -204,7 +205,7 @@ export function AdminDashboardScreen() {
       setStats((prev) => (prev ? { ...prev, pendingReports: Math.max(0, prev.pendingReports - 1) } : prev));
     } catch (err) {
       console.error('[admin] resolveReport:', err);
-      addToast('error', t('common.error'));
+      addToast('error', t(apiErrorKey(err)));
     }
   };
 
@@ -224,7 +225,7 @@ export function AdminDashboardScreen() {
       addToast('success', t('common.success'));
     } catch (err) {
       console.error('[admin] saveSettings:', err);
-      addToast('error', t('common.error'));
+      addToast('error', t(apiErrorKey(err)));
     }
   };
 

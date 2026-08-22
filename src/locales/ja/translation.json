@@ -19,7 +19,8 @@
     "reload": "再読み込み",
     "language": "言語",
     "maintenanceMode": "メンテナンスのため注文を一時停止しています",
-    "noConnection": "接続なし。再試行してください"
+    "noConnection": "接続なし。再試行してください",
+    "serverDown": "サーバーが一時的に利用できません。しばらくしてから再度お試しください"
   },
   "splash": {
     "poweredBy": "Pi Network 提供"

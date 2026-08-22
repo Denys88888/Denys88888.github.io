@@ -22,6 +22,7 @@ import { notify } from '../services/notificationService';
 import { fetchRoute } from '../services/mapService';
 import { callService } from '../services/callService';
 import { haptic } from '../utils/haptic';
+import { apiErrorKey } from '../utils/apiError';
 import { NavigationPanel } from '../components/ride/NavigationPanel';
 import { chatIdForRide, haversineKm, cn } from '../utils/helpers';
 import {
@@ -363,7 +364,7 @@ export function RideDetailsScreen() {
       back();
     } catch (err) {
       console.error('[ride] cancel:', err);
-      addToast('error', t('common.error'));
+      addToast('error', t(apiErrorKey(err)));
     }
   };
 
@@ -382,7 +383,7 @@ export function RideDetailsScreen() {
       navigate('home');
     } catch (err) {
       console.error('[ride] submitRating:', err);
-      addToast('error', t('common.error'));
+      addToast('error', t(apiErrorKey(err)));
     }
   };
 
@@ -430,7 +431,7 @@ export function RideDetailsScreen() {
           ? t('ride.walletSilent')
           : err instanceof Error
             ? err.message
-            : t('common.error')
+            : t(apiErrorKey(err))
       );
     } finally {
       setTipBusy(false);
@@ -447,7 +448,7 @@ export function RideDetailsScreen() {
       setReportText('');
     } catch (err) {
       console.error('[ride] submitReport:', err);
-      addToast('error', t('common.error'));
+      addToast('error', t(apiErrorKey(err)));
     }
   };
 
@@ -483,7 +484,7 @@ export function RideDetailsScreen() {
       addToast('warning', t('ride.sosSent'));
     } catch (err) {
       console.error('[ride] sendSos:', err);
-      addToast('error', t('common.error'));
+      addToast('error', t(apiErrorKey(err)));
     } finally {
       setSosSending(false);
       setShowSos(false);
@@ -499,7 +500,7 @@ export function RideDetailsScreen() {
       addToast('success', t('common.success'));
     } catch (err) {
       console.error('[ride] acceptOffer:', err);
-      addToast('error', t('common.error'));
+      addToast('error', t(apiErrorKey(err)));
     }
   };
 
@@ -1024,7 +1025,7 @@ export function RideDetailsScreen() {
                   }
                 } catch (err) {
                   console.error('[ride] share:', err);
-                  addToast('error', t('common.error'));
+                  addToast('error', t(apiErrorKey(err)));
                 }
               }}
             >

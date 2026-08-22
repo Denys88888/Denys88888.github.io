@@ -19,7 +19,8 @@
     "reload": "Ladda om",
     "language": "Språk",
     "maintenanceMode": "Beställningar är tillfälligt avstängda för underhåll",
-    "noConnection": "Ingen anslutning. Försök igen"
+    "noConnection": "Ingen anslutning. Försök igen",
+    "serverDown": "Servern är tillfälligt otillgänglig. Försök igen senare"
   },
   "splash": {
     "poweredBy": "Drivs av Pi Network"

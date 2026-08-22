@@ -19,7 +19,8 @@
     "reload": "Tải lại",
     "language": "Ngôn ngữ",
     "maintenanceMode": "Đặt xe tạm ngưng để bảo trì",
-    "noConnection": "Không có kết nối. Vui lòng thử lại"
+    "noConnection": "Không có kết nối. Vui lòng thử lại",
+    "serverDown": "Máy chủ tạm thời không khả dụng. Vui lòng thử lại sau"
   },
   "splash": {
     "poweredBy": "Được cung cấp bởi Pi Network"

@@ -19,7 +19,8 @@
     "reload": "Herladen",
     "language": "Taal",
     "maintenanceMode": "Bestellen is tijdelijk uitgeschakeld voor onderhoud",
-    "noConnection": "Geen verbinding. Probeer het opnieuw"
+    "noConnection": "Geen verbinding. Probeer het opnieuw",
+    "serverDown": "Server tijdelijk niet beschikbaar. Probeer het later opnieuw"
   },
   "splash": {
     "poweredBy": "Mogelijk gemaakt door Pi Network"

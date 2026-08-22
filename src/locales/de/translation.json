@@ -19,7 +19,8 @@
     "reload": "Neu laden",
     "language": "Sprache",
     "maintenanceMode": "Bestellungen sind vorübergehend wegen Wartung deaktiviert",
-    "noConnection": "Keine Verbindung. Bitte erneut versuchen"
+    "noConnection": "Keine Verbindung. Bitte erneut versuchen",
+    "serverDown": "Server vorübergehend nicht erreichbar. Bitte später erneut versuchen"
   },
   "splash": {
     "poweredBy": "Unterstützt von Pi Network"

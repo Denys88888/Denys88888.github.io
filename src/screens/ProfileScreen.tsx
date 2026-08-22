@@ -15,6 +15,7 @@ import { useToast } from '../hooks/useToast';
 import { api } from '../services/api';
 import { piShare } from '../services/piSdk';
 import { fileToAvatarDataUrl } from '../utils/image';
+import { apiErrorKey } from '../utils/apiError';
 import { maskPhone } from '../utils/formatters';
 import {
   systemNotificationsSupported,
@@ -56,8 +57,8 @@ export function ProfileScreen() {
       setAuth(updated, token);
       navigate('home');
       addToast('success', t(`profile.switchedTo${target === 'driver' ? 'Driver' : 'Passenger'}`));
-    } catch {
-      addToast('error', t('common.error'));
+    } catch (err) {
+      addToast('error', t(apiErrorKey(err)));
     } finally {
       setSwitching(false);
     }
@@ -72,8 +73,8 @@ export function ProfileScreen() {
       const updated = await api.updateProfile({ avatar: dataUrl });
       updateUser({ avatar: updated.avatar });
       addToast('success', t('profile.saved'));
-    } catch {
-      addToast('error', t('common.error'));
+    } catch (err) {
+      addToast('error', t(apiErrorKey(err)));
     }
   };
 
@@ -83,8 +84,8 @@ export function ProfileScreen() {
       const updated = await api.updateProfile({ phone });
       updateUser({ phone: updated.phone });
       addToast('success', t('profile.saved'));
-    } catch {
-      addToast('error', t('common.error'));
+    } catch (err) {
+      addToast('error', t(apiErrorKey(err)));
     } finally {
       setSavingPhone(false);
     }

@@ -19,7 +19,8 @@
     "reload": "Recharger",
     "language": "Langue",
     "maintenanceMode": "Les commandes sont temporairement désactivées pour maintenance",
-    "noConnection": "Pas de connexion. Veuillez réessayer"
+    "noConnection": "Pas de connexion. Veuillez réessayer",
+    "serverDown": "Le serveur est temporairement indisponible. Réessayez plus tard"
   },
   "splash": {
     "poweredBy": "Propulsé par Pi Network"

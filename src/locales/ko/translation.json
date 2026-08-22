@@ -19,7 +19,8 @@
     "reload": "새로고침",
     "language": "언어",
     "maintenanceMode": "정비를 위해 주문이 일시적으로 중단되었습니다",
-    "noConnection": "연결 없음. 다시 시도해 주세요"
+    "noConnection": "연결 없음. 다시 시도해 주세요",
+    "serverDown": "서버를 일시적으로 사용할 수 없습니다. 나중에 다시 시도해 주세요"
   },
   "splash": {
     "poweredBy": "Pi Network 제공"

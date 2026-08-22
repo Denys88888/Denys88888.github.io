@@ -19,7 +19,8 @@
     "reload": "Muat ulang",
     "language": "Bahasa",
     "maintenanceMode": "Pemesanan sementara dinonaktifkan untuk pemeliharaan",
-    "noConnection": "Tidak ada koneksi. Silakan coba lagi"
+    "noConnection": "Tidak ada koneksi. Silakan coba lagi",
+    "serverDown": "Server sementara tidak tersedia. Coba lagi nanti"
   },
   "splash": {
     "poweredBy": "Didukung oleh Pi Network"

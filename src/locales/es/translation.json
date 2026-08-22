@@ -19,7 +19,8 @@
     "reload": "Recargar",
     "language": "Idioma",
     "maintenanceMode": "Los pedidos están temporalmente deshabilitados por mantenimiento",
-    "noConnection": "Sin conexión. Por favor, inténtalo de nuevo"
+    "noConnection": "Sin conexión. Por favor, inténtalo de nuevo",
+    "serverDown": "El servidor no está disponible temporalmente. Inténtalo más tarde"
   },
   "splash": {
     "poweredBy": "Con la tecnología de Pi Network"

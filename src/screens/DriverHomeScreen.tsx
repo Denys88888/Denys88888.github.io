@@ -15,6 +15,7 @@ import { wsService } from '../services/wsService';
 import { api } from '../services/api';
 import { primeChime } from '../services/notificationService';
 import { formatPi, formatDistance, formatDuration } from '../utils/formatters';
+import { apiErrorKey } from '../utils/apiError';
 import { haversineKm, cn } from '../utils/helpers';
 import { fetchActiveRide } from '../utils/activeRide';
 import { isToday } from 'date-fns';
@@ -273,7 +274,7 @@ export function DriverHomeScreen() {
         navigate('register');
       } else {
         console.error('[driver] toggleOnline:', err);
-        addToast('error', t('common.error'));
+        addToast('error', t(apiErrorKey(err)));
       }
     }
   };
@@ -324,7 +325,7 @@ export function DriverHomeScreen() {
       addToast('success', t('driver.offerSent'));
     } catch (err) {
       console.error('[driver] sendOffer:', err);
-      addToast('error', t('common.error'));
+      addToast('error', t(apiErrorKey(err)));
     }
   };
 

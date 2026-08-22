@@ -19,7 +19,8 @@
     "reload": "Reload",
     "language": "Language",
     "maintenanceMode": "Ordering is temporarily disabled for maintenance",
-    "noConnection": "No connection. Please try again"
+    "noConnection": "No connection. Please try again",
+    "serverDown": "Server is temporarily unavailable. Please try again later"
   },
   "splash": {
     "poweredBy": "Powered by Pi Network"

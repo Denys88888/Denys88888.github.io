@@ -10,6 +10,7 @@ import { useRouter } from '../store/useRouter';
 import { useAppStore } from '../store/useAppStore';
 import { api } from '../services/api';
 import { isNonEmpty, isValidPlate } from '../utils/validators';
+import { apiErrorKey } from '../utils/apiError';
 import { fileToAvatarDataUrl } from '../utils/image';
 import { cn } from '../utils/helpers';
 import { VEHICLE_OPTIONS, VEHICLE_CLASS_REQUIREMENTS } from '../utils/constants';
@@ -60,7 +61,7 @@ export function DriverRegistrationScreen() {
       addToast('success', t('profile.saved'));
     } catch (err) {
       console.error('[register] uploadAvatar:', err);
-      addToast('error', t('common.error'));
+      addToast('error', t(apiErrorKey(err)));
     }
   };
 
@@ -71,7 +72,7 @@ export function DriverRegistrationScreen() {
       addToast('success', t('register.vehiclePhotoSaved'));
     } catch (err) {
       console.error('[register] uploadVehiclePhoto:', err);
-      addToast('error', t('common.error'));
+      addToast('error', t(apiErrorKey(err)));
     }
   };
 
@@ -82,7 +83,7 @@ export function DriverRegistrationScreen() {
       addToast('success', t('register.licensePhotoSaved'));
     } catch (err) {
       console.error('[register] uploadLicensePhoto:', err);
-      addToast('error', t('common.error'));
+      addToast('error', t(apiErrorKey(err)));
     }
   };
 
@@ -121,7 +122,7 @@ export function DriverRegistrationScreen() {
       setSubmitted(true);
     } catch (err) {
       console.error('[register] submit:', err);
-      addToast('error', t('common.error'));
+      addToast('error', t(apiErrorKey(err)));
     } finally {
       setSubmitting(false);
     }
