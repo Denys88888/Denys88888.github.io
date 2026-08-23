@@ -24,6 +24,8 @@ import { callService } from '../services/callService';
 import { haptic } from '../utils/haptic';
 import { apiErrorKey } from '../utils/apiError';
 import { NavigationPanel } from '../components/ride/NavigationPanel';
+import { SpeedBadge } from '../components/ride/SpeedBadge';
+import { useSpeedLimit } from '../hooks/useSpeedLimit';
 import { chatIdForRide, haversineKm, cn } from '../utils/helpers';
 import {
   cancellationFee,
@@ -329,6 +331,15 @@ export function RideDetailsScreen() {
     setShowNav(false);
   }, [iAmDriver, showNav, position, geoLoading, geoError, geoPermissionDenied, addToast, t]);
 
+  // Only while the driver is actually navigating: Overpass is a shared public
+  // service, and there is no sign to show anyone who is not driving a route.
+  //
+  // Above the `if (!ride)` return below, not next to the JSX that uses it: a
+  // hook behind a conditional return renders a different number of hooks on
+  // the two paths, and React tears the whole screen down with "Rendered more
+  // hooks than during the previous render" the moment the ride loads.
+  const limitKph = useSpeedLimit(iAmDriver && showNav ? position : null);
+
   if (!ride) {
     return <div className="flex h-full items-center justify-center opacity-60">{t('common.loading')}</div>;
   }
@@ -563,14 +574,14 @@ export function RideDetailsScreen() {
           // it swallowed map drags and pinches in the empty space beside the
           // panel — the driver couldn't pan the map along the top of the screen.
           <div className="pointer-events-none absolute inset-x-3 top-3 z-map">
-            <NavigationPanel
-              from={liveDriverPos}
-              to={targetPoint}
-              position={liveDriverPos}
-              speed={speed}
-              onClose={() => setShowNav(false)}
-            />
+            <NavigationPanel from={liveDriverPos} to={targetPoint} position={liveDriverPos} />
           </div>
+        )}
+        {/* Speed and the posted limit, in the corner Google Maps puts them.
+            They used to be a full-width strip inside the turn banner, where
+            the two smallest numbers on the screen cost a whole row of map. */}
+        {navActive && (
+          <SpeedBadge speed={speed} limitKph={limitKph} className="absolute bottom-24 left-3 z-map" />
         )}
         <button
           onClick={() => {

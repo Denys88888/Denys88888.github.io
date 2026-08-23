@@ -14,9 +14,8 @@ import {
   RotateCcw,
   Volume2,
   VolumeX,
-  X,
 } from 'lucide-react';
-import { fetchRouteSteps, speedLimitKph, type Maneuver } from '../../services/mapService';
+import { fetchRouteSteps, type Maneuver } from '../../services/mapService';
 import { cn, haversineKm } from '../../utils/helpers';
 import { formatDistance } from '../../utils/formatters';
 import type { GeoPoint } from '../../types';
@@ -26,9 +25,6 @@ interface Props {
   to: GeoPoint;
   // Live driver position; instructions advance as it approaches each maneuver.
   position: GeoPoint | null;
-  // Ground speed in m/s from the device, when it is known.
-  speed?: number | null;
-  onClose: () => void;
 }
 
 // Maneuver → i18n key. OSRM's type/modifier pairs collapse to a small set of
@@ -72,19 +68,14 @@ const ADVANCE_RADIUS_KM = 0.03; // 30 m — consider the maneuver done
 const NEAR_KM = 0.08; // came this close to the junction — the driver was at it
 const PASSED_KM = 0.04; // …and has since pulled this far away again
 const OFF_ROUTE_KM = 0.15; // never got near it and is now this far past: off route
-const LIMIT_MIN_GAP_MS = 15000; // don't ask OSM about the speed limit faster than this
-const LIMIT_MIN_MOVE_KM = 0.15; // …nor before the driver has actually gone somewhere
-const OVER_LIMIT_KPH = 5; // tolerance before the speed reads as speeding
 
 // Turn-by-turn banner for drivers: textual OSRM maneuvers + Web Speech voice.
-export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
+export function NavigationPanel({ from, to, position }: Props) {
   const { t, i18n } = useTranslation();
   const [steps, setSteps] = useState<Maneuver[] | null>(null);
   const [idx, setIdx] = useState(0);
   const [voice, setVoice] = useState(true);
-  const [limitKph, setLimitKph] = useState<number | null>(null);
   const spokenRef = useRef<string>('');
-  const limitAskedRef = useRef<{ lat: number; lng: number; at: number } | null>(null);
   const closestRef = useRef<{ idx: number; km: number } | null>(null);
   // Where the route in `steps` was calculated from. Not `from` itself: that is
   // the live driver position, and routing again on every GPS fix would hammer
@@ -149,34 +140,9 @@ export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
     }
   }, [steps, idx, position?.lat, position?.lng]);
 
-  // Speed limit for the road under the car. Overpass is a shared public
-  // service, so ask only once the driver has moved on, and treat every failure
-  // as "unknown" — the sign simply doesn't appear.
-  useEffect(() => {
-    if (!position) return;
-    const asked = limitAskedRef.current;
-    if (
-      asked &&
-      (Date.now() - asked.at < LIMIT_MIN_GAP_MS ||
-        haversineKm(asked.lat, asked.lng, position.lat, position.lng) < LIMIT_MIN_MOVE_KM)
-    ) {
-      return;
-    }
-    limitAskedRef.current = { lat: position.lat, lng: position.lng, at: Date.now() };
-    let stale = false;
-    speedLimitKph(position).then((kph) => {
-      if (!stale) setLimitKph(kph);
-    });
-    return () => {
-      stale = true;
-    };
-  }, [position?.lat, position?.lng]);
-
   const current = steps?.[idx] ?? null;
   const next = steps?.[idx + 1] ?? null;
   const key = current ? maneuverKey(current) : null;
-  const speedKph = speed != null && speed >= 0 ? Math.round(speed * 3.6) : null;
-  const speeding = speedKph != null && limitKph != null && speedKph > limitKph + OVER_LIMIT_KPH;
   const distanceKm = useMemo(() => {
     if (!current) return null;
     if (!position) return null;
@@ -214,53 +180,66 @@ export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
   // 12px backdrop blur still smeared into an opaque-looking slab, so both come
   // down — a light 30% scrim and a 2px blur, just enough to keep white text
   // legible, with a text shadow doing the rest of that job over bright tiles.
+  //
+  // How TALL it is matters just as much, and this used to stack four rows:
+  // distance, instruction, a full-width "then" strip and a speed/limit strip,
+  // over two 44px buttons. Google fits the same information into one. The
+  // arrow and the distance now share a column with the street beside them, the
+  // "then" preview is a chip that takes only the width of its own text, and
+  // speed moved out to a badge floating in the map's bottom corner — none of
+  // which the driver reads while a junction is coming at them.
   return (
     <div
       role="region"
       aria-label={t('driver.navigation')}
       className="pointer-events-auto overflow-hidden rounded-card bg-black/30 text-white shadow-card backdrop-blur-[2px] [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]"
     >
-      <div className="flex items-center gap-3 p-3">
-        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary">
-          <Icon size={28} />
+      <div className="flex items-center gap-3 px-3 py-2">
+        {/* Arrow over distance, the way every in-car nav head unit does it:
+            one glanceable block instead of two things to find. */}
+        <div className="flex w-14 shrink-0 flex-col items-center gap-0.5">
+          <Icon size={26} />
+          {current && (
+            // aria-live so a screen reader announces each new distance as the
+            // car closes on the turn, without re-reading the whole panel.
+            // Polite, not assertive: it must not cut across the spoken turn.
+            <p className="text-lg font-bold leading-none" aria-live="polite">
+              {distanceKm != null
+                ? formatDistance(distanceKm)
+                : formatDistance(current.distanceM / 1000)}
+            </p>
+          )}
         </div>
         <div className="min-w-0 flex-1">
           {steps === null && <p className="text-sm opacity-80">{t('nav.loading')}</p>}
-          {steps !== null && !current && <p className="text-sm opacity-80">{t('nav.unavailable')}</p>}
+          {steps !== null && !current && (
+            <p className="text-sm opacity-80">{t('nav.unavailable')}</p>
+          )}
           {current && (
             <>
-              {/* The distance to the turn is the number a driver glances at —
-                  lead with it, big, the way Google Maps does; the instruction
-                  text is secondary context underneath. */}
-              {/* aria-live so a screen reader announces each new distance as
-                  the car closes on the turn, without re-reading the whole
-                  panel. Polite, not assertive: it must not cut across the
-                  spoken turn instruction. */}
-              <p className="text-2xl font-bold leading-none" aria-live="polite">
-                {distanceKm != null ? formatDistance(distanceKm) : formatDistance(current.distanceM / 1000)}
-              </p>
               {/* Two lines, not truncate: "Начните движение прямо · Al.
                   Jerozolimskie" clipped to "Начните дви…" tells the driver
                   nothing, and street names are exactly where the useful part
                   sits at the end. */}
-              <p className="mt-1 line-clamp-2 text-sm opacity-90">{instruction}</p>
-              {/* Fills as the car closes on the turn — the Google-Maps cue for
-                  "how close am I". Full segment length is current.distanceM. */}
-              {distanceKm != null && current.distanceM > 0 && (
-                <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-white/20">
-                  <div
-                    className="h-full rounded-full bg-white transition-[width] duration-500"
-                    style={{
-                      width: `${Math.min(100, Math.max(0, (1 - distanceKm / (current.distanceM / 1000)) * 100))}%`,
-                    }}
-                  />
-                </div>
+              <p className="line-clamp-2 text-[15px] leading-snug">{instruction}</p>
+              {/* What comes after this turn. A chip only as wide as its own
+                  text — as a full-width strip it cost a whole row of map to
+                  say two words. */}
+              {next && NextIcon && (
+                <span className="mt-1 inline-flex max-w-full items-center gap-1 rounded-full bg-black/35 px-2 py-0.5 text-[11px] opacity-90">
+                  <span className="shrink-0">{t('nav.then')}</span>
+                  <NextIcon size={12} className="shrink-0" />
+                  <span className="truncate">{next.road || t(`nav.${maneuverKey(next)}`)}</span>
+                </span>
               )}
             </>
           )}
         </div>
         {/* 44px: the minimum reliable touch target, and this is a control a
-            driver reaches for one-handed while moving. */}
+            driver reaches for one-handed while moving. There is no close
+            button here any more — the bottom bar's "Exit" already ends
+            navigation, and two ways to do the same thing cost width the
+            street name needed. */}
         <button
           onClick={() => setVoice((v) => !v)}
           className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-black/40"
@@ -268,69 +247,43 @@ export function NavigationPanel({ from, to, position, speed, onClose }: Props) {
         >
           {voice ? <Volume2 size={18} /> : <VolumeX size={18} />}
         </button>
-        <button
-          onClick={() => {
-            window.speechSynthesis?.cancel();
-            onClose();
-          }}
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-black/40"
-          aria-label={t('common.close')}
-        >
-          <X size={18} />
-        </button>
       </div>
 
-      {/* What comes after the current turn, as its own strip directly under
-          the main banner — mirrors Google Maps' "Далее" chip, so a turn that
-          follows immediately after another one isn't a surprise. */}
-      {next && NextIcon && (
-        <div className="flex items-center gap-2 border-t border-white/15 bg-black/20 px-3 py-2 text-xs opacity-80">
-          <span className="shrink-0">{t('nav.then')}</span>
-          <NextIcon size={14} className="shrink-0" />
-          <span className="truncate">{next.road || t(`nav.${maneuverKey(next)}`)}</span>
+      {/* Fills as the car closes on the turn — the Google-Maps cue for "how
+          close am I". Full segment length is current.distanceM. Sits flush at
+          the bottom edge of the banner so it costs no height of its own. */}
+      {current && distanceKm != null && current.distanceM > 0 && (
+        <div className="h-1 overflow-hidden bg-white/20">
+          <div
+            className="h-full bg-white transition-[width] duration-500"
+            style={{
+              width: `${Math.min(100, Math.max(0, (1 - distanceKm / (current.distanceM / 1000)) * 100))}%`,
+            }}
+          />
         </div>
       )}
 
       {/* Which lane to be in. OSM knows the lane layout of most city junctions;
-          the ones that keep you on the route are lit, the rest are dimmed. */}
+          the ones that keep you on the route are lit, the rest are dimmed.
+          Only appears where there is lane data, i.e. at the junctions where it
+          earns the space. */}
       {lanes && lanes.length > 0 && (
-        <div className="flex justify-center gap-1 border-t border-white/10 p-2" aria-label={t('nav.lanes')}>
+        <div className="flex justify-center gap-1 border-t border-white/10 p-1.5" aria-label={t('nav.lanes')}>
           {lanes.map((lane, i) => (
             <div
               key={i}
               data-lane={lane.valid ? 'valid' : 'invalid'}
               className={cn(
-                'flex h-9 min-w-[2.25rem] items-center justify-center gap-0.5 rounded-lg px-1',
+                'flex h-8 min-w-[2rem] items-center justify-center gap-0.5 rounded-lg px-1',
                 lane.valid ? 'bg-primary text-white' : 'bg-white/10 text-white/40'
               )}
             >
               {lane.indications.slice(0, 2).map((indication, j) => {
                 const LaneIcon = laneIcon(indication);
-                return <LaneIcon key={j} size={16} strokeWidth={lane.valid ? 2.5 : 2} />;
+                return <LaneIcon key={j} size={15} strokeWidth={lane.valid ? 2.5 : 2} />;
               })}
             </div>
           ))}
-        </div>
-      )}
-
-      {(speedKph != null || limitKph != null) && (
-        <div className="flex items-center gap-2 border-t border-white/10 p-2">
-          {limitKph != null && (
-            <div
-              aria-label={t('nav.speedLimit')}
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-[3px] border-danger bg-white text-sm font-bold text-black"
-            >
-              {limitKph}
-            </div>
-          )}
-          {speedKph != null && (
-            <div className="flex shrink-0 items-baseline gap-1" aria-label={t('nav.yourSpeed')}>
-              <span className={cn('text-2xl font-bold leading-none', speeding && 'text-danger')}>
-                {speedKph}
-              </span>
-              <span className="text-[10px] opacity-70">{t('nav.kmh')}</span>
-            </div>
-          )}
         </div>
       )}
     </div>

@@ -53,26 +53,17 @@ afterEach(() => {
 
 const DESTINATION = { lat: 52.2333, lng: 21.0155 };
 
-function panel(position: { lat: number; lng: number }, speed?: number | null) {
-  return (
-    <NavigationPanel
-      from={position}
-      to={DESTINATION}
-      position={position}
-      speed={speed}
-      onClose={() => {}}
-    />
-  );
+function panel(position: { lat: number; lng: number }) {
+  return <NavigationPanel from={position} to={DESTINATION} position={position} />;
 }
 
-function show(props: { speed?: number | null; steps?: Maneuver[] } = {}) {
+function show(props: { steps?: Maneuver[] } = {}) {
   fetchRouteSteps.mockResolvedValue(props.steps ?? [TURN, NEXT]);
-  return render(panel(POSITION, props.speed));
+  return render(panel(POSITION));
 }
 
 describe('NavigationPanel lane guidance', () => {
   it('lights only the lanes that keep the driver on the route', async () => {
-    speedLimitKph.mockResolvedValue(null);
     const { container } = show();
 
     await screen.findByLabelText('Lane guidance');
@@ -88,7 +79,6 @@ describe('NavigationPanel lane guidance', () => {
   });
 
   it('shows no lane strip where OSM has no lane data', async () => {
-    speedLimitKph.mockResolvedValue(null);
     show({ steps: [{ ...TURN, lanes: undefined }, NEXT] });
 
     await screen.findByText(/Turn right/);
@@ -100,7 +90,6 @@ describe('NavigationPanel routing', () => {
   // The driver position updates once a second or faster. Routing on each one
   // would flood the routing service and restart the instruction that often.
   it('keeps one route while the driver is driving it', async () => {
-    speedLimitKph.mockResolvedValue(null);
     fetchRouteSteps.mockResolvedValue([TURN, NEXT]);
     const { rerender } = render(panel(POSITION));
     await screen.findByText(/Turn right/);
@@ -113,7 +102,6 @@ describe('NavigationPanel routing', () => {
   });
 
   it('moves to the next instruction after a turn taken between two GPS fixes', async () => {
-    speedLimitKph.mockResolvedValue(null);
     fetchRouteSteps.mockResolvedValue([TURN, NEXT]);
     // 60 m short of the junction, then 110 m past it — the car never reported a
     // fix inside the 30 m circle, but it plainly went through the turn.
@@ -127,7 +115,6 @@ describe('NavigationPanel routing', () => {
   });
 
   it('asks for a new route once the driver has left this one', async () => {
-    speedLimitKph.mockResolvedValue(null);
     fetchRouteSteps.mockResolvedValue([TURN, NEXT]);
     const { rerender } = render(panel(POSITION));
     await screen.findByText(/Turn right/);
@@ -144,44 +131,41 @@ describe('NavigationPanel routing', () => {
   });
 });
 
-describe('NavigationPanel speed', () => {
-  it('shows the current speed in km/h and the posted limit', async () => {
-    speedLimitKph.mockResolvedValue(50);
-    show({ speed: 12.5 }); // 45 km/h
-
-    const speed = await screen.findByLabelText('Your speed');
-    expect(speed.textContent).toContain('45');
-    await waitFor(() => expect(screen.getByLabelText('Speed limit').textContent).toBe('50'));
-    // Under the limit: the reading stays neutral.
-    expect(speed.querySelector('span')?.className).not.toContain('text-danger');
-  });
-
-  it('marks the speed as speeding only past the tolerance', async () => {
-    speedLimitKph.mockResolvedValue(50);
-    show({ speed: 20 }); // 72 km/h
-
-    const speed = await screen.findByLabelText('Your speed');
-    expect(speed.textContent).toContain('72');
-    await waitFor(() =>
-      expect(speed.querySelector('span')?.className).toContain('text-danger')
-    );
-  });
-
-  it('hides the speed when the device does not report one', async () => {
-    speedLimitKph.mockResolvedValue(null);
-    show({ speed: null });
-
-    await screen.findByText(/Turn right/);
-    expect(screen.queryByLabelText('Your speed')).toBeNull();
-    expect(screen.queryByLabelText('Speed limit')).toBeNull();
-  });
-
+describe('NavigationPanel preview', () => {
   it('previews the maneuver after this one', async () => {
-    speedLimitKph.mockResolvedValue(null);
     show();
 
     expect(await screen.findByText('Marszałkowska')).toBeTruthy();
     expect(screen.getByText('Then')).toBeTruthy();
+  });
+
+  // The owner's screenshot: the banner stacked distance, instruction, a
+  // full-width "then" strip and a speed strip, and the map was left a sliver.
+  // The preview is a chip now — it may take only the width of its own text.
+  it('keeps the next-turn preview inline, not a full-width strip', async () => {
+    show();
+
+    const then = await screen.findByText('Then');
+    const chip = then.parentElement!;
+    // inline-flex shrinks to its content; the old strip was a block-level row
+    // separated by a border, which is what made it cost a whole line of map.
+    expect(chip.tagName).toBe('SPAN');
+    expect(chip.className).toMatch(/\binline-flex\b/);
+    // Anchored on whitespace, not \b: Tailwind's hyphens are word boundaries,
+    // so /\bw-full\b/ happily matches inside "max-w-full".
+    const classes = chip.className.split(/\s+/);
+    expect(classes).not.toContain('w-full');
+    expect(classes).not.toContain('border-t');
+  });
+
+  // Speed and the limit moved out to a badge over the map; the banner must not
+  // grow them back.
+  it('does not carry the speed strip any more', async () => {
+    show();
+
+    await screen.findByText(/Turn right/);
+    expect(screen.queryByLabelText('Your speed')).toBeNull();
+    expect(screen.queryByLabelText('Speed limit')).toBeNull();
   });
 });
 
@@ -192,7 +176,6 @@ describe('NavigationPanel speed', () => {
 // now; these pin that so a future style pass can't quietly put truncate back.
 describe('NavigationPanel instruction legibility', () => {
   it('does not clip the instruction to a single line', async () => {
-    speedLimitKph.mockResolvedValue(null);
     show();
 
     const line = await screen.findByText(/Turn right/);
@@ -201,7 +184,6 @@ describe('NavigationPanel instruction legibility', () => {
   });
 
   it('keeps the street name, not just the manoeuvre verb', async () => {
-    speedLimitKph.mockResolvedValue(null);
     show();
 
     // Both halves in one node: clipping would drop the road and leave the verb.
@@ -209,7 +191,6 @@ describe('NavigationPanel instruction legibility', () => {
   });
 
   it('announces the closing distance politely for screen readers', async () => {
-    speedLimitKph.mockResolvedValue(null);
     const { container } = show();
 
     await screen.findByText(/Turn right/);
@@ -219,16 +200,22 @@ describe('NavigationPanel instruction legibility', () => {
     expect(live!.textContent).toMatch(/\d/);
   });
 
-  it('gives both controls a 44px touch target', async () => {
-    speedLimitKph.mockResolvedValue(null);
+  it('gives the mute control a 44px touch target', async () => {
     show();
 
     const mute = await screen.findByLabelText('Mute voice');
-    const close = screen.getByLabelText('Close');
     // h-11/w-11 = 44px; anything smaller is unreliable for a driver one-handed.
-    for (const btn of [mute, close]) {
-      expect(btn.className).toMatch(/\bh-11\b/);
-      expect(btn.className).toMatch(/\bw-11\b/);
-    }
+    expect(mute.className).toMatch(/\bh-11\b/);
+    expect(mute.className).toMatch(/\bw-11\b/);
+  });
+
+  // The bottom bar's "Exit" already ends navigation. A second control doing the
+  // same thing cost 44px of width that the street name needed, on the row the
+  // driver reads at speed.
+  it('does not duplicate the bottom bar\'s exit control', async () => {
+    show();
+
+    await screen.findByText(/Turn right/);
+    expect(screen.queryByLabelText('Close')).toBeNull();
   });
 });

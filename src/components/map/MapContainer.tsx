@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   MapContainer as LeafletMap,
@@ -64,13 +64,62 @@ function pin(color: string, pulse = false): L.DivIcon {
   });
 }
 
+// How far the rotated container is scaled up so its corners stay covered, and
+// how far down the screen the car should sit while navigating. Shared by
+// RotateMap and Recenter: the offset is computed in the map's own pixel space,
+// so it has to undo the same scale the rotation applies, and the two drifting
+// apart would put the car somewhere neither of them intended.
+const NAV_SCALE = 1.8;
+const NAV_CAR_Y = 0.72; // 0.5 = centred, 1 = bottom edge
+
 // Recenter the map imperatively when the focus point changes. `nonce` lets a
 // "my location" button force a recenter even when the coordinates are unchanged.
-function Recenter({ center, nonce }: { center: GeoPoint; nonce?: number }) {
+//
+// While navigating the car does NOT go in the middle. Centred, half the screen
+// is road already driven — Google Maps keeps you near the bottom so the space
+// goes to what is coming. The map is rotated so `heading` points at the top of
+// the screen, which makes "further down the screen" the same thing as "behind
+// the car along its heading": shift the centre that far forward and the car
+// falls back to where it should be.
+function Recenter({
+  center,
+  nonce,
+  heading,
+  navMode,
+}: {
+  center: GeoPoint;
+  nonce?: number;
+  heading?: number | null;
+  navMode?: boolean;
+}) {
   const map = useMap();
   useEffect(() => {
-    map.setView([center.lat, center.lng], map.getZoom(), { animate: true });
-  }, [center.lat, center.lng, nonce, map]);
+    const zoom = map.getZoom();
+    const ll = L.latLng(center.lat, center.lng);
+    if (!navMode) {
+      map.setView(ll, zoom, { animate: true });
+      return;
+    }
+    // Screen pixels to push the car below centre, converted back into the
+    // unscaled pixel space the projection works in.
+    const ahead = ((NAV_CAR_Y - 0.5) * map.getSize().y) / NAV_SCALE;
+    const rad = ((heading ?? 0) * Math.PI) / 180;
+    const p = map.project(ll, zoom);
+    // Map pixel y grows southward, so a bearing of 0 (north) is -y.
+    const shifted = map.unproject(
+      L.point(p.x + Math.sin(rad) * ahead, p.y - Math.cos(rad) * ahead),
+      zoom
+    );
+    // animate: false, and it matters. A GPS fix lands every second, so an
+    // animated pan is interrupted by the next one before it can finish and
+    // fire `moveend` — and `moveend` is what tells Leaflet's SVG renderer to
+    // reposition. The route line kept the coordinates of a pane that had since
+    // moved and slid off the side of the screen: the driver was navigating
+    // with no route drawn, and only while actually driving, which is why
+    // standing still it looked fine. Each fix moves the map a few metres;
+    // there is nothing here worth animating anyway.
+    map.setView(shifted, zoom, { animate: false });
+  }, [center.lat, center.lng, nonce, heading, navMode, map]);
   return null;
 }
 
@@ -101,7 +150,7 @@ function RotateMap({ heading, active }: { heading: number | null; active: boolea
   useEffect(() => {
     const el = map.getContainer();
     if (active && heading !== null) {
-      el.style.transform = `scale(1.8) rotate(${-heading}deg)`;
+      el.style.transform = `scale(${NAV_SCALE}) rotate(${-heading}deg)`;
       el.style.transition = 'transform .35s ease-out';
     } else {
       el.style.transform = '';
@@ -351,6 +400,30 @@ export function MapView({
   const travelledRoute = splitIndex > 0 ? tripRoute.slice(0, splitIndex + 1) : [];
   const remainingRoute = splitIndex > 0 ? tripRoute.slice(splitIndex) : tripRoute;
 
+  // A heading derived from movement needs the car to move. Waiting at a light,
+  // or on the very first fix of a shift, there is nothing to derive it from —
+  // and that is exactly when the map was snapping back to north-up and drawing
+  // the route off sideways, at the one moment the driver is actually studying
+  // the junction. The road ahead points where the car is about to go, so read
+  // the bearing off the route whenever movement can't supply one.
+  const routeHeading = useMemo(() => {
+    if (!driver || remainingRoute.length < 2) return null;
+    // Skip vertices sitting on top of the car: OSM route lines are dense at
+    // junctions, and a bearing taken across three metres is mostly GPS noise.
+    const AHEAD_KM = 0.03;
+    for (const [lat, lng] of remainingRoute) {
+      if (haversineKm(driver.lat, driver.lng, lat, lng) >= AHEAD_KM) {
+        return bearingDeg(driver, { lat, lng });
+      }
+    }
+    return null;
+    // remainingRoute is rebuilt on every render; its endpoints are what matter.
+  }, [driver?.lat, driver?.lng, remainingRoute.length, remainingRoute[0]?.[0], remainingRoute[0]?.[1]]);
+
+  // Movement wins when there is any: it says which way the car physically
+  // points, where the route only says which way it ought to.
+  const navHeading = heading ?? routeHeading;
+
   return (
     // `isolate`: Leaflet numbers its own panes up to 1000, and nothing between
     // them and <body> made a stacking context — so a fixed overlay elsewhere in
@@ -381,8 +454,13 @@ export function MapView({
         />
         <SizeInvalidator />
         <NavZoom active={navMode} />
-        <RotateMap heading={heading} active={navMode} />
-        <Recenter center={focus ?? driver ?? pickup ?? center} nonce={focusNonce} />
+        <RotateMap heading={navHeading} active={navMode} />
+        <Recenter
+          center={focus ?? driver ?? pickup ?? center}
+          nonce={focusNonce}
+          heading={navHeading}
+          navMode={navMode && !!driver}
+        />
         {onMapClick && <ClickCapture onClick={onMapClick} />}
         {pickup && <Marker position={[pickup.lat, pickup.lng]} icon={pin('#2979FF', true)} />}
         {stops.map((s, i) => (
@@ -409,7 +487,7 @@ export function MapView({
           <Marker key={d.uid} position={[d.location.lat, d.location.lng]} icon={carIcon(true)} />
         ))}
         {driver && (
-          <Marker position={[driver.lat, driver.lng]} icon={carIcon(false, heading)} />
+          <Marker position={[driver.lat, driver.lng]} icon={carIcon(false, navHeading)} />
         )}
         {/* Distinct from the pickup pin (also blue): the user's own position is
             violet, so a driver testing against their own pickup point can still
