@@ -61,22 +61,44 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Wake production backend
-        # Render free tier sleeps after inactivity; one ping before tests start.
+        id: backend
+        # Render free tier spins the instance down after 15 idle minutes, so the
+        # first request pays a ~50s cold start. These tests drive the real API;
+        # there is nothing to test until it answers.
         run: |
-          for i in 1 2 3 4 5; do
-            STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://taxi-pro-server.onrender.com/api/health)
-            echo "Attempt $i: $STATUS"
-            [ "$STATUS" = "200" ] && break
+          set -uo pipefail
+          body=$(mktemp)
+          for i in 1 2 3 4 5 6; do
+            code=$(curl -s -o "$body" -w '%{http_code}' --max-time 60 \
+              https://taxi-pro-server.onrender.com/api/health) || code=000
+            echo "attempt $i: HTTP $code"
+            [ "$code" = "200" ] && echo "suspended=false" >> "$GITHUB_OUTPUT" && exit 0
+            # A suspended service will not wake up no matter how long we wait —
+            # it stays down until the next billing period. Waiting out the retry
+            # loop and then failing the E2E run mails a red build on every push
+            # for something no code change can fix, which is how people learn to
+            # ignore CI. Skip the suite and say plainly why.
+            if grep -qi 'service has been suspended' "$body"; then
+              echo "suspended=true" >> "$GITHUB_OUTPUT"
+              echo "::warning title=E2E skipped::Backend is suspended on Render (free instance hours exhausted). E2E needs the live API — skipping, not failing."
+              exit 0
+            fi
             sleep 15
           done
+          echo "suspended=false" >> "$GITHUB_OUTPUT"
+          echo "::error title=Backend unreachable::/api/health never answered 200 (last HTTP $code) — E2E cannot run."
+          exit 1
 
       - name: Start frontend dev server
+        if: steps.backend.outputs.suspended != 'true'
         run: npm run dev &
 
       - name: Wait for frontend
+        if: steps.backend.outputs.suspended != 'true'
         run: npx wait-on http://localhost:5199 --timeout 60000
 
       - name: Run E2E tests
+        if: steps.backend.outputs.suspended != 'true'
         run: npx playwright test --config e2e/playwright.config.ts
 
       - name: Upload Playwright report
