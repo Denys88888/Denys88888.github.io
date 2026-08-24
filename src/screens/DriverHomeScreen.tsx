@@ -44,7 +44,6 @@ export function DriverHomeScreen() {
   const [previewRideId, setPreviewRideId] = useState<string | null>(null);
   const [todayRides, setTodayRides] = useState<Ride[]>([]);
   const [todayLoading, setTodayLoading] = useState(true);
-  const acceptTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Whether this socket generation has been told the driver is on shift.
   const announcedRef = useRef(false);
 
@@ -202,14 +201,11 @@ export function DriverHomeScreen() {
         if (data?.reason === 'gps_timeout') addToast('info', t('driver.autoOffline'));
         return;
       }
+      // Someone took it (or it was cancelled): drop it from this driver's
+      // queue. Navigating the accepting driver in is no longer this listener's
+      // job — accept() awaits the server and goes there itself.
       if (msg.status && msg.status !== 'searching') {
         setRequests((prev) => prev.filter((r) => r.id !== String(msg.rideId)));
-        // Server confirmed THIS driver got the ride — safe to navigate now.
-        if (msg.status === 'assigned' && accepting === String(msg.rideId)) {
-          if (acceptTimeoutRef.current) { clearTimeout(acceptTimeoutRef.current); acceptTimeoutRef.current = null; }
-          setAccepting(null);
-          navigate('ride', { id: String(msg.rideId) });
-        }
       }
     });
     // A negotiated offer was accepted: unlike the direct-accept path (accept()
@@ -220,26 +216,16 @@ export function DriverHomeScreen() {
         navigate('ride', { id: String(msg.rideId) });
       }
     });
-    // Any server-side error during accept — TAKEN, NO_RIDE, NOT_VERIFIED, HANDLER, etc.
-    const offError = wsService.on('error', (msg) => {
-      if (!accepting) return;
-      if (acceptTimeoutRef.current) { clearTimeout(acceptTimeoutRef.current); acceptTimeoutRef.current = null; }
-      setAccepting(null);
-      if (msg.code === 'TAKEN' || msg.code === 'NO_RIDE') {
-        addToast('warning', t('driver.rideTaken'));
-      } else if (msg.code === 'NOT_VERIFIED') {
-        addToast('error', t('driver.notVerified'));
-      } else {
-        addToast('error', t('common.error'));
-      }
-    });
+    // No socket 'error' listener for accept any more. It existed because a
+    // socket frame could only fail silently, and it had to guess which pending
+    // accept an unrelated error belonged to — accept() now gets its own reply
+    // and handles its own failure.
     return () => {
       offAvail();
       offTaken();
       offAssigned();
-      offError();
     };
-  }, [uid, navigate, accepting, addToast, t]);
+  }, [uid, navigate, addToast, t]);
 
   const toggleOnline = async (): Promise<void> => {
     try {
@@ -279,31 +265,34 @@ export function DriverHomeScreen() {
     }
   };
 
-  const accept = (ride: Ride): void => {
-    // Refusing outright while the socket is merely CONNECTING cost drivers rides
-    // they had already been offered: the queue is filled by a REST poll, so a
-    // card is on screen from the first render, seconds before the socket is up.
-    // Tapping it in that window said "no connection" and dropped the accept —
-    // over a connection that was about to be fine. wsService.send() queues and
-    // flushes on open for exactly this, and a send that truly never lands is
-    // still caught by the timeout below.
-    const wasConnected = wsService.connected;
+  const accept = async (ride: Ride): Promise<void> => {
+    // Over HTTP, so the server can actually answer. As a socket frame this
+    // could only be sent and waited on: an eight-second timer, a guess at
+    // whether the silence meant "taken" or "not delivered", and the card put
+    // back if nothing came. A frame lost to a half-open connection — routine
+    // on a phone, and invisible, since readyState still reads OPEN — left the
+    // driver's screen showing the ride while the server went on offering that
+    // passenger to everyone else.
     setAccepting(ride.id);
     setRequests((prev) => prev.filter((r) => r.id !== ride.id));
-    wsService.send('ride_accept', { rideId: ride.id });
-    // If no server response within 8 s, cancel the spinner and show an error.
-    acceptTimeoutRef.current = setTimeout(() => {
-      setAccepting((cur) => {
-        if (cur === ride.id) {
-          // Put the card back: unlike a TAKEN reply, nothing here says the ride
-          // is gone, and hiding a still-open request is the same lost fare.
-          setRequests((prev) => (prev.some((r) => r.id === ride.id) ? prev : [ride, ...prev]));
-          addToast('error', t(wasConnected ? 'common.error' : 'common.noConnection'));
-          return null;
-        }
-        return cur;
-      });
-    }, 8000);
+    try {
+      await api.acceptRide(ride.id);
+      navigate('ride', { id: ride.id });
+    } catch (err) {
+      const code = (err as { response?: { data?: { code?: string } } })?.response?.data?.code;
+      if (code === 'TAKEN' || code === 'NO_RIDE') {
+        addToast('warning', t('driver.rideTaken'));
+      } else if (code === 'NOT_VERIFIED') {
+        addToast('error', t('driver.notVerified'));
+      } else {
+        // Nothing here says the ride is gone, so put the card back rather than
+        // hiding a request that is still open — that is a lost fare either way.
+        setRequests((prev) => (prev.some((r) => r.id === ride.id) ? prev : [ride, ...prev]));
+        addToast('error', t(apiErrorKey(err)));
+      }
+    } finally {
+      setAccepting(null);
+    }
   };
 
   const previewRide = requests.find((r) => r.id === previewRideId) ?? null;

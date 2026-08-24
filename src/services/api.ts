@@ -115,6 +115,13 @@ export const api = {
   // server treats asking for a state the ride already reached as success.
   setRideStatus: (rideId: string, status: 'arrived' | 'in_progress' | 'completed') =>
     client.post<Ride>(`/api/rides/${rideId}/status`, { status }).then((r) => r.data),
+  // Taking an open ride. Same reasoning as setRideStatus: over the socket the
+  // driver could only wait out a timeout and guess, and a frame lost to a
+  // half-open connection left them driving to a passenger the server was still
+  // offering to everyone else. 409 TAKEN means someone else got there first;
+  // repeating an accept that already succeeded is safe.
+  acceptRide: (rideId: string) =>
+    client.post<{ ride: Ride }>(`/api/rides/${rideId}/accept`, {}).then((r) => r.data.ride),
   listRides: (params?: { status?: RideStatus; page?: number; limit?: number }) =>
     client.get<PaginatedRides>('/api/rides', { params }).then((r) => r.data),
   getRide: (id: string) => client.get<Ride>(`/api/rides/${id}`).then((r) => r.data),
