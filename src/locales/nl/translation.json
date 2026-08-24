@@ -115,7 +115,8 @@
     "feeDuePay": "{{amount}} betalen",
     "noteToDriver": "Notitie voor de chauffeur (bijv. grote kofferbak, kinderzitje)",
     "addressUpdate": "Bijwerken naar huidige bestemming",
-    "addressDelete": "Opgeslagen adres verwijderen"
+    "addressDelete": "Opgeslagen adres verwijderen",
+    "unpaidRide": "Betaal eerst je vorige rit"
   },
   "ride": {
     "statusScheduled": "Gepland",
@@ -187,7 +188,8 @@
     "rate_driving": "Rijstijl",
     "rate_route": "Route",
     "freeCancelCountdown": "Nog {{time}} gratis te annuleren",
-    "arriveBy": "by"
+    "arriveBy": "by",
+    "positionStale": "Positie {{minutes}} min geleden"
   },
   "vehicle": {
     "economy": "Economy",

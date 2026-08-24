@@ -115,7 +115,8 @@
     "feeDuePay": "Trả {{amount}}",
     "noteToDriver": "Ghi chú cho tài xế (VD: cốp lớn, ghế trẻ em)",
     "addressUpdate": "Cập nhật theo điểm đến hiện tại",
-    "addressDelete": "Xóa địa chỉ đã lưu"
+    "addressDelete": "Xóa địa chỉ đã lưu",
+    "unpaidRide": "Vui lòng thanh toán chuyến trước"
   },
   "ride": {
     "statusScheduled": "Đã đặt lịch",
@@ -187,7 +188,8 @@
     "rate_driving": "Lái xe",
     "rate_route": "Lộ trình",
     "freeCancelCountdown": "Miễn phí hủy trong {{time}} nữa",
-    "arriveBy": "by"
+    "arriveBy": "by",
+    "positionStale": "Vị trí {{minutes}} phút trước"
   },
   "vehicle": {
     "economy": "Economy",

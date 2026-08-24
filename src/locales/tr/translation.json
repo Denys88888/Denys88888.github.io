@@ -115,7 +115,8 @@
     "feeDuePay": "{{amount}} öde",
     "noteToDriver": "Sürücü için not (örn. büyük bagaj, çocuk koltuğu)",
     "addressUpdate": "Mevcut hedefe güncelle",
-    "addressDelete": "Kayıtlı adresi sil"
+    "addressDelete": "Kayıtlı adresi sil",
+    "unpaidRide": "Önce son yolculuğunuzu ödeyin"
   },
   "ride": {
     "statusScheduled": "Planlandı",
@@ -187,7 +188,8 @@
     "rate_driving": "Sürüş",
     "rate_route": "Rota",
     "freeCancelCountdown": "{{time}} daha ücretsiz iptal",
-    "arriveBy": ""
+    "arriveBy": "",
+    "positionStale": "{{minutes}} dk önceki konum"
   },
   "vehicle": {
     "economy": "Ekonomi",

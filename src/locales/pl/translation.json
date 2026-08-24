@@ -115,7 +115,8 @@
     "feeDuePay": "Zapłać {{amount}}",
     "noteToDriver": "Uwaga dla kierowcy (np. duży bagażnik, fotelik dziecięcy)",
     "addressUpdate": "Zaktualizuj na bieżący cel",
-    "addressDelete": "Usuń zapisany adres"
+    "addressDelete": "Usuń zapisany adres",
+    "unpaidRide": "Najpierw opłać poprzedni przejazd"
   },
   "ride": {
     "statusScheduled": "Zaplanowany",
@@ -187,7 +188,8 @@
     "rate_driving": "Jazda",
     "rate_route": "Trasa",
     "freeCancelCountdown": "Bezpłatne anulowanie jeszcze {{time}}",
-    "arriveBy": "o"
+    "arriveBy": "o",
+    "positionStale": "Pozycja sprzed {{minutes}} min"
   },
   "vehicle": {
     "economy": "Ekonomiczny",

@@ -115,7 +115,8 @@
     "feeDuePay": "Bayar {{amount}}",
     "noteToDriver": "Catatan untuk pengemudi (mis. bagasi besar, kursi anak)",
     "addressUpdate": "Perbarui ke tujuan saat ini",
-    "addressDelete": "Hapus alamat tersimpan"
+    "addressDelete": "Hapus alamat tersimpan",
+    "unpaidRide": "Bayar dulu perjalanan sebelumnya"
   },
   "ride": {
     "statusScheduled": "Terjadwal",
@@ -187,7 +188,8 @@
     "rate_driving": "Cara mengemudi",
     "rate_route": "Rute",
     "freeCancelCountdown": "Gratis dibatalkan {{time}} lagi",
-    "arriveBy": "by"
+    "arriveBy": "by",
+    "positionStale": "Posisi {{minutes}} mnt lalu"
   },
   "vehicle": {
     "economy": "Ekonomi",

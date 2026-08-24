@@ -115,7 +115,8 @@
     "feeDuePay": "Pagar {{amount}}",
     "noteToDriver": "Nota para o motorista (ex. porta-malas grande, cadeirinha infantil)",
     "addressUpdate": "Atualizar para o destino atual",
-    "addressDelete": "Excluir endereço salvo"
+    "addressDelete": "Excluir endereço salvo",
+    "unpaidRide": "Pague primeiro a viagem anterior"
   },
   "ride": {
     "statusScheduled": "Agendada",
@@ -187,7 +188,8 @@
     "rate_driving": "Condução",
     "rate_route": "Rota",
     "freeCancelCountdown": "Cancelamento grátis por mais {{time}}",
-    "arriveBy": "às"
+    "arriveBy": "às",
+    "positionStale": "Posição há {{minutes}} min"
   },
   "vehicle": {
     "economy": "Econômico",

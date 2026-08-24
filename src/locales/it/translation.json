@@ -115,7 +115,8 @@
     "feeDuePay": "Paga {{amount}}",
     "noteToDriver": "Nota per l'autista (es. bagagliaio grande, seggiolino)",
     "addressUpdate": "Aggiorna alla destinazione attuale",
-    "addressDelete": "Elimina indirizzo salvato"
+    "addressDelete": "Elimina indirizzo salvato",
+    "unpaidRide": "Prima paga la corsa precedente"
   },
   "ride": {
     "statusScheduled": "Programmata",
@@ -187,7 +188,8 @@
     "rate_driving": "Guida",
     "rate_route": "Percorso",
     "freeCancelCountdown": "Annullamento gratuito ancora {{time}}",
-    "arriveBy": "alle"
+    "arriveBy": "alle",
+    "positionStale": "Posizione {{minutes}} min fa"
   },
   "vehicle": {
     "economy": "Economy",

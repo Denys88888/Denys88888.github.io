@@ -115,7 +115,8 @@
     "feeDuePay": "{{amount}} 결제",
     "noteToDriver": "기사님께 메모 (예: 큰 트렁크, 카시트)",
     "addressUpdate": "현재 목적지로 업데이트",
-    "addressDelete": "저장된 주소 삭제"
+    "addressDelete": "저장된 주소 삭제",
+    "unpaidRide": "이전 이용 요금을 먼저 결제해 주세요"
   },
   "ride": {
     "statusScheduled": "예약됨",
@@ -187,7 +188,8 @@
     "rate_driving": "운전",
     "rate_route": "경로",
     "freeCancelCountdown": "{{time}} 동안 무료 취소 가능",
-    "arriveBy": "by"
+    "arriveBy": "by",
+    "positionStale": "{{minutes}}분 전 위치"
   },
   "vehicle": {
     "economy": "이코노미",

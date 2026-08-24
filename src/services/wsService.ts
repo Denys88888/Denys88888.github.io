@@ -12,6 +12,11 @@ class WsService {
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   private manualClose = false;
   private queue: string[] = [];
+  // When the server last said anything. A socket the OS put to sleep with
+  // the screen still reports OPEN afterwards, so readyState alone cannot
+  // tell a live connection from a dead one — silence can.
+  private lastHeardAt = 0;
+  private wakeBound = false;
 
   connect(token: string): void {
     // If the token changed while a socket is live (e.g. a driver was just
@@ -20,6 +25,7 @@ class WsService {
     const tokenChanged = this.token !== null && this.token !== token;
     this.token = token;
     this.manualClose = false;
+    this.bindWakeSources();
     if (tokenChanged && this.ws) {
       this.ws.close();
       this.ws = null;
@@ -45,12 +51,14 @@ class WsService {
 
     ws.onopen = () => {
       this.reconnectAttempt = 0;
+      this.lastHeardAt = Date.now();
       // Flush anything queued while disconnected.
       for (const msg of this.queue.splice(0)) ws.send(msg);
       this.emit('__open', {});
     };
 
     ws.onmessage = (event) => {
+      this.lastHeardAt = Date.now();
       try {
         const data = JSON.parse(event.data) as Record<string, unknown>;
         const type = String(data.type ?? '');
@@ -70,6 +78,48 @@ class WsService {
     ws.onerror = () => {
       // onclose will follow and handle reconnection.
     };
+  }
+
+  /**
+   * Come back the moment the app does.
+   *
+   * A phone in a pocket has its socket dropped and its timers throttled, and by
+   * the time it is unlocked the reconnect backoff has grown to its 30-second
+   * cap — so the map sat on a stale car for half a minute after the passenger
+   * was already looking at it. Worse, the socket often still reads OPEN while
+   * being quietly dead, and nothing would have reconnected at all; a stretch of
+   * silence is the only evidence, so treat it as one.
+   */
+  private wake(): void {
+    if (this.manualClose || !this.token) return;
+    const silentFor = Date.now() - this.lastHeardAt;
+    const openButSilent =
+      this.ws?.readyState === WebSocket.OPEN && this.lastHeardAt > 0 && silentFor > 30000;
+    if (openButSilent) {
+      // Closing is what gets a fresh connection: reopening on top of a
+      // half-open one just adds a second socket that is equally deaf.
+      this.ws?.close();
+      this.ws = null;
+    } else if (this.ws?.readyState === WebSocket.OPEN) {
+      return;
+    }
+    if (this.reconnectTimer) {
+      clearTimeout(this.reconnectTimer);
+      this.reconnectTimer = null;
+    }
+    this.reconnectAttempt = 0; // the backoff was for a network that was down, not an app that was away
+    this.open();
+  }
+
+  // Bound once, on the first connect: these outlive any one screen.
+  private bindWakeSources(): void {
+    if (this.wakeBound || typeof document === 'undefined') return;
+    this.wakeBound = true;
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') this.wake();
+    });
+    window.addEventListener('online', () => this.wake());
+    window.addEventListener('focus', () => this.wake());
   }
 
   private scheduleReconnect(): void {

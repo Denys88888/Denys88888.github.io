@@ -115,7 +115,8 @@
     "feeDuePay": "支付 {{amount}}",
     "noteToDriver": "给司机的留言（例如大后备箱、儿童座椅）",
     "addressUpdate": "更新为当前目的地",
-    "addressDelete": "删除已保存的地址"
+    "addressDelete": "删除已保存的地址",
+    "unpaidRide": "请先支付上一次行程的费用"
   },
   "ride": {
     "statusScheduled": "已预约",
@@ -187,7 +188,8 @@
     "rate_driving": "驾驶",
     "rate_route": "路线",
     "freeCancelCountdown": "还可免费取消 {{time}}",
-    "arriveBy": "by"
+    "arriveBy": "by",
+    "positionStale": "{{minutes}} 分钟前的位置"
   },
   "vehicle": {
     "economy": "经济型",

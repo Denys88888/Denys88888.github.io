@@ -115,7 +115,8 @@
     "feeDuePay": "{{amount}} zahlen",
     "noteToDriver": "Hinweis für den Fahrer (z. B. großer Kofferraum, Kindersitz)",
     "addressUpdate": "Auf aktuelles Ziel aktualisieren",
-    "addressDelete": "Gespeicherte Adresse löschen"
+    "addressDelete": "Gespeicherte Adresse löschen",
+    "unpaidRide": "Bitte bezahle zuerst die letzte Fahrt"
   },
   "ride": {
     "statusScheduled": "Geplant",
@@ -187,7 +188,8 @@
     "rate_driving": "Fahrweise",
     "rate_route": "Route",
     "freeCancelCountdown": "Noch {{time}} kostenlos stornierbar",
-    "arriveBy": "um"
+    "arriveBy": "um",
+    "positionStale": "Position vor {{minutes}} Min."
   },
   "vehicle": {
     "economy": "Economy",

@@ -75,6 +75,7 @@ export function RideDetailsScreen() {
   // cancellation countdown updates live without re-rendering the whole screen
   // once a second the rest of the time.
   const [now, setNow] = useState(Date.now());
+  const [driverPosAt, setDriverPosAt] = useState<number | null>(null);
   useEffect(() => {
     if (!showCancel) return;
     setNow(Date.now());
@@ -141,6 +142,11 @@ export function RideDetailsScreen() {
     const offLoc = wsService.on('driver_location_update', (msg) => {
       if (String(msg.rideId) === rideId) {
         setDriverPos({ lat: Number(msg.lat), lng: Number(msg.lng) });
+        // When it arrived, not where it is. A phone in a pocket has its socket
+        // dropped and its timers throttled by the OS, so the last position sits
+        // there looking current — and a passenger reads a green car on the map
+        // as "he is a minute away" when the driver may be nowhere near it.
+        setDriverPosAt(Date.now());
       }
     });
     return () => {
@@ -528,6 +534,13 @@ export function RideDetailsScreen() {
   // while the ETA bar, which has no such fallback, sat on "building route…"
   // forever underneath it.
   const navActive = showNav && isDriver && !!liveDriverPos;
+  // The driver's app sends a fix every 5s, so nothing for half a minute
+  // means the phone is asleep, backgrounded or out of signal — not that
+  // the car is sitting still.
+  const DRIVER_POS_STALE_MS = 30000;
+  const driverPosAgeMs = driverPosAt !== null ? now - driverPosAt : null;
+  const driverStale =
+    !isDriver && driverPosAgeMs !== null && driverPosAgeMs > DRIVER_POS_STALE_MS;
 
   return (
     <div className="flex h-full flex-col">
@@ -558,8 +571,20 @@ export function RideDetailsScreen() {
           focus={focusNonce > 0 ? liveDriverPos : undefined}
           focusNonce={focusNonce}
           navMode={navActive}
+          driverStale={driverStale}
           className="h-full w-full"
         />
+        {/* Says how old, not just that it is old: "3 min ago" tells a passenger
+            waiting on a corner whether to keep watching the map or to call.
+            Only for the passenger — the driver's own position is their phone's
+            and cannot go stale without them noticing. */}
+        {driverStale && driverPosAgeMs !== null && (
+          <div className="pointer-events-none absolute left-1/2 top-3 z-map -translate-x-1/2 rounded-full bg-black/75 px-3 py-1.5 text-xs font-medium text-white shadow-card">
+            {t('ride.positionStale', {
+              minutes: Math.max(1, Math.round(driverPosAgeMs / 60000)),
+            })}
+          </div>
+        )}
         {!navActive && (
           <button
             onClick={back}

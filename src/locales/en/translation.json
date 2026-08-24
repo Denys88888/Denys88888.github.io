@@ -115,7 +115,8 @@
     "feeDuePay": "Pay {{amount}}",
     "noteToDriver": "Note for the driver (e.g. large trunk, child seat)",
     "addressUpdate": "Update to current destination",
-    "addressDelete": "Delete saved address"
+    "addressDelete": "Delete saved address",
+    "unpaidRide": "Please pay for your last ride first"
   },
   "ride": {
     "statusScheduled": "Scheduled",
@@ -187,7 +188,8 @@
     "rate_driving": "Driving",
     "rate_route": "Route",
     "freeCancelCountdown": "Free to cancel for {{time}} more",
-    "arriveBy": "by"
+    "arriveBy": "by",
+    "positionStale": "Position {{minutes}} min ago"
   },
   "vehicle": {
     "economy": "Economy",

@@ -115,7 +115,8 @@
     "feeDuePay": "{{amount}} を支払う",
     "noteToDriver": "ドライバーへのメモ（例：大きなトランク、チャイルドシート）",
     "addressUpdate": "現在の目的地に更新",
-    "addressDelete": "保存済みの住所を削除"
+    "addressDelete": "保存済みの住所を削除",
+    "unpaidRide": "前回の乗車料金をお支払いください"
   },
   "ride": {
     "statusScheduled": "予約済み",
@@ -187,7 +188,8 @@
     "rate_driving": "運転",
     "rate_route": "ルート",
     "freeCancelCountdown": "あと{{time}}は無料でキャンセルできます",
-    "arriveBy": "by"
+    "arriveBy": "by",
+    "positionStale": "{{minutes}}分前の位置"
   },
   "vehicle": {
     "economy": "エコノミー",

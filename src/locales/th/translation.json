@@ -115,7 +115,8 @@
     "feeDuePay": "ชำระ {{amount}}",
     "noteToDriver": "ข้อความถึงคนขับ (เช่น ท้ายรถใหญ่, คาร์ซีทเด็ก)",
     "addressUpdate": "อัปเดตเป็นจุดหมายปัจจุบัน",
-    "addressDelete": "ลบที่อยู่ที่บันทึกไว้"
+    "addressDelete": "ลบที่อยู่ที่บันทึกไว้",
+    "unpaidRide": "กรุณาชำระค่าโดยสารครั้งก่อนก่อน"
   },
   "ride": {
     "statusScheduled": "ตั้งเวลาไว้",
@@ -187,7 +188,8 @@
     "rate_driving": "การขับขี่",
     "rate_route": "เส้นทาง",
     "freeCancelCountdown": "ยกเลิกฟรีได้อีก {{time}}",
-    "arriveBy": "by"
+    "arriveBy": "by",
+    "positionStale": "ตำแหน่งเมื่อ {{minutes}} นาทีที่แล้ว"
   },
   "vehicle": {
     "economy": "อีโคโนมี",

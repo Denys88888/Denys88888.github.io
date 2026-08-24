@@ -115,7 +115,8 @@
     "feeDuePay": "{{amount}} चुकाएँ",
     "noteToDriver": "ड्राइवर के लिए नोट (जैसे बड़ी डिक्की, चाइल्ड सीट)",
     "addressUpdate": "वर्तमान गंतव्य पर अपडेट करें",
-    "addressDelete": "सहेजा गया पता हटाएं"
+    "addressDelete": "सहेजा गया पता हटाएं",
+    "unpaidRide": "कृपया पहले पिछली सवारी का भुगतान करें"
   },
   "ride": {
     "statusScheduled": "शेड्यूल्ड",
@@ -187,7 +188,8 @@
     "rate_driving": "ड्राइविंग",
     "rate_route": "मार्ग",
     "freeCancelCountdown": "{{time}} तक रद्द करना निःशुल्क",
-    "arriveBy": "by"
+    "arriveBy": "by",
+    "positionStale": "{{minutes}} मिनट पहले की स्थिति"
   },
   "vehicle": {
     "economy": "इकॉनमी",

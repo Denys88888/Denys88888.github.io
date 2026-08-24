@@ -115,7 +115,8 @@
     "feeDuePay": "Оплатить {{amount}}",
     "noteToDriver": "Комментарий водителю (например, большой багажник, детское кресло)",
     "addressUpdate": "Обновить на текущее направление",
-    "addressDelete": "Удалить сохранённый адрес"
+    "addressDelete": "Удалить сохранённый адрес",
+    "unpaidRide": "Сначала оплатите прошлую поездку"
   },
   "ride": {
     "statusScheduled": "Запланирована",
@@ -187,7 +188,8 @@
     "rate_driving": "Вождение",
     "rate_route": "Маршрут",
     "freeCancelCountdown": "Бесплатная отмена ещё {{time}}",
-    "arriveBy": "в"
+    "arriveBy": "в",
+    "positionStale": "Данные {{minutes}} мин назад"
   },
   "vehicle": {
     "economy": "Эконом",

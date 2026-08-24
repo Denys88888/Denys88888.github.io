@@ -36,10 +36,13 @@ function bearingDeg(a: GeoPoint, b: GeoPoint): number {
 // and Bolt do — a car that always points north reads as a stuck pin. The
 // arrow (rather than the side-on car glyph) is what actually conveys heading;
 // null heading falls back to the neutral car silhouette.
-function carIcon(small = false, heading: number | null = null): L.DivIcon {
+function carIcon(small = false, heading: number | null = null, stale = false): L.DivIcon {
   const size = small ? 28 : 36;
   const svg = small ? 14 : 18;
-  const bg = small ? '#0F6E56' : '#00C853';
+  // Grey and faded when the position stopped arriving. A car drawn in
+  // living green on a spot it left five minutes ago is worse than no car:
+  // the passenger reads it as "he is right there" and stops watching.
+  const bg = stale ? '#9E9E9E' : small ? '#0F6E56' : '#00C853';
   const glyph =
     heading === null
       ? `<svg width="${svg}" height="${svg}" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -51,7 +54,7 @@ function carIcon(small = false, heading: number | null = null): L.DivIcon {
       </svg>`;
   return L.divIcon({
     className: '',
-    html: `<div style="display:flex;align-items:center;justify-content:center;width:${size}px;height:${size}px;border-radius:50%;background:${bg};border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35)">${glyph}</div>`,
+    html: `<div style="display:flex;align-items:center;justify-content:center;width:${size}px;height:${size}px;border-radius:50%;background:${bg};border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35);opacity:${stale ? 0.55 : 1}">${glyph}</div>`,
     iconSize: [size, size],
     iconAnchor: [size / 2, size / 2],
   });
@@ -253,6 +256,9 @@ interface Props {
   // Active turn-by-turn guidance: tightens the zoom and rotates the map to
   // face the direction of travel (see NavZoom/RotateMap above).
   navMode?: boolean;
+  // The driver's position has stopped arriving — draw it as the old news
+  // it is rather than as a car that happens not to be moving.
+  driverStale?: boolean;
   className?: string;
 }
 
@@ -273,6 +279,7 @@ export function MapView({
   onMapClick,
   onDestinationDrag,
   navMode = false,
+  driverStale = false,
   className,
 }: Props) {
   const { t } = useTranslation();
@@ -522,7 +529,7 @@ export function MapView({
           <Marker key={d.uid} position={[d.location.lat, d.location.lng]} icon={carIcon(true)} />
         ))}
         {driver && (
-          <Marker position={[driver.lat, driver.lng]} icon={carIcon(false, navHeading)} />
+          <Marker position={[driver.lat, driver.lng]} icon={carIcon(false, navHeading, driverStale)} />
         )}
         {/* Distinct from the pickup pin (also blue): the user's own position is
             violet, so a driver testing against their own pickup point can still

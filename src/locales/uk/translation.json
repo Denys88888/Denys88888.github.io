@@ -115,7 +115,8 @@
     "feeDuePay": "Сплатити {{amount}}",
     "noteToDriver": "Коментар водію (наприклад, великий багажник, дитяче крісло)",
     "addressUpdate": "Оновити на поточний напрямок",
-    "addressDelete": "Видалити збережену адресу"
+    "addressDelete": "Видалити збережену адресу",
+    "unpaidRide": "Спочатку оплатіть минулу поїздку"
   },
   "ride": {
     "statusScheduled": "Заплановано",
@@ -187,7 +188,8 @@
     "rate_driving": "Водіння",
     "rate_route": "Маршрут",
     "freeCancelCountdown": "Безкоштовне скасування ще {{time}}",
-    "arriveBy": "о"
+    "arriveBy": "о",
+    "positionStale": "Дані {{minutes}} хв тому"
   },
   "vehicle": {
     "economy": "Економ",

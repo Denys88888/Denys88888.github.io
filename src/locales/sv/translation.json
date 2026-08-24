@@ -115,7 +115,8 @@
     "feeDuePay": "Betala {{amount}}",
     "noteToDriver": "Anteckning till föraren (t.ex. stort bagageutrymme, barnstol)",
     "addressUpdate": "Uppdatera till aktuell destination",
-    "addressDelete": "Ta bort sparad adress"
+    "addressDelete": "Ta bort sparad adress",
+    "unpaidRide": "Betala din förra resa först"
   },
   "ride": {
     "statusScheduled": "Schemalagd",
@@ -187,7 +188,8 @@
     "rate_driving": "Körning",
     "rate_route": "Rutt",
     "freeCancelCountdown": "Gratis att avboka i {{time}} till",
-    "arriveBy": "by"
+    "arriveBy": "by",
+    "positionStale": "Position för {{minutes}} min sedan"
   },
   "vehicle": {
     "economy": "Economy",

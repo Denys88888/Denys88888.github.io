@@ -115,7 +115,8 @@
     "feeDuePay": "ادفع {{amount}}",
     "noteToDriver": "ملاحظة للسائق (مثل: صندوق كبير، مقعد أطفال)",
     "addressUpdate": "التحديث إلى الوجهة الحالية",
-    "addressDelete": "حذف العنوان المحفوظ"
+    "addressDelete": "حذف العنوان المحفوظ",
+    "unpaidRide": "يرجى دفع رحلتك السابقة أولاً"
   },
   "ride": {
     "statusScheduled": "مجدولة",
@@ -187,7 +188,8 @@
     "rate_driving": "القيادة",
     "rate_route": "المسار",
     "freeCancelCountdown": "الإلغاء مجاني لمدة {{time}} أخرى",
-    "arriveBy": "by"
+    "arriveBy": "by",
+    "positionStale": "الموقع قبل {{minutes}} دقيقة"
   },
   "vehicle": {
     "economy": "اقتصادي",

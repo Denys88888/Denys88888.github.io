@@ -445,6 +445,13 @@ export function PassengerHomeScreen() {
         addToast('error', t('home.tooManyScheduled'));
       } else if (code === 'SCHEDULED_CONFLICT') {
         addToast('error', t('home.scheduledConflict'));
+      } else if (code === 'UNPAID_RIDE') {
+        // A finished ride whose fare was never approved. Refusing and stopping
+        // there would be a dead end — Pi has no card on file, so the only way
+        // out is the payment sheet on that ride's own screen. Take them to it.
+        const data = isAxiosError(err) ? err.response?.data : undefined;
+        addToast('error', t('home.unpaidRide'));
+        if (data?.rideId) navigate('ride', { id: String(data.rideId) });
       } else if (code === 'CANCELLATION_FEE_DUE') {
         // A fee raised after this screen loaded — on another device, or on a
         // scheduled ride the dispatcher promoted and the driver cancelled.
