@@ -440,6 +440,7 @@
     "end_mic_error": "Mikrofon tidak tersedia",
     "end_failed": "Koneksi gagal",
     "end_hangup": "Panggilan berakhir",
-    "end_disconnected": "Terputus"
+    "end_disconnected": "Terputus",
+    "writeInstead": "Kirim pesan saja"
   }
 }

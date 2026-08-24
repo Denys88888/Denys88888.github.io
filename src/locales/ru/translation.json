@@ -440,6 +440,7 @@
     "end_mic_error": "Микрофон недоступен",
     "end_failed": "Не удалось соединиться",
     "end_hangup": "Звонок завершён",
-    "end_disconnected": "Связь прервана"
+    "end_disconnected": "Связь прервана",
+    "writeInstead": "Написать сообщение"
   }
 }

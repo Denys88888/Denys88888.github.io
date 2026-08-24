@@ -440,6 +440,7 @@
     "end_mic_error": "Mikrofon nicht verfügbar",
     "end_failed": "Verbindung fehlgeschlagen",
     "end_hangup": "Anruf beendet",
-    "end_disconnected": "Verbindung getrennt"
+    "end_disconnected": "Verbindung getrennt",
+    "writeInstead": "Stattdessen schreiben"
   }
 }

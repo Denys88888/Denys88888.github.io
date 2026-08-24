@@ -440,6 +440,7 @@
     "end_mic_error": "Mikrofon kullanılamıyor",
     "end_failed": "Bağlantı başarısız",
     "end_hangup": "Arama sona erdi",
-    "end_disconnected": "Bağlantı kesildi"
+    "end_disconnected": "Bağlantı kesildi",
+    "writeInstead": "Bunun yerine mesaj yaz"
   }
 }

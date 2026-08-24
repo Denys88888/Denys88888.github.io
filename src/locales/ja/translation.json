@@ -440,6 +440,7 @@
     "end_mic_error": "マイクを利用できません",
     "end_failed": "接続に失敗しました",
     "end_hangup": "通話終了",
-    "end_disconnected": "切断されました"
+    "end_disconnected": "切断されました",
+    "writeInstead": "メッセージを送る"
   }
 }

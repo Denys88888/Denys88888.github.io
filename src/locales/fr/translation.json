@@ -440,6 +440,7 @@
     "end_mic_error": "Micro indisponible",
     "end_failed": "Échec de la connexion",
     "end_hangup": "Appel terminé",
-    "end_disconnected": "Déconnecté"
+    "end_disconnected": "Déconnecté",
+    "writeInstead": "Écrire un message"
   }
 }

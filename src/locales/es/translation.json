@@ -440,6 +440,7 @@
     "end_mic_error": "Micrófono no disponible",
     "end_failed": "Fallo de conexión",
     "end_hangup": "Llamada finalizada",
-    "end_disconnected": "Desconectado"
+    "end_disconnected": "Desconectado",
+    "writeInstead": "Escribir un mensaje"
   }
 }

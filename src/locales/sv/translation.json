@@ -440,6 +440,7 @@
     "end_mic_error": "Mikrofonen är inte tillgänglig",
     "end_failed": "Anslutningen misslyckades",
     "end_hangup": "Samtalet avslutat",
-    "end_disconnected": "Frånkopplad"
+    "end_disconnected": "Frånkopplad",
+    "writeInstead": "Skicka ett meddelande"
   }
 }

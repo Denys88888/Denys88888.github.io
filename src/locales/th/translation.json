@@ -440,6 +440,7 @@
     "end_mic_error": "ใช้ไมโครโฟนไม่ได้",
     "end_failed": "เชื่อมต่อไม่สำเร็จ",
     "end_hangup": "วางสายแล้ว",
-    "end_disconnected": "การเชื่อมต่อหลุด"
+    "end_disconnected": "การเชื่อมต่อหลุด",
+    "writeInstead": "ส่งข้อความแทน"
   }
 }

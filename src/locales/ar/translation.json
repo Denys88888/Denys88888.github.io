@@ -440,6 +440,7 @@
     "end_mic_error": "الميكروفون غير متاح",
     "end_failed": "فشل الاتصال",
     "end_hangup": "انتهت المكالمة",
-    "end_disconnected": "انقطع الاتصال"
+    "end_disconnected": "انقطع الاتصال",
+    "writeInstead": "أرسل رسالة بدلاً من ذلك"
   }
 }

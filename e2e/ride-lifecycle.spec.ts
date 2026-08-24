@@ -183,24 +183,37 @@ test.describe.serial('two-party ride lifecycle', () => {
 
       // One button carries the whole progression, relabelling itself at each
       // step (arrived → start → complete). Clicking it three times is the
-      // driver's entire job, and each transition is WebSocket-only — there is
-      // no REST route that does this, so only a real click exercises it.
-      // Labels come from the en locale: "I've arrived" / "Start ride" /
-      // "Complete ride". Matched by their distinctive word rather than the whole
-      // phrase, so an apostrophe or a copy tweak doesn't silently stop matching
-      // and leave the loop clicking nothing.
+      // driver's entire job. Labels come from the en locale: "I've arrived" /
+      // "Start ride" / "Complete ride". Matched by their distinctive word
+      // rather than the whole phrase, so an apostrophe or a copy tweak doesn't
+      // silently stop matching and leave the loop clicking nothing.
+      //
+      // The last step asks for confirmation, and deliberately: finishing ends
+      // the ride and bills the passenger, and the button sits full-width under
+      // the map where a resting thumb is enough — a road test ended with a ride
+      // marked finished before anyone had arrived. So the last click opens a
+      // dialog rather than doing it.
       const steps = [
-        { label: /arrived/i, expected: 'arrived' },
-        { label: /start ride/i, expected: 'in_progress' },
-        { label: /complete ride/i, expected: 'completed' },
+        { label: /arrived/i, expected: 'arrived', confirms: false },
+        { label: /start ride/i, expected: 'in_progress', confirms: false },
+        { label: /complete ride/i, expected: 'completed', confirms: true },
       ] as const;
 
-      for (const { label, expected } of steps) {
+      for (const { label, expected, confirms } of steps) {
         const btn = page.getByRole('button', { name: label });
         await expect(btn, `no "${label}" button on the driver's screen`).toBeVisible({
           timeout: 20000,
         });
         await btn.click();
+        if (confirms) {
+          // The dialog's confirm button carries the same label, so take the
+          // one inside the dialog rather than the one still on the page.
+          const dialog = page.getByRole('dialog');
+          await expect(dialog, 'finishing must ask before it bills').toBeVisible({
+            timeout: 10000,
+          });
+          await dialog.getByRole('button', { name: label }).click();
+        }
         await expect
           .poll(() => rideStatus(request, passenger, ride.id), { timeout: 20000 })
           .toBe(expected);

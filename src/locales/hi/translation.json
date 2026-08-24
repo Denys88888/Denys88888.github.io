@@ -440,6 +440,7 @@
     "end_mic_error": "माइक्रोफ़ोन उपलब्ध नहीं",
     "end_failed": "कनेक्शन विफल",
     "end_hangup": "कॉल समाप्त",
-    "end_disconnected": "डिस्कनेक्ट हो गया"
+    "end_disconnected": "डिस्कनेक्ट हो गया",
+    "writeInstead": "इसके बजाय संदेश भेजें"
   }
 }

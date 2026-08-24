@@ -440,6 +440,7 @@
     "end_mic_error": "마이크를 사용할 수 없습니다",
     "end_failed": "연결 실패",
     "end_hangup": "통화 종료",
-    "end_disconnected": "연결이 끊어졌습니다"
+    "end_disconnected": "연결이 끊어졌습니다",
+    "writeInstead": "대신 메시지 보내기"
   }
 }

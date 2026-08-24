@@ -41,11 +41,22 @@ export function Modal({
           was sitting under the home button and could not be tapped. --safe-bottom
           is 0 on desktop, where the dialog is centred, so the padding stays p-5
           there. */}
+      {/* role/aria-modal: without them this is a div that happens to look like
+          a dialog — a screen reader announces neither that one opened nor what
+          it is asking, and anything looking for a dialog (a test, an assistive
+          tool) finds nothing. aria-labelledby gives it the title as its name. */}
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={title ? 'modal-title' : undefined}
         className="relative z-10 w-full sm:max-w-md surface rounded-t-2xl sm:rounded-2xl p-5 animate-slide-up"
         style={{ paddingBottom: 'calc(1.25rem + var(--safe-bottom))' }}
       >
-        {title && <h3 className="mb-2">{title}</h3>}
+        {title && (
+          <h3 id="modal-title" className="mb-2">
+            {title}
+          </h3>
+        )}
         <div className="text-sm text-text-light/80 dark:text-text-dark/80">{children}</div>
         <div className="mt-5 flex gap-3">
           <Button variant="ghost" fullWidth onClick={onClose}>

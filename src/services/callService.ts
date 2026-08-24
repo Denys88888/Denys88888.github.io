@@ -240,6 +240,12 @@ class CallService {
   }
 
   // ── Shared peer setup ─────────────────────────────────────────────────────
+  /** Close the ended screen now — the user chose to do something else. */
+  dismiss(): void {
+    if (this.snap.state !== 'ended') return;
+    this.emit({ state: 'idle', rideId: null, peerId: null, durationSec: 0, stats: null });
+  }
+
   private async setupPeer(rideId: string): Promise<void> {
     // getUserMedia must succeed before we advertise a call; a mic failure here
     // is what we told the user could happen if Pi Browser denies the mic.
@@ -449,7 +455,10 @@ class CallService {
     // Hold the ended screen longer when the call actually connected, so the
     // line-quality line stays readable after hanging up (you can't read it mid-
     // conversation). A call that never connected clears quickly.
-    const hold = this.snap.stats ? 6000 : 1500;
+    // A call that failed to find a path offers a way into the chat instead, and
+    // 1.5s is not long enough to read why and reach for it.
+    const failedToConnect = reason === 'failed' || reason === 'disconnected';
+    const hold = this.snap.stats ? 6000 : failedToConnect ? 10000 : 1500;
     setTimeout(() => {
       if (this.snap.state === 'ended') {
         this.emit({ state: 'idle', rideId: null, peerId: null, durationSec: 0, stats: null });

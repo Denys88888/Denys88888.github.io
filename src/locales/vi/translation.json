@@ -440,6 +440,7 @@
     "end_mic_error": "Micrô không khả dụng",
     "end_failed": "Kết nối thất bại",
     "end_hangup": "Đã kết thúc cuộc gọi",
-    "end_disconnected": "Mất kết nối"
+    "end_disconnected": "Mất kết nối",
+    "writeInstead": "Nhắn tin thay thế"
   }
 }

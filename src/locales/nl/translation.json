@@ -440,6 +440,7 @@
     "end_mic_error": "Microfoon niet beschikbaar",
     "end_failed": "Verbinding mislukt",
     "end_hangup": "Oproep beëindigd",
-    "end_disconnected": "Verbinding verbroken"
+    "end_disconnected": "Verbinding verbroken",
+    "writeInstead": "Stuur een bericht"
   }
 }

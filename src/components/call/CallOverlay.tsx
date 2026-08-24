@@ -1,7 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import { Phone, PhoneOff, Mic, MicOff } from 'lucide-react';
+import { Phone, PhoneOff, Mic, MicOff, MessageCircle } from 'lucide-react';
 import { useCall } from '../../hooks/useCall';
 import { callService } from '../../services/callService';
+import { useRouter } from '../../store/useRouter';
+import { chatIdForRide } from '../../utils/helpers';
 
 // Global call surface. Rendered once near the app root so an incoming call
 // shows even when the user isn't on the ride screen. Media and signaling live
@@ -9,6 +11,7 @@ import { callService } from '../../services/callService';
 export function CallOverlay() {
   const { t } = useTranslation();
   const call = useCall();
+  const navigate = useRouter((st) => st.navigate);
 
   if (call.state === 'idle') return null;
 
@@ -63,7 +66,26 @@ export function CallOverlay() {
               <Phone size={26} />
             </button>
           </>
-        ) : call.state === 'ended' ? null : (
+        ) : call.state === 'ended' ? (
+          // A call that could not find a path is not a passing glitch: two
+          // phones on mobile networks usually cannot reach each other directly,
+          // and relaying them needs a TURN server this app does not have. So
+          // rather than leaving "couldn't connect" on screen as a dead end,
+          // offer the thing that does work over the same ride.
+          call.endReason === 'failed' || call.endReason === 'disconnected' ? (
+            <button
+              onClick={() => {
+                const rideId = call.rideId;
+                callService.dismiss();
+                if (rideId) navigate('chat', { chatId: chatIdForRide(rideId) });
+              }}
+              className="flex items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-black"
+            >
+              <MessageCircle size={18} />
+              {t('call.writeInstead')}
+            </button>
+          ) : null
+        ) : (
           <>
             {(call.state === 'connected' || call.state === 'connecting') && (
               <button

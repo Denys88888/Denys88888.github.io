@@ -440,6 +440,7 @@
     "end_mic_error": "麦克风不可用",
     "end_failed": "连接失败",
     "end_hangup": "通话已结束",
-    "end_disconnected": "连接已断开"
+    "end_disconnected": "连接已断开",
+    "writeInstead": "改为发送消息"
   }
 }
