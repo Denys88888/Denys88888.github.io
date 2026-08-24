@@ -10,6 +10,11 @@ import {
   useMapEvents,
 } from 'react-leaflet';
 import L from 'leaflet';
+// Patches L with real rotation support (setBearing, and the drag/zoom/
+// projection math that goes with it). Must come after the leaflet import:
+// it augments that same instance. Opt-in per map via the `rotate` option,
+// so the passenger and driver home maps are untouched.
+import 'leaflet-rotate';
 import type { GeoPoint, HeatmapPoint } from '../../types';
 import { fetchRoute } from '../../services/mapService';
 import { haversineKm } from '../../utils/helpers';
@@ -64,12 +69,7 @@ function pin(color: string, pulse = false): L.DivIcon {
   });
 }
 
-// How far the rotated container is scaled up so its corners stay covered, and
-// how far down the screen the car should sit while navigating. Shared by
-// RotateMap and Recenter: the offset is computed in the map's own pixel space,
-// so it has to undo the same scale the rotation applies, and the two drifting
-// apart would put the car somewhere neither of them intended.
-const NAV_SCALE = 1.8;
+// How far down the screen the car sits while navigating.
 const NAV_CAR_Y = 0.72; // 0.5 = centred, 1 = bottom edge
 
 // Recenter the map imperatively when the focus point changes. `nonce` lets a
@@ -86,23 +86,27 @@ function Recenter({
   nonce,
   heading,
   navMode,
+  enabled = true,
 }: {
   center: GeoPoint;
   nonce?: number;
   heading?: number | null;
   navMode?: boolean;
+  // False while the driver is looking around the map themselves.
+  enabled?: boolean;
 }) {
   const map = useMap();
   useEffect(() => {
+    if (!enabled) return;
     const zoom = map.getZoom();
     const ll = L.latLng(center.lat, center.lng);
     if (!navMode) {
       map.setView(ll, zoom, { animate: true });
       return;
     }
-    // Screen pixels to push the car below centre, converted back into the
-    // unscaled pixel space the projection works in.
-    const ahead = ((NAV_CAR_Y - 0.5) * map.getSize().y) / NAV_SCALE;
+    // Screen pixels to push the car below centre. Rotation preserves distance,
+    // so a screen pixel is a projected pixel — no scale to undo any more.
+    const ahead = (NAV_CAR_Y - 0.5) * map.getSize().y;
     const rad = ((heading ?? 0) * Math.PI) / 180;
     const p = map.project(ll, zoom);
     // Map pixel y grows southward, so a bearing of 0 (north) is -y.
@@ -119,7 +123,7 @@ function Recenter({
     // standing still it looked fine. Each fix moves the map a few metres;
     // there is nothing here worth animating anyway.
     map.setView(shifted, zoom, { animate: false });
-  }, [center.lat, center.lng, nonce, heading, navMode, map]);
+  }, [center.lat, center.lng, nonce, heading, navMode, enabled, map]);
   return null;
 }
 
@@ -138,29 +142,45 @@ function NavZoom({ active }: { active: boolean }) {
   return null;
 }
 
-// Heading-up rotation for active navigation: spins the map so the direction
-// of travel points to the top of the screen, like Google Maps/Waze. Leaflet
-// has no native rotation, so this CSS-rotates its container — scaled up so
-// the rotated corners stay covered — while `carIcon`'s own counter-rotation
-// cancels out, keeping the car arrow pointing straight up. With heading
-// unknown or navigation inactive the transform is cleared: a plain,
-// unrotated north-up map, same as before this existed.
+// Heading-up rotation for active navigation: turns the map so the direction of
+// travel points at the top of the screen, like Google Maps and Waze.
+//
+// This used to CSS-rotate Leaflet's container and scale it up to cover the
+// corners. It looked right and was unusable: Leaflet knew nothing about the
+// transform, so a finger dragging in rotated screen space was interpreted in
+// unrotated map space — the map went the wrong way — pinch anchored on the
+// wrong point, and tiles rendered at 1.8x were soft. Panning had to be turned
+// off entirely to hide it. leaflet-rotate does the rotation inside Leaflet, so
+// drag, zoom, hit-testing and marker placement all stay correct.
+//
+// Bearing is the compass direction we want at the top, which is the heading
+// itself — not its negative; the sign flip belonged to the CSS hack.
 function RotateMap({ heading, active }: { heading: number | null; active: boolean }) {
   const map = useMap();
   useEffect(() => {
-    const el = map.getContainer();
-    if (active && heading !== null) {
-      el.style.transform = `scale(${NAV_SCALE}) rotate(${-heading}deg)`;
-      el.style.transition = 'transform .35s ease-out';
-    } else {
-      el.style.transform = '';
-      el.style.transition = '';
-    }
-    return () => {
-      el.style.transform = '';
-      el.style.transition = '';
-    };
+    // No cleanup resetting this to 0. The body already sets 0 whenever
+    // navigation is off, and on unmount Leaflet has torn its panes down first —
+    // setBearing then reads the map pane's position off undefined and takes the
+    // whole screen with it ("Cannot read properties of undefined (reading
+    // '_leaflet_pos')").
+    map.setBearing(active && heading !== null ? heading : 0);
   }, [active, heading, map]);
+  return null;
+}
+
+// Stop following the car the moment the driver moves the map themselves.
+//
+// Re-enabling drag during navigation would otherwise be pointless: a GPS fix
+// lands every second, and each one snapped the view straight back, so the map
+// twitched and refused to be looked at. Google Maps does the same — pan away
+// and it stops chasing you until you tap the locate button. `dragstart` and
+// `zoomstart` only fire for real gestures; our own setView calls do not
+// trigger them, so this cannot pause itself.
+function FollowPauser({ onUserMove }: { onUserMove: () => void }) {
+  useMapEvents({
+    dragstart: onUserMove,
+    zoomstart: onUserMove,
+  });
   return null;
 }
 
@@ -424,6 +444,13 @@ export function MapView({
   // points, where the route only says which way it ought to.
   const navHeading = heading ?? routeHeading;
 
+  // Following the car is the default; a drag or a pinch suspends it, and the
+  // "my location" button (which bumps focusNonce) turns it back on.
+  const [following, setFollowing] = useState(true);
+  useEffect(() => {
+    if (focusNonce) setFollowing(true);
+  }, [focusNonce]);
+
   return (
     // `isolate`: Leaflet numbers its own panes up to 1000, and nothing between
     // them and <body> made a stacking context — so a fixed overlay elsewhere in
@@ -445,7 +472,13 @@ export function MapView({
         zoom={14}
         zoomControl={false}
         attributionControl={false}
-        dragging={!navMode}
+        // Rotation is real now, so dragging no longer lies about which way the
+        // finger went and there is nothing to hide by disabling it. A driver
+        // who wants to look up the road ahead can.
+        dragging
+        rotate
+        rotateControl={false}
+        touchRotate={false}
         style={{ height: '100%', width: '100%' }}
       >
         <TileLayer
@@ -455,11 +488,13 @@ export function MapView({
         <SizeInvalidator />
         <NavZoom active={navMode} />
         <RotateMap heading={navHeading} active={navMode} />
+        <FollowPauser onUserMove={() => setFollowing(false)} />
         <Recenter
           center={focus ?? driver ?? pickup ?? center}
           nonce={focusNonce}
           heading={navHeading}
           navMode={navMode && !!driver}
+          enabled={following}
         />
         {onMapClick && <ClickCapture onClick={onMapClick} />}
         {pickup && <Marker position={[pickup.lat, pickup.lng]} icon={pin('#2979FF', true)} />}
