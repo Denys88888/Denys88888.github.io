@@ -38,14 +38,22 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     needs: build-test
-    # E2E runs UI against a local dev server pointed at PROD backend,
-    # and API tests directly against the production API.
-    # The backend repo is a separate repository — we don't clone it here.
-    env:
-      E2E_BASE_URL: http://localhost:5199
-      E2E_API_URL: https://taxi-pro-server.onrender.com
-      VITE_API_URL: https://taxi-pro-server.onrender.com
-      VITE_WS_URL: wss://taxi-pro-server.onrender.com
+    # No env pointing at production, and no servers started here. The suite
+    # brings up its own backend (in-memory SQLite, sandbox Pi, three seconds)
+    # and its own dev server pointed at it — see e2e/playwright.config.ts.
+    #
+    # Aiming it at the deployed API cost this job its meaning twice over. The
+    # free Render instance hibernates, so the first test back wore a 502 and
+    # reported it as an auth failure; the Cloudflare edge in front of it reads
+    # a burst of logins from one address as a bot and answers with a challenge
+    # page, on a runner as readily as on a laptop. Every run also wrote real
+    # rides into the production store — and those piled up: once the server
+    # started refusing a new ride to a passenger with an unpaid one, the
+    # leftovers from previous runs blocked the suite outright.
+    #
+    # Starting a dev server here was worse than redundant: playwright reuses a
+    # server already on the port, so its own correctly-configured one never
+    # started and the app under test talked to production regardless.
     steps:
       - uses: actions/checkout@v4
 
@@ -60,45 +68,7 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Wake production backend
-        id: backend
-        # Render free tier spins the instance down after 15 idle minutes, so the
-        # first request pays a ~50s cold start. These tests drive the real API;
-        # there is nothing to test until it answers.
-        run: |
-          set -uo pipefail
-          body=$(mktemp)
-          for i in 1 2 3 4 5 6; do
-            code=$(curl -s -o "$body" -w '%{http_code}' --max-time 60 \
-              https://taxi-pro-server.onrender.com/api/health) || code=000
-            echo "attempt $i: HTTP $code"
-            [ "$code" = "200" ] && echo "suspended=false" >> "$GITHUB_OUTPUT" && exit 0
-            # A suspended service will not wake up no matter how long we wait —
-            # it stays down until the next billing period. Waiting out the retry
-            # loop and then failing the E2E run mails a red build on every push
-            # for something no code change can fix, which is how people learn to
-            # ignore CI. Skip the suite and say plainly why.
-            if grep -qi 'service has been suspended' "$body"; then
-              echo "suspended=true" >> "$GITHUB_OUTPUT"
-              echo "::warning title=E2E skipped::Backend is suspended on Render (free instance hours exhausted). E2E needs the live API — skipping, not failing."
-              exit 0
-            fi
-            sleep 15
-          done
-          echo "suspended=false" >> "$GITHUB_OUTPUT"
-          echo "::error title=Backend unreachable::/api/health never answered 200 (last HTTP $code) — E2E cannot run."
-          exit 1
-
-      - name: Start frontend dev server
-        if: steps.backend.outputs.suspended != 'true'
-        run: npm run dev &
-
-      - name: Wait for frontend
-        if: steps.backend.outputs.suspended != 'true'
-        run: npx wait-on http://localhost:5199 --timeout 60000
-
       - name: Run E2E tests
-        if: steps.backend.outputs.suspended != 'true'
         run: npx playwright test --config e2e/playwright.config.ts
 
       - name: Upload Playwright report
