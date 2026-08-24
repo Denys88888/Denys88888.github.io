@@ -109,6 +109,12 @@ export const api = {
     client.post<Ride>(`/api/rides/${rideId}/offers`, { amount, etaMin }).then((r) => r.data),
   acceptOffer: (rideId: string, driverId: string) =>
     client.post<Ride>(`/api/rides/${rideId}/offers/accept`, { driverId }).then((r) => r.data),
+  // The driver moving their own ride along. Over HTTP, not the socket: a socket
+  // write cannot tell you it arrived, and a half-open connection swallows it
+  // silently while the app happily advances its own screen. Safe to retry — the
+  // server treats asking for a state the ride already reached as success.
+  setRideStatus: (rideId: string, status: 'arrived' | 'in_progress' | 'completed') =>
+    client.post<Ride>(`/api/rides/${rideId}/status`, { status }).then((r) => r.data),
   listRides: (params?: { status?: RideStatus; page?: number; limit?: number }) =>
     client.get<PaginatedRides>('/api/rides', { params }).then((r) => r.data),
   getRide: (id: string) => client.get<Ride>(`/api/rides/${id}`).then((r) => r.data),

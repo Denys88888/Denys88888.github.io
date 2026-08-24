@@ -90,6 +90,7 @@ export function RideDetailsScreen() {
   const [etaSeconds, setEtaSeconds] = useState<number | null>(null);
   const [showNav, setShowNav] = useState(params.nav === '1');
   const [tipBusy, setTipBusy] = useState(false);
+  const [stepBusy, setStepBusy] = useState(false);
   const [tipCustom, setTipCustom] = useState('');
   // Prepared up front for the same reason the fare is (see usePayments): asking
   // our server for the payment record inside the tap handler burns the tap's
@@ -695,23 +696,39 @@ export function RideDetailsScreen() {
 
         <RideProgressSteps status={ride.status} />
 
-        {/* Driver: toggle turn-by-turn navigation while the ride is active. */}
         {/* Driver ride progression: assigned → arrived → in_progress → completed.
-            The server broadcasts the status change back, which refetches the ride
-            and advances this button to the next step. */}
+            Over HTTP, and the screen advances on the server's answer — never on
+            its own. This used to be a WebSocket frame, which cannot report
+            anything: on a half-open connection (routine on mobile, and
+            invisible, because readyState still reads OPEN) the frame went
+            nowhere while the driver's screen moved on regardless. Reload
+            mid-trip and navigation guided back to the passenger, because the
+            server still had the ride at 'arrived'; a lost 'completed' left a
+            fare unsettled. Retrying is safe — the server treats asking for a
+            state the ride already reached as success. */}
         {isDriver && ['assigned', 'arrived', 'in_progress'].includes(ride.status) && (
           <Button
             fullWidth
-            onClick={() =>
-              wsService.send(
+            loading={stepBusy}
+            disabled={stepBusy}
+            onClick={async () => {
+              const next =
                 ride.status === 'assigned'
-                  ? 'ride_arrived'
+                  ? 'arrived'
                   : ride.status === 'arrived'
-                    ? 'ride_started'
-                    : 'ride_completed',
-                { rideId: ride.id }
-              )
-            }
+                    ? 'in_progress'
+                    : 'completed';
+              setStepBusy(true);
+              try {
+                setRide(await api.setRideStatus(ride.id, next));
+              } catch (err) {
+                // The step did NOT happen. Saying so is the whole point: the
+                // driver can press again, and pressing again is safe.
+                addToast('error', t(apiErrorKey(err)));
+              } finally {
+                setStepBusy(false);
+              }
+            }}
           >
             {ride.status === 'assigned'
               ? t('driver.arrived')
