@@ -244,7 +244,8 @@
     "ridesCount": "行程",
     "rideTaken": "该行程已被其他司机接受",
     "notVerified": "您的司机账户正在审核中",
-    "autoOffline": "您已被设为离线 — GPS 信号丢失"
+    "autoOffline": "您已被设为离线 — GPS 信号丢失",
+    "completeConfirm": "结束行程并向乘客收费？此操作无法撤销。"
   },
   "earnings": {
     "title": "收入",

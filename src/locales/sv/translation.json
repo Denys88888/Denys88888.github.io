@@ -244,7 +244,8 @@
     "ridesCount": "Resor",
     "rideTaken": "Resan är redan tagen av en annan chaufför",
     "notVerified": "Ditt förarkonto granskas",
-    "autoOffline": "Du sattes offline — GPS-signalen tappades"
+    "autoOffline": "Du sattes offline — GPS-signalen tappades",
+    "completeConfirm": "Avsluta resan och debitera passageraren? Det går inte att ångra."
   },
   "earnings": {
     "title": "Intäkter",

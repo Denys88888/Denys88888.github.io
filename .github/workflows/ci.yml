@@ -57,6 +57,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # The backend is a separate repository, and the suite needs it on disk to
+      # start its own API. Without it e2e/helpers/env.ts finds no checkout and
+      # falls back to the deployed API — which is the thing being got away from,
+      # and is why dropping E2E_API_URL alone changed nothing. Public repo, so
+      # no credentials are involved.
+      - uses: actions/checkout@v4
+        with:
+          repository: Denys88888/taxi-pro-server
+          path: taxi-pro-server
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -64,6 +74,10 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Install backend dependencies
+        run: npm ci
+        working-directory: taxi-pro-server
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium

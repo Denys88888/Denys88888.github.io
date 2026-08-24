@@ -71,6 +71,7 @@ export function RideDetailsScreen() {
   const unreadCount = ride ? (unreadByChat[chatIdForRide(ride.id)] ?? 0) : 0;
   const [driverPos, setDriverPos] = useState<GeoPoint | null>(null);
   const [showCancel, setShowCancel] = useState(false);
+  const [confirmFinish, setConfirmFinish] = useState(false);
   // Ticks every second only while the cancel dialog is open, so the free-
   // cancellation countdown updates live without re-rendering the whole screen
   // once a second the rest of the time.
@@ -533,6 +534,21 @@ export function RideDetailsScreen() {
   // announced "0 m — start driving" as though the driver had already arrived,
   // while the ETA bar, which has no such fallback, sat on "building route…"
   // forever underneath it.
+  // One place for all three steps, so the confirmed finish and the direct taps
+  // cannot drift apart in how they handle a failure.
+  const advanceRide = async (next: 'arrived' | 'in_progress' | 'completed'): Promise<void> => {
+    setStepBusy(true);
+    try {
+      setRide(await api.setRideStatus(ride!.id, next));
+    } catch (err) {
+      // The step did NOT happen. Saying so is the whole point: the driver can
+      // press again, and pressing again is safe.
+      addToast('error', t(apiErrorKey(err)));
+    } finally {
+      setStepBusy(false);
+    }
+  };
+
   const navActive = showNav && isDriver && !!liveDriverPos;
   // The driver's app sends a fix every 5s, so nothing for half a minute
   // means the phone is asleep, backgrounded or out of signal — not that
@@ -736,23 +752,18 @@ export function RideDetailsScreen() {
             fullWidth
             loading={stepBusy}
             disabled={stepBusy}
-            onClick={async () => {
-              const next =
-                ride.status === 'assigned'
-                  ? 'arrived'
-                  : ride.status === 'arrived'
-                    ? 'in_progress'
-                    : 'completed';
-              setStepBusy(true);
-              try {
-                setRide(await api.setRideStatus(ride.id, next));
-              } catch (err) {
-                // The step did NOT happen. Saying so is the whole point: the
-                // driver can press again, and pressing again is safe.
-                addToast('error', t(apiErrorKey(err)));
-              } finally {
-                setStepBusy(false);
+            onClick={() => {
+              // Finishing is the one step that cannot be walked back: it ends
+              // the ride and bills the passenger, and it is a full-width button
+              // directly under the map — a thumb resting there while the screen
+              // re-renders is enough. The owner's road test ended with a ride
+              // marked finished before anyone had arrived. Arriving and starting
+              // stay one tap; they are frequent and recoverable.
+              if (ride.status === 'in_progress') {
+                setConfirmFinish(true);
+                return;
               }
+              void advanceRide(ride.status === 'assigned' ? 'arrived' : 'in_progress');
             }}
           >
             {ride.status === 'assigned'
@@ -1106,6 +1117,20 @@ export function RideDetailsScreen() {
           </Button>
         )}
       </div>
+
+      <Modal
+        open={confirmFinish}
+        title={t('driver.completeRide')}
+        onClose={() => setConfirmFinish(false)}
+        onConfirm={() => {
+          setConfirmFinish(false);
+          void advanceRide('completed');
+        }}
+        confirmLabel={t('driver.completeRide')}
+        cancelLabel={t('common.back')}
+      >
+        <p>{t('driver.completeConfirm')}</p>
+      </Modal>
 
       <Modal
         open={showCancel}

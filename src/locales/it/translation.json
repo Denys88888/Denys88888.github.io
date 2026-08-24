@@ -244,7 +244,8 @@
     "ridesCount": "Corse",
     "rideTaken": "Corsa già accettata da un altro autista",
     "notVerified": "Il tuo account autista è in revisione",
-    "autoOffline": "Impostato offline — segnale GPS perso"
+    "autoOffline": "Impostato offline — segnale GPS perso",
+    "completeConfirm": "Terminare la corsa e addebitare il passeggero? Non è reversibile."
   },
   "earnings": {
     "title": "Guadagni",

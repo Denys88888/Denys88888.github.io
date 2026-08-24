@@ -244,7 +244,8 @@
     "ridesCount": "Chuyến",
     "rideTaken": "Chuyến đi đã được tài xế khác nhận",
     "notVerified": "Tài khoản tài xế của bạn đang được xem xét",
-    "autoOffline": "Bạn đã bị chuyển sang ngoại tuyến — mất tín hiệu GPS"
+    "autoOffline": "Bạn đã bị chuyển sang ngoại tuyến — mất tín hiệu GPS",
+    "completeConfirm": "Kết thúc chuyến và thu tiền hành khách? Không thể hoàn tác."
   },
   "earnings": {
     "title": "Thu nhập",

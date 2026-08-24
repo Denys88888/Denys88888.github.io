@@ -244,7 +244,8 @@
     "ridesCount": "Corridas",
     "rideTaken": "Corrida já aceita por outro motorista",
     "notVerified": "Sua conta de motorista está em análise",
-    "autoOffline": "Você ficou offline — sinal de GPS perdido"
+    "autoOffline": "Você ficou offline — sinal de GPS perdido",
+    "completeConfirm": "Terminar a viagem e cobrar o passageiro? Não pode ser desfeito."
   },
   "earnings": {
     "title": "Ganhos",

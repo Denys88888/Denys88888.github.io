@@ -244,7 +244,8 @@
     "ridesCount": "Ritten",
     "rideTaken": "Rit al geaccepteerd door een andere chauffeur",
     "notVerified": "Uw chauffeurskonto wordt beoordeeld",
-    "autoOffline": "Je bent offline gezet — GPS-signaal verloren"
+    "autoOffline": "Je bent offline gezet — GPS-signaal verloren",
+    "completeConfirm": "Rit beëindigen en de passagier belasten? Dit kan niet ongedaan worden gemaakt."
   },
   "earnings": {
     "title": "Inkomsten",

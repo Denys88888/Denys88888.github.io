@@ -244,7 +244,8 @@
     "ridesCount": "Viajes",
     "rideTaken": "El viaje ya fue aceptado por otro conductor",
     "notVerified": "Tu cuenta de conductor está en revisión",
-    "autoOffline": "Te desconectamos — señal GPS perdida"
+    "autoOffline": "Te desconectamos — señal GPS perdida",
+    "completeConfirm": "¿Terminar el viaje y cobrar al pasajero? No se puede deshacer."
   },
   "earnings": {
     "title": "Ganancias",

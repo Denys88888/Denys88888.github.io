@@ -244,7 +244,8 @@
     "ridesCount": "탑승",
     "rideTaken": "이미 다른 드라이버가 수락했습니다",
     "notVerified": "드라이버 계정이 검토 중입니다",
-    "autoOffline": "오프라인으로 전환되었습니다 — GPS 신호를 잃었습니다"
+    "autoOffline": "오프라인으로 전환되었습니다 — GPS 신호를 잃었습니다",
+    "completeConfirm": "운행을 종료하고 요금을 청구할까요? 되돌릴 수 없습니다."
   },
   "earnings": {
     "title": "수입",

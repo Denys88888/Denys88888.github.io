@@ -244,7 +244,8 @@
     "ridesCount": "Przejazdy",
     "rideTaken": "Kurs już przyjęty przez innego kierowcę",
     "notVerified": "Twoje konto kierowcy jest weryfikowane",
-    "autoOffline": "Ustawiono offline — utracono sygnał GPS"
+    "autoOffline": "Ustawiono offline — utracono sygnał GPS",
+    "completeConfirm": "Zakończyć przejazd i pobrać opłatę od pasażera? Tego nie da się cofnąć."
   },
   "earnings": {
     "title": "Zarobki",

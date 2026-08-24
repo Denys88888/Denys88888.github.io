@@ -244,7 +244,8 @@
     "ridesCount": "Rides",
     "rideTaken": "Ride already taken by another driver",
     "notVerified": "Your driver account is under review",
-    "autoOffline": "You were set offline — GPS signal lost"
+    "autoOffline": "You were set offline — GPS signal lost",
+    "completeConfirm": "End the ride and charge the passenger? This cannot be undone."
   },
   "earnings": {
     "title": "Earnings",

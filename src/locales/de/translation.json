@@ -244,7 +244,8 @@
     "ridesCount": "Fahrten",
     "rideTaken": "Fahrt bereits von einem anderen Fahrer angenommen",
     "notVerified": "Fahrerkonto wird noch geprüft",
-    "autoOffline": "Offline gesetzt — GPS-Signal verloren"
+    "autoOffline": "Offline gesetzt — GPS-Signal verloren",
+    "completeConfirm": "Fahrt beenden und dem Fahrgast berechnen? Das lässt sich nicht rückgängig machen."
   },
   "earnings": {
     "title": "Einnahmen",

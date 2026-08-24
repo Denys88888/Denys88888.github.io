@@ -244,7 +244,8 @@
     "ridesCount": "乗車数",
     "rideTaken": "すでに別のドライバーが承認しました",
     "notVerified": "ドライバーアカウントは審査中です",
-    "autoOffline": "オフラインになりました — GPS信号を失いました"
+    "autoOffline": "オフラインになりました — GPS信号を失いました",
+    "completeConfirm": "乗車を終了して料金を請求しますか？取り消せません。"
   },
   "earnings": {
     "title": "収益",

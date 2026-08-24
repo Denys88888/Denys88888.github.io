@@ -244,7 +244,8 @@
     "ridesCount": "Yolculuklar",
     "rideTaken": "Yolculuk başka bir sürücü tarafından alındı",
     "notVerified": "Sürücü hesabınız inceleniyor",
-    "autoOffline": "Çevrimdışı yapıldınız — GPS sinyali kayboldu"
+    "autoOffline": "Çevrimdışı yapıldınız — GPS sinyali kayboldu",
+    "completeConfirm": "Yolculuğu bitirip yolcudan ücret alınsın mı? Geri alınamaz."
   },
   "earnings": {
     "title": "Kazanç",
