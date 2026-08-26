@@ -34,6 +34,10 @@ jobs:
           # sandbox:true is only for debugging OUTSIDE the Pi Browser — inside
           # the real Pi Browser it makes Pi.authenticate hang. Must be false.
           VITE_PI_SANDBOX: 'false'
+          # Not a secret — a DSN is a write-only ingest endpoint. It ships
+          # inside this very bundle either way, so there is nothing gained by
+          # routing it through a repo secret instead of writing it here.
+          VITE_SENTRY_DSN: https://fc980bca01397d3b57bee1728ad69bf8@o4511702917644288.ingest.de.sentry.io/4511978292576336
         run: |
           npm ci
           npm run build
