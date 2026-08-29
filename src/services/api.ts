@@ -279,6 +279,14 @@ export const api = {
       .then((r) => r.data.reports),
   adminResolveReport: (id: string, status: 'resolved' | 'dismissed') =>
     client.patch<Report>(`/api/admin/reports/${id}`, { status }).then((r) => r.data),
+
+  // ── Calls ──
+  // Empty array (not an error) when the server has no TURN relay configured —
+  // the caller just falls back to STUN-only ICE servers.
+  turnCredentials: () =>
+    client
+      .get<{ iceServers: RTCIceServer[] }>('/api/calls/turn-credentials')
+      .then((r) => r.data.iceServers),
 };
 
 export type AdminDriver = User & { applicationStatus: 'pending' | 'approved' | 'rejected' };

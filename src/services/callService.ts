@@ -1,6 +1,7 @@
 import { wsService } from './wsService';
 import { startRingtone, stopRingtone } from './notificationService';
 import { logger } from '../utils/logger';
+import { api } from './api';
 
 // ---------------------------------------------------------------------------
 // In-app voice calls over WebRTC.
@@ -35,24 +36,19 @@ export interface CallSnapshot {
 }
 
 // Multiple independent STUN providers: if one is slow/blocked on a given carrier
-// network, the others still let both sides discover a public NAT mapping. (The
-// once-common free public TURN relays — Open Relay Project's openrelayproject
-// demo, freestun.net, numb.viagenie.ca, turn.bistri.com — were probed directly
-// with raw STUN binding requests while building this and none responded on any
-// port; they're dead. A working TURN relay needs either a provider account
-// [Metered, ExpressTURN, Twilio, Cloudflare Realtime] or a self-hosted coturn on
-// a VPS with a public UDP port range — both are infra/cost decisions, not
-// something to wire in silently.) iceCandidatePoolSize pre-gathers candidates so
-// the path is ready as soon as the offer/answer exchange lands.
-const ICE_SERVERS: RTCConfiguration = {
-  iceServers: [
-    { urls: 'stun:stun.l.google.com:19302' },
-    { urls: 'stun:stun1.l.google.com:19302' },
-    { urls: 'stun:stun.cloudflare.com:3478' },
-    { urls: 'stun:stun.nextcloud.com:3478' },
-  ],
-  iceCandidatePoolSize: 4,
-};
+// network, the others still let both sides discover a public NAT mapping. STUN
+// alone fails whenever both phones sit behind symmetric NAT (common crossing
+// two different mobile carriers) — that's what the TURN relay fetched in
+// setupPeer() is for; these four are the always-available fallback so a call
+// can still connect (peer-to-peer) if the relay is unreachable or unconfigured.
+// iceCandidatePoolSize pre-gathers candidates so the path is ready as soon as
+// the offer/answer exchange lands.
+const ICE_SERVERS: RTCIceServer[] = [
+  { urls: 'stun:stun.l.google.com:19302' },
+  { urls: 'stun:stun1.l.google.com:19302' },
+  { urls: 'stun:stun.cloudflare.com:3478' },
+  { urls: 'stun:stun.nextcloud.com:3478' },
+];
 
 // Nudge Opus toward voice-call quality: in-band FEC recovers lost packets
 // (smoother audio on a lossy mobile link) and a raised average bitrate lifts it
@@ -78,6 +74,19 @@ function tuneOpus(sdp: string): string {
   }
   // No fmtp line for Opus — add one right after its rtpmap.
   return sdp.replace(rtpmap[0], `${rtpmap[0]}\r\na=fmtp:${pt} ${params}`);
+}
+
+// A slow/unreachable TURN relay must never stall call setup — timeboxed, and
+// any failure just falls back to STUN-only (peer-to-peer, works unless both
+// sides are behind symmetric NAT, which is the exact case TURN exists for).
+async function fetchTurnServers(): Promise<RTCIceServer[]> {
+  try {
+    const timeout = new Promise<RTCIceServer[]>((resolve) => setTimeout(() => resolve([]), 2500));
+    return await Promise.race([api.turnCredentials(), timeout]);
+  } catch (err) {
+    logger.warn('[call] fetchTurnServers failed, continuing STUN-only', (err as Error).message);
+    return [];
+  }
 }
 
 type Sub = (snap: CallSnapshot) => void;
@@ -247,6 +256,11 @@ class CallService {
   }
 
   private async setupPeer(rideId: string): Promise<void> {
+    // Kicked off before the mic prompt (not awaited yet) so the network round
+    // trip overlaps with the user granting mic permission instead of adding to
+    // call-setup latency on top of it.
+    const turnServersPromise = fetchTurnServers();
+
     // getUserMedia must succeed before we advertise a call; a mic failure here
     // is what we told the user could happen if Pi Browser denies the mic.
     //
@@ -266,7 +280,8 @@ class CallService {
     });
     this.snap.muted = false;
 
-    const pc = new RTCPeerConnection(ICE_SERVERS);
+    const iceServers = [...ICE_SERVERS, ...(await turnServersPromise)];
+    const pc = new RTCPeerConnection({ iceServers, iceCandidatePoolSize: 4 });
     this.pc = pc;
 
     for (const track of this.localStream.getTracks()) {
