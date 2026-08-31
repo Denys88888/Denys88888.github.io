@@ -79,10 +79,10 @@ function tuneOpus(sdp: string): string {
 // A slow/unreachable TURN relay must never stall call setup — timeboxed, and
 // any failure just falls back to STUN-only (peer-to-peer, works unless both
 // sides are behind symmetric NAT, which is the exact case TURN exists for).
-async function fetchTurnServers(): Promise<RTCIceServer[]> {
+async function fetchTurnServers(rideId: string): Promise<RTCIceServer[]> {
   try {
     const timeout = new Promise<RTCIceServer[]>((resolve) => setTimeout(() => resolve([]), 2500));
-    return await Promise.race([api.turnCredentials(), timeout]);
+    return await Promise.race([api.turnCredentials(rideId), timeout]);
   } catch (err) {
     logger.warn('[call] fetchTurnServers failed, continuing STUN-only', (err as Error).message);
     return [];
@@ -259,7 +259,7 @@ class CallService {
     // Kicked off before the mic prompt (not awaited yet) so the network round
     // trip overlaps with the user granting mic permission instead of adding to
     // call-setup latency on top of it.
-    const turnServersPromise = fetchTurnServers();
+    const turnServersPromise = fetchTurnServers(rideId);
 
     // getUserMedia must succeed before we advertise a call; a mic failure here
     // is what we told the user could happen if Pi Browser denies the mic.

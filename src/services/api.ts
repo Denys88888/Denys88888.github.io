@@ -283,9 +283,9 @@ export const api = {
   // ── Calls ──
   // Empty array (not an error) when the server has no TURN relay configured —
   // the caller just falls back to STUN-only ICE servers.
-  turnCredentials: () =>
+  turnCredentials: (rideId: string) =>
     client
-      .get<{ iceServers: RTCIceServer[] }>('/api/calls/turn-credentials')
+      .get<{ iceServers: RTCIceServer[] }>('/api/calls/turn-credentials', { params: { rideId } })
       .then((r) => r.data.iceServers),
 };
 
