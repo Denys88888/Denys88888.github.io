@@ -442,5 +442,14 @@
     "end_hangup": "Appel terminé",
     "end_disconnected": "Déconnecté",
     "writeInstead": "Écrire un message"
+  },
+  "share": {
+    "watchingLabel": "Suivi d'un trajet",
+    "live": "En direct",
+    "expiredTitle": "Ce lien n'est plus valide",
+    "expiredHint": "Le trajet est peut-être terminé, ou un lien plus récent a été partagé.",
+    "finished": "Le trajet est terminé.",
+    "noCarDetails": "Détails du véhicule indisponibles",
+    "destination": "Destination"
   }
 }

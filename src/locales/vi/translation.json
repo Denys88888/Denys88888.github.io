@@ -442,5 +442,14 @@
     "end_hangup": "Đã kết thúc cuộc gọi",
     "end_disconnected": "Mất kết nối",
     "writeInstead": "Nhắn tin thay thế"
+  },
+  "share": {
+    "watchingLabel": "Đang theo dõi chuyến đi",
+    "live": "Trực tiếp",
+    "expiredTitle": "Liên kết này không còn hiệu lực",
+    "expiredHint": "Chuyến đi có thể đã kết thúc, hoặc một liên kết mới đã được chia sẻ.",
+    "finished": "Chuyến đi đã kết thúc.",
+    "noCarDetails": "Không có thông tin xe",
+    "destination": "Điểm đến"
   }
 }

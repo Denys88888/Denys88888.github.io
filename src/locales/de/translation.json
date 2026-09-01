@@ -442,5 +442,14 @@
     "end_hangup": "Anruf beendet",
     "end_disconnected": "Verbindung getrennt",
     "writeInstead": "Stattdessen schreiben"
+  },
+  "share": {
+    "watchingLabel": "Fahrt verfolgen",
+    "live": "Live",
+    "expiredTitle": "Dieser Link ist nicht mehr gültig",
+    "expiredHint": "Die Fahrt ist möglicherweise beendet oder es wurde ein neuerer Link geteilt.",
+    "finished": "Die Fahrt ist beendet.",
+    "noCarDetails": "Fahrzeugdaten nicht verfügbar",
+    "destination": "Ziel"
   }
 }

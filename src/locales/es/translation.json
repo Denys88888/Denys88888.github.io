@@ -442,5 +442,14 @@
     "end_hangup": "Llamada finalizada",
     "end_disconnected": "Desconectado",
     "writeInstead": "Escribir un mensaje"
+  },
+  "share": {
+    "watchingLabel": "Siguiendo un viaje",
+    "live": "En vivo",
+    "expiredTitle": "Este enlace ya no es válido",
+    "expiredHint": "Puede que el viaje haya terminado o que se haya compartido un enlace más reciente.",
+    "finished": "El viaje ha terminado.",
+    "noCarDetails": "Datos del vehículo no disponibles",
+    "destination": "Destino"
   }
 }

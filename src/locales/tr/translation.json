@@ -442,5 +442,14 @@
     "end_hangup": "Arama sona erdi",
     "end_disconnected": "Bağlantı kesildi",
     "writeInstead": "Bunun yerine mesaj yaz"
+  },
+  "share": {
+    "watchingLabel": "Yolculuk takibi",
+    "live": "Canlı",
+    "expiredTitle": "Bu bağlantı artık geçerli değil",
+    "expiredHint": "Yolculuk sona ermiş ya da daha yeni bir bağlantı paylaşılmış olabilir.",
+    "finished": "Yolculuk sona erdi.",
+    "noCarDetails": "Araç bilgileri mevcut değil",
+    "destination": "Varış noktası"
   }
 }

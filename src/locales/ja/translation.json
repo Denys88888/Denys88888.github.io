@@ -442,5 +442,14 @@
     "end_hangup": "通話終了",
     "end_disconnected": "切断されました",
     "writeInstead": "メッセージを送る"
+  },
+  "share": {
+    "watchingLabel": "乗車を見守り中",
+    "live": "リアルタイム",
+    "expiredTitle": "このリンクは無効になりました",
+    "expiredHint": "乗車が終了したか、新しいリンクが共有された可能性があります。",
+    "finished": "乗車が終了しました。",
+    "noCarDetails": "車両情報を取得できません",
+    "destination": "目的地"
   }
 }

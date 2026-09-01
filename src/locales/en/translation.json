@@ -442,5 +442,14 @@
     "end_hangup": "Call ended",
     "end_disconnected": "Disconnected",
     "writeInstead": "Write a message instead"
+  },
+  "share": {
+    "watchingLabel": "Following a trip",
+    "live": "Live",
+    "expiredTitle": "This link is no longer valid",
+    "expiredHint": "The trip may have ended, or a newer link was shared.",
+    "finished": "The trip has ended.",
+    "noCarDetails": "Car details unavailable",
+    "destination": "Destination"
   }
 }

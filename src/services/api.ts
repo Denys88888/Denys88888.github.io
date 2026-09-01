@@ -13,6 +13,7 @@ import type {
   ChatMessage,
   HealthInfo,
   SavedAddress,
+  SharedRide,
   SurgeInfo,
   HeatmapPoint,
   Report,
@@ -279,6 +280,13 @@ export const api = {
       .then((r) => r.data.reports),
   adminResolveReport: (id: string, status: 'resolved' | 'dismissed') =>
     client.patch<Report>(`/api/admin/reports/${id}`, { status }).then((r) => r.data),
+
+  // ── Shared ride (public) ──
+  // No auth: whoever opens the link is not a user of this app. The interceptor
+  // above still attaches a token when one happens to exist, which the server
+  // ignores for this route.
+  sharedRide: (token: string) =>
+    client.get<SharedRide>(`/api/rides/shared/${encodeURIComponent(token)}`).then((r) => r.data),
 
   // ── Calls ──
   // Empty array (not an error) when the server has no TURN relay configured —

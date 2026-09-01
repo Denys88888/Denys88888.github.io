@@ -215,3 +215,26 @@ export interface Report {
   resolvedBy?: string;
   createdAt: string;
 }
+
+// What a share link exposes. Deliberately not a subset of `Ride` — it is its
+// own shape so that adding a field to Ride can never quietly widen what gets
+// handed to whoever the link was forwarded to. No fare, no payment state, no
+// passenger identity, no phone numbers on either side.
+export interface SharedRide {
+  status: RideStatus;
+  finished: boolean;
+  pickup: GeoPoint;
+  destination: GeoPoint;
+  distanceKm: number;
+  estimatedDurationMin: number;
+  driver: {
+    name: string;
+    rating: number;
+    brand?: string;
+    model?: string;
+    color?: string;
+    number?: string;
+  } | null;
+  driverLocation: GeoPoint | null;
+  updatedAt: string;
+}

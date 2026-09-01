@@ -23,6 +23,7 @@ import { DriverRegistrationScreen } from './screens/DriverRegistrationScreen';
 import { EarningsScreen } from './screens/EarningsScreen';
 import { AdminDashboardScreen } from './screens/AdminDashboardScreen';
 import { OnboardingScreen, hasSeenOnboarding } from './screens/OnboardingScreen';
+import { SharedRideScreen } from './screens/SharedRideScreen';
 import type { ScreenName } from './store/useRouter';
 
 const SCREENS: Record<ScreenName, () => JSX.Element | null> = {
@@ -77,6 +78,12 @@ function Shell() {
   );
 }
 
+// A share link points at the app's own URL with ?share=<token>. Read once, at
+// module load: this decides which application the visitor is looking at, and it
+// must not depend on auth state, onboarding, or the splash timer — the person
+// following the link has no account here and nothing to log into.
+const SHARE_TOKEN = new URLSearchParams(window.location.search).get('share');
+
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(!hasSeenOnboarding());
@@ -85,6 +92,20 @@ export default function App() {
     const timer = setTimeout(() => setShowSplash(false), 2000);
     return () => clearTimeout(timer);
   }, []);
+
+  // Short-circuits everything below: no AuthProvider, no ride state, no splash.
+  if (SHARE_TOKEN) {
+    return (
+      <ThemeProvider>
+        <ErrorBoundary>
+          <div className="safe-top mx-auto h-full max-w-md">
+            <SharedRideScreen token={SHARE_TOKEN} />
+          </div>
+          <ToastContainer />
+        </ErrorBoundary>
+      </ThemeProvider>
+    );
+  }
 
   return (
     <ThemeProvider>

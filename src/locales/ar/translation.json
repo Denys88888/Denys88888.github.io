@@ -442,5 +442,14 @@
     "end_hangup": "انتهت المكالمة",
     "end_disconnected": "انقطع الاتصال",
     "writeInstead": "أرسل رسالة بدلاً من ذلك"
+  },
+  "share": {
+    "watchingLabel": "متابعة رحلة",
+    "live": "مباشر",
+    "expiredTitle": "لم يعد هذا الرابط صالحًا",
+    "expiredHint": "ربما انتهت الرحلة، أو تمت مشاركة رابط أحدث.",
+    "finished": "انتهت الرحلة.",
+    "noCarDetails": "تفاصيل المركبة غير متوفرة",
+    "destination": "الوجهة"
   }
 }

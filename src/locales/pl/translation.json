@@ -442,5 +442,14 @@
     "end_hangup": "Połączenie zakończone",
     "end_disconnected": "Rozłączono",
     "writeInstead": "Napisz wiadomość"
+  },
+  "share": {
+    "watchingLabel": "Śledzenie przejazdu",
+    "live": "Na żywo",
+    "expiredTitle": "Ten link jest już nieaktywny",
+    "expiredHint": "Przejazd mógł się zakończyć lub udostępniono nowszy link.",
+    "finished": "Przejazd zakończony.",
+    "noCarDetails": "Brak danych o pojeździe",
+    "destination": "Cel podróży"
   }
 }

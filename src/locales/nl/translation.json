@@ -442,5 +442,14 @@
     "end_hangup": "Oproep beëindigd",
     "end_disconnected": "Verbinding verbroken",
     "writeInstead": "Stuur een bericht"
+  },
+  "share": {
+    "watchingLabel": "Een rit volgen",
+    "live": "Live",
+    "expiredTitle": "Deze link is niet meer geldig",
+    "expiredHint": "De rit is mogelijk beëindigd, of er is een nieuwere link gedeeld.",
+    "finished": "De rit is beëindigd.",
+    "noCarDetails": "Voertuiggegevens niet beschikbaar",
+    "destination": "Bestemming"
   }
 }

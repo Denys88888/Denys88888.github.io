@@ -442,5 +442,14 @@
     "end_hangup": "Panggilan berakhir",
     "end_disconnected": "Terputus",
     "writeInstead": "Kirim pesan saja"
+  },
+  "share": {
+    "watchingLabel": "Memantau perjalanan",
+    "live": "Langsung",
+    "expiredTitle": "Tautan ini sudah tidak berlaku",
+    "expiredHint": "Perjalanan mungkin sudah selesai, atau tautan baru telah dibagikan.",
+    "finished": "Perjalanan telah selesai.",
+    "noCarDetails": "Detail kendaraan tidak tersedia",
+    "destination": "Tujuan"
   }
 }

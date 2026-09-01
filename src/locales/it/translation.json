@@ -442,5 +442,14 @@
     "end_hangup": "Chiamata terminata",
     "end_disconnected": "Disconnesso",
     "writeInstead": "Scrivi un messaggio"
+  },
+  "share": {
+    "watchingLabel": "Seguendo una corsa",
+    "live": "In diretta",
+    "expiredTitle": "Questo link non è più valido",
+    "expiredHint": "La corsa potrebbe essere terminata, oppure è stato condiviso un link più recente.",
+    "finished": "La corsa è terminata.",
+    "noCarDetails": "Dettagli del veicolo non disponibili",
+    "destination": "Destinazione"
   }
 }

@@ -442,5 +442,14 @@
     "end_hangup": "通话已结束",
     "end_disconnected": "连接已断开",
     "writeInstead": "改为发送消息"
+  },
+  "share": {
+    "watchingLabel": "正在查看行程",
+    "live": "实时",
+    "expiredTitle": "此链接已失效",
+    "expiredHint": "行程可能已结束，或已分享了新的链接。",
+    "finished": "行程已结束。",
+    "noCarDetails": "暂无车辆信息",
+    "destination": "目的地"
   }
 }

@@ -442,5 +442,14 @@
     "end_hangup": "Samtalet avslutat",
     "end_disconnected": "Frånkopplad",
     "writeInstead": "Skicka ett meddelande"
+  },
+  "share": {
+    "watchingLabel": "Följer en resa",
+    "live": "Live",
+    "expiredTitle": "Länken är inte längre giltig",
+    "expiredHint": "Resan kan ha avslutats, eller så har en nyare länk delats.",
+    "finished": "Resan är avslutad.",
+    "noCarDetails": "Fordonsuppgifter saknas",
+    "destination": "Destination"
   }
 }
