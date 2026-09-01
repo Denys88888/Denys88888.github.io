@@ -191,6 +191,15 @@ function FollowPauser({ onUserMove }: { onUserMove: () => void }) {
 // container has its final height (splash→app transition, flex/%-height layout
 // settling — common on mobile / Pi Browser), tiles never paint and the map looks
 // blank. Re-measure after mount, after short delays, and on resize.
+//
+// The delay ladder alone is a guess about when layout settles, and it loses
+// whenever the container resizes on a schedule it does not happen to sample —
+// the shared-trip screen mounted its map inside a `flex-1` panel and landed in
+// exactly that gap, painting a broken mosaic of tiles that only snapped into
+// place on the next window resize. A ResizeObserver watches the element itself,
+// so it cannot be out of phase with it; the timers stay as a fallback for
+// browsers without one. invalidateSize does not alter the container's own box,
+// so this cannot feed back into itself.
 function SizeInvalidator() {
   const map = useMap();
   useEffect(() => {
@@ -199,10 +208,18 @@ function SizeInvalidator() {
     const timers = [50, 250, 600, 1200].map((ms) => setTimeout(fix, ms));
     window.addEventListener('resize', fix);
     window.addEventListener('orientationchange', fix);
+
+    let observer: ResizeObserver | undefined;
+    if (typeof ResizeObserver !== 'undefined') {
+      observer = new ResizeObserver(fix);
+      observer.observe(map.getContainer());
+    }
+
     return () => {
       timers.forEach(clearTimeout);
       window.removeEventListener('resize', fix);
       window.removeEventListener('orientationchange', fix);
+      observer?.disconnect();
     };
   }, [map]);
   return null;
