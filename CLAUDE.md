@@ -5,17 +5,58 @@ Backend is a **separate repo**: `~/taxi-pro-server` → `Denys88888/taxi-pro-ser
 (Express + ws + Firestore, deployed on Render). Most features touch both — check
 whether a change belongs on the server before implementing it here.
 
-## Network: testnet, and it stays there
+## Network: mainnet since 8 Sep 2026
 
-`PI_SANDBOX=true` on Render is **correct and deliberate**. The owner's decision:
-no mainnet until the app is fully tested, and they will say when. Do not advise
-switching it, and do not set `VITE_PI_SANDBOX: 'true'` on the frontend either —
-`Pi.init({sandbox:true})` makes `Pi.authenticate` hang forever inside the real
-Pi Browser. Testnet vs mainnet is decided by which Developer Portal registration
-serves the URL, not by that flag.
+This app now takes **real Pi from real people**. `PI_SANDBOX=false` on Render,
+and `PI_API_KEY` is the **Mainnet** registration's key. Do not put either back
+without the owner saying so — the section below is what that flag actually
+controls, and both consequences are expensive.
 
-The Mainnet registration (`taxi-pro-rhse`) is an empty shell: no URL, no wallet
-connected. Connecting a wallet needs the owner's own signature.
+Still true, and unrelated: do **not** set `VITE_PI_SANDBOX: 'true'` on the
+frontend. `Pi.init({sandbox:true})` makes `Pi.authenticate` hang forever inside
+the real Pi Browser.
+
+### What PI_SANDBOX really switches
+
+Not "test mode". Two things, both in `src/config/env.ts`:
+
+1. `PI_HORIZON_URL` / `PI_NETWORK_PASSPHRASE` — the chain A2U payouts are signed
+   for. `true` means driver payouts target **Pi Testnet** while passengers pay on
+   mainnet. Worst case they *succeed* there, a `driverPayoutTxid` gets written,
+   and `runPayout`'s "funds already transferred" guard then blocks the real
+   payout permanently.
+2. `/api/auth/dev` — open while `true`. On a mainnet deployment that is anonymous
+   session minting against live money.
+
+### One uid per registration
+
+Pi issues a **different uid to the same person for each Developer Portal
+registration**. Cherry19899 is `33809793-…bb175` via the testnet app and
+`f129693b-…ed732` via mainnet. `ADMIN_UIDS` holds both — a new registration
+means a new uid to add, or admin silently disappears. Role is restored on login,
+so after any ADMIN_UIDS change: log out, log back in.
+
+The same split is why a payment created under one registration cannot be
+approved with another's key: Pi answers **404**, not 403. Six of those were the
+whole "payment never completes" bug.
+
+### Open: the app wallet is pending review
+
+`Connect App Wallet` shows Completed on the checklist but the wallet page says
+*pending review*, and Develop still lists **Connected Outgoing Wallet: None**.
+So A2U fails with `feature_not_available (400)` and **drivers are not being
+paid** — the fare lands in the app wallet and stops there.
+
+Not lost: the failure records `driverPayoutStatus: 'failed'` with no txid, so
+`POST /api/admin/rides/:id/retry-payout` can settle it once Pi approves the
+wallet. Check for unpaid rides before assuming this is over.
+
+### Also broken by the mainnet move
+
+Verifying the domain for the Mainnet registration **unlinked it from testnet**
+(the "Existing domain found!" dialog says so plainly). Login via
+`taxipro9284.pinet.com` fails with an auth error as a result. The mainnet PiNet
+address is `taxipro5198.pinet.com`.
 
 ## Verifying a deploy actually landed
 
@@ -57,9 +98,11 @@ a dev server on :5199 (auto-started) plus the production API:
 ```bash
 npx playwright test --config e2e/playwright.config.ts
 ```
-Dev-login works in a **plain browser** — Pi Browser is only needed for real Pi
-payments. So both passenger and driver flows can be driven end-to-end without an
-emulator, which is far more reliable than fighting one.
+**`/api/auth/dev` is closed in production since the mainnet move** — it answers
+403 whenever `PI_SANDBOX` is false, which is now. So the dev-login route below,
+and every e2e run that leans on it, only works against a local server started
+with `PI_SANDBOX=true`. Do not flip the Render value to get the suite green;
+read the network section above for what that flag costs.
 
 Dev accounts: `TestPassenger` / `TestDriver` are safe to use freely. Mint tokens
 with `POST /api/auth/dev {"name":"...","role":"..."}` (they expire quickly —
