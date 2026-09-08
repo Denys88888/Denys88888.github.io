@@ -158,15 +158,30 @@ function NavZoom({ active }: { active: boolean }) {
 //
 // Bearing is the compass direction we want at the top, which is the heading
 // itself — not its negative; the sign flip belonged to the CSS hack.
+//
+// A heading that goes missing must not un-rotate the map. It used to: the
+// bearing fell straight back to 0, so stopping at a light — the moment the
+// heading sources dry up — swung the whole map round to north-up, at exactly
+// the moment the driver is reading the junction. Waze and Google both hold the
+// last orientation instead, and so does this now: the last known heading is
+// remembered and kept until a new one arrives. North is only ever restored by
+// leaving navigation.
 function RotateMap({ heading, active }: { heading: number | null; active: boolean }) {
   const map = useMap();
+  const lastHeading = useRef(0);
   useEffect(() => {
     // No cleanup resetting this to 0. The body already sets 0 whenever
     // navigation is off, and on unmount Leaflet has torn its panes down first —
     // setBearing then reads the map pane's position off undefined and takes the
     // whole screen with it ("Cannot read properties of undefined (reading
     // '_leaflet_pos')").
-    map.setBearing(active && heading !== null ? heading : 0);
+    if (!active) {
+      lastHeading.current = 0;
+      map.setBearing(0);
+      return;
+    }
+    if (heading !== null) lastHeading.current = heading;
+    map.setBearing(lastHeading.current);
   }, [active, heading, map]);
   return null;
 }
@@ -464,9 +479,27 @@ export function MapView({
     // remainingRoute is rebuilt on every render; its endpoints are what matter.
   }, [driver?.lat, driver?.lng, remainingRoute.length, remainingRoute[0]?.[0], remainingRoute[0]?.[1]]);
 
+  // Last resort, so that navigation is never left without an orientation.
+  // Movement needs the car to move and the route needs the route to have
+  // arrived; on the first fix of a trip, or whenever OSRM is slow or down,
+  // neither had anything to say and the map sat north-up — the one thing it
+  // must never do while navigating. The straight line to where the driver is
+  // going is cruder than the road ahead, but it is never wrong about which
+  // half of the screen the journey is in.
+  const targetPoint = destination ?? pickup ?? null;
+  const targetHeading = useMemo(() => {
+    if (!driver || !targetPoint) return null;
+    // Metres apart, not degrees: a bearing taken across a few metres of GPS
+    // noise is noise, and standing on the pickup pin is exactly when this
+    // fallback is reached.
+    if (haversineKm(driver.lat, driver.lng, targetPoint.lat, targetPoint.lng) < 0.02) return null;
+    return bearingDeg(driver, targetPoint);
+  }, [driver?.lat, driver?.lng, targetPoint?.lat, targetPoint?.lng]);
+
   // Movement wins when there is any: it says which way the car physically
-  // points, where the route only says which way it ought to.
-  const navHeading = heading ?? routeHeading;
+  // points, where the route only says which way it ought to, and the target
+  // only says roughly where it lies.
+  const navHeading = heading ?? routeHeading ?? targetHeading;
 
   // Following the car is the default; a drag or a pinch suspends it, and the
   // "my location" button (which bumps focusNonce) turns it back on.
