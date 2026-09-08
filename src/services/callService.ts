@@ -79,10 +79,42 @@ function tuneOpus(sdp: string): string {
 // A slow/unreachable TURN relay must never stall call setup — timeboxed, and
 // any failure just falls back to STUN-only (peer-to-peer, works unless both
 // sides are behind symmetric NAT, which is the exact case TURN exists for).
+//
+// The budget was 2.5s, which was not a budget so much as a coin toss. Minting a
+// credential is two sequential round trips to Metered on the server's side, on
+// top of reaching our own server at all, and any of that can be slow on a
+// mobile link — so the race was often lost, the call quietly went STUN-only,
+// and on a carrier NAT it then failed to connect. Nothing recorded it: a lost
+// race resolves, it does not throw, so even the catch below never ran.
+//
+// 8s costs nothing real. This is deliberately started before the microphone
+// prompt and only awaited after it, so on any call where the browser asks for
+// permission the fetch is already running underneath — and a call that fails to
+// connect wastes far more of the caller's time than a few seconds of setup.
+const TURN_FETCH_TIMEOUT_MS = 8000;
+
 async function fetchTurnServers(rideId: string): Promise<RTCIceServer[]> {
+  const startedAt = Date.now();
   try {
-    const timeout = new Promise<RTCIceServer[]>((resolve) => setTimeout(() => resolve([]), 2500));
-    return await Promise.race([api.turnCredentials(rideId), timeout]);
+    const timeout = new Promise<'timeout'>((resolve) =>
+      setTimeout(() => resolve('timeout'), TURN_FETCH_TIMEOUT_MS)
+    );
+    const result = await Promise.race([api.turnCredentials(rideId), timeout]);
+    if (result === 'timeout') {
+      // Said out loud, because this is the branch that silently degraded every
+      // call on a carrier network into one that could not connect.
+      logger.warn('[call] TURN fetch timed out, continuing STUN-only', {
+        rideId,
+        afterMs: Date.now() - startedAt,
+      });
+      return [];
+    }
+    logger.info('[call] TURN servers ready', {
+      rideId,
+      count: result.length,
+      afterMs: Date.now() - startedAt,
+    });
+    return result;
   } catch (err) {
     logger.warn('[call] fetchTurnServers failed, continuing STUN-only', (err as Error).message);
     return [];
