@@ -156,8 +156,19 @@ function NavZoom({ active }: { active: boolean }) {
 // off entirely to hide it. leaflet-rotate does the rotation inside Leaflet, so
 // drag, zoom, hit-testing and marker placement all stay correct.
 //
-// Bearing is the compass direction we want at the top, which is the heading
-// itself — not its negative; the sign flip belonged to the CSS hack.
+// The angle handed to setBearing is NEGATED heading, and that is not a leftover
+// from the CSS hack — a comment here used to claim it was, and the map spent
+// every non-north journey rotated the wrong way because of it. leaflet-rotate
+// ends up at `rotate(bearing rad)` on the pane (DomUtil.setTransform), and a
+// positive CSS rotation turns the map clockwise: north swings to the right and
+// what surfaces at the top is west. So `setBearing(θ)` puts compass direction
+// `360 − θ` at the top, and putting the heading up there takes `−heading`.
+// North and south are the same either way, which is exactly why a wrong sign
+// survives casual testing.
+//
+// It also lines the car up: the icon is rotated `+heading` inside the pane the
+// map has rotated `−heading`, so the arrow points straight up the screen while
+// driving, which is what it should do.
 //
 // A heading that goes missing must not un-rotate the map. It used to: the
 // bearing fell straight back to 0, so stopping at a light — the moment the
@@ -180,8 +191,11 @@ function RotateMap({ heading, active }: { heading: number | null; active: boolea
       map.setBearing(0);
       return;
     }
+    // Stored as a true compass heading and negated only here, so everything
+    // else in this file keeps talking in bearings rather than in whatever the
+    // renderer happens to want.
     if (heading !== null) lastHeading.current = heading;
-    map.setBearing(lastHeading.current);
+    map.setBearing(-lastHeading.current);
   }, [active, heading, map]);
   return null;
 }
