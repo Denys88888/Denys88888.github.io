@@ -18,19 +18,10 @@ import 'leaflet-rotate';
 import type { GeoPoint, HeatmapPoint } from '../../types';
 import { fetchRoute } from '../../services/mapService';
 import { haversineKm } from '../../utils/helpers';
+import { bearingDeg, routeBearingAhead } from '../../utils/routeHeading';
 
 // Colored pin built from a divIcon so we don't depend on Leaflet's image assets
 // (which break under a non-root base path on GitHub Pages).
-// Compass bearing (degrees clockwise from north) from point a to point b.
-function bearingDeg(a: GeoPoint, b: GeoPoint): number {
-  const toRad = (d: number) => (d * Math.PI) / 180;
-  const φ1 = toRad(a.lat);
-  const φ2 = toRad(b.lat);
-  const Δλ = toRad(b.lng - a.lng);
-  const y = Math.sin(Δλ) * Math.cos(φ2);
-  const x = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
-  return (Math.atan2(y, x) * 180) / Math.PI;
-}
 
 // `heading` rotates the marker to face the direction of travel, the way Uber
 // and Bolt do — a car that always points north reads as a stuck pin. The
@@ -339,7 +330,16 @@ export function MapView({
   const approachWaypoints: GeoPoint[] = [];
   if (routeFrom) approachWaypoints.push(routeFrom);
   if (pickup) approachWaypoints.push(pickup);
-  const approachKey = approachWaypoints.map((p) => `${p.lat.toFixed(5)},${p.lng.toFixed(5)}`).join(';');
+  // Keyed to a ~110 m cell of the driver's position, not to the metre. routeFrom
+  // is the live GPS fix, so a 5-decimal key changed on every fix: the road to
+  // the passenger was thrown away and re-fetched about once a second — missing
+  // fetchRoute's cache every time and leaning on the public OSRM server — and
+  // between fetches it was drawn as a straight line, which the heading-up map
+  // then dutifully turned towards. Same granularity as navKey below.
+  const approachTargetKey = pickup ? `${pickup.lat.toFixed(5)},${pickup.lng.toFixed(5)}` : '';
+  const approachKey = routeFrom
+    ? `${routeFrom.lat.toFixed(3)},${routeFrom.lng.toFixed(3)};${approachTargetKey}`
+    : approachTargetKey;
 
   const tripWaypoints: GeoPoint[] = [];
   if (pickup) tripWaypoints.push(pickup);
@@ -350,14 +350,25 @@ export function MapView({
   // Road-following geometry from OSRM; until it arrives (or if it fails) the
   // straight waypoint line keeps the route visible.
   const [approachRoad, setApproachRoad] = useState<[number, number][] | null>(null);
+  const approachTargetRef = useRef(approachTargetKey);
   useEffect(() => {
     let stale = false;
-    setApproachRoad(null);
-    if (approachWaypoints.length >= 2) {
-      fetchRoute(approachWaypoints).then((r) => {
-        if (!stale && r) setApproachRoad(r.points);
-      });
+    if (approachWaypoints.length < 2) {
+      // The approach leg is over — the passenger is aboard — or never began.
+      // Its road has to go: the approach line draws whenever it holds two
+      // points, so a kept one would linger on screen for the whole trip.
+      setApproachRoad(null);
+      return;
     }
+    // Only a different pickup makes the previous road wrong. The driver moving
+    // along it does not — the car still projects onto it the right way — so it
+    // stays on screen until the new one lands, instead of collapsing to a
+    // straight line in between.
+    if (approachTargetRef.current !== approachTargetKey) setApproachRoad(null);
+    approachTargetRef.current = approachTargetKey;
+    fetchRoute(approachWaypoints).then((r) => {
+      if (!stale && r) setApproachRoad(r.points);
+    });
     return () => {
       stale = true;
     };
@@ -473,25 +484,18 @@ export function MapView({
   const travelledRoute = splitIndex > 0 ? tripRoute.slice(0, splitIndex + 1) : [];
   const remainingRoute = splitIndex > 0 ? tripRoute.slice(splitIndex) : tripRoute;
 
-  // A heading derived from movement needs the car to move. Waiting at a light,
-  // or on the very first fix of a shift, there is nothing to derive it from —
-  // and that is exactly when the map was snapping back to north-up and drawing
-  // the route off sideways, at the one moment the driver is actually studying
-  // the junction. The road ahead points where the car is about to go, so read
-  // the bearing off the route whenever movement can't supply one.
-  const routeHeading = useMemo(() => {
-    if (!driver || remainingRoute.length < 2) return null;
-    // Skip vertices sitting on top of the car: OSM route lines are dense at
-    // junctions, and a bearing taken across three metres is mostly GPS noise.
-    const AHEAD_KM = 0.03;
-    for (const [lat, lng] of remainingRoute) {
-      if (haversineKm(driver.lat, driver.lng, lat, lng) >= AHEAD_KM) {
-        return bearingDeg(driver, { lat, lng });
-      }
-    }
-    return null;
-    // remainingRoute is rebuilt on every render; its endpoints are what matter.
-  }, [driver?.lat, driver?.lng, remainingRoute.length, remainingRoute[0]?.[0], remainingRoute[0]?.[1]]);
+  // The route runs bottom-to-top on the driver's screen: that is the
+  // requirement, in the owner's own words, and it is about the road — not the
+  // car. So this reads the direction the road itself takes where the car is,
+  // off whichever leg is being driven: the approach to the pickup until the
+  // passenger is aboard, the trip after. The approach never fed this before, so
+  // on the way to a passenger the map aimed at a straight line to the pin
+  // instead of along the street actually being driven.
+  const activeRoute = destination ? tripRoute : routeFrom ? approachRoute : tripRoute;
+  // Not memoised: the route is rebuilt every render, a pass over a few hundred
+  // vertices per GPS fix costs nothing, and a dependency list watching only its
+  // end points would miss a reroute that happened to keep them.
+  const routeHeading = driver ? routeBearingAhead(activeRoute, driver) : null;
 
   // Last resort, so that navigation is never left without an orientation.
   // Movement needs the car to move and the route needs the route to have
@@ -510,10 +514,14 @@ export function MapView({
     return bearingDeg(driver, targetPoint);
   }, [driver?.lat, driver?.lng, targetPoint?.lat, targetPoint?.lng]);
 
-  // Movement wins when there is any: it says which way the car physically
-  // points, where the route only says which way it ought to, and the target
-  // only says roughly where it lies.
-  const navHeading = heading ?? routeHeading ?? targetHeading;
+  // The route wins. It used to come second to movement, and that quietly
+  // disabled it: the movement heading is set on the first metre the car moves
+  // and never cleared, so from then on it masked the route for the rest of the
+  // trip — and it is a bearing between two GPS fixes a metre apart, which is
+  // mostly noise. The map swung with it and the road sat diagonal, which is the
+  // "still not bottom-to-top" a driver actually saw. Movement now fills in only
+  // where there is no road to read, and the straight line to the target after.
+  const navHeading = routeHeading ?? heading ?? targetHeading;
 
   // Following the car is the default; a drag or a pinch suspends it, and the
   // "my location" button (which bumps focusNonce) turns it back on.
