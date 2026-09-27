@@ -79,6 +79,33 @@ try {
     await page.close();
     console.log(`wrote ${file} (${size}px)`);
   }
+
+  // The social preview — what anyone sees when the app's link is pasted into a
+  // chat. It was a bare purple-to-green gradient: no mark, no name, nothing to
+  // say which app it belongs to. Same mark, same greens, and the name spelled
+  // out, so a shared link looks like the app it opens.
+  const og = await browser.newPage({
+    viewport: { width: 1200, height: 630 },
+    deviceScaleFactor: 1,
+  });
+  await og.setContent(`<style>
+    html,body{margin:0;padding:0}
+    .card{width:1200px;height:630px;box-sizing:border-box;display:flex;align-items:center;
+      gap:72px;padding:0 110px;background:linear-gradient(135deg,${GREEN_LIGHT},${GREEN_DEEP});
+      color:#fff;font-family:Inter,system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif}
+    .name{font-size:104px;font-weight:700;letter-spacing:-3px;line-height:1}
+    .tag{font-size:40px;opacity:.82;margin-top:20px;letter-spacing:-.5px}
+  </style>
+  <div class="card">
+    <svg width="240" height="240" viewBox="136 151 240 210">${mark}</svg>
+    <div>
+      <div class="name">Taxi Pro</div>
+      <div class="tag">Ride-hailing on Pi Network</div>
+    </div>
+  </div>`);
+  await og.screenshot({ path: resolve(here, '../public/og-image.png') });
+  await og.close();
+  console.log('wrote og-image.png (1200x630)');
 } finally {
   await browser.close();
 }
