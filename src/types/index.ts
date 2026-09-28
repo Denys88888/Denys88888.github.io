@@ -128,14 +128,23 @@ export interface Ride {
   tipTxid?: string;
   paymentStatus?: RidePaymentStatus;
   // A2U driver payout tracking (admin-only visibility/recovery).
-  driverPayoutStatus?: 'pending' | 'completed' | 'failed';
+  // Every state the server can record, not a subset. This type used to stop at
+  // pending/completed/failed, so 'no_wallet_configured' and 'sent_unconfirmed'
+  // arrived as values the app had no name for — and the second of those means
+  // the money DID reach the driver, which is the opposite of what an unhandled
+  // value would suggest.
+  driverPayoutStatus?: 'pending' | 'completed' | 'failed' | 'no_wallet_configured' | 'sent_unconfirmed';
   driverPayoutTxid?: string;
   driverPayoutError?: string;
   driverPayoutPiId?: string;
-  tipPayoutStatus?: 'pending' | 'completed' | 'failed';
+  tipPayoutStatus?: 'pending' | 'completed' | 'failed' | 'no_wallet_configured' | 'sent_unconfirmed';
   tipPayoutTxid?: string;
   tipPayoutError?: string;
   tipPayoutPiId?: string;
+  // The driver's share of a late-cancellation fee is paid out on its own, and
+  // the server has always sent its state — the app just never declared it.
+  feePayoutStatus?: 'pending' | 'completed' | 'failed' | 'no_wallet_configured' | 'sent_unconfirmed';
+  feePayoutTxid?: string;
   status: RideStatus;
   // When the driver marked arrived — starts the free-cancellation grace window.
   arrivedAt?: string;

@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TrendingUp } from 'lucide-react';
+import { TrendingUp, Clock } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { api } from '../services/api';
 import { useAppStore } from '../store/useAppStore';
 import { formatPi, formatDate } from '../utils/formatters';
 import { driverEarned as earned } from '../utils/cancellation';
+import { payoutState, unpaidToDriver, type PayoutState } from '../utils/payoutState';
 import { isToday, isThisWeek, isThisMonth } from 'date-fns';
 import type { Ride, SurgeInfo } from '../types';
 
@@ -18,8 +19,24 @@ function dayPartCoefficient(hour: number): number {
   return 1.0;
 }
 
+// A ride only counts towards what a driver earned once someone has actually
+// paid for it. This screen used to add up every completed ride, so a fare the
+// passenger never paid showed up in the driver's totals as income.
+function counted(r: Ride): number {
+  return payoutState(r) === 'awaiting_passenger' ? 0 : earned(r);
+}
+
+// Per-ride label for where the money is. 'paid' is shown too: a quiet
+// confirmation is what makes the other labels mean something.
+const STATUS_LABEL: Record<Exclude<PayoutState, 'none'>, { key: string; tone: string }> = {
+  paid: { key: 'earnings.statusPaid', tone: 'text-success' },
+  sending: { key: 'earnings.statusSending', tone: 'text-info' },
+  queued: { key: 'earnings.statusQueued', tone: 'text-warning' },
+  awaiting_passenger: { key: 'earnings.statusAwaitingPassenger', tone: 'text-danger' },
+};
+
 // Driver earnings dashboard: today / week / month totals, an income forecast,
-// and a simple bar chart.
+// what has not reached the wallet yet, and a simple bar chart.
 export function EarningsScreen() {
   const { t } = useTranslation();
   const [rides, setRides] = useState<Ride[] | null>(null);
@@ -59,13 +76,20 @@ export function EarningsScreen() {
   const totals = useMemo(() => {
     const list = rides ?? [];
     const sum = (pred: (d: Date) => boolean) =>
-      list.filter((r) => pred(new Date(r.createdAt))).reduce((acc, r) => acc + earned(r), 0);
+      list.filter((r) => pred(new Date(r.createdAt))).reduce((acc, r) => acc + counted(r), 0);
     return {
       today: sum((d) => isToday(d)),
       week: sum((d) => isThisWeek(d, { weekStartsOn: 1 })),
       month: sum((d) => isThisMonth(d)),
     };
   }, [rides]);
+
+  // Paid for by passengers, not yet in the driver's wallet. Shown on its own so
+  // the totals above never pass for money the driver actually has.
+  const owed = useMemo(
+    () => (rides ?? []).reduce((acc, r) => acc + unpaidToDriver(r), 0),
+    [rides]
+  );
 
   const tipsTotal = useMemo(
     () => (rides ?? []).reduce((acc, r) => acc + (r.tipAmount || 0), 0),
@@ -79,7 +103,7 @@ export function EarningsScreen() {
     const recent = (rides ?? []).filter((r) => new Date(r.createdAt).getTime() >= weekAgo);
     if (recent.length === 0) return null;
     const activeDays = new Set(recent.map((r) => r.createdAt.slice(0, 10))).size || 1;
-    const avgPerDay = recent.reduce((acc, r) => acc + earned(r), 0) / activeDays;
+    const avgPerDay = recent.reduce((acc, r) => acc + counted(r), 0) / activeDays;
     const value =
       avgPerDay * (surge?.multiplier ?? 1) * dayPartCoefficient(new Date().getHours());
     return Math.round(value * 10) / 10;
@@ -112,6 +136,22 @@ export function EarningsScreen() {
           ))}
         </div>
 
+        {/* Money passengers paid that has not reached the wallet. Placed right
+            under the totals so it is read together with them. */}
+        {owed > 0 && (
+          <Card className="flex items-start gap-3 !bg-warning/10">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-warning text-white">
+              <Clock size={22} />
+            </div>
+            <div>
+              <p className="text-sm font-semibold">
+                {t('earnings.owedTitle', { amount: formatPi(owed) })}
+              </p>
+              <p className="text-xs opacity-70">{t('earnings.owedHint')}</p>
+            </div>
+          </Card>
+        )}
+
         {/* Income forecast for today. */}
         {forecast !== null && (
           <Card className="flex items-center gap-3 !bg-primary/10">
@@ -136,7 +176,9 @@ export function EarningsScreen() {
             {rides.slice(0, 14).reverse().map((r) => (
               <div
                 key={r.id}
-                className="flex-1 rounded-t bg-primary/70"
+                // A fare nobody has paid is drawn faint: it is on the chart
+                // because the ride happened, not because the money did.
+                className={`flex-1 rounded-t ${counted(r) > 0 ? 'bg-primary/70' : 'bg-primary/20'}`}
                 style={{ height: `${(earned(r) / maxEarn) * 100}%` }}
                 title={formatPi(earned(r))}
               />
@@ -150,39 +192,46 @@ export function EarningsScreen() {
         </Card>
 
         <div className="space-y-2">
-          {rides.map((r) => (
-            <Card key={r.id} className="flex items-center justify-between py-3">
-              <div className="text-sm">
-                <p className="font-medium">
-                  {formatPi(earned(r))}
-                  {r.status === 'cancelled' ? (
-                    // Without this the row looks like a suspiciously cheap trip.
-                    <span className="ms-1.5 text-xs font-semibold text-warning">
-                      {t('earnings.cancelFee')}
-                    </span>
-                  ) : (
-                    !!r.tipAmount && (
-                      <span className="ms-1.5 text-xs font-semibold text-success">
-                        +{formatPi(r.tipAmount)} {t('earnings.tip')}
+          {rides.map((r) => {
+            const state = payoutState(r);
+            const label = state === 'none' ? null : STATUS_LABEL[state];
+            return (
+              <Card key={r.id} className="flex items-center justify-between py-3">
+                <div className="text-sm">
+                  <p className="font-medium">
+                    {formatPi(earned(r))}
+                    {r.status === 'cancelled' ? (
+                      // Without this the row looks like a suspiciously cheap trip.
+                      <span className="ms-1.5 text-xs font-semibold text-warning">
+                        {t('earnings.cancelFee')}
                       </span>
-                    )
+                    ) : (
+                      !!r.tipAmount && (
+                        <span className="ms-1.5 text-xs font-semibold text-success">
+                          +{formatPi(r.tipAmount)} {t('earnings.tip')}
+                        </span>
+                      )
+                    )}
+                  </p>
+                  <p className="text-xs opacity-50">{formatDate(r.createdAt)}</p>
+                  {/* Its own line: sharing one with the date, the longer labels
+                      broke in half across it in a narrow row. */}
+                  {label && <p className={`text-xs font-semibold ${label.tone}`}>{t(label.key)}</p>}
+                </div>
+                <span className="text-xs opacity-50">
+                  {/* The ride's own platformFee belongs to a fare that was
+                      refunded — on these rows the platform's cut is the part of
+                      the fee that did not go to the driver. */}
+                  {t('ride.platformFee')}:{' '}
+                  {formatPi(
+                    r.status === 'cancelled'
+                      ? Math.max(0, (r.cancellationFee || 0) - (r.cancellationFeeDriverEarnings || 0))
+                      : r.platformFee || 0
                   )}
-                </p>
-                <p className="text-xs opacity-50">{formatDate(r.createdAt)}</p>
-              </div>
-              <span className="text-xs opacity-50">
-                {/* The ride's own platformFee belongs to a fare that was
-                    refunded — on these rows the platform's cut is the part of
-                    the fee that did not go to the driver. */}
-                {t('ride.platformFee')}:{' '}
-                {formatPi(
-                  r.status === 'cancelled'
-                    ? Math.max(0, (r.cancellationFee || 0) - (r.cancellationFeeDriverEarnings || 0))
-                    : r.platformFee || 0
-                )}
-              </span>
-            </Card>
-          ))}
+                </span>
+              </Card>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -258,7 +258,13 @@
     "forecastHint": "Mantén este ritmo y ganarás alrededor de {{amount}}",
     "tipsTotal": "Total de propinas",
     "tip": "propina",
-    "cancelFee": "tarifa de cancelación"
+    "cancelFee": "tarifa de cancelación",
+    "owedTitle": "Aún no está en tu billetera: {{amount}}",
+    "owedHint": "Los pasajeros pagaron estos viajes. El dinero está reservado para ti y llegará a tu billetera en cuanto se procese el pago.",
+    "statusPaid": "pagado",
+    "statusSending": "enviando",
+    "statusQueued": "aún no pagado",
+    "statusAwaitingPassenger": "el pasajero no ha pagado"
   },
   "register": {
     "title": "Registro de conductor",
@@ -408,7 +414,9 @@
     "rideStarted": "Tu viaje ha comenzado",
     "rideCompleted": "Viaje completado",
     "rideCancelled": "Tu viaje fue cancelado",
-    "paymentReceived": "El pasajero pagó — ganaste {{amount}}"
+    "paymentReceived": "El pasajero pagó el viaje — enviamos {{amount}} a tu billetera",
+    "payoutSent": "{{amount}} enviado a tu billetera",
+    "payoutDelayed": "Tu pago de {{amount}} se retrasa — el dinero está seguro y llegará más tarde"
   },
   "onboarding": {
     "slide1Title": "Reserva viajes con Pi",

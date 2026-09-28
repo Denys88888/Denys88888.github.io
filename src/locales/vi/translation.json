@@ -258,7 +258,13 @@
     "forecastHint": "Giữ nhịp độ này và bạn sẽ kiếm được khoảng {{amount}}",
     "tipsTotal": "Tổng tiền boa",
     "tip": "tiền boa",
-    "cancelFee": "phí hủy chuyến"
+    "cancelFee": "phí hủy chuyến",
+    "owedTitle": "Chưa vào ví của bạn: {{amount}}",
+    "owedHint": "Hành khách đã trả tiền cho các chuyến này. Tiền được giữ cho bạn và sẽ vào ví ngay khi khoản thanh toán được xử lý.",
+    "statusPaid": "đã chi trả",
+    "statusSending": "đang gửi",
+    "statusQueued": "chưa chi trả",
+    "statusAwaitingPassenger": "hành khách chưa trả"
   },
   "register": {
     "title": "Đăng ký tài xế",
@@ -408,7 +414,9 @@
     "rideStarted": "Chuyến đi của bạn đã bắt đầu",
     "rideCompleted": "Chuyến đi hoàn thành",
     "rideCancelled": "Chuyến đi của bạn đã bị hủy",
-    "paymentReceived": "Hành khách đã thanh toán — bạn kiếm được {{amount}}"
+    "paymentReceived": "Hành khách đã thanh toán chuyến đi — đang gửi {{amount}} vào ví của bạn",
+    "payoutSent": "Đã gửi {{amount}} vào ví của bạn",
+    "payoutDelayed": "Khoản thanh toán {{amount}} của bạn bị chậm — tiền vẫn an toàn và sẽ đến sau"
   },
   "onboarding": {
     "slide1Title": "Đặt chuyến với Pi",

@@ -258,7 +258,13 @@
     "forecastHint": "保持这个节奏，您预计可赚约 {{amount}}",
     "tipsTotal": "小费总计",
     "tip": "小费",
-    "cancelFee": "取消费"
+    "cancelFee": "取消费",
+    "owedTitle": "尚未到达钱包：{{amount}}",
+    "owedHint": "乘客已为这些行程付款。资金已为您保留，发放成功后即会到达您的钱包。",
+    "statusPaid": "已发放",
+    "statusSending": "发送中",
+    "statusQueued": "尚未发放",
+    "statusAwaitingPassenger": "乘客未付款"
   },
   "register": {
     "title": "司机注册",
@@ -408,7 +414,9 @@
     "rideStarted": "您的行程已开始",
     "rideCompleted": "行程已完成",
     "rideCancelled": "您的行程已取消",
-    "paymentReceived": "乘客已付款 — 您赚了 {{amount}}"
+    "paymentReceived": "乘客已支付车费 — 正在将 {{amount}} 发送到您的钱包",
+    "payoutSent": "已将 {{amount}} 发送到您的钱包",
+    "payoutDelayed": "您的 {{amount}} 款项发放延迟 — 资金安全，稍后到账"
   },
   "onboarding": {
     "slide1Title": "用Pi预约行程",

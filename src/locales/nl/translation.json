@@ -258,7 +258,13 @@
     "forecastHint": "Houd dit tempo aan en je verdient ongeveer {{amount}}",
     "tipsTotal": "Totaal aan fooien",
     "tip": "fooi",
-    "cancelFee": "annuleringskosten"
+    "cancelFee": "annuleringskosten",
+    "owedTitle": "Nog niet in je wallet: {{amount}}",
+    "owedHint": "Passagiers hebben deze ritten betaald. Het geld wordt voor je vastgehouden en komt in je wallet zodra de uitbetaling doorgaat.",
+    "statusPaid": "uitbetaald",
+    "statusSending": "wordt verstuurd",
+    "statusQueued": "nog niet uitbetaald",
+    "statusAwaitingPassenger": "passagier heeft niet betaald"
   },
   "register": {
     "title": "Chauffeursregistratie",
@@ -408,7 +414,9 @@
     "rideStarted": "Uw rit is begonnen",
     "rideCompleted": "Rit voltooid",
     "rideCancelled": "Uw rit is geannuleerd",
-    "paymentReceived": "Passagier heeft betaald — je hebt {{amount}} verdiend"
+    "paymentReceived": "Passagier heeft de rit betaald — we sturen {{amount}} naar je wallet",
+    "payoutSent": "{{amount}} naar je wallet gestuurd",
+    "payoutDelayed": "Je uitbetaling van {{amount}} is vertraagd — het geld is veilig en komt later"
   },
   "onboarding": {
     "slide1Title": "Boek ritten met Pi",

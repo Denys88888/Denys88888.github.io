@@ -258,7 +258,13 @@
     "forecastHint": "Bu tempoyu korursan yaklaşık {{amount}} kazanırsın",
     "tipsTotal": "Toplam bahşiş",
     "tip": "bahşiş",
-    "cancelFee": "iptal ücreti"
+    "cancelFee": "iptal ücreti",
+    "owedTitle": "Henüz cüzdanında değil: {{amount}}",
+    "owedHint": "Yolcular bu yolculukları ödedi. Para senin için tutuluyor ve ödeme gerçekleşir gerçekleşmez cüzdanına gelecek.",
+    "statusPaid": "ödendi",
+    "statusSending": "gönderiliyor",
+    "statusQueued": "henüz ödenmedi",
+    "statusAwaitingPassenger": "yolcu ödemedi"
   },
   "register": {
     "title": "Sürücü kaydı",
@@ -408,7 +414,9 @@
     "rideStarted": "Yolculuğunuz başladı",
     "rideCompleted": "Yolculuk tamamlandı",
     "rideCancelled": "Yolculuğunuz iptal edildi",
-    "paymentReceived": "Yolcu ödeme yaptı — {{amount}} kazandınız"
+    "paymentReceived": "Yolcu yolculuğu ödedi — {{amount}} cüzdanına gönderiliyor",
+    "payoutSent": "{{amount}} cüzdanına gönderildi",
+    "payoutDelayed": "{{amount}} ödemen gecikiyor — para güvende, daha sonra gelecek"
   },
   "onboarding": {
     "slide1Title": "Pi ile yolculuk rezervasyonu",

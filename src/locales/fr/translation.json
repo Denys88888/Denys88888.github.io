@@ -258,7 +258,13 @@
     "forecastHint": "Gardez ce rythme et vous gagnerez environ {{amount}}",
     "tipsTotal": "Total des pourboires",
     "tip": "pourboire",
-    "cancelFee": "frais d’annulation"
+    "cancelFee": "frais d’annulation",
+    "owedTitle": "Pas encore sur votre portefeuille : {{amount}}",
+    "owedHint": "Les passagers ont payé ces courses. L’argent vous est réservé et arrivera sur votre portefeuille dès que le versement passera.",
+    "statusPaid": "versé",
+    "statusSending": "en cours d’envoi",
+    "statusQueued": "pas encore versé",
+    "statusAwaitingPassenger": "le passager n’a pas payé"
   },
   "register": {
     "title": "Inscription chauffeur",
@@ -408,7 +414,9 @@
     "rideStarted": "Votre trajet a commencé",
     "rideCompleted": "Trajet terminé",
     "rideCancelled": "Votre trajet a été annulé",
-    "paymentReceived": "Le passager a payé — vous avez gagné {{amount}}"
+    "paymentReceived": "Le passager a payé la course — nous envoyons {{amount}} sur votre portefeuille",
+    "payoutSent": "{{amount}} envoyé sur votre portefeuille",
+    "payoutDelayed": "Votre versement de {{amount}} est retardé — l’argent est en sécurité et arrivera plus tard"
   },
   "onboarding": {
     "slide1Title": "Réservez avec Pi",

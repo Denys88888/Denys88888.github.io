@@ -258,7 +258,13 @@
     "forecastHint": "حافظ على هذا الإيقاع وستكسب حوالي {{amount}}",
     "tipsTotal": "إجمالي الإكراميات",
     "tip": "إكرامية",
-    "cancelFee": "رسوم الإلغاء"
+    "cancelFee": "رسوم الإلغاء",
+    "owedTitle": "لم يصل إلى محفظتك بعد: {{amount}}",
+    "owedHint": "دفع الركاب أجرة هذه الرحلات. المال محفوظ لك وسيصل إلى محفظتك فور إتمام الدفع.",
+    "statusPaid": "تم الدفع",
+    "statusSending": "جارٍ الإرسال",
+    "statusQueued": "لم يُدفع بعد",
+    "statusAwaitingPassenger": "لم يدفع الراكب"
   },
   "register": {
     "title": "تسجيل السائق",
@@ -408,7 +414,9 @@
     "rideStarted": "بدأت رحلتك",
     "rideCompleted": "اكتملت الرحلة",
     "rideCancelled": "تم إلغاء رحلتك",
-    "paymentReceived": "دفع الراكب — لقد ربحت {{amount}}"
+    "paymentReceived": "دفع الراكب أجرة الرحلة — جارٍ إرسال {{amount}} إلى محفظتك",
+    "payoutSent": "تم إرسال {{amount}} إلى محفظتك",
+    "payoutDelayed": "تأخر دفع {{amount}} لك — المال آمن وسيصل لاحقًا"
   },
   "onboarding": {
     "slide1Title": "احجز رحلات بـ Pi",

@@ -258,7 +258,13 @@
     "forecastHint": "이 속도를 유지하면 약 {{amount}} 벌 수 있습니다",
     "tipsTotal": "팁 합계",
     "tip": "팁",
-    "cancelFee": "취소 수수료"
+    "cancelFee": "취소 수수료",
+    "owedTitle": "아직 지갑에 들어오지 않은 금액: {{amount}}",
+    "owedHint": "승객이 이 운행 요금을 결제했습니다. 돈은 회원님을 위해 보관되며 지급이 처리되는 즉시 지갑으로 들어갑니다.",
+    "statusPaid": "지급 완료",
+    "statusSending": "보내는 중",
+    "statusQueued": "아직 지급 안 됨",
+    "statusAwaitingPassenger": "승객 미결제"
   },
   "register": {
     "title": "기사 등록",
@@ -408,7 +414,9 @@
     "rideStarted": "탑승이 시작되었습니다",
     "rideCompleted": "탑승 완료",
     "rideCancelled": "탑승이 취소되었습니다",
-    "paymentReceived": "승객이 결제했습니다 — {{amount}}를 벌었습니다"
+    "paymentReceived": "승객이 요금을 결제했습니다 — {{amount}}를 지갑으로 보내는 중입니다",
+    "payoutSent": "{{amount}}를 지갑으로 보냈습니다",
+    "payoutDelayed": "{{amount}} 지급이 지연되고 있습니다 — 돈은 안전하며 나중에 도착합니다"
   },
   "onboarding": {
     "slide1Title": "Pi로 라이드 예약",

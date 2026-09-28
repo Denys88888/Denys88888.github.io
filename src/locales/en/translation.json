@@ -258,7 +258,13 @@
     "forecastHint": "Keep this pace and you will earn about {{amount}}",
     "tipsTotal": "Tips total",
     "tip": "tip",
-    "cancelFee": "cancellation fee"
+    "cancelFee": "cancellation fee",
+    "owedTitle": "Not in your wallet yet: {{amount}}",
+    "owedHint": "Passengers paid for these rides. The money is held for you and will reach your wallet as soon as the payout goes through.",
+    "statusPaid": "paid out",
+    "statusSending": "sending",
+    "statusQueued": "not paid out yet",
+    "statusAwaitingPassenger": "passenger hasn't paid"
   },
   "register": {
     "title": "Driver registration",
@@ -408,7 +414,9 @@
     "rideStarted": "Your ride has started",
     "rideCompleted": "Ride completed",
     "rideCancelled": "Your ride was cancelled",
-    "paymentReceived": "Passenger paid — you earned {{amount}}"
+    "paymentReceived": "Passenger paid for the ride — sending {{amount}} to your wallet",
+    "payoutSent": "{{amount}} sent to your wallet",
+    "payoutDelayed": "Your {{amount}} payout is delayed — the money is safe and will arrive later"
   },
   "onboarding": {
     "slide1Title": "Book rides with Pi",

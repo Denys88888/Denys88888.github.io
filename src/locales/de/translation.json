@@ -258,7 +258,13 @@
     "forecastHint": "Halte dieses Tempo und du verdienst etwa {{amount}}",
     "tipsTotal": "Trinkgeld gesamt",
     "tip": "Trinkgeld",
-    "cancelFee": "Stornogebühr"
+    "cancelFee": "Stornogebühr",
+    "owedTitle": "Noch nicht in deiner Wallet: {{amount}}",
+    "owedHint": "Fahrgäste haben diese Fahrten bezahlt. Das Geld wird für dich verwahrt und landet in deiner Wallet, sobald die Auszahlung durchgeht.",
+    "statusPaid": "ausgezahlt",
+    "statusSending": "wird gesendet",
+    "statusQueued": "noch nicht ausgezahlt",
+    "statusAwaitingPassenger": "Fahrgast hat nicht bezahlt"
   },
   "register": {
     "title": "Fahrerregistrierung",
@@ -408,7 +414,9 @@
     "rideStarted": "Ihre Fahrt hat begonnen",
     "rideCompleted": "Fahrt abgeschlossen",
     "rideCancelled": "Ihre Fahrt wurde storniert",
-    "paymentReceived": "Der Fahrgast hat bezahlt — du hast {{amount}} verdient"
+    "paymentReceived": "Der Fahrgast hat die Fahrt bezahlt — wir senden {{amount}} an deine Wallet",
+    "payoutSent": "{{amount}} an deine Wallet gesendet",
+    "payoutDelayed": "Deine Auszahlung von {{amount}} verzögert sich — das Geld ist sicher und kommt später"
   },
   "onboarding": {
     "slide1Title": "Fahrten mit Pi buchen",

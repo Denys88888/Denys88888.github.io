@@ -258,7 +258,13 @@
     "forecastHint": "Mantenha este ritmo e você ganhará cerca de {{amount}}",
     "tipsTotal": "Total de gorjetas",
     "tip": "gorjeta",
-    "cancelFee": "taxa de cancelamento"
+    "cancelFee": "taxa de cancelamento",
+    "owedTitle": "Ainda não está na sua carteira: {{amount}}",
+    "owedHint": "Os passageiros pagaram essas corridas. O dinheiro está reservado para você e chegará à sua carteira assim que o pagamento for processado.",
+    "statusPaid": "pago",
+    "statusSending": "enviando",
+    "statusQueued": "ainda não pago",
+    "statusAwaitingPassenger": "passageiro não pagou"
   },
   "register": {
     "title": "Cadastro de motorista",
@@ -408,7 +414,9 @@
     "rideStarted": "Sua corrida começou",
     "rideCompleted": "Corrida concluída",
     "rideCancelled": "Sua corrida foi cancelada",
-    "paymentReceived": "O passageiro pagou — você ganhou {{amount}}"
+    "paymentReceived": "O passageiro pagou a corrida — enviando {{amount}} para sua carteira",
+    "payoutSent": "{{amount}} enviado para sua carteira",
+    "payoutDelayed": "Seu pagamento de {{amount}} está atrasado — o dinheiro está seguro e chegará mais tarde"
   },
   "onboarding": {
     "slide1Title": "Reserve viagens com Pi",

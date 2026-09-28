@@ -298,6 +298,17 @@ export function initNotifications(): void {
       notify(i18n.t('notify.paymentReceived', { amount: formatPi(data?.amount ?? 0) }), { sound: true });
       return;
     }
+    // What happened to the driver's money, once it actually happened. The
+    // passenger-paid chime above already sounded; these follow it quietly.
+    if (msg.status === 'payout_sent' || msg.status === 'payout_delayed') {
+      const data = msg.data as { amount?: number } | undefined;
+      notify(
+        i18n.t(msg.status === 'payout_sent' ? 'notify.payoutSent' : 'notify.payoutDelayed', {
+          amount: formatPi(data?.amount ?? 0),
+        })
+      );
+      return;
+    }
     if (msg.status === 'driver_approved' || msg.status === 'driver_rejected') {
       notify(
         i18n.t(msg.status === 'driver_approved' ? 'notify.driverApproved' : 'notify.driverRejected')

@@ -258,7 +258,13 @@
     "forecastHint": "Mantieni questo ritmo e guadagnerai circa {{amount}}",
     "tipsTotal": "Totale mance",
     "tip": "mancia",
-    "cancelFee": "penale di annullamento"
+    "cancelFee": "penale di annullamento",
+    "owedTitle": "Non ancora nel tuo wallet: {{amount}}",
+    "owedHint": "I passeggeri hanno pagato queste corse. Il denaro è tenuto da parte per te e arriverà nel tuo wallet appena il pagamento andrà a buon fine.",
+    "statusPaid": "pagato",
+    "statusSending": "in invio",
+    "statusQueued": "non ancora pagato",
+    "statusAwaitingPassenger": "il passeggero non ha pagato"
   },
   "register": {
     "title": "Registrazione autista",
@@ -408,7 +414,9 @@
     "rideStarted": "La tua corsa è iniziata",
     "rideCompleted": "Corsa completata",
     "rideCancelled": "La tua corsa è stata annullata",
-    "paymentReceived": "Il passeggero ha pagato — hai guadagnato {{amount}}"
+    "paymentReceived": "Il passeggero ha pagato la corsa — inviamo {{amount}} al tuo wallet",
+    "payoutSent": "{{amount}} inviati al tuo wallet",
+    "payoutDelayed": "Il pagamento di {{amount}} è in ritardo — il denaro è al sicuro e arriverà più tardi"
   },
   "onboarding": {
     "slide1Title": "Prenota corse con Pi",

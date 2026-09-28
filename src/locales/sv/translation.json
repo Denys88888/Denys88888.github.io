@@ -258,7 +258,13 @@
     "forecastHint": "Håll denna takt så tjänar du ungefär {{amount}}",
     "tipsTotal": "Total dricks",
     "tip": "dricks",
-    "cancelFee": "avbokningsavgift"
+    "cancelFee": "avbokningsavgift",
+    "owedTitle": "Inte i din plånbok än: {{amount}}",
+    "owedHint": "Passagerarna har betalat för de här resorna. Pengarna hålls åt dig och kommer till din plånbok så snart utbetalningen går igenom.",
+    "statusPaid": "utbetalt",
+    "statusSending": "skickas",
+    "statusQueued": "inte utbetalt än",
+    "statusAwaitingPassenger": "passageraren har inte betalat"
   },
   "register": {
     "title": "Förarregistrering",
@@ -408,7 +414,9 @@
     "rideStarted": "Din resa har börjat",
     "rideCompleted": "Resa slutförd",
     "rideCancelled": "Din resa avbokades",
-    "paymentReceived": "Passageraren har betalat — du tjänade {{amount}}"
+    "paymentReceived": "Passageraren har betalat resan — vi skickar {{amount}} till din plånbok",
+    "payoutSent": "{{amount}} skickat till din plånbok",
+    "payoutDelayed": "Din utbetalning på {{amount}} är försenad — pengarna är säkra och kommer senare"
   },
   "onboarding": {
     "slide1Title": "Boka resor med Pi",

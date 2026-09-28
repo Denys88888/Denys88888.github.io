@@ -258,7 +258,13 @@
     "forecastHint": "Pertahankan tempo ini dan kamu akan mendapat sekitar {{amount}}",
     "tipsTotal": "Total tip",
     "tip": "tip",
-    "cancelFee": "biaya pembatalan"
+    "cancelFee": "biaya pembatalan",
+    "owedTitle": "Belum masuk ke dompetmu: {{amount}}",
+    "owedHint": "Penumpang sudah membayar perjalanan ini. Uangnya disimpan untukmu dan akan masuk ke dompetmu begitu pembayaran berhasil.",
+    "statusPaid": "sudah dibayar",
+    "statusSending": "sedang dikirim",
+    "statusQueued": "belum dibayar",
+    "statusAwaitingPassenger": "penumpang belum membayar"
   },
   "register": {
     "title": "Pendaftaran pengemudi",
@@ -408,7 +414,9 @@
     "rideStarted": "Perjalanan Anda telah dimulai",
     "rideCompleted": "Perjalanan selesai",
     "rideCancelled": "Perjalanan Anda dibatalkan",
-    "paymentReceived": "Penumpang telah membayar — Anda mendapatkan {{amount}}"
+    "paymentReceived": "Penumpang sudah membayar perjalanan — {{amount}} sedang dikirim ke dompetmu",
+    "payoutSent": "{{amount}} sudah dikirim ke dompetmu",
+    "payoutDelayed": "Pembayaran {{amount}} untukmu tertunda — uangnya aman dan akan masuk nanti"
   },
   "onboarding": {
     "slide1Title": "Pesan perjalanan dengan Pi",

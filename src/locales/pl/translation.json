@@ -258,7 +258,13 @@
     "forecastHint": "Utrzymując to tempo, zarobisz około {{amount}}",
     "tipsTotal": "Suma napiwków",
     "tip": "napiwek",
-    "cancelFee": "opłata za anulowanie"
+    "cancelFee": "opłata za anulowanie",
+    "owedTitle": "Jeszcze nie w portfelu: {{amount}}",
+    "owedHint": "Pasażerowie zapłacili za te przejazdy. Pieniądze są zarezerwowane dla Ciebie i trafią do portfela, gdy tylko wypłata przejdzie.",
+    "statusPaid": "wypłacono",
+    "statusSending": "wysyłanie",
+    "statusQueued": "jeszcze nie wypłacono",
+    "statusAwaitingPassenger": "pasażer nie zapłacił"
   },
   "register": {
     "title": "Rejestracja kierowcy",
@@ -408,7 +414,9 @@
     "rideStarted": "Twój przejazd się rozpoczął",
     "rideCompleted": "Przejazd zakończony",
     "rideCancelled": "Twój przejazd został anulowany",
-    "paymentReceived": "Pasażer zapłacił — zarobiłeś {{amount}}"
+    "paymentReceived": "Pasażer zapłacił za przejazd — wysyłamy {{amount}} na Twój portfel",
+    "payoutSent": "{{amount}} wysłano na Twój portfel",
+    "payoutDelayed": "Wypłata {{amount}} się opóźnia — pieniądze są bezpieczne i dotrą później"
   },
   "onboarding": {
     "slide1Title": "Przejazdy za Pi",

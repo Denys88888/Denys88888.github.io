@@ -258,7 +258,13 @@
     "forecastHint": "このペースを保てば約 {{amount}} 稼げます",
     "tipsTotal": "チップ合計",
     "tip": "チップ",
-    "cancelFee": "キャンセル料"
+    "cancelFee": "キャンセル料",
+    "owedTitle": "まだウォレットに届いていない金額：{{amount}}",
+    "owedHint": "これらの乗車は乗客が支払い済みです。お金はあなたのために保管され、支払いが完了し次第ウォレットに届きます。",
+    "statusPaid": "支払い済み",
+    "statusSending": "送金中",
+    "statusQueued": "未払い",
+    "statusAwaitingPassenger": "乗客が未払い"
   },
   "register": {
     "title": "ドライバー登録",
@@ -408,7 +414,9 @@
     "rideStarted": "乗車が開始されました",
     "rideCompleted": "乗車完了",
     "rideCancelled": "乗車がキャンセルされました",
-    "paymentReceived": "乗客が支払いました — {{amount}}を獲得しました"
+    "paymentReceived": "乗客が乗車料金を支払いました — {{amount}}をウォレットに送金しています",
+    "payoutSent": "{{amount}}をウォレットに送金しました",
+    "payoutDelayed": "{{amount}}の支払いが遅れています — お金は保管されており、後で届きます"
   },
   "onboarding": {
     "slide1Title": "Piで乗車予約",
