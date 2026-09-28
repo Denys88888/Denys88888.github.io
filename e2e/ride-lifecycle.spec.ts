@@ -296,6 +296,63 @@ test.describe.serial('two-party ride lifecycle', () => {
       await ctx.close();
     }
   });
+
+  test('navigation starts by itself when the driver takes a ride, once', async ({
+    browser,
+    request,
+  }) => {
+    // It used to wait for the driver to find and press "Navigation" — with the
+    // car already moving. Now taking a ride is enough. And it must not fight
+    // back: a driver who leaves the driving view has made a choice, and the
+    // ride refreshing underneath them is no reason to put it back.
+    const passenger = await devLogin(request, 'e2e-autonav-passenger', 'passenger');
+    const driver = await devLogin(request, DRIVER_FIXTURE, 'driver');
+    await cancelActiveRides(request, passenger);
+    await goOnline(request, driver);
+
+    const PICKUP = uniquePickup();
+    const created = await withWakeRetry(() =>
+      request.post(`${API}/api/rides`, {
+        data: { pickup: PICKUP, destination: DESTINATION, vehicleType: 'economy' },
+        headers: auth(passenger),
+      })
+    );
+    expect(created.status(), await created.text()).toBe(201);
+
+    // A fix at the pickup: the one thing the previous test withholds, and the
+    // thing the driving view needs before it will open at all.
+    const ctx = await browser.newContext({
+      geolocation: { latitude: PICKUP.lat, longitude: PICKUP.lng },
+      permissions: ['geolocation'],
+    });
+    const page = await ctx.newPage();
+
+    try {
+      await openAs(page, driver);
+      await page
+        .locator('div')
+        .filter({ hasText: PICKUP.address })
+        .getByRole('button', { name: /accept/i })
+        .last()
+        .click({ timeout: 20000 });
+
+      // No tap on "Navigation". The ETA bar's own Exit control only exists
+      // while turn-by-turn is running, which makes it the proof.
+      const exit = page.getByRole('button', { name: /^exit$/i });
+      await expect(exit).toBeVisible({ timeout: 20000 });
+
+      await exit.click();
+      await expect(exit).toHaveCount(0);
+
+      // The ride screen keeps refreshing the ride; none of those refreshes may
+      // switch the view back on.
+      await page.waitForTimeout(8000);
+      await expect(exit).toHaveCount(0);
+    } finally {
+      await cancelActiveRides(request, passenger);
+      await ctx.close();
+    }
+  });
 });
 
 /**

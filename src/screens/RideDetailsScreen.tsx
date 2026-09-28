@@ -318,6 +318,23 @@ export function RideDetailsScreen() {
     if (rideOver) setShowNav(false);
   }, [rideOver]);
 
+  // Navigation starts itself. A driver on a live ride wants the driving view —
+  // it is what this screen is for — and a button to reach for with the car
+  // already moving is the thing to design out. Once per ride: if the driver
+  // turns it off, that choice stands until their next one. Without a GPS fix
+  // this only arms it (navActive also needs a position), and the effect above
+  // still says so if location is actually unavailable.
+  const autoNavRideRef = useRef<string | null>(null);
+  const rideLive = !!ride && ['assigned', 'arrived', 'in_progress'].includes(ride.status);
+  useEffect(() => {
+    if (!isDriver || !rideLive || !ride) return;
+    if (autoNavRideRef.current === ride.id) return;
+    autoNavRideRef.current = ride.id;
+    setShowNav(true);
+    // ride.id, not ride: a new object arrives on every refresh.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDriver, rideLive, ride?.id]);
+
   const canTip = !!ride && ride.status === 'completed' && !isDriver && !!ride.driverId && !ride.tipAmount;
   useEffect(() => {
     if (!canTip) return;
