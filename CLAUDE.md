@@ -93,16 +93,23 @@ sheets, but it only catches this one shape of the mistake.
 
 ## Testing
 
-**Prefer the Playwright suite over the Android emulators.** `e2e/` runs against
-a dev server on :5199 (auto-started) plus the production API:
+**Prefer the Playwright suite over the Android emulators.** `e2e/` starts its
+own API on :10199 (in-memory SQLite, sandbox on) and a dev server on :5199 —
+nothing in it touches production:
 ```bash
 npx playwright test --config e2e/playwright.config.ts
 ```
-**`/api/auth/dev` is closed in production since the mainnet move** — it answers
-403 whenever `PI_SANDBOX` is false, which is now. So the dev-login route below,
-and every e2e run that leans on it, only works against a local server started
-with `PI_SANDBOX=true`. Do not flip the Render value to get the suite green;
-read the network section above for what that flag costs.
+So closing `/api/auth/dev` in production — it answers 403 whenever `PI_SANDBOX`
+is false, which it is since the mainnet move — did **not** break the suite:
+14/14 green on 28 Sep 2026. An earlier note here said the opposite; it was
+wrong. Never flip the Render value for tests. `E2E_API_URL` aims the suite at a
+real deployment by hand, and against production that now fails at login, by
+design.
+
+Both ports are shared with the `taxi-api-local`, `taxi-api-seeded` and
+`taxi-frontend-e2e` preview configs, and `reuseExistingServer` is on — stop
+those first, or the suite reuses a server started with the wrong env (no
+`ADMIN_UIDS`, so global setup cannot approve the driver fixture).
 
 Dev accounts: `TestPassenger` / `TestDriver` are safe to use freely. Mint tokens
 with `POST /api/auth/dev {"name":"...","role":"..."}` (they expire quickly —
