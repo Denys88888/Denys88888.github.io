@@ -65,6 +65,30 @@ address is `taxipro5198.pinet.com`.
   instance answering 200, so `status: ok` proves nothing on its own)
 - `wallet` — whether `PI_WALLET_SEED` is set. Without it every driver payout
   parks as `no_wallet_configured` and drivers are silently never paid.
+- `sentry` — whether error reporting actually initialised (`true` in
+  production since 28 Sep 2026). The frontend's DSN is baked in by
+  `deploy.yml`; grep the live bundle for `ingest.de.sentry.io` to confirm.
+
+### Reading the logs
+
+Every step below writes one line, so a question about a ride or a payment is
+a log search, not a guess. These exist because each was once a week-long
+mystery with nothing written down:
+
+- `[Dispatch] reached no drivers` — the passenger stuck on "searching".
+  `[Dispatch] offered` carries `reached: N` otherwise.
+- `[Ride] accepted` / `accept refused` (with `code`) / `[Ride] cancelled`
+  (with `by`, `from` status, `fee`).
+- `[Payment] pi call` — every approve/complete/cancel with Pi's HTTP
+  `piStatus`. A 404 there means the payment belongs to a different
+  registration than `PI_API_KEY` (see the network section).
+- `[Payout] …` — the driver's A2U transfer; drivers are also told
+  `payout_sent` / `payout_delayed` over the socket.
+- `[WS] disconnected` — with `code` and `connectedMs`. 1006: the phone
+  vanished; 1001: page gone; 1000/1005: the app closed it on purpose;
+  `byHeartbeat`: the server cut a silent socket (only possible past 30s).
+- `[turn] credentials served` — whether a call had a relay (`count`) and
+  how long minting it took (`tookMs`).
 
 Frontend deploys via GitHub Actions. `gh` CLI is **not installed** — check runs
 with `curl -s "https://api.github.com/repos/OWNER/REPO/actions/runs?branch=main"`.
