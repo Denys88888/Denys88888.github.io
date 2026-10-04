@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, afterEach, vi } from 'vitest';
 import { render, screen, cleanup, waitFor } from '@testing-library/react';
 import i18n from '../../i18n';
-import { NavigationPanel } from './NavigationPanel';
+import { NavigationPanel, sortIndications } from './NavigationPanel';
 import type { Maneuver } from '../../services/mapService';
 
 // The driver reads this panel at speed, with one hand on the wheel: the lane to
@@ -83,6 +83,49 @@ describe('NavigationPanel lane guidance', () => {
 
     await screen.findByText(/Turn right/);
     expect(screen.queryByLabelText('Lane guidance')).toBeNull();
+  });
+
+  // The lane is the one thing to act on *before* the junction, so it leads the
+  // banner, as in Waze. It used to sit last, under the instruction and the
+  // progress bar, in small chips.
+  it('puts the lanes above the instruction', async () => {
+    show();
+
+    const strip = await screen.findByLabelText('Lane guidance');
+    const instruction = screen.getByText(/Turn right/);
+    expect(strip.compareDocumentPosition(instruction) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it('draws a combined lane with its left branch on the left', async () => {
+    const { container } = show({
+      steps: [{ ...TURN, lanes: [{ valid: true, indications: ['straight', 'left'] }] }, NEXT],
+    });
+
+    await screen.findByLabelText('Lane guidance');
+    const icons = Array.from(container.querySelectorAll('[data-lane] svg')).map(
+      (svg) => svg.getAttribute('class') ?? ''
+    );
+    // OSM said straight first; the left branch is still drawn on the left.
+    expect(icons[0]).toMatch(/corner-up-left/);
+    expect(icons[1]).toMatch(/arrow-up/);
+  });
+});
+
+describe('sortIndications', () => {
+  it('orders a lane left to right, the way the road marking does', () => {
+    expect(sortIndications(['straight', 'left'])).toEqual(['left', 'straight']);
+    expect(sortIndications(['right', 'straight'])).toEqual(['straight', 'right']);
+    expect(sortIndications(['slight right', 'straight', 'sharp left'])).toEqual([
+      'sharp left',
+      'straight',
+      'slight right',
+    ]);
+  });
+
+  it('keeps a U-turn on the left and leaves the input untouched', () => {
+    const input = ['straight', 'uturn'];
+    expect(sortIndications(input)).toEqual(['uturn', 'straight']);
+    expect(input).toEqual(['straight', 'uturn']);
   });
 });
 

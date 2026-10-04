@@ -64,6 +64,21 @@ export function laneIcon(indication: string) {
   return ArrowUp; // 'straight', 'none'
 }
 
+// Where each arrow sits within its lane: left branches on the left, right on
+// the right, straight between — the way the arrow painted on the road and every
+// lane sign draws a combined lane. OSM lists them in no particular order, so a
+// left-and-straight lane came out as "↑↰", its left branch drawn on the right.
+// Ties keep OSM's order (sort is stable).
+function indicationRank(indication: string): number {
+  if (indication.includes('left') || indication.includes('uturn')) return 0;
+  if (indication.includes('right')) return 2;
+  return 1;
+}
+
+export function sortIndications(indications: string[]): string[] {
+  return [...indications].sort((a, b) => indicationRank(a) - indicationRank(b));
+}
+
 const ADVANCE_RADIUS_KM = 0.03; // 30 m — consider the maneuver done
 const NEAR_KM = 0.08; // came this close to the junction — the driver was at it
 const PASSED_KM = 0.04; // …and has since pulled this far away again
@@ -194,6 +209,49 @@ export function NavigationPanel({ from, to, position }: Props) {
       aria-label={t('driver.navigation')}
       className="pointer-events-auto overflow-hidden rounded-card bg-black/30 text-white shadow-card backdrop-blur-[2px] [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]"
     >
+      {/* Which lane to be in — first, and as wide as the banner. It used to
+          come last, in small chips under the instruction and the progress
+          bar, when it is the one thing a driver has to act on before the
+          junction rather than at it; Waze leads with it for that reason.
+          Each lane takes an equal share of the width, so the strip lines up
+          with the road the way the lanes do, and thin rules keep neighbours
+          apart. Solid behind it, unlike the rest of the banner: seeing the
+          road through matters less here than reading arrows in sunlight.
+          Lit lanes keep the driver on the route; OSM knows the layout of most
+          city junctions, and the strip only appears where it does. */}
+      {lanes && lanes.length > 0 && (
+        <div className="flex divide-x divide-white/15 bg-black/60" aria-label={t('nav.lanes')}>
+          {lanes.map((lane, i) => {
+            const shown = sortIndications(lane.indications).slice(0, 2);
+            // Two arrows have to share the cell, or a junction with many
+            // combined lanes overflows the width.
+            const size = shown.length > 1 ? 24 : 32;
+            return (
+              <div
+                key={i}
+                data-lane={lane.valid ? 'valid' : 'invalid'}
+                className={cn(
+                  'flex h-14 min-w-0 flex-1 items-center justify-center',
+                  lane.valid ? 'text-white' : 'text-white/30'
+                )}
+              >
+                {shown.map((indication, j) => {
+                  const LaneIcon = laneIcon(indication);
+                  return (
+                    <LaneIcon
+                      key={j}
+                      size={size}
+                      strokeWidth={lane.valid ? 3 : 2}
+                      className="-mx-0.5 shrink-0"
+                    />
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
       <div className="flex items-center gap-3 px-3 py-2">
         {/* Arrow over distance, the way every in-car nav head unit does it:
             one glanceable block instead of two things to find. */}
@@ -260,30 +318,6 @@ export function NavigationPanel({ from, to, position }: Props) {
               width: `${Math.min(100, Math.max(0, (1 - distanceKm / (current.distanceM / 1000)) * 100))}%`,
             }}
           />
-        </div>
-      )}
-
-      {/* Which lane to be in. OSM knows the lane layout of most city junctions;
-          the ones that keep you on the route are lit, the rest are dimmed.
-          Only appears where there is lane data, i.e. at the junctions where it
-          earns the space. */}
-      {lanes && lanes.length > 0 && (
-        <div className="flex justify-center gap-1 border-t border-white/10 p-1.5" aria-label={t('nav.lanes')}>
-          {lanes.map((lane, i) => (
-            <div
-              key={i}
-              data-lane={lane.valid ? 'valid' : 'invalid'}
-              className={cn(
-                'flex h-8 min-w-[2rem] items-center justify-center gap-0.5 rounded-lg px-1',
-                lane.valid ? 'bg-primary text-white' : 'bg-white/10 text-white/40'
-              )}
-            >
-              {lane.indications.slice(0, 2).map((indication, j) => {
-                const LaneIcon = laneIcon(indication);
-                return <LaneIcon key={j} size={15} strokeWidth={lane.valid ? 2.5 : 2} />;
-              })}
-            </div>
-          ))}
         </div>
       )}
     </div>
