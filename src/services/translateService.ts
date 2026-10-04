@@ -6,9 +6,12 @@ const CACHE_PREFIX = 'taxipro_tr:';
 const MYMEMORY = 'https://api.mymemory.translated.net/get';
 const LIBRETRANSLATE = 'https://libretranslate.de/translate';
 
-// Cheap script/diacritic-based source-language guess. It only needs to be good
-// enough to build a langpair; when the guess equals the target we skip the call.
-export function detectLanguage(text: string): string {
+// Cheap script/diacritic-based source-language guess, or null when the text
+// gives no reliable clue. Plain Latin text could be English, Spanish, Italian,
+// Indonesian, Dutch… — guessing "en" for all of it told an English-speaking
+// driver that "Hola, estoy en la entrada principal" was already in their
+// language. With no guess, the provider detects the language itself.
+export function detectLanguage(text: string): string | null {
   if (/[Ѐ-ӿ]/.test(text)) {
     return /[іїєґІЇЄҐ]/.test(text) ? 'uk' : 'ru';
   }
@@ -20,7 +23,9 @@ export function detectLanguage(text: string): string {
   if (/[぀-ヿ]/.test(text)) return 'ja';
   if (/[가-힯]/.test(text)) return 'ko';
   if (/[؀-ۿ]/.test(text)) return 'ar';
-  return 'en';
+  if (/[ऀ-ॿ]/.test(text)) return 'hi';
+  if (/[฀-๿]/.test(text)) return 'th';
+  return null;
 }
 
 function cacheKey(text: string, target: string): string {
@@ -30,27 +35,38 @@ function cacheKey(text: string, target: string): string {
   return `${CACHE_PREFIX}${target}:${h}`;
 }
 
-async function viaMyMemory(text: string, source: string, target: string): Promise<string | null> {
-  const url = `${MYMEMORY}?q=${encodeURIComponent(text)}&langpair=${source}|${target}`;
+/** Same-language is an answer, not a failure: it must not fall through to the fallback. */
+const SAME = Symbol('same-language');
+
+async function viaMyMemory(
+  text: string,
+  source: string | null,
+  target: string
+): Promise<string | typeof SAME | null> {
+  const url = `${MYMEMORY}?q=${encodeURIComponent(text)}&langpair=${source ?? 'autodetect'}|${target}`;
   const res = await fetch(url);
-  if (!res.ok) return null;
-  const data = (await res.json()) as {
+  // Autodetect landing on the reader's own language comes back as a 403 with
+  // this text in place of a translation.
+  const data = (await res.json().catch(() => null)) as {
     responseStatus: number;
-    responseData?: { translatedText?: string };
-  };
+    responseData?: { translatedText?: string; detectedLanguage?: string };
+  } | null;
+  if (!data) return null;
   const out = data.responseData?.translatedText;
-  return data.responseStatus === 200 && out ? out : null;
+  if (/two distinct languages/i.test(out ?? '')) return SAME;
+  if (data.responseData?.detectedLanguage?.slice(0, 2).toLowerCase() === target) return SAME;
+  return res.ok && data.responseStatus === 200 && out ? out : null;
 }
 
 async function viaLibreTranslate(
   text: string,
-  source: string,
+  source: string | null,
   target: string
 ): Promise<string | null> {
   const res = await fetch(LIBRETRANSLATE, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ q: text, source, target, format: 'text' }),
+    body: JSON.stringify({ q: text, source: source ?? 'auto', target, format: 'text' }),
   });
   if (!res.ok) return null;
   const data = (await res.json()) as { translatedText?: string };
@@ -78,7 +94,9 @@ export async function translateMessage(text: string, target: string): Promise<Tr
 
   let result: string | null = null;
   try {
-    result = await viaMyMemory(text, source, targetLang);
+    const mm = await viaMyMemory(text, source, targetLang);
+    if (mm === SAME) return { status: 'same-language' };
+    result = mm;
   } catch {
     result = null;
   }
