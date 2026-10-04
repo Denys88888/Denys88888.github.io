@@ -24,10 +24,15 @@ export function RideProvider({ children }: { children: ReactNode }) {
     const offAssigned = wsService.on('ride_assigned', (msg) => {
       // This event fires on both sides of an assignment: the passenger whose
       // ride just got a driver, and — for a negotiated ride — the driver whose
-      // offer was just accepted. Same payload, opposite meaning; pick the
-      // toast that matches which one this client is.
+      // offer was just accepted. Same payload, opposite meaning.
+      //
+      // Only the driver's toast lives here. The passenger's "Driver found!"
+      // comes from notificationService, which also buzzes and raises a system
+      // notification when the app is in the background — saying it here too
+      // stacked two identical toasts on every single ride (the store only
+      // de-duplicates same-type toasts, and these were success vs info).
       const iAmTheDriver = String(msg.driverId ?? '') === uid;
-      addToast('success', t(iAmTheDriver ? 'driver.offerAccepted' : 'home.driverFound'));
+      if (iAmTheDriver) addToast('success', t('driver.offerAccepted'));
       const rideId = String(msg.rideId ?? '');
       if (rideId) {
         api.getRide(rideId).then(setCurrentRide).catch((err) => console.error('[RideContext] getRide:', err));
