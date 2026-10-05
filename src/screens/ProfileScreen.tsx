@@ -227,9 +227,10 @@ export function ProfileScreen() {
         {contactEmail && (
           <p className="text-center text-xs opacity-60">
             {t('profile.support')}:{' '}
-            <a href={`mailto:${contactEmail}`} className="text-primary underline">
-              {contactEmail}
-            </a>
+            {/* Plain selectable text, not a mailto: link — Pi's ecosystem
+                listing rules out sending people to other apps, and a mail
+                client is exactly that. */}
+            <span className="select-all text-primary">{contactEmail}</span>
           </p>
         )}
 

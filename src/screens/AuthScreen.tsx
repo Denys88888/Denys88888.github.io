@@ -5,11 +5,19 @@ import { useAuth } from '../context/AuthContext';
 import { LanguageSelector } from '../components/ui/LanguageSelector';
 import { Button } from '../components/ui/Button';
 
+// The developer buttons exist for local and end-to-end runs only. In the build
+// people actually use, the server refuses /auth/dev anyway (PI_SANDBOX is
+// false) — and a second way to sign in on screen, even a dead one, is what Pi's
+// ecosystem review turns an app down for: Pi authentication must be the only
+// login. Five taps on the logo used to reveal them in production too.
+const devLoginBuild = import.meta.env.DEV;
+
 const isDevMode =
-  new URLSearchParams(window.location.search).has('dev') || localStorage.getItem('taxi_pro_dev') === '1';
+  devLoginBuild &&
+  (new URLSearchParams(window.location.search).has('dev') || localStorage.getItem('taxi_pro_dev') === '1');
 
 // Single-action login screen. The only button authenticates via the Pi SDK.
-// With ?dev in the URL, shows extra buttons for sandbox testing without Pi SDK.
+// In a dev build, ?dev in the URL shows extra buttons for sandbox testing.
 export function AuthScreen() {
   const { t } = useTranslation();
   const { login, devLogin, loading } = useAuth();
@@ -18,7 +26,7 @@ export function AuthScreen() {
   const tapsRef = useRef<number[]>([]);
 
   const handleLogoTap = () => {
-    if (isDevMode) return;
+    if (isDevMode || !devLoginBuild) return;
     const now = Date.now();
     tapsRef.current = [...tapsRef.current, now].filter((t) => now - t < 2000);
     if (tapsRef.current.length >= 5) {

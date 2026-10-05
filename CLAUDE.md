@@ -141,7 +141,9 @@ re-mint rather than debugging a 401). **Never touch real users' accounts or
 driver applications** — the Approved list is full of real people.
 
 Enabling dev mode in the UI: **tap the car logo 5 times within 2 seconds** on the
-auth screen. Separate `adb` taps are too slow; use one shell:
+auth screen — **dev builds only** (`npm run dev`, the e2e server). The production
+bundle never shows the developer buttons: Pi's ecosystem listing requires Pi
+authentication to be the only login on screen. Separate `adb` taps are too slow; use one shell:
 `adb shell "for i in 1 2 3 4 5; do input tap X Y; done"`.
 
 ## Android emulator (last resort)
