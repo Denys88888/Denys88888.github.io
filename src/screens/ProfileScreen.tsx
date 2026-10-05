@@ -66,6 +66,12 @@ export function ProfileScreen() {
 
   const roleKey =
     user.role === 'admin' ? 'roleAdmin' : user.role === 'driver' ? 'roleDriver' : 'rolePassenger';
+  // Only drivers are asked for a phone number: the admin uses it to reach them
+  // about their application. A passenger's number was asked for and then used
+  // by nothing at all — calls are in-app and the other side never receives it —
+  // which is the data Pi's ecosystem listing asks apps not to collect. An
+  // approved driver switched to riding still has a driver account behind it.
+  const isDriverAccount = user.role === 'driver' || !!user.driverInfo;
 
   const onPickAvatar = async (file: File): Promise<void> => {
     try {
@@ -120,22 +126,24 @@ export function ProfileScreen() {
                 <Star size={14} className="fill-warning text-warning" /> {user.rating.toFixed(1)} ({user.ratingCount})
               </span>
             </div>
-            {user.phone && <p className="mt-1 text-xs opacity-50">{maskPhone(user.phone)}</p>}
+            {isDriverAccount && user.phone && <p className="mt-1 text-xs opacity-50">{maskPhone(user.phone)}</p>}
           </div>
         </Card>
 
-        <Card className="space-y-3">
-          <Input
-            label={t('profile.phone')}
-            type="tel"
-            value={phone}
-            placeholder={t('profile.phonePlaceholder')}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-          <Button variant="outline" loading={savingPhone} onClick={savePhone} disabled={!phone}>
-            {t('common.save')}
-          </Button>
-        </Card>
+        {isDriverAccount && (
+          <Card className="space-y-3">
+            <Input
+              label={t('profile.phone')}
+              type="tel"
+              value={phone}
+              placeholder={t('profile.phonePlaceholder')}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+            <Button variant="outline" loading={savingPhone} onClick={savePhone} disabled={!phone}>
+              {t('common.save')}
+            </Button>
+          </Card>
+        )}
 
         <Card className="space-y-4">
           <div className="flex items-center justify-between">
