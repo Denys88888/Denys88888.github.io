@@ -29,10 +29,11 @@ export interface FareOffer {
   createdAt: string;
 }
 
+// The other side of a ride. No phone number: calls go through the app, and the
+// server stopped sending one.
 export interface RideParty {
   uid: string;
   name: string;
-  phone?: string;
   rating: number;
   avatar?: string;
   vehicleType?: VehicleType;

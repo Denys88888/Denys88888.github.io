@@ -32,7 +32,7 @@ import {
   cancellationFeeApplies,
   freeCancelMsLeft as msLeftToCancelFree,
 } from '../utils/cancellation';
-import { formatPi, formatDistance, formatDuration, formatDate, maskPhone } from '../utils/formatters';
+import { formatPi, formatDistance, formatDuration, formatDate } from '../utils/formatters';
 import type { GeoPoint, Ride, RideParty, FareOffer } from '../types';
 
 const AVG_SPEED_KMH = 30;
@@ -363,7 +363,7 @@ export function RideDetailsScreen() {
   // hook behind a conditional return renders a different number of hooks on
   // the two paths, and React tears the whole screen down with "Rendered more
   // hooks than during the previous render" the moment the ride loads.
-  const limitKph = useSpeedLimit(iAmDriver && showNav ? position : null);
+  const speedLimit = useSpeedLimit(iAmDriver && showNav ? position : null);
 
   if (!ride) {
     return <div className="flex h-full items-center justify-center opacity-60">{t('common.loading')}</div>;
@@ -640,7 +640,7 @@ export function RideDetailsScreen() {
             They used to be a full-width strip inside the turn banner, where
             the two smallest numbers on the screen cost a whole row of map. */}
         {navActive && (
-          <SpeedBadge speed={speed} limitKph={limitKph} className="absolute bottom-24 left-3 z-map" />
+          <SpeedBadge speed={speed} limit={speedLimit.limit} unit={speedLimit.unit} className="absolute bottom-24 left-3 z-map" />
         )}
         <button
           onClick={() => {
@@ -831,7 +831,6 @@ export function RideDetailsScreen() {
                 <Star size={12} className="fill-warning text-warning" /> {counterpart.rating.toFixed(1)}
                 {counterpart.brand ? ` · ${counterpart.brand} ${counterpart.model} · ${counterpart.number}` : ''}
               </p>
-              {counterpart.phone && <p className="text-xs opacity-50">{maskPhone(counterpart.phone)}</p>}
             </div>
             <div className="flex gap-2">
               {['assigned', 'arrived', 'in_progress'].includes(ride.status) && (
