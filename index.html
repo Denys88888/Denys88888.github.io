@@ -48,7 +48,10 @@
     <script src="https://sdk.minepi.com/pi-sdk.js" defer></script>
     <style>
       /* Branded first-paint loader shown inside #root until React mounts, so a
-         slow bundle fetch shows the logo instead of a blank white screen. */
+         slow bundle fetch shows the logo instead of a blank white screen.
+         Same green and the same π as the sign-in screen it hands over to — it
+         was purple with a stock car, the colour of Pi's own brand, which an app
+         has no business wearing. */
       #app-boot {
         position: fixed;
         inset: 0;
@@ -57,7 +60,7 @@
         align-items: center;
         justify-content: center;
         gap: 20px;
-        background: #7b3fe4;
+        background: linear-gradient(to bottom, #0f6e56, #063d30);
       }
       #app-boot .boot-logo {
         width: 84px;
@@ -98,9 +101,11 @@
     <div id="root">
       <div id="app-boot">
         <div class="boot-logo">
-          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9L18 10l-2.7-3.4A2 2 0 0 0 13.7 6H10.3a2 2 0 0 0-1.6.8L6 10l-2.5 1.1C2.7 11.3 2 12.1 2 13v3c0 .6.4 1 1 1h2" />
-            <circle cx="7" cy="17" r="2" /><circle cx="17" cy="17" r="2" />
+          <!-- Keep in sync with src/components/ui/Logo.tsx -->
+          <svg width="44" height="44" viewBox="136 151 240 210" fill="#fff" role="img" aria-label="Taxi Pro">
+            <rect x="146" y="161" width="220" height="30" rx="15" />
+            <rect x="184" y="191" width="32" height="160" rx="16" />
+            <rect x="296" y="191" width="32" height="160" rx="16" />
           </svg>
         </div>
         <div class="boot-bar"><span></span></div>
