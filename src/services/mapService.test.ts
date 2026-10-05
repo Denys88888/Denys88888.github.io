@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { fetchRouteSteps, parseMaxspeed, speedLimitKph } from './mapService';
+import { fetchRouteSteps, parseMaxspeed, speedLimitAt } from './mapService';
 
 // Lane guidance and the speed-limit sign both come from raw OpenStreetMap data
 // reached through two different public services, and both are free-form enough
@@ -82,13 +82,15 @@ describe('fetchRouteSteps', () => {
 });
 
 describe('parseMaxspeed', () => {
-  it('reads a plain km/h number', () => {
-    expect(parseMaxspeed('50')).toBe(50);
+  it('reads a plain number as km/h', () => {
+    expect(parseMaxspeed('50')).toEqual({ value: 50, unit: 'kmh' });
   });
 
-  it('converts mph to km/h', () => {
-    expect(parseMaxspeed('30 mph')).toBe(48);
-    expect(parseMaxspeed('70mph')).toBe(113);
+  // It used to convert, so a "30 mph" street showed a "48" sign — a number no
+  // driver in the US or UK has seen on a pole. The sign keeps the road's unit.
+  it('keeps mph as mph', () => {
+    expect(parseMaxspeed('30 mph')).toEqual({ value: 30, unit: 'mph' });
+    expect(parseMaxspeed('70mph')).toEqual({ value: 70, unit: 'mph' });
   });
 
   it('shows no sign for values that are not a number', () => {
@@ -100,7 +102,7 @@ describe('parseMaxspeed', () => {
   });
 });
 
-describe('speedLimitKph', () => {
+describe('speedLimitAt', () => {
   it('asks OSM once per road cell and reuses the answer', async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
@@ -109,10 +111,10 @@ describe('speedLimitKph', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     const point = { lat: 40.1111, lng: 30.2222 };
-    expect(await speedLimitKph(point)).toBe(50);
+    expect(await speedLimitAt(point)).toEqual({ value: 50, unit: 'kmh' });
     // A few metres on is the same cell — a driver must not generate one
     // Overpass request per GPS tick.
-    expect(await speedLimitKph({ lat: 40.11112, lng: 30.22221 })).toBe(50);
+    expect(await speedLimitAt({ lat: 40.11112, lng: 30.22221 })).toEqual({ value: 50, unit: 'kmh' });
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
@@ -127,9 +129,9 @@ describe('speedLimitKph', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     const point = { lat: 41.3333, lng: 31.4444 };
-    expect(await speedLimitKph(point)).toBeNull();
+    expect(await speedLimitAt(point)).toBeNull();
     // The failure must not be cached as "this road has no limit".
-    expect(await speedLimitKph(point)).toBe(80);
+    expect(await speedLimitAt(point)).toEqual({ value: 80, unit: 'kmh' });
   });
 
   it('backs off after a run of failures, then tries again once the pause is over', async () => {
@@ -138,9 +140,9 @@ describe('speedLimitKph', () => {
 
     // Three strikes in a row: stop hammering a public service that is down.
     for (const lng of [50.1, 50.2, 50.3]) {
-      expect(await speedLimitKph({ lat: 43.7, lng })).toBeNull();
+      expect(await speedLimitAt({ lat: 43.7, lng })).toBeNull();
     }
-    expect(await speedLimitKph({ lat: 43.7, lng: 50.4 })).toBeNull();
+    expect(await speedLimitAt({ lat: 43.7, lng: 50.4 })).toBeNull();
     expect(fetchMock).toHaveBeenCalledTimes(3); // the 4th never left the app
 
     // A busy minute must not cost the driver the sign for the rest of the trip.
@@ -151,7 +153,7 @@ describe('speedLimitKph', () => {
         ok: true,
         json: async () => ({ elements: [{ tags: { maxspeed: '60' } }] }),
       });
-      expect(await speedLimitKph({ lat: 43.7, lng: 50.5 })).toBe(60);
+      expect(await speedLimitAt({ lat: 43.7, lng: 50.5 })).toEqual({ value: 60, unit: 'kmh' });
     } finally {
       vi.useRealTimers();
     }
@@ -163,6 +165,6 @@ describe('speedLimitKph', () => {
       vi.fn().mockResolvedValue({ ok: true, json: async () => ({ elements: [] }) })
     );
 
-    expect(await speedLimitKph({ lat: 42.5555, lng: 32.6666 })).toBeNull();
+    expect(await speedLimitAt({ lat: 42.5555, lng: 32.6666 })).toBeNull();
   });
 });

@@ -305,11 +305,21 @@ export async function fetchRouteSteps(waypoints: GeoPoint[]): Promise<Maneuver[]
 // what the sign says, so the limit itself comes from the raw OSM maxspeed tag.
 
 const OVERPASS = 'https://overpass-api.de/api/interpreter';
-const MPH_TO_KPH = 1.609344;
+export type SpeedUnit = 'kmh' | 'mph';
+
+/** A posted limit, in the unit printed on the sign. */
+export interface SpeedLimit {
+  value: number;
+  unit: SpeedUnit;
+}
 
 // OSM maxspeed values are free-form: "50", "30 mph", "DE:urban", "none",
 // "walk". Only an explicit number is worth showing on a speed-limit sign.
-export function parseMaxspeed(raw: string | undefined): number | null {
+//
+// The unit stays the road's own. "25 mph" used to come out as 40 — a number no
+// sign in San Francisco has ever shown, read by a driver whose speedometer is
+// in miles.
+export function parseMaxspeed(raw: string | undefined): SpeedLimit | null {
   if (!raw) return null;
   const match = /^(\d+(?:\.\d+)?)\s*(mph|knots)?$/i.exec(raw.trim());
   if (!match) return null;
@@ -317,21 +327,21 @@ export function parseMaxspeed(raw: string | undefined): number | null {
   if (!value) return null;
   const unit = match[2]?.toLowerCase();
   if (unit === 'knots') return null;
-  return Math.round(unit === 'mph' ? value * MPH_TO_KPH : value);
+  return { value: Math.round(value), unit: unit === 'mph' ? 'mph' : 'kmh' };
 }
 
 // Keyed by a ~110 m grid cell, so driving down one street is a single lookup
 // rather than one per GPS tick. Entries hold the in-flight promise too, so
 // overlapping calls for the same cell share one request.
-const limitCache = new Map<string, Promise<number | null>>();
+const limitCache = new Map<string, Promise<SpeedLimit | null>>();
 let overpassFailures = 0;
 let overpassPausedUntil = 0;
 const MAX_OVERPASS_FAILURES = 3;
 const OVERPASS_PAUSE_MS = 120_000;
 
-// Speed limit in km/h for the road at `point`, or null when OSM does not say.
+// Speed limit for the road at `point`, or null when OSM does not say.
 // Never throws and never blocks the caller: navigation works without it.
-export async function speedLimitKph(point: GeoPoint): Promise<number | null> {
+export async function speedLimitAt(point: GeoPoint): Promise<SpeedLimit | null> {
   const cell = `${point.lat.toFixed(3)},${point.lng.toFixed(3)}`;
   const cached = limitCache.get(cell);
   if (cached) return cached;

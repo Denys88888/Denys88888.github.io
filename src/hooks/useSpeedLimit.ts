@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { speedLimitKph } from '../services/mapService';
+import { speedLimitAt, type SpeedLimit, type SpeedUnit } from '../services/mapService';
 import { haversineKm } from '../utils/helpers';
 import type { GeoPoint } from '../types';
 
@@ -7,15 +7,21 @@ const MIN_GAP_MS = 15000; // don't ask OSM about the speed limit faster than thi
 const MIN_MOVE_KM = 0.15; // …nor before the driver has actually gone somewhere
 
 /**
- * The posted limit for the road under the car, or null while it is unknown.
+ * The posted limit for the road under the car, or null while it is unknown,
+ * and the unit the driver's own speed should be shown in.
  *
  * Overpass is a shared public service with no SLA, so this asks sparingly —
  * only once the car has moved a block and at most once every fifteen seconds —
  * and treats every failure as "unknown" rather than surfacing an error. A
  * missing limit costs the driver a sign; a hammered Overpass costs everyone.
+ *
+ * The unit outlives the sign. Plenty of streets carry no limit in OSM, and a
+ * driver in the US whose speed flipped from mph to km/h on every such block
+ * would stop trusting the number. The last sign seen sets it; km/h until then.
  */
-export function useSpeedLimit(position: GeoPoint | null): number | null {
-  const [limitKph, setLimitKph] = useState<number | null>(null);
+export function useSpeedLimit(position: GeoPoint | null): { limit: SpeedLimit | null; unit: SpeedUnit } {
+  const [limit, setLimit] = useState<SpeedLimit | null>(null);
+  const [unit, setUnit] = useState<SpeedUnit>('kmh');
   const askedRef = useRef<{ lat: number; lng: number; at: number } | null>(null);
 
   useEffect(() => {
@@ -30,13 +36,15 @@ export function useSpeedLimit(position: GeoPoint | null): number | null {
     }
     askedRef.current = { lat: position.lat, lng: position.lng, at: Date.now() };
     let stale = false;
-    speedLimitKph(position).then((kph) => {
-      if (!stale) setLimitKph(kph);
+    speedLimitAt(position).then((found) => {
+      if (stale) return;
+      setLimit(found);
+      if (found) setUnit(found.unit);
     });
     return () => {
       stale = true;
     };
   }, [position?.lat, position?.lng]);
 
-  return limitKph;
+  return { limit, unit };
 }

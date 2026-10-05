@@ -9,11 +9,11 @@ import type { Maneuver } from '../../services/mapService';
 // a speed shown next to a limit has to be honest about which one is which.
 
 const fetchRouteSteps = vi.fn();
-const speedLimitKph = vi.fn();
+const speedLimitAt = vi.fn();
 
 vi.mock('../../services/mapService', () => ({
   fetchRouteSteps: (...args: unknown[]) => fetchRouteSteps(...args),
-  speedLimitKph: (...args: unknown[]) => speedLimitKph(...args),
+  speedLimitAt: (...args: unknown[]) => speedLimitAt(...args),
 }));
 
 const TURN: Maneuver = {
