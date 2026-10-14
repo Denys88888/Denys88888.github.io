@@ -43,10 +43,10 @@ export function AuthScreen() {
 
       <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8 text-center">
         <div
-          className="flex h-24 w-24 items-center justify-center rounded-3xl bg-white/15"
+          className="flex h-24 w-24 items-center justify-center rounded-3xl shadow-lg"
           onClick={handleLogoTap}
         >
-          <Logo size={52} />
+          <Logo size={96} />
         </div>
         <h1 className="text-white">{t('auth.welcome')}</h1>
         <p className="text-white/80">{t('auth.tagline')}</p>

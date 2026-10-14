@@ -1,111 +1,35 @@
-// Generates every app icon from one definition, so the tile on a phone's home
-// screen, the favicon and the mark inside the app cannot drift apart.
+// Renders every app icon from the two SVG sources in public/icons, so the
+// home-screen tile, the favicon and the mark inside the app cannot drift apart.
 //
 // Run: node scripts/make-icons.mjs   (needs the dev dependency playwright)
 //
-// The mark: π, for the currency every fare is paid in. Three solid shapes, so
-// it still reads at the 32 px of a browser tab.
-//
-// It was drawn as a taxi to begin with — a roof lamp on top of the crossbar and
-// a road underneath — and on screen that read unmistakably as a waste bin: the
-// lamp became a lid and the road became the base. Hence a plain π, with a thin
-// bar and long legs well apart, which cannot collapse into a container shape.
-//
-// Keep in sync with src/components/ui/Logo.tsx, which draws the same mark for
-// the splash and login screens. The duplication is deliberate: this file is a
-// build script that must not import from the app bundle.
+// The mark: a yellow taxi on the app's green. It used to be a π, and before
+// that a taxi drawn so plainly it read as a waste bin. The π went because Pi's
+// brand rules keep its symbol for Pi itself, and because a π says nothing about
+// taxis. logo.svg has rounded corners; logo-maskable.svg is the same drawing
+// edge to edge, for Android's maskable icon and for listings that round it
+// themselves.
 
 import { chromium } from 'playwright';
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const here = dirname(fileURLToPath(import.meta.url));
-const iconsDir = resolve(here, '../public/icons');
-
-const GREEN_LIGHT = '#12876A';
-const GREEN_DEEP = '#0A4E3C';
-
-// The mark itself, on a 512 canvas. Everything sits inside a 220×232 box
-// centred on the tile, which keeps it within the inner 80% that Android's
-// maskable shapes are allowed to crop to.
-const mark = `
-  <rect x="146" y="161" width="220" height="30" rx="15" fill="#fff"/>
-  <rect x="184" y="191" width="32" height="160" rx="16" fill="#fff"/>
-  <rect x="296" y="191" width="32" height="160" rx="16" fill="#fff"/>
-`;
-
-// rx 0 gives the full-bleed square a maskable icon needs — Android cuts its own
-// circle or squircle out of it, and a pre-rounded tile would show the white
-// corners of the old icon inside that cut. rx 112 (22%) is the rounded tile
-// everything else uses.
-const tile = (rx) => `<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="${GREEN_LIGHT}"/>
-      <stop offset="1" stop-color="${GREEN_DEEP}"/>
-    </linearGradient>
-  </defs>
-  <rect width="512" height="512" rx="${rx}" fill="url(#g)"/>
-${mark}</svg>
-`;
-
-const rounded = tile(112);
-const maskable = tile(0);
-
-const targets = [
-  { file: 'icon-512.png', svg: rounded, size: 512 },
-  { file: 'icon-192.png', svg: rounded, size: 192 },
-  { file: 'icon-maskable-512.png', svg: maskable, size: 512 },
-  { file: 'favicon-32.png', svg: rounded, size: 32 },
+const icons = resolve(dirname(fileURLToPath(import.meta.url)), '../public/icons');
+const jobs = [
+  ['logo.svg', 'favicon-32.png', 32],
+  ['logo.svg', 'icon-192.png', 192],
+  ['logo.svg', 'icon-512.png', 512],
+  ['logo-maskable.svg', 'icon-maskable-512.png', 512],
 ];
 
-mkdirSync(iconsDir, { recursive: true });
-// Written alongside the PNGs: an SVG is what app stores and listings ask for
-// when they want the logo, and it is the thing to hand anyone who needs it big.
-writeFileSync(resolve(iconsDir, 'logo.svg'), rounded);
-
 const browser = await chromium.launch();
-try {
-  for (const { file, svg, size } of targets) {
-    const page = await browser.newPage({
-      viewport: { width: size, height: size },
-      deviceScaleFactor: 1,
-    });
-    await page.setContent(
-      `<style>html,body{margin:0;padding:0}svg{display:block;width:${size}px;height:${size}px}</style>${svg}`
-    );
-    await page.screenshot({ path: resolve(iconsDir, file), omitBackground: true });
-    await page.close();
-    console.log(`wrote ${file} (${size}px)`);
-  }
-
-  // The social preview — what anyone sees when the app's link is pasted into a
-  // chat. It was a bare purple-to-green gradient: no mark, no name, nothing to
-  // say which app it belongs to. Same mark, same greens, and the name spelled
-  // out, so a shared link looks like the app it opens.
-  const og = await browser.newPage({
-    viewport: { width: 1200, height: 630 },
-    deviceScaleFactor: 1,
-  });
-  await og.setContent(`<style>
-    html,body{margin:0;padding:0}
-    .card{width:1200px;height:630px;box-sizing:border-box;display:flex;align-items:center;
-      gap:72px;padding:0 110px;background:linear-gradient(135deg,${GREEN_LIGHT},${GREEN_DEEP});
-      color:#fff;font-family:Inter,system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif}
-    .name{font-size:104px;font-weight:700;letter-spacing:-3px;line-height:1}
-    .tag{font-size:40px;opacity:.82;margin-top:20px;letter-spacing:-.5px}
-  </style>
-  <div class="card">
-    <svg width="240" height="240" viewBox="136 151 240 210">${mark}</svg>
-    <div>
-      <div class="name">Taxi Pro</div>
-      <div class="tag">Ride-hailing on Pi Network</div>
-    </div>
-  </div>`);
-  await og.screenshot({ path: resolve(here, '../public/og-image.png') });
-  await og.close();
-  console.log('wrote og-image.png (1200x630)');
-} finally {
-  await browser.close();
+for (const [src, out, size] of jobs) {
+  const page = await browser.newPage({ viewport: { width: size, height: size } });
+  const svg = readFileSync(resolve(icons, src), 'utf8').replace(/width="\d+" height="\d+"/, `width="${size}" height="${size}"`);
+  await page.setContent(`<html><body style="margin:0;background:transparent">${svg}</body></html>`);
+  await page.screenshot({ path: resolve(icons, out), omitBackground: true });
+  await page.close();
 }
+await browser.close();
+console.log('icons written to', icons);
