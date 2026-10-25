@@ -120,7 +120,7 @@ function append(kind: string, args: unknown[]): void {
   el.appendChild(line);
   while (el.childNodes.length > MAX_LINES) el.removeChild(el.firstChild!);
   el.scrollTop = el.scrollHeight;
-  if (!expanded) {
+  if (!expanded && kind !== 'log') {
     unseenCount += 1;
     updateBadge();
   }
