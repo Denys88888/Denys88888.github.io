@@ -1,20 +1,10 @@
 // On-device diagnostics: the Pi Browser exposes no console (no devtools, no
 // logcat mirroring), so app errors/warnings are rendered onto a screen
-// overlay instead. Off by default; open the app with ?debug=1 to enable for
-// the session (persisted in sessionStorage across SPA reloads). Collapsed to
-// a small tappable badge by default so it never blocks normal use — tap it
-// to expand the full log panel.
+// overlay instead. TEMPORARILY on for everyone: the owner cannot add
+// ?debug=1 in the Pi Browser (its address bar is unusable), so an opt-in
+// switch meant nobody ever saw it. Collapsed to a small badge; tap to expand.
 
-const enabled = (() => {
-  try {
-    if (new URLSearchParams(location.search).has('debug')) {
-      sessionStorage.setItem('taxipro_debug', '1');
-    }
-    return sessionStorage.getItem('taxipro_debug') === '1';
-  } catch {
-    return false;
-  }
-})();
+const enabled = true;
 
 const MAX_LINES = 60;
 let panel: HTMLElement | null = null;
@@ -63,8 +53,9 @@ function ensureUi(): HTMLElement | null {
   badge.type = 'button';
   Object.assign(badge.style, {
     position: 'fixed',
-    right: '8px',
-    bottom: '8px',
+    right: '4px',
+    top: '40%',
+    opacity: '0.85',
     zIndex: '2147483647',
     font: '11px/1 monospace',
     color: '#fff',
@@ -82,7 +73,7 @@ function ensureUi(): HTMLElement | null {
     position: 'fixed',
     left: '0',
     right: '0',
-    bottom: '36px',
+    top: 'calc(40% + 30px)',
     zIndex: '2147483646',
     maxHeight: '45vh',
     overflow: 'auto',
@@ -108,6 +99,14 @@ function append(kind: string, args: unknown[]): void {
   const text = args
     .map((a) => {
       if (typeof a === 'string') return a;
+      // JSON.stringify(new Error()) is "{}", which hid every failure's reason.
+      if (a instanceof Error) {
+        const r = (a as { response?: { status?: number; data?: unknown }; config?: { method?: string; url?: string } });
+        const http = r.response
+          ? ` | HTTP ${r.response.status} ${r.config?.method?.toUpperCase() ?? ''} ${r.config?.url ?? ''} ${JSON.stringify(r.response.data ?? '').slice(0, 300)}`
+          : r.config ? ` | no response ${r.config.method?.toUpperCase() ?? ''} ${r.config.url ?? ''}` : '';
+        return `${a.name}: ${a.message}${http}`;
+      }
       try {
         return JSON.stringify(a);
       } catch {
@@ -155,6 +154,10 @@ window.addEventListener('unhandledrejection', (e) =>
 );
 
 if (enabled) {
+  // Show the badge from the start, not only after the first error — otherwise
+  // a phone with no errors yet looks like the console was never added.
+  if (document.body) ensureUi();
+  else document.addEventListener('DOMContentLoaded', () => ensureUi());
   console.log(
     `[TaxiProDebug] overlay active | url: ${location.host} | ua: ${navigator.userAgent.slice(0, 80)}`
   );
