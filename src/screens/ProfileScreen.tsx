@@ -215,7 +215,7 @@ export function ProfileScreen() {
         <Card className="space-y-2">
           <p className="text-xs font-medium opacity-50 uppercase tracking-wide">{t('profile.legal')}</p>
           <a
-            href="https://denys88888.github.io/privacy"
+            href="/privacy.html"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-sm text-primary underline-offset-2 hover:underline"
@@ -223,7 +223,7 @@ export function ProfileScreen() {
             <Shield size={15} /> {t('profile.privacyPolicy')}
           </a>
           <a
-            href="https://denys88888.github.io/terms"
+            href="/terms.html"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-sm text-primary underline-offset-2 hover:underline"
