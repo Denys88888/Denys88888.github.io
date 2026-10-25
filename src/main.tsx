@@ -1,5 +1,4 @@
 import './e2eInit';
-import './debugOverlay';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'leaflet/dist/leaflet.css';

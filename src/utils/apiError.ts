@@ -11,7 +11,7 @@ import { isAxiosError } from 'axios';
  */
 export function apiErrorKey(err: unknown): string {
   // "Something went wrong" names no cause, so the cause goes to the console
-  // (mirrored on screen by debugOverlay) — otherwise a field report is a dead end.
+  // (and on to Sentry) — otherwise a field report is a dead end.
   if (!isAxiosError(err)) {
     console.error('[apiErrorKey] non-HTTP failure:', err);
     return 'common.error';
