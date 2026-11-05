@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#0F6E56" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- The web manifest link is injected by vite-plugin-pwa (manifest.webmanifest). -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Fonts loaded non-render-blocking: fetch as print (ignored for layout),
+         then swap to all once ready. A <noscript> keeps them for no-JS. -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    </noscript>
+    <title>Taxi Pro — Ride-hailing on Pi Network</title>
+    <meta name="description" content="Book rides and earn Pi — the first ride-hailing app built on Pi Network. Fast, safe, affordable." />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Taxi Pro" />
+    <meta property="og:title" content="Taxi Pro — Ride-hailing on Pi Network" />
+    <meta property="og:description" content="Book rides and earn Pi — the first ride-hailing app built on Pi Network. Fast, safe, affordable." />
+    <meta property="og:url" content="https://denys88888.github.io/" />
+    <meta property="og:image" content="https://denys88888.github.io/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Taxi Pro — Ride-hailing on Pi Network" />
+    <meta name="twitter:description" content="Book rides and earn Pi — the first ride-hailing app built on Pi Network. Fast, safe, affordable." />
+    <meta name="twitter:image" content="https://denys88888.github.io/og-image.png" />
+
+    <!-- Pi Network SDK (available only inside the Pi Browser). `defer` keeps it
+         off the render-blocking path — the app only touches window.Pi from a
+         mount effect, which runs after all deferred scripts have executed. -->
+    <script src="https://sdk.minepi.com/pi-sdk.js" defer></script>
+    <style>
+      /* Branded first-paint loader shown inside #root until React mounts, so a
+         slow bundle fetch shows the logo instead of a blank white screen.
+         Same green and the same π as the sign-in screen it hands over to — it
+         was purple with a stock car, the colour of Pi's own brand, which an app
+         has no business wearing. */
+      #app-boot {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        background: linear-gradient(to bottom, #0f6e56, #063d30);
+      }
+      #app-boot .boot-logo {
+        width: 84px;
+        height: 84px;
+        border-radius: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: boot-pulse 1.4s ease-in-out infinite;
+      }
+      #app-boot .boot-bar {
+        width: 150px;
+        height: 4px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.2);
+        overflow: hidden;
+      }
+      #app-boot .boot-bar > span {
+        display: block;
+        width: 45%;
+        height: 100%;
+        background: #fff;
+        border-radius: 999px;
+        animation: boot-slide 1.3s ease-in-out infinite;
+      }
+      @keyframes boot-pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+      @keyframes boot-slide {
+        0% { transform: translateX(-120%); }
+        100% { transform: translateX(340%); }
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/index-l9n81ki_.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-p7hMfYqy.js">
+    <link rel="modulepreload" crossorigin href="/assets/leaflet-BGJ5c5hK.js">
+    <link rel="modulepreload" crossorigin href="/assets/i18n-BXZE0dz7.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-C4MtFpH3.css">
+  <link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+  <body>
+    <div id="root">
+      <div id="app-boot">
+        <div class="boot-logo">
+          <img src="/icons/logo.svg" width="84" height="84" alt="Taxi Pro" />
+        </div>
+        <div class="boot-bar"><span></span></div>
+      </div>
+    </div>
+  </body>
+</html>

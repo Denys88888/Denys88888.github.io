@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://denys88888.github.io/sitemap.xml
